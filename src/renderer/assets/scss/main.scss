@@ -1,0 +1,959 @@
+// Import scss files so we can use here...
+@import 'variables.scss';
+
+body {
+  padding:0px;
+}
+
+.wrapper{
+  background-color: #fff;
+}
+
+.second-nav li {
+  list-style: none;
+  display: block;
+}
+
+.second-nav ul li button {
+  background-color: $wagerr_red;
+  border: none;
+  color: white;
+  font-weight: normal;
+  text-transform: uppercase;
+  cursor: pointer;
+  width: 100%;
+  height: 50px;
+  font-size: 18px;
+}
+
+.btn:active{
+  background-color: $dark_grey;
+}
+
+.second-nav ul li button:hover {
+  background-color: $wagerr_dark_red;
+}
+
+.second-nav ul li button:active {
+  background-color: $dark_grey;
+}
+
+.second-nav ul li button:visited {
+  background-color: $dark_grey;
+}
+
+.text-center {
+  text-align:center;
+}
+
+.text-right {
+  text-align:right;
+}
+
+.text-left {
+  text-align:left;
+}
+
+.pull-right {
+  float:right;
+}
+
+.pull-left {
+  float:left;
+}
+
+.clear {
+  clear:both;
+}
+
+header {
+  color:#fff;
+  width:100%;
+  background-color: $dark_grey;
+  position:fixed;
+  top:0px;
+  left:0px;
+  z-index:999;
+}
+
+header .wagerr-logo {
+  width:46px;
+  height:29px;
+  background:url(../images/wagerr-logo.png) center no-repeat;
+  float:left;
+  margin:18px 0 0 0;
+  width:165px;
+}
+
+header .wagerr-balance {
+  margin:22px 22px 0 0;
+  font-size:12px;
+}
+
+header .wagerr-balance i {
+  margin-left:10px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+header ul {
+  margin:0px;
+  padding:0px;
+}
+
+header ul li {
+  display:block;
+  float:left;
+  list-style:none;
+  font-size:28px;
+  padding:15px 20px 10px 20px;
+  text-align:center;
+  cursor:pointer;
+}
+
+header ul li i::before, header ul li i {
+  cursor:pointer;
+}
+
+header ul li .title {
+  display:block;
+  text-align:center;
+  text-transform:uppercase;
+  color:#fff;
+  font-size:12px;
+  padding-top:5px;
+}
+
+
+.side-nav li{
+  width: 100%
+}
+
+.side-nav li div i{
+  padding-top:16px;
+  font-size: 23px;
+}
+
+.side-nav li .parent a{
+  padding: 0px;
+}
+
+
+#dashboard .bet-types ul {
+  margin:0px;
+  padding:0px;
+}
+
+#dashboard .bet-types ul li {
+  padding:0px;
+  list-style:none;
+  display:block;
+  float:left;
+  width: 32%;
+  margin-left:2%;
+}
+
+#dashboard .bet-types ul li:first-child{
+  margin-left:0px;
+}
+
+#dashboard .bet-types ul li button {
+  background-color:#e1e1e1;
+  border:none;
+  color:#878787;
+  font-family: 'open_sansextrabold';
+  font-weight:normal;
+  text-transform:uppercase;
+  cursor:pointer;
+  width:100%;
+  height:50px;
+  font-size:18px;
+}
+
+#dashboard .bet-types ul li button.selected {
+  color: $wagerr_red;
+}
+
+#dashboard .bets-50 {
+  margin-top:12px;
+}
+
+#dashboard .bets-50 .block {
+  width:49%;
+  margin:0px;
+  padding:0px;
+  margin-left:1%;
+  float:left;
+  list-style:none;
+  padding:0px;
+}
+
+#dashboard .bets-50 .block:first-child {
+  margin-right:1%;
+  margin-left:0%;
+}
+
+#dashboard .bets-50 .block h2 {
+  margin:0px 0px 12px 0;
+  padding:0px;
+  text-transform: uppercase;
+  color:#505151;
+  font-size:16px;
+  font-family: 'open_sanslight';
+  font-weight:normal;
+  background:#e1e1e1;
+  height:40px;
+  line-height:40px;
+  padding:0 12px;
+  cursor:default;
+}
+
+#dashboard .bets-50 .block h2 .pull-right {
+  color: $wagerr_red;
+  font-size:20px;
+  margin-top:10px;
+}
+
+#dashboard .bets-50 .block table {
+  border:solid 1px #e1e1e1;
+  border-bottom:none;
+  margin-bottom:12px;
+}
+
+#dashboard .bets-50 .block table tr td {
+  color:#2b2c2d;
+  font-size:14px;
+  padding:12px 6px;
+  border-bottom:solid 1px #e1e1e1;
+  cursor:pointer;
+}
+
+#dashboard .bets-50 .block table tr:hover td {
+  background-color:#e1e1e1;
+}
+
+#wallet .dashboard-balance {
+  font-weight:bold;
+  font-size:34px;
+  text-align:center;
+}
+
+#wallet .dashboard-balance .amount {
+  color:#383838;
+  padding:15px 80px;
+  background-color:#dbdbdb;
+  text-align:center;
+  display:inline-block;
+  letter-spacing:5px;
+}
+
+#wallet .dashboard-staking {
+  text-align:center;
+  color:#111111;
+  font-size:20px;
+  margin:20px 0px;
+}
+
+#wallet .btn-send {
+  width:133px;
+  height:33px;
+  color:#fff;
+  background-color: $wagerr_red;
+  border:none;
+  text-transform:uppercase;
+  font-family: 'open_sansbold';
+  font-weight:normal;
+  font-size:14px;
+  cursor:pointer;
+  margin:0px 10px;
+  padding:0px;
+}
+
+#wallet .btn-receive {
+  width:133px;
+  height:33px;
+  color:#fff;
+  background-color: $wagerr_red;
+  border:none;
+  text-transform:uppercase;
+  font-family: 'open_sansbold';
+  font-weight:normal;
+  font-size:14px;
+  cursor:pointer;
+  margin:0px 10px;
+  padding:0px;
+}
+
+#wallet-transactions {
+  width:98%;
+  margin:40px auto 0px;
+  text-align:left;
+  color:#111111;
+}
+
+#wallet-transactions tbody tr td {
+  font-size:13px;
+  padding:8px 4px;
+}
+
+#wallet-transactions tbody tr.bg td {
+  background-color:#cacaca;
+}
+
+#placebet .bet-types ul {
+  margin:0px;
+  padding:0px;
+}
+
+#placebet .bet-types ul li {
+  padding:0px;
+  list-style:none;
+  display:block;
+  width:32%;
+  float:left;
+  margin-left:2%;
+}
+
+#placebet .bet-types ul li:first-child {
+  margin-left:0px;
+}
+
+#placebet .bet-types ul li button {
+  background-color:#e1e1e1;
+  border:none;
+  color:#878787;
+  font-family: 'open_sansextrabold';
+  font-weight:normal;
+  text-transform:uppercase;
+  cursor:pointer;
+  width:100%;
+  height:50px;
+  font-size:18px;
+}
+
+#placebet .bet-types ul li button.selected {
+  color: $wagerr_red;
+}
+
+#placebet .bets-50 {
+  margin-top:12px;
+}
+
+#placebet .bets-50 .block {
+  width:49%;
+  margin:0px;
+  padding:0px;
+  margin-left:1%;
+  float:left;
+  list-style:none;
+  padding:0px;
+}
+
+#placebet .bets-50 .block:first-child {
+  margin-right:1%;
+  margin-left:0%;
+}
+
+#placebet .bets-50 .block h2 {
+  margin:0px 0px 12px 0;
+  padding:0px;
+  text-transform: uppercase;
+  color:#505151;
+  font-size:16px;
+  font-family: 'open_sanslight';
+  font-weight:normal;
+  background:#e1e1e1;
+  height:40px;
+  line-height:40px;
+  padding:0 12px;
+  cursor:default;
+}
+
+#placebet .bets-50 .block h2 .pull-right {
+  color: $wagerr_red;
+  font-size:20px;
+  margin-top:10px;
+}
+
+#placebet .bets-50 .block table {
+  border:solid 1px #e1e1e1;
+  border-bottom:none;
+  margin-bottom:12px;
+}
+
+#placebet .bets-50 .block table tr td {
+  color:#2b2c2d;
+  font-size:14px;
+  padding:0 6px;
+  border-bottom:solid 1px #e1e1e1;
+  border-left:solid 1px #e1e1e1;
+  height:50px;
+  line-height:50px;
+}
+
+#placebet .bets-50 .block table tr.bg td {
+  background-color:#f4f2f2;
+}
+
+#placebet .bets-50 .block table tr td:first-child {
+  border-left:none;
+}
+
+#placebet .bets-50 .block table tr td .odds {
+  color: $wagerr_red;
+  font-weight:bold;
+  padding-left:5px;
+  float:left;
+  display:block;
+  width:35%;
+}
+
+#placebet .bets-50 .block table tr td .custom-checkbox {
+  width:14px;
+  height:14px;
+  border:solid 1px #9c9c9c;
+  cursor:pointer;
+  position:relative;
+  float:left;
+  margin-top:17px;
+}
+
+#placebet .bets-50 .block table tr td .custom-checkbox.checked:after {
+  content: "";
+  display:block;
+  position:absolute;
+  width:10px;
+  height:10px;
+  float:left;
+  display:block;
+  margin:2px;
+  background-color: $wagerr_red;
+}
+
+#placebet .bets-50 .block table tr td .custom-toggle {
+  width:20px;
+  display:block;
+  font-size:12px;
+  float:left;
+  width:10%;
+  margin-top:10px;
+}
+
+#placebet .bets-50 .block table tr td p {
+  float:left;
+  width:40%;
+  margin:0px;
+  padding:0px;
+}
+
+#placebet .bets-50 .block table tr td .custom-toggle .btn-up, #placebet .bets-50 .block table tr td .custom-toggle .btn-down, #placebet .bets-50 .block table tr td .custom-toggle .btn-up::before, #placebet .bets-50 .block table tr td .custom-toggle .btn-down::before {
+  display:block;
+  cursor:pointer;
+  margin:2px 0px;
+}
+
+#placebet .bets-50 .block .custom-line .custom-checkbox {
+  display:block;
+  float:left;
+}
+
+#placebet .bets-50 .block .selection {
+  padding:12px;
+  margin:0px;
+  border:solid 1px #e1e1e1;
+  height:100px;
+}
+
+#placebet .bets-50 .block .selection h4 {
+  margin:0px;
+  padding:0px;
+  color:#2b2c2d;
+  font-size:18px;
+  font-weight:bold;
+}
+
+#placebet .bets-50 .block .selection h4 .odds {
+  color: $wagerr_red;
+}
+
+#placebet .bets-50 .block .selection h5 {
+  margin:0px;
+  padding:0px;
+  color:#2b2c2d;
+  font-size:13px;
+  font-weight:normal;
+  color:#b4b4b5;
+}
+
+#placebet .bets-50 .block .bet-amount {
+  padding:12px;
+  margin:0px;
+  border:solid 1px #e1e1e1;
+  height:100px;
+  position:relative;
+}
+
+#placebet .bets-50 .block .bet-amount p {
+  color:#2b2c2d;
+  text-transform:uppercase;
+  margin:0px;
+  padding:0px;
+}
+
+#placebet .bets-50 .block .bet-amount span {
+  color: $wagerr_red;
+  font-size:18px;
+  font-weight:bold;
+}
+
+#placebet .bets-50 .block .bet-amount .input-container {
+  width:200px;
+  height:42px;
+  position:relative;
+}
+
+#placebet .bets-50 .block .bet-amount .input-container input {
+  width:200px;
+  height:42px;
+  color:#2b2c2d;
+  font-size:18px;
+  font-weight:bold;
+  background:#ebebeb;
+  border:none;
+  padding:0 5px;
+}
+
+#placebet .bets-50 .block .bet-amount .input-container .custom-toggle {
+  width:10px;
+  position:absolute;
+  top:5px;
+  right:3px;
+}
+
+#placebet .bets-50 .block .bet-amount .input-container .custom-toggle .btn-up, #placebet .bets-50 .block .bet-amount .input-container .custom-toggle .btn-down, #placebet .bets-50 .block .bet-amount .input-container .custom-toggle .btn-up::before, #placebet .bets-50 .block .bet-amount .input-container .custom-toggle .btn-down::before {
+  display:block;
+  font-size:13px;
+  margin:2px 0px;
+  cursor:pointer;
+}
+
+#placebet .bets-50 .block .bet-amount .max-bet {
+  font-size:14px;
+  font-weight:bold;
+  display:block;
+  color: $wagerr_red;
+  cursor:pointer;
+  position:absolute;
+  bottom:12px;
+  left:12px;
+}
+
+#placebet .bets-50 .block .bet-amount .max-bet:hover {
+  color: $wagerr_dark_red;
+}
+
+#placebet .btn-complete {
+  width:133px;
+  height:33px;
+  color:#fff;
+  background-color: $wagerr_red;
+  border:none;
+  text-transform:uppercase;
+  font-family: 'open_sansbold';
+  font-weight:normal;
+  font-size:14px;
+  cursor:pointer;
+  margin:50px 10px 0;
+  padding:0px;
+}
+
+#placebet .btn-cancel {
+  width:133px;
+  height:33px;
+  color:#fff;
+  background-color: $wagerr_red;
+  border:none;
+  text-transform:uppercase;
+  font-family: 'open_sansbold';
+  font-weight:normal;
+  font-size:14px;
+  cursor:pointer;
+  margin:50px 10px 0;
+  padding:0px;
+}
+
+#placebet .btn-active {
+  width:160px;
+  height:28px;
+  text-align:center;
+  background: $wagerr_red;
+  border:solid 1px $wagerr_dark_red;
+  color:#fff;
+  font-family: 'open_sansbold';
+  font-weight:normal;
+  text-transform:uppercase;
+  cursor:pointer;
+}
+
+#address .preview {
+  width:833px;
+  height:530px;
+  margin:0 auto;
+  background:url(../images/wagerrwallet1addressbook2.png);
+  position:relative;
+}
+
+#address .preview .overlay {
+  width:100%;
+  height:100%;
+  position:absolute;
+  background-color:rgba(0,0,0,0.8);
+  display:none;
+}
+
+#address .preview:hover .overlay {
+  display:block;
+}
+
+#address .preview .overlay p {
+  color:#fff;
+  margin-top:20%;
+}
+
+#affiliates .preview {
+  width:833px;
+  height:530px;
+  margin:0 auto;
+  background:url(../images/wagerrwallet1affiliate2.png);
+  position:relative;
+}
+
+#affiliates .preview .overlay {
+  width:100%;
+  height:100%;
+  position:absolute;
+  background-color:rgba(0,0,0,0.8);
+  display:none;
+}
+
+#affiliates .preview:hover .overlay {
+  display:block;
+}
+
+#affiliates .preview .overlay p {
+  color:#fff;
+  margin-top:20%;
+}
+
+#tournaments .preview {
+  width:833px;
+  height:530px;
+  margin:0 auto;
+  background:url(../images/wagerrwallet1fantasy2.png);
+  position:relative;
+}
+
+#tournaments .preview .overlay {
+  width:100%;
+  height:100%;
+  position:absolute;
+  background-color:rgba(0,0,0,0.8);
+  display:none;
+}
+
+#tournaments .preview:hover .overlay {
+  display:block;
+}
+
+#tournaments .preview .overlay p {
+  color:#fff;
+  margin-top:20%;
+}
+
+#bets .bets-50 {
+  margin-top:12px;
+}
+
+#bets .bets-50 .block {
+  width:49%;
+  margin:0px;
+  padding:0px;
+  margin-left:1%;
+  float:left;
+  list-style:none;
+  padding:0px;
+}
+
+#bets .bets-50 .block:first-child {
+  margin-right:1%;
+  margin-left:0%;
+}
+
+#bets .bets-50 .block h2 {
+  margin:0px 0px 12px 0;
+  padding:0px;
+  text-transform: uppercase;
+  color:#505151;
+  font-size:16px;
+  font-weight:normal;
+  background:#e1e1e1;
+  height:40px;
+  line-height:40px;
+  padding:0 12px;
+  cursor:default;
+}
+
+#bets .bets-50 .block h2 .pull-right {
+  color: $wagerr_red;
+  font-size:20px;
+  margin-top:10px;
+}
+
+#bets .bets-50 .block table {
+  border:solid 1px #cdcdcd;
+  border-bottom:none;
+}
+
+#bets .bets-50 .block table tr td {
+  height:50px;
+  line-height:50px;
+  color:#2b2c2d;
+  padding:0 6px;
+  font-size:14px;
+  border-bottom:solid 1px #cdcdcd;
+  border-left:solid 1px #cdcdcd;
+}
+
+#bets .bets-50 .block table tr td:first-child {
+  border-left:none;
+}
+
+#bets .bets-50 .block table tr.bg td {
+  background-color:#f4f2f2;
+}
+
+#bets .bets-50 .block table tr td.green {
+  color:#00b100;
+}
+
+#bets .bets-50 .block table tr td.red {
+  color: $wagerr_red;
+}
+
+#bets .bets-50 .block table tr td .btn-view {
+  width:70px;
+  height:28px;
+  text-align:center;
+  background: $wagerr_red;
+  border:solid 1px $wagerr_dark_red;
+  color:#fff;
+  font-weight:bold;
+  text-transform:uppercase;
+  cursor:pointer;
+}
+
+#bets .bets-50 .block table tr td .btn-view:hover {
+  background-color: $wagerr_red;
+}
+
+#bets .bets-50 .block .selection {
+  padding:12px;
+  margin:0px 0px 12px 0px;
+  border:solid 1px #e1e1e1;
+  height:100px;
+}
+
+#bets .bets-50 .block .selection h4 {
+  margin:0px;
+  padding:0px;
+  color:#2b2c2d;
+  font-size:18px;
+  font-family: 'open_sansbold';
+  font-weight:normal;
+}
+
+#bets .bets-50 .block .selection h4 .amount {
+  color: $wagerr_red;
+  text-align:right;
+}
+
+#bets .bets-50 .block .selection h4 .amount .odds {
+  color:#c8c8c8;
+  display:block;
+}
+
+#bets .bets-50 .block .selection h5 {
+  margin:0px;
+  padding:0px;
+  color:#2b2c2d;
+  font-size:13px;
+  font-weight:normal;
+  color:#b4b4b5;
+}
+
+#bets .btn-makebet {
+  width:140px;
+  height:28px;
+  text-align:center;
+  background: $wagerr_red;
+  border:solid 1px $wagerr_dark_red;
+  color:#fff;
+  font-weight:bold;
+  text-transform:uppercase;
+  cursor:pointer;
+}
+
+#alert-dialog {
+  position:absolute;
+  top:0px;
+  left:0px;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.8);
+  z-index:9999;
+}
+
+#alert-dialog .dialog-message {
+  width:50%;
+  min-height:200px;
+  background:#fff;
+  margin-left:25%;
+  margin-top:10%;
+  padding:20px;
+}
+
+#alert-dialog .btn {
+  height:28px;
+  text-align:center;
+  background: $wagerr_red;
+  border:solid 1px $wagerr_dark_red;
+  color:#fff;
+  font-weight:bold;
+  text-transform:uppercase;
+  cursor:pointer;
+}
+
+#demo-dialog {
+  position:absolute;
+  top:0px;
+  left:0px;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.8);
+  z-index:9999;
+  display:none;
+}
+
+#demo-dialog .dialog-message {
+  width:50%;
+  min-height:40px;
+  background:#fff;
+  margin-left:25%;
+  margin-top:10%;
+  padding:20px;
+}
+
+#demo-dialog .btn {
+  height:28px;
+  text-align:center;
+  background: $wagerr_red;
+  border:solid 1px $wagerr_dark_red;
+  color:#fff;
+  font-weight:bold;
+  text-transform:uppercase;
+  cursor:pointer;
+}
+
+.team-font{
+  font-size: 1.2em;
+  color: $dark_grey;
+}
+
+// Styling the error toast popups
+.toast-error{
+  color: $wagerr_red;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}
+
+.toast-error > .toast-bold{
+  font-weight: bold;
+  color: #a94442;
+}
+
+.toast-error > .toast-text {
+  color: #a94442;
+}
+
+.toast-error > .toast-action span{
+  color: #a94442;
+}
+
+.toast__bold-font{
+  font-weight: bold;
+}
+
+.form-error{
+  color: $wagerr_red;
+}
+
+.wagerr-red{
+  color: $wagerr_red;
+}
+
+.wagerr-white{
+  color: #fff;
+}
+
+.wagerr-red-bg{
+  background-color: $wagerr_red;
+}
+
+.wagerr-red-bg:hover{
+  background-color: $wagerr_red;
+}
+
+.modal .modal-header{
+  color: $wagerr_red;
+}
+
+.modal .modal-header, .modal .modal-text{
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.modal > form > .modal-footer{
+  padding-left: 35px;
+  padding-right: 35px;
+}
+
+.modal-content{
+  color: $dark_grey
+}
+
+.dropdown-content{
+  background-color: $dark_grey;
+}
+
+.dropdown-content li  a {
+  color: white;
+}
+
+.dropdown-content li a i {
+  color: $wagerr_red;
+  font-size: 1.3em;
+}
+
+.dropdown-content li:hover{
+  background-color: rgba(0,0,0,0.1);
+}
+
+.tabs .indicator{
+  border-bottom: 1px solid $wagerr_red;
+  background-color: transparent;
+}
+
+
+
+
+
