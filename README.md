@@ -1,0 +1,1 @@
+WagerrHTML5Wallet
