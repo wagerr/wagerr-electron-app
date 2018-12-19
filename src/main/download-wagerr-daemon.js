@@ -70,6 +70,7 @@ export const downloadWagerrDaemon = targetPlatform => {
                 'Content-Type': 'application/zip'
             }
         })
+
         .then(
             result => new Promise((resolve, reject) => {
                 fsPath.writeFile(tmpZipPath, result.data, error => {
@@ -79,9 +80,9 @@ export const downloadWagerrDaemon = targetPlatform => {
             })
         )
         .then(() => {
-            return decompress(tmpZipPath, "static/daemon/", {
+            return decompress(tmpZipPath, 'static/daemon/', {
                 filter: file => {
-                    return file.path === "wagerrd"
+                    return file.path === daemonFileName;
                 },
                 strip: 2
             })
