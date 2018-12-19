@@ -1,11 +1,21 @@
 // Import scss files so we can use here...
 @import 'variables.scss';
 
+html{
+  height: 100%;
+}
+
 body {
   padding:0px;
+  height: 100%;
+}
+
+#app{
+  height: 100%;
 }
 
 .wrapper{
+  height: 100%;
   background-color: #fff;
 }
 
