@@ -24,7 +24,7 @@
 
                     <div class="input-field col s12">
 
-                        <input name="wallet-password" v-model="walletPassword" v-validate="'required|min:7'" id="wallet-password" type="password"  autofocus>
+                        <input name="wallet-password" v-model="walletPassword" v-validate="'required'" id="wallet-password" type="password"  autofocus>
 
                         <label for="wallet-password"> Wallet Password</label>
 

@@ -60,54 +60,59 @@
 
 <script>
 
-import Vuex from 'vuex'
-import moment from 'moment'
+    import Vuex from 'vuex'
+    import moment from 'moment'
 
-export default {
-    name: 'EventList',
+    export default {
+        name: 'EventList',
 
-    computed: {
-        ...Vuex.mapGetters([
-            'eventsList',
-            'getTimezone'
-        ])
-    },
-
-    methods: {
-        ...Vuex.mapActions([
-            'listEvents',
-            'addBetToSlip',
-            'clearBetSlip'
-        ]),
-
-        moment: function () {
-            return moment()
+        computed: {
+            ...Vuex.mapGetters([
+                'eventsList',
+                'getTimezone'
+            ])
         },
 
-        createBetId: function () {
-            return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+        methods: {
+            ...Vuex.mapActions([
+                'listEvents',
+                'addBetToSlip',
+                'clearBetSlip'
+            ]),
+
+            isValidEvent: function (event) {
+
+            },
+
+            moment: function () {
+                return moment()
+            },
+
+            createBetId: function () {
+                return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+            },
+
+            createBet: function (eventId, outcome, winner, odds) {
+                var eventDetails = this.eventsList.find(item => item['event-id'] === eventId)
+                var betId = this.createBetId()
+
+                var betData = {
+                    'betId': betId,
+                    'outcome': outcome,
+                    'winner': winner,
+                    'odds': odds,
+                    'eventDetails': eventDetails
+                };
+
+                this.addBetToSlip(betData)
+            }
         },
 
-        createBet: function (eventId, outcome, winner, odds) {
-            var eventDetails = this.eventsList.find(item => item['event-id'] === eventId)
-            var betId = this.createBetId()
-
-            var betData = {
-                'betId': betId,
-                'outcome': outcome,
-                'winner': winner,
-                'odds': odds,
-                'eventDetails': eventDetails
-            };
-
-            this.addBetToSlip(betData)
+        created () {
+            this.listEvents()
         }
-    },
-
-    created () {
-        this.listEvents()
     }
-}
+
 </script>
 
 <style lang="scss" scoped>
