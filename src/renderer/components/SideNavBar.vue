@@ -4,7 +4,7 @@
 
       <ul class="side-nav">
 
-          <li>
+          <li @click="filterEvents()">
 
               <div class="parent">
 
@@ -158,7 +158,7 @@
 
           </li>-->
 
-          <li @click="filterEvents('Tennis')">
+          <!--<li @click="filterEvents('Tennis')">
 
               <div class="parent">
 
@@ -174,7 +174,7 @@
 
               </div>
 
-              <!--<ul>
+              <ul>
 
                   <li class="open-demo-dialog"><span>ATP</span></li>
 
@@ -184,9 +184,9 @@
 
                   <li class="open-demo-dialog"><span>GST</span></li>
 
-              </ul>-->
+              </ul>
 
-          </li>
+          </li>-->
 
           <!--<li>
 
