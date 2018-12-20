@@ -113,7 +113,7 @@ async function init () {
 
     // Check if the Wagerr daemon is already running.
     const processList = await findProcess('name', `daemon/${daemonName}`);
-    const isDaemonRunning = processList.length > 0;
+    const isDaemonRunning = false;
 
     console.log('\x1b[32mIs wagerrd running: ' + isDaemonRunning, processList, '\x1b[32m');
 

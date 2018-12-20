@@ -126,6 +126,10 @@
             }
         },
 
+        created () {
+            this.listChainGamesEvents();
+        }
+
     }
 
 </script>

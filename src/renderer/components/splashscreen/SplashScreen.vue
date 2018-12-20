@@ -160,7 +160,12 @@
                 }
 
                 // Set some wallet state values.
-                await this.walletBalance();
+                this.walletBalance()
+                setInterval(function () {
+                    this.walletBalance();
+                }.bind(this), 1000);
+
+
                 await this.getWGRTransactionList(100);
                 await this.getPLBetTransactionList();
                 await this.getCGBetTransactionList();
