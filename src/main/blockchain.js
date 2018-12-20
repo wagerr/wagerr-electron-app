@@ -16,8 +16,8 @@ export const environment = Object.assign({
 }, process.env);
 
 export const testnet = false;
-export const rpcUser = 'Marty';
-export const rpcPass = 'tester';
+export const rpcUser = 'defaultuser';
+export const rpcPass = 'defaultpassword';
 export const masternodeCollateral = 25000;
 export const daemonName = "wagerrd";
 export const port = testnet ? 50002 : 50003;
@@ -43,7 +43,7 @@ export function getCoinTestDataPath () {
             return path.join(environment.ENV.APPDATA, 'wagerr', 'testnet4');
         }
         case 'linux': {
-            return path.join(environment.ENV.HOME, '.wager', 'testnet4');
+            return path.join(environment.ENV.HOME, '.wagerr', 'testnet4');
         }
         default: {
             console.log('Unsupported platform');
