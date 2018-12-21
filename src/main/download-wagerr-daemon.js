@@ -1,4 +1,3 @@
-
 const fs = require('fs');
 const os = require('os');
 const axios = require('axios');
@@ -113,5 +112,5 @@ export const downloadWagerrDaemon = targetPlatform => {
  * @returns {boolean}
  */
 export const wagerrdExists = function() {
-    return fs.existsSync('static/daemon/wagerrd');
+    return fs.existsSync('static/daemon/wagerrd') || fs.existsSync('static/daemon/wagerrd.exe')
 };
