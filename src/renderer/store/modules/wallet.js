@@ -58,6 +58,7 @@ const actions = {
     walletBalance ({commit}) {
         wagerrRPC.client.getBalance()
             .then(function (resp) {
+                //console.log("Wallet Balance: " + resp.result);
                 commit('setBalance', resp.result);
             })
             .catch(function (err) {

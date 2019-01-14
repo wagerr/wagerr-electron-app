@@ -32,6 +32,8 @@ const actions = {
         else {
             wagerrRPC.client.listEvents()
                 .then(function (resp) {
+                    //alert(JSON.stringify(resp[0].event_id))
+
                     commit('setEventsList', resp.result)
                 })
                 .catch(function (err) {

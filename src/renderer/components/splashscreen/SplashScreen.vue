@@ -47,6 +47,35 @@
 
             </div>
 
+            <div class="splash-wallet-repair text-center">
+
+                <div>
+
+                    <a href="#" @click="restartWallet">Restart Wallet</a>
+
+                </div>
+
+                <div>
+
+                    <a href="#" @click="rescanBlockchain">Rescan Blockchain Files</a>
+
+                </div>
+
+                <div>
+
+                    <a href="#" @click="reindexBlockchain">Reindex Blockchain</a>
+
+                </div>
+
+                <div>
+
+                    <a href="#" @click="resyncBlockchain">Resync Blockchain</a>
+
+                </div>
+
+
+            </div>
+
         </div>
 
     </div>
@@ -60,6 +89,7 @@
     import blockchainRPC from '@/services/api/blockchain_rpc';
     import networkRPC from '@/services/api/network_rpc';
     import masternodeRPC from '@/services/api/masternode_rpc';
+    import ipcRender from '../../../common/ipc/ipcRender';
 
     export default {
         name: "SplashScreen",
@@ -90,6 +120,22 @@
                 'getCGBetTransactionList',
             ]),
 
+            rescanBlockchain: function () {
+                ipcRender.rescanBlockchain();
+            },
+
+            reindexBlockchain: function() {
+                ipcRender.reindexBlockchain();
+            },
+
+            resyncBlockchain: function () {
+                ipcRender.resyncBlockchain();
+            },
+
+            restartWallet: function () {
+                ipcRender.restartWallet();
+            },
+
             getTimeBehindText: function (secs, blockchainInfo) {
                 const HOUR_IN_SECONDS = 60 * 60;
                 const DAY_IN_SECONDS  = 24 * 60 * 60;
@@ -100,7 +146,12 @@
                 let years;
                 let remainder;
 
-                if (secs < 2 * DAY_IN_SECONDS) {
+                if( Math.round(secs / HOUR_IN_SECONDS) === 0 ){
+                    timeBehindText = 'Verifying last 100 blocks...';
+                    this.updateWalletLoaded(true);
+
+                }
+                else if (secs < 2 * DAY_IN_SECONDS) {
                     timeBehindText = Math.round(secs / HOUR_IN_SECONDS) + " hours behind, Scanning block " + blockchainInfo.blocks;
                 }
                 else if (secs < 2 * WEEK_IN_SECONDS) {
@@ -116,6 +167,21 @@
                 }
 
                 return timeBehindText;
+            },
+
+            // Check for peers to ensure we are connected to the network.
+            checkNetworkStatus: async () => {
+                let peers = await networkRPC.getPeerInfo();
+
+                return peers.length;
+            },
+
+            // Check the status of the blockchain to see if we need to sync to tip.
+            getLatestBlockStatus: async () => {
+                let blockchainInfo = await blockchainRPC.getBlockchainInfo();
+                let bestBlockHash  = blockchainInfo.bestblockhash;
+
+                return await blockchainRPC.getBlockInfo(bestBlockHash);
             }
         },
 
@@ -123,64 +189,58 @@
             // Wait a few secs before init wallet.
             setTimeout(function () {
                 initWallet();
-            }, 3000);
+            }, 2000);
 
             const initWallet = async () => {
+                let secs = 1;
+                let peers = 0;
+                let block;
 
                 // Check for peers to ensure we are connected to the network.
                 this.updateInitText('Connecting to peers...');
-                let peerInfo = await networkRPC.getPeerInfo();
-
-                if (peerInfo.length === 0) {
-                     this.updateInitText('No peers found, rechecking...');
-                     console.log('peer count: ' + peerInfo.length);
-                     return setTimeout(initWallet, 2000)
-                }
-
-                // Check the status of the blockchain to see if we need to sync to tip.
-                this.updateInitText('Syncing Blockchain...');
-                let blockchainInfo = await blockchainRPC.getBlockchainInfo();
-                let bestBlockHash  = blockchainInfo.bestblockhash;
-                let blockInfo      = await blockchainRPC.getBlockInfo(bestBlockHash);
-                const secs         = moment().diff(blockInfo.time * 1000, 'seconds');
-
-                let timeBehindText = this.getTimeBehindText(secs, blockchainInfo);
-                this.updateInitText(timeBehindText);
-
-                if (secs > 0) {
-                    return setTimeout(initWallet, 2000);
-                }
-
-                // Check the wallet is MN synced.
-                this.updateInitText('Syncing...');
-
-                if (this.walletSynced) {
-                    this.updateWalletSynced();
-                    return setTimeout(initWallet, 2000);
+                while (peers === 0) {
+                    peers = await this.checkNetworkStatus();
+                    //console.log(peers);
                 }
 
                 // Set some wallet state values.
-                this.walletBalance()
+                this.walletBalance();
                 setInterval(function () {
                     this.walletBalance();
-                }.bind(this), 1000);
+                }.bind(this), 5000);
 
-
-                await this.getWGRTransactionList(100);
+                this.getWGRTransactionList(100);
                 await this.getPLBetTransactionList();
                 await this.getCGBetTransactionList();
 
                 // Set some network state values.
                 let networkInfo = await networkRPC.getNetworkInfo();
                 let masternodeInfo = await masternodeRPC.getMasternodeCount();
+                let blockchainInfo = await blockchainRPC.getBlockchainInfo();
                 this.updateNetworkType(blockchainInfo.chain);
                 this.updateNumConnections(networkInfo.connections);
                 this.updateNumMasternodes(masternodeInfo.total);
                 this.updateBlocks(blockchainInfo.blocks);
 
-                // Set wallet loaded.
-                this.updateInitText('Wallet Loaded!');
-                this.updateWalletLoaded(true);
+                // Check the status of the blockchain to see if we need to sync to the tip.
+                this.updateInitText('Syncing Blockchain...');
+                while (secs > 0) {
+                    let blockchainInfo = await blockchainRPC.getBlockchainInfo();
+                    block = await this.getLatestBlockStatus();
+                    secs  = moment().diff(block.time * 1000, 'seconds');
+
+                    let timeBehindText = this.getTimeBehindText(secs, blockchainInfo);
+                    this.updateInitText(timeBehindText);
+                }
+
+                // Check the wallet is MN synced.
+                // this.updateInitText('Syncing...');
+                //
+                // if (this.walletSynced) {
+                //     this.updateWalletSynced();
+                //     return setTimeout(initWallet, 2000);
+                // }
+
             }
         },
 
@@ -190,6 +250,9 @@
                 isStaking: false,
                 isLoading: true,
                 noConnections: true,
+                reindex: false,
+                rescan: false,
+                resync: false
             }
         },
 
@@ -222,30 +285,30 @@
     }
 
     h1{
-        color:$wagerr_red;
-        font-weight:100;
-        font-stretch:normal;
-        font-size:4em;
+        color: $wagerr_red;
+        font-weight: 100;
+        font-stretch: normal;
+        font-size: 4em;
     }
 
     .slider{
         width: 100%;
-        height:4px;
-        margin-top:-30px
+        height: 4px;
+        margin-top: -30px
     }
 
     .line{
-        position:absolute;
-        background:$wagerr_red;
+        position: absolute;
+        background: $wagerr_red;
         width: 100%;
-        height:4px;
+        height: 4px;
     }
 
     .break{
         position:absolute;
-        background:#222;
-        width:6px;
-        height:4px;
+        background: #222;
+        width: 6px;
+        height: 4px;
     }
 
     .dot1{ -webkit-animation: loading 4s infinite; animation: loading 4s infinite;}
@@ -260,6 +323,16 @@
     @keyframes loading {
         from { left: 0; }
         to { left: 100%; }
+    }
+
+    .splash-wallet-repair div a{
+        color: $wagerr_red;
+        font-weight: bold;
+        font-size: 1.1em;
+    }
+
+    .splash-wallet-repair div a:hover{
+        text-decoration: underline;
     }
 
 </style>

@@ -181,10 +181,9 @@
 
         },
 
-        created () {
-            this.networkInfo = networkRPC.getNetworkInfo();
+        async created () {
+            this.networkInfo = await networkRPC.getNetworkInfo();
             this.checkBlockCount();
-
         },
 
         data () {

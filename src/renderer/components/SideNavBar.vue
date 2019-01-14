@@ -276,9 +276,8 @@
                 'listEvents',
             ]),
 
-            // Encrypt the users Wallet.
             filterEvents: function (filter) {
-                this.listEvents(filter)
+                this.listEvents(filter);
             }
         }
     }

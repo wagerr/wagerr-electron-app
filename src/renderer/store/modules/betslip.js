@@ -27,37 +27,37 @@ const getters = {
 const actions = {
 
     addBetToSlip ({ commit }, betData) {
-        commit('addBet', betData)
+        commit('addBet', betData);
     },
 
     removeBetFromSlip ({ commit, state }, betId) {
-        commit('removeBet', betId)
+        commit('removeBet', betId);
     },
 
     clearBetSlip ({commit}) {
-        commit('clearSlip')
+        commit('clearSlip');
     }
 };
 
 const mutations = {
 
     addBet (state, betDetails) {
-        state.betSlip.push(betDetails)
+        state.betSlip.push(betDetails);
     },
 
     // Remove a single bet from the bet slip using hte betId.
     removeBet (state, betId) {
-        let betSlip = state.betSlip
-        let bet = betSlip.find(p => p.betId === betId)
+        let betSlip = state.betSlip;
+        let bet = betSlip.find(p => p.betId === betId);
 
         // If a bet with the given ID is in the bet slip.
         if (bet) {
             // Iterate over bet slip and remove the bet with the matching betId.
             for (let i = 0; i < betSlip.length; i++) {
-                let obj = betSlip[i]
+                let obj = betSlip[i];
 
                 if (obj.betId === betId) {
-                  betSlip.splice(i, 1)
+                  betSlip.splice(i, 1);
                 }
             }
         }
@@ -65,7 +65,7 @@ const mutations = {
 
     // Clear all the bets from the bet slip.
     clearSlip (state) {
-        state.betSlip = []
+        state.betSlip = [];
     }
 
 };

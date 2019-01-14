@@ -48,7 +48,7 @@ const actions = {
 
     updateBlocks ({commit}, blocks) {
         commit('setBlocks', blocks);
-    },
+    }
 
 };
 

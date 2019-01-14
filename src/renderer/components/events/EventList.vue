@@ -6,23 +6,33 @@
 
         <ul class="events-list">
 
-            <li v-for="( event ) in eventsList" :key="event['event-id']" class="card" >
+            <li v-for="( event ) in eventsList" :key="event.event_id" class="card" >
 
                 <div class="event-details">
 
-                    <div class="col s6">
+                    <div class="col s12 m4">
 
-                        <span>{{ Number(event.starting) | moment('timezone', getTimezone, 'LLLL') }}</span>
+                        <div>{{ Number(event.starting) | moment('timezone', getTimezone, 'LLL') }}</div>
 
                     </div>
 
-                    <div class="options col s6 text-center">
 
-                        <div>Home</div>
+                    <div class="col s12 m2 text-center">
 
-                        <div>Draw</div>
+                        <div>Money Line</div>
 
-                        <div>Away</div>
+                    </div>
+
+                    <div class="col s12 m3 text-center">
+
+                        <div>Spread</div>
+
+                    </div>
+
+
+                    <div class="col s12 m3 text-center">
+
+                        <div>Total</div>
 
                     </div>
 
@@ -30,21 +40,123 @@
 
                 <div class="event-pair row">
 
-                    <div class="col s12 m6 team-font">
+                    <div class="col s12 m4 event-teams">
 
-                        <span>{{ event.teams[0].name }}</span> <br>
+                        <div>{{ event.teams.home }}</div>
 
-                        <span>{{ event.teams[1].name }}</span>
+                        <div>{{ event.teams.away }}</div>
+
+                        <div>Draw</div>
 
                     </div>
 
-                    <div class="col s12 m6 odds">
+                    <!-- Show Money line odds if market is open for current event. -->
+                    <div v-if="isEventMLOddsSet(event)" class="col s12 m2 odds">
 
-                        <button class="waves-effect waves-light btn" @click="createBet(event['event-id'], 1, event.teams[0].name, event.teams[0].odds)">{{ event.teams[0].odds / 10000 }}</button>
+                        <button class="waves-effect waves-light btn" @click="createBet(event.event_id, 1, event.teams.home, event.odds[0].mlHome)">
 
-                        <button class="waves-effect waves-light btn" @click="createBet(event['event-id'], 2, event.teams[2].name, event.teams[2].odds)">{{ event.teams[2].odds / 10000 }}</button>
+                            {{ event.odds[0].mlHome / oddsDivisor}}
 
-                        <button class="waves-effect waves-light btn" @click="createBet(event['event-id'], 3, event.teams[1].name, event.teams[1].odds)">{{ event.teams[1].odds / 10000 }}</button>
+                        </button>
+
+                        <br>
+
+                        <button class="waves-effect waves-light btn" @click="createBet(event.event_id, 2, event.teams.away, event.odds[0].mlAway)">
+
+                            {{ event.odds[0].mlAway / oddsDivisor }}
+
+                        </button>
+
+                        <br>
+
+                        <button class="waves-effect waves-light btn" @click="createBet(event.event_id, 3, 'Draw', event.odds[0].mlDraw)">
+
+                            {{ event.odds[0].mlDraw / oddsDivisor }}
+
+                        </button>
+
+                    </div>
+
+                    <!-- Show money line market closed -->
+                    <div v-else class="col s12 m2 odds">
+
+                        <button class="waves-effect waves-light btn" disabled>N/A</button>
+
+                        <br>
+
+                        <button class="waves-effect waves-light btn" disabled>N/A</button>
+
+                        <br>
+
+                        <button class="waves-effect waves-light btn" disabled>N/A</button>
+
+                    </div>
+
+                    <!-- Show Spread odds if market is open for current event. -->
+                    <div v-if="isEventSpreadsOddsSet(event)" class="col s12 m3 odds">
+
+                        <button class="waves-effect waves-light btn" @click="createBet(event.event_id, 4, event.teams.home, event.odds[1].spreadOver)">
+
+                            <span class="pull-left">+ {{ event.odds[1].spreadPoints }}</span>
+
+                            <span class="pull-right">{{ event.odds[1].spreadOver / oddsDivisor }}</span>
+
+                        </button>
+
+                        <br>
+
+                        <button class="waves-effect waves-light btn" @click="createBet(event.event_id, 5, event.teams.away, event.odds[1].spreadUnder)">
+
+                            <span class="pull-left">- {{ event.odds[1].spreadPoints }}</span>
+
+                            <span class="pull-right">{{ event.odds[1].spreadUnder / oddsDivisor }}</span>
+
+                        </button>
+
+                    </div>
+
+                    <!-- Show Spread market closed -->
+                    <div v-else class="col s12 m3 odds">
+
+                        <button class="waves-effect waves-light btn" disabled>N/A</button>
+
+                        <br>
+
+                        <button class="waves-effect waves-light btn" disabled>N/A</button>
+
+                    </div>
+
+                    <!-- Show Totals odds if market is open for current event. -->
+                    <div v-if="isEventTotalsOddsSet(event)" class="col s12 m3 odds">
+
+                        <button class="waves-effect waves-light btn" @click="createBet(event.event_id, 6, event.teams.home, event.odds[2].totalsOver)">
+
+                            <span class="pull-left">Over {{ event.odds[2].totalsPoints }}</span>
+
+                            <span class="pull-right">{{ event.odds[2].totalsOver / oddsDivisor }}</span>
+
+                        </button>
+
+                        <br>
+
+                        <button class="waves-effect waves-light btn" @click="createBet(event.event_id, 7, event.teams.home, event.odds[2].totalsUnder)">
+
+                            <span class="pull-left">Under {{ event.odds[2].totalsPoints }}</span>
+
+                            <span class="pull-right">{{ event.odds[2].totalsUnder / oddsDivisor }}</span>
+
+                        </button>
+
+                    </div>
+
+                    <!-- Show Totals market closed -->
+                    <div v-else class="col s12 m3 odds">
+
+                        <button class="waves-effect waves-light btn" disabled>N/A</button>
+
+                        <br>
+
+                        <button class="waves-effect waves-light btn" disabled>N/A</button>
 
                     </div>
 
@@ -60,8 +172,9 @@
 
 <script>
 
-    import Vuex from 'vuex'
-    import moment from 'moment'
+    import Vuex from 'vuex';
+    import moment from 'moment';
+    import constants from '../../../main/constants/constants';
 
     export default {
         name: 'EventList',
@@ -80,23 +193,19 @@
                 'clearBetSlip'
             ]),
 
-            isValidEvent: function (event) {
-
-            },
-
             moment: function () {
-                return moment()
+                return moment();
             },
 
             createBetId: function () {
-                return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+                return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
             },
 
             createBet: function (eventId, outcome, winner, odds) {
-                var eventDetails = this.eventsList.find(item => item['event-id'] === eventId)
-                var betId = this.createBetId()
+                let eventDetails = this.eventsList.find(item => item.event_id === eventId);
+                let betId        = this.createBetId();
 
-                var betData = {
+                let betData = {
                     'betId': betId,
                     'outcome': outcome,
                     'winner': winner,
@@ -104,12 +213,51 @@
                     'eventDetails': eventDetails
                 };
 
-                this.addBetToSlip(betData)
+                console.log(betData)
+
+                this.addBetToSlip(betData);
+            },
+
+            // Sort event list
+            filterExpiredEvents: function () {
+                let events = this.listEvents();
+
+                //this.eventList = events.filter( event => event.starting < moment().unix());
+            },
+
+            // Check if money line odds are available for a given event.
+            isEventMLOddsSet: function (event) {
+                return !(event.odds[0].mlHome === 0 && event.odds[0].mlAway === 0 && event.odds[0].mlDraw === 0);
+            },
+
+            // Check if spreads odds are are available for a given event.
+            isEventSpreadsOddsSet: function (event) {
+                return !(event.odds[1].spreadOver === 0 && event.odds[1].spreadUnder === 0);
+            },
+
+            isEventTotalsOddsSet: function (event) {
+                return !(event.odds[2].totalsOver === 0 && event.odds[2].totalsUnder === 0);
+            },
+
+            isPulledEvent: function (event) {
+                let mlOddsSet     = this.isEventMLOddsSet();
+                let spreadOddsSet = this.isEventSpreadsOddsSet();
+                let totalsOdds    = this.isEventTotalsOddsSet();
+
+                return mlOddsSet && spreadOddsSet && totalsOdds;
+            }
+        },
+
+        data () {
+            return {
+                oddsDivisor: 0,
+                eventList: {}
             }
         },
 
         created () {
-            this.listEvents()
+            this.filterExpiredEvents();
+            this.oddsDivisor = constants.ODDS_DIVISOR;
         }
     }
 
@@ -140,20 +288,29 @@
     }
 
     .event-pair{
-        margin-left: 1%;
+        margin-left: 0%;
     }
 
     .card .row{
         margin-bottom: 0px;
     }
 
+    .event-teams{
+        margin-top: 10px;
+    }
+
+    .event-teams span{
+        font-size: 1.1em;
+        padding-top: 40px;
+    }
+
     .event-pair .odds{
-        margin-top: .5%;
+        margin-top: 1%;
+        margin-bottom: 1%;
     }
 
     .event-pair .odds button{
-        width: 30%;
-        margin-right: 2%;
+        width: 100%;
     }
 
     .event-pair .odds .btn{
@@ -175,6 +332,21 @@
 
     .event-pair .odds .btn:focus{
         background-color: #414141;
+    }
+
+    .odds{
+        margin-right: -.5%;
+    }
+
+    .odds button{
+        width: 100%;
+        margin-bottom: 2px;
+        font-size: .9em;
+    }
+
+    .event-teams div{
+        font-size: 1.1em;
+        margin-top: 12px;
     }
 
 </style>

@@ -20,7 +20,7 @@
 
                     <div class="bet-details">
 
-                        <div class="bet-slip-pair">{{ bet.eventDetails.teams[0].name }} vs {{ bet.eventDetails.teams[1].name }}</div>
+                        <div class="bet-slip-pair">{{ bet.eventDetails.teams.home }} vs {{ bet.eventDetails.teams.away }}</div>
 
                         <a class="clear-bet pull-right" @click="removeBetFromSlip( bet.betId )">
 
@@ -120,13 +120,16 @@
             placeBet: function (betId) {
                 let betInfo   = this.betSlip.find(item => item.betId === betId);
                 let betAmount = parseInt(document.getElementById(betId).value);
-                let evetnId   = parseInt(betInfo.eventDetails['event-id']);
+                let evetnId   = parseInt(betInfo.eventDetails.event_id);
+                let self = this;
 
                 wagerrRPC.client.placeBet(evetnId, betInfo.outcome, betAmount)
                     .then(function (resp) {
                         // If bet was successful then display bet TX-ID to the user.
                         if (resp.error !== 'null') {
                              M.toast({ html: '<span class="toast__bold-font">Success &nbsp;</span> your bet has been placed: ' + resp.result, classes: 'green' });
+
+                            self.removeBetFromSlip(betId);
                         }
                         // If bet was unsuccessful then show error to the user.
                         else {
@@ -142,7 +145,7 @@
         },
 
         created () {
-            console.log(this.betSlip);
+            //console.log(this.betSlip);
         }
     }
 

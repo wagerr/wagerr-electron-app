@@ -49,6 +49,18 @@ body {
   background-color: $dark_grey;
 }
 
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 0.3s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0
+}
+
 .text-center {
   text-align:center;
 }
@@ -73,64 +85,17 @@ body {
   clear:both;
 }
 
-header {
-  color:#fff;
-  width:100%;
-  background-color: $dark_grey;
-  position:fixed;
-  top:0px;
-  left:0px;
-  z-index:999;
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 0.3s;
+  transition-property: opacity;
+  transition-timing-function: ease;
 }
 
-header .wagerr-logo {
-  width:46px;
-  height:29px;
-  background:url(../images/wagerr-logo.png) center no-repeat;
-  float:left;
-  margin:18px 0 0 0;
-  width:165px;
+.fade-enter,
+.fade-leave-active {
+  opacity: 0
 }
-
-header .wagerr-balance {
-  margin:22px 22px 0 0;
-  font-size:12px;
-}
-
-header .wagerr-balance i {
-  margin-left:10px;
-  cursor:pointer;
-  font-weight:bold;
-}
-
-header ul {
-  margin:0px;
-  padding:0px;
-}
-
-header ul li {
-  display:block;
-  float:left;
-  list-style:none;
-  font-size:28px;
-  padding:15px 20px 10px 20px;
-  text-align:center;
-  cursor:pointer;
-}
-
-header ul li i::before, header ul li i {
-  cursor:pointer;
-}
-
-header ul li .title {
-  display:block;
-  text-align:center;
-  text-transform:uppercase;
-  color:#fff;
-  font-size:12px;
-  padding-top:5px;
-}
-
 
 .side-nav li{
   width: 100%
@@ -144,6 +109,16 @@ header ul li .title {
 .side-nav li .parent a{
   padding: 0px;
 }
+
+
+
+
+
+
+
+
+
+
 
 
 #dashboard .bet-types ul {

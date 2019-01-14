@@ -223,15 +223,61 @@
         padding: 0px;
     }
 
-    .arrow-down {
-        position: absolute;
-        top: 30px;
-        left: 490px;
-        width: 0;
-        height: 0;
-        border-left: 5px solid transparent;
-        border-right: 5px solid transparent;
-        border-top: 5px solid white;
+    header {
+        color:#fff;
+        width:100%;
+        background-color: $dark_grey;
+        position:fixed;
+        top:0px;
+        left:0px;
+        z-index:999;
+    }
+
+    header .wagerr-logo {
+        height:29px;
+        background:url(../assets/images/wagerr-logo.png) center no-repeat;
+        float:left;
+        margin:18px 0 0 0;
+        width:165px;
+    }
+
+    header .wagerr-balance {
+        margin:22px 22px 0 0;
+        font-size:12px;
+    }
+
+    header .wagerr-balance i {
+        margin-left:10px;
+        cursor:pointer;
+        font-weight:bold;
+    }
+
+    header ul {
+        margin:0px;
+        padding:0px;
+    }
+
+    header ul li {
+        display:block;
+        float:left;
+        list-style:none;
+        font-size:28px;
+        padding:15px 20px 10px 20px;
+        text-align:center;
+        cursor:pointer;
+    }
+
+    header ul li i::before, header ul li i {
+        cursor:pointer;
+    }
+
+    header ul li .title {
+        display:block;
+        text-align:center;
+        text-transform:uppercase;
+        color:#fff;
+        font-size:12px;
+        padding-top:5px;
     }
 
 </style>
