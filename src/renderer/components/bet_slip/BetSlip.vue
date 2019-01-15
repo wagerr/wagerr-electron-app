@@ -182,8 +182,13 @@
         float: left;
     }
 
-    .bet-slip-pair, .bet-returns span{
-        font-size: .7em;
+    .bet-slip-pair{
+        font-size: .8em;
+        color: white;
+    }
+
+    .bet-returns span{
+        font-size: .9em;
         color: white;
     }
 
