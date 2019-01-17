@@ -1,6 +1,6 @@
 <template>
 
-    <div id="information" class="">
+    <div id="information">
 
         <h3 class="text-center">Information</h3>
 
@@ -169,34 +169,46 @@
                 'updateBlocks'
             ]),
 
-            async checkBlockCount () {
+            // Polls the blockchain for network info.
+            async checkNetwokInfo () {
                 let blockchainInfo = await blockchainRPC.getBlockchainInfo();
 
-                if (blockchainInfo.blocks >= this.getBlocks) {
+                console.log(blockchainInfo.blocks)
+                if (blockchainInfo.blocks > this.getBlocks) {
 
                     this.updateBlocks(blockchainInfo.blocks);
                     this.lastBlockTime = moment().format('MMM Do YYYY, h:mm:ss a');
                 }
-            },
-
+            }
         },
 
         async created () {
             this.networkInfo = await networkRPC.getNetworkInfo();
-            this.checkBlockCount();
+
+            this.timeout = setInterval( async function () {
+                this.networkInfo = await networkRPC.getNetworkInfo()
+                this.checkNetwokInfo();
+            }.bind(this), 5000);
         },
 
         data () {
             return {
+                timeout: 0,
                 blockchainInfo: {},
                 networkInfo: {},
                 lastBlockTime: moment().format('MMM Do YYYY, h:mm:ss a')
             }
         },
 
+        destroyed () {
+            clearInterval(this.timeout)
+        }
+
     }
 </script>
 
 <style scoped>
+
+
 
 </style>
