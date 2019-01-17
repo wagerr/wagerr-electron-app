@@ -6,7 +6,7 @@ export default {
     OSX_64:       'osx64',
     TAR_EXT:      'tar.gz',
     ZIP_EXT:      'zip',
-    EXE_EXT:      'exe3',
+    EXE_EXT:      '.exe',
     WIN_32:       'win32',
     WIN_64:       'win64',
     MAC:          'darwin',

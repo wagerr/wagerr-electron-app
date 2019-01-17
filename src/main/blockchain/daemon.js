@@ -3,14 +3,14 @@ import fs from 'fs';
 import path from 'path';
 import axios from 'axios';
 import fsPath from 'fs-path';
+import {dialog} from 'electron';
 import decompress from 'decompress';
 import constants from '../constants/constants';
 import { spawn, execSync } from 'child_process';
+const packageJSON = require('../../../package.json');
 import * as blockchain from '../blockchain/blockchain';
 import findProcess from "find-process";
-import {app, dialog} from 'electron';
 
-const packageJSON = require('../../../package.json');
 let handlers;
 let wagerrdProcess;
 
@@ -20,11 +20,11 @@ let wagerrdProcess;
 function launch (args) {
     let wagerrdPath = getWagerrdPath();
     let wagerrdArgs = getWagerrdArgs(args);
-    let self = this;
 
     console.log('\x1b[32m Launching daemon:' + wagerrdPath + '\x1b[32m');
     console.log('\x1b[32m Following args used:' + wagerrdArgs + '\x1b[32m');
 
+    // Change file permissions so we can run the wagerrd.
     fs.chmod(wagerrdPath, '0777', (err) => {
         if (err) {
             console.error(err)
@@ -34,19 +34,17 @@ function launch (args) {
     wagerrdProcess = spawn(wagerrdPath, wagerrdArgs);
     wagerrdProcess.stdout.on('data', data => console.log(`Daemon: ${data}`));
     wagerrdProcess.stderr.on('data', data => console.error(`Daemon: ${data}`));
-    //wagerrdProcess.on('exit', data => console.log(`Daemon: ${data}`));
     wagerrdProcess.on('error', data => console.log(`Daemon: ${data}`));
-
-    wagerrdProcess.on('exit', code => {
+    wagerrdProcess.on('exit', data => {
         dialog.showMessageBox({
-                type: 'error',
-                buttons: ['OK'],
-                message: 'Wagerr daemon has stopped',
-                detail: 'The wagerr daemon has stopped. Wagerr wallet will now exit.'
-            });
-
-        //app.quit();
+            type: 'error',
+            buttons: ['OK'],
+            message: 'Wagerr daemon has stopped',
+            detail: 'The wagerr daemon has stopped. Wagerr wallet will now exit.'
+        });
     });
+
+    return wagerrdProcess;
 }
 
 /**
@@ -54,7 +52,7 @@ function launch (args) {
  *
  * @returns {Promise<void>}
  */
-function stop () {
+async function stop () {
     if (process.platform === 'win32') {
         try {
             execSync(`taskkill /pid ${wagerrdProcess.pid} /t /f`);
@@ -64,11 +62,13 @@ function stop () {
         }
     }
     else {
-        let processList = isWagerrdRunning();
+        let isRunning = await isWagerrdRunning();
 
-        console.log(processList);
-        wagerrdProcess.kill();
-        console.log('Killed')
+
+        if (isRunning) {
+            console.log( "Wagerrd is running: " + isRunning);
+            wagerrdProcess.kill();
+        }
     }
 }
 
@@ -107,8 +107,8 @@ function downloadWagerrDaemon () {
         if (buildingPlatform === constants.WIN_32) {
             daemonPlatform     = constants.WIN_64;
             daemonExt          = constants.ZIP_EXT;
-            daemonFileName     = daemonFileName + '.exe';
-            daemonOriginalName = daemonOriginalName + '.exe';
+            daemonFileName     = daemonFileName + constants.EXE_EXT;
+            daemonOriginalName = daemonOriginalName + constants.EXE_EXT;
         }
 
         // Create the URL used to download the Wagerr daemon.
@@ -179,11 +179,7 @@ function wagerrdExists () {
 async function isWagerrdRunning () {
     let processList = await findProcess('name', `daemon/${blockchain.daemonName}`);
 
-    if (processList.length > 0 && processList[0].name !== '') {
-        return processList;
-    }
-
-    return false;
+    return processList.length > 0 && processList[0].name !== '';
 }
 
 /**
