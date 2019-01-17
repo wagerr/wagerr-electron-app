@@ -1,46 +1,59 @@
 <template>
 
     <!-- Peerless bet List -->
+    <div v-if="plBetTransactionList.length === 0" class="no-transactions text-center">
 
-    <table class="highlight">
+        <p>Looks like a new wallet, no betting transactions to list!</p>
 
-        <thead>
+        <p>Jump to the betting tab and start placing bets.</p>
 
-            <tr>
+        <i class="fas fa-dice"></i>
 
-                <th class="col s1 m1 l1 hide-on-med-and-down">Transaction ID</th>
+    </div>
 
-                <th class="col s1 m1 l1 hide-on-small-only">Event ID</th>
+    <div v-else>
 
-                <th class="col s3s m3 l3 hide-on-med-and-down show-on-large">Team To Win</th>
+        <table class="highlight">
 
-                <th class="col s2 m2 l2">Amount</th>
+            <thead>
 
-            </tr>
+                <tr>
 
-        </thead>
+                    <th class="col s1 m1 l1 hide-on-med-and-down">Transaction ID</th>
 
-        <tbody>
+                    <th class="col s1 m1 l1 hide-on-small-only">Event ID</th>
 
-            <tr v-for="tx in plBetTransactionList" :key="tx.id">
+                    <th class="col s3s m3 l3 hide-on-med-and-down show-on-large">Bet Outcome</th>
 
-                <td class="col s1s m1 l1 hide-on-small-only">
+                    <th class="col s2 m2 l2">WGR Amount</th>
 
-                    {{ tx['tx-id'] }}
+                </tr>
 
-                </td>
+            </thead>
 
-                <td class="col s1s m1 l1 hide-on-small-only">{{ tx['event-id'] }}</td>
+            <tbody>
 
-                <td class="col s3s m3 l3 hide-on-med-and-down show-on-large">{{tx['team-to-win']}}</td>
+                <tr v-for="tx in plBetTransactionList" :key="tx.id">
 
-                <td class="col s2 m2 l2 ">{{tx.amount}}</td>
+                    <td class="col s1s m1 l1 hide-on-small-only">
 
-            </tr>
+                        {{ tx['tx-id'] }}
 
-        </tbody>
+                    </td>
 
-    </table>
+                    <td class="col s1s m1 l1 hide-on-small-only">{{ tx['event-id']}}</td>
+
+                    <td class="col s3s m3 l3 hide-on-med-and-down show-on-large">{{ outcomeToText( tx['team-to-win'] ) }}</td>
+
+                    <td class="col s2 m2 l2 ">{{ tx.amount }}</td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
 
 </template>
 
@@ -62,11 +75,49 @@
             ...Vuex.mapActions([
                 'getAccountAddress'
             ]),
+
+            // Convert the interger
+            outcomeToText: function (outcome) {
+                switch(outcome) {
+                    case 1:
+                        return 'Money Line Win';
+                    case 2:
+                        return 'Money Line Lose';
+                    case 3:
+                        return 'Money Line Draw';
+                    case 4:
+                        return 'Spread Over Win';
+                    case 5:
+                        return 'Spread Under Win';
+                    case 6:
+                        return 'Totals Over Win';
+                    case 7:
+                        return 'Totals Under Win';
+                    default:
+                        return outcome;
+
+                }
+            }
         }
     }
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+
+    @import "../../assets/scss/_variables.scss";
+
+    .no-transactions{
+        margin-top: 10%;
+    }
+
+    .no-transactions p{
+        font-size: 1.5em;
+    }
+
+    .no-transactions .fa-dice{
+        color: $wagerr_dark_red;
+        font-size: 10em;
+    }
 
 </style>

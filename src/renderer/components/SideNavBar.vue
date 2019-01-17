@@ -276,8 +276,8 @@
                 'listEvents',
             ]),
 
-            filterEvents: function (filter) {
-                this.listEvents(filter);
+            filterEvents: async function (filter) {
+                await this.listEvents(filter);
             }
         }
     }
