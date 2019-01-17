@@ -1,4 +1,5 @@
-import wagerrRPC from '@/services/api/wagerrRPC'
+import wagerrRPC from '@/services/api/wagerrRPC';
+import moment from 'moment';
 
 const state = function () {
 
@@ -11,7 +12,7 @@ const state = function () {
 const getters = {
 
     eventsList: (state) => {
-        return state.eventsList
+        return state.eventsList;
     }
 
 };
@@ -19,28 +20,63 @@ const getters = {
 const actions = {
 
     listEvents ({ commit, state }, filter) {
-        if (filter) {
-            wagerrRPC.client.listEvents(filter)
-                .then(function (resp) {
-                    commit('setEventsList', resp.result)
-                })
-                .catch(function (err) {
-                    // TODO Handle `err` properly.
-                    console.error(err)
-                })
-        }
-        else {
-            wagerrRPC.client.listEvents()
-                .then(function (resp) {
-                    //alert(JSON.stringify(resp[0].event_id))
+        return new Promise((resolve, reject) => {
+            if (filter) {
+                wagerrRPC.client.listEvents(filter)
+                    .then(function (resp) {
+                        // Filter events that are expired (15 mins before event start time)
+                        let filteredList = [];
+                        let numEvents    = resp.result.length;
 
-                    commit('setEventsList', resp.result)
-                })
-                .catch(function (err) {
-                    // TODO Handle `err` properly.
-                    console.error(err)
-                })
-        }
+                        for (let i = 0; i < numEvents; i++) {
+                            // Prevent events that are starting in less than 12 mins getting listed.
+                            if (resp.result[i].starting - (12 * 60) > moment().unix()) {
+                                filteredList.push(resp.result[i]);
+                            }
+                        }
+
+                        // Sort events by start time.
+                        filteredList.sort(function(x, y) {
+                            return x.starting - y.starting;
+                        });
+
+                        commit('setEventsList', filteredList);
+                        resolve();
+                    })
+                    .catch(function (err) {
+                        // TODO Handle `err` properly.
+                        console.error(err);
+                        reject(err);
+                    })
+            }
+            else {
+                wagerrRPC.client.listEvents()
+                    .then(function (resp) {
+                        // Filter events that are expired (15 mins before event start time)
+                        let filteredList = [];
+                        let numEvents    = resp.result.length;
+
+                        for (let i = 0; i < numEvents; i++) {
+                            if (resp.result[i].starting - (12 * 60) > moment().unix()) {
+                                filteredList.push(resp.result[i]);
+                            }
+                        }
+
+                        // Sort events by start time.
+                        filteredList.sort(function(x, y) {
+                            return x.starting - y.starting;
+                        });
+
+                        commit('setEventsList', filteredList);
+                        resolve();
+                    })
+                    .catch(function (err) {
+                        // TODO Handle `err` properly.
+                        console.error(err);
+                        reject(err);
+                    })
+            }
+       });
     }
 
 };
@@ -48,7 +84,7 @@ const actions = {
 const mutations = {
 
     setEventsList (state, eventsList) {
-        state.eventsList = eventsList
+        state.eventsList = eventsList;
     }
 
 };
