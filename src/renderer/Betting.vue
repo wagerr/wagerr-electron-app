@@ -35,105 +35,6 @@
 
     </div>
 
-    <!--<div class="bets-50">
-
-      <div class="block">
-
-        <h2>Most Popular <i class="icon-basketball pull-right"></i></h2>
-
-        <table cellpadding="0" cellspacing="0" border="0" width="100%">
-
-          <tr>
-            <td>Golden State Warriors</td>
-            <td class="text-center">-3.5</td>
-            <td class="text-center">1.98</td>
-          </tr>
-
-          <tr>
-            <td>Cleveland Cavaliers</td>
-            <td class="text-center">+3.5</td>
-            <td class="text-center">1.98</td>
-          </tr>
-
-        </table>
-
-        <table cellpadding="0" cellspacing="0" border="0" width="100%">
-
-          <tr>
-            <td>Golden State Warriors</td>
-            <td class="text-center">-3.5</td>
-            <td class="text-center">1.98</td>
-          </tr>
-
-          <tr>
-            <td>Cleveland Cavaliers</td>
-            <td class="text-center">+3.5</td>
-            <td class="text-center">1.98</td>
-          </tr>
-
-        </table>
-
-        <table cellpadding="0" cellspacing="0" border="0" width="100%">
-
-          <tr>
-            <td>Golden State Warriors</td>
-            <td class="text-center">-3.5</td>
-            <td class="text-center">1.98</td>
-          </tr>
-
-          <tr>
-            <td>Cleveland Cavaliers</td>
-            <td class="text-center">+3.5</td>
-            <td class="text-center">1.98</td>
-          </tr>
-
-        </table>
-
-      </div>
-
-      <div class="block">
-        <h2>Your Favorites <i class="icon-basketball pull-right"></i></h2>
-        <table cellpadding="0" cellspacing="0" border="0" width="100%">
-          <tr>
-            <td>Golden State Warriors</td>
-            <td class="text-center">-3.5</td>
-            <td class="text-center">1.98</td>
-          </tr>
-          <tr>
-            <td>Cleveland Cavaliers</td>
-            <td class="text-center">+3.5</td>
-            <td class="text-center">1.98</td>
-          </tr>
-        </table>
-        <table cellpadding="0" cellspacing="0" border="0" width="100%">
-          <tr>
-            <td>Golden State Warriors</td>
-            <td class="text-center">-3.5</td>
-            <td class="text-center">1.98</td>
-          </tr>
-          <tr>
-            <td>Cleveland Cavaliers</td>
-            <td class="text-center">+3.5</td>
-            <td class="text-center">1.98</td>
-          </tr>
-        </table>
-        <table cellpadding="0" cellspacing="0" border="0" width="100%">
-          <tr>
-            <td>Golden State Warriors</td>
-            <td class="text-center">-3.5</td>
-            <td class="text-center">1.98</td>
-          </tr>
-          <tr>
-            <td>Cleveland Cavaliers</td>
-            <td class="text-center">+3.5</td>
-            <td class="text-center">1.98</td>
-          </tr>
-        </table>
-      </div>
-
-      <div class="clear"></div>
-    </div>-->
-
 </template>
 
 <script>
@@ -144,10 +45,6 @@
     export default {
         name: 'Betting',
         components: {SideNavBar, bettingNav },
-
-        data () {
-            return {}
-        }
     }
 
 </script>
@@ -156,6 +53,7 @@
 
     .content{
         padding: 10px;
+        min-height: 650px;
     }
 
     .betting-main{
