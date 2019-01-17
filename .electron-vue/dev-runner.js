@@ -161,18 +161,19 @@ function greeting () {
   const cols = process.stdout.columns
   let text = ''
 
-  if (cols > 104) text = 'electron-vue'
-  else if (cols > 76) text = 'electron-|vue'
+  if (cols > 104) text = 'Wagerr-Dev'
+  else if (cols > 76) text = 'Wagerr-|Dev'
   else text = false
 
   if (text) {
     say(text, {
-      colors: ['yellow'],
-      font: 'simple3d',
+      align: 'left',
+      colors: ['Red', 'blueBright'],
+      font: 'block',
       space: false
     })
-  } else console.log(chalk.yellow.bold('\n  electron-vue'))
-  console.log(chalk.blue('  getting ready...') + '\n')
+  } else console.log(chalk.red.bold('Wagerr-Dev'))
+  console.log(chalk.blue('\nMoney won is twice as sweet as money earned ;)') + '\n')
 }
 
 function init () {
