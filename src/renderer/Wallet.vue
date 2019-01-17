@@ -6,7 +6,7 @@
 
       <div class="dashboard-balance">
 
-          <div class="amount">{{walletLoaded ? balance : 'Loading...'}}</div>
+          <div class="amount">{{ walletLoaded ? balance : 'Loading...' }}</div>
 
       </div>
 
@@ -71,6 +71,7 @@
 
     .content{
         padding: 20px;
+        min-height: 650px;
     }
 
     .table-container{

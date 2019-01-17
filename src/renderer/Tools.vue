@@ -10,7 +10,6 @@
 
             </div>
 
-
             <div class="col s12">
 
                 <transition name="fade" mode="out-in">
@@ -41,11 +40,8 @@
 <style scoped>
 
   .content{
+      min-height: 650px;
       padding: 10px;
-  }
-
-  .router-link-active{
-      background-color: red;
   }
 
 </style>

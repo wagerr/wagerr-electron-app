@@ -40,7 +40,6 @@
 
                 </div>
 
-
                 <!-- Dropdown Structure -->
                 <ul id="settings-dropdown" class="dropdown-content">
 
@@ -263,7 +262,6 @@
         list-style:none;
         font-size:28px;
         padding:15px 20px 10px 20px;
-        text-align:center;
         cursor:pointer;
     }
 
