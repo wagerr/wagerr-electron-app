@@ -4,7 +4,7 @@
 
         <h5>Events</h5>
 
-        <div v-if="eventsList.length < 0">
+        <div v-if="eventsList.length > 0">
 
             <ul class="events-list">
 
@@ -100,7 +100,7 @@
 
                             <button class="waves-effect waves-light btn" @click="createBet(event.event_id, 4, event.teams.home, event.odds[1].spreadOver)">
 
-                                <span class="pull-left">+ {{ event.odds[1].spreadPoints }}</span>
+                                <span class="pull-left">+ {{ event.odds[1].spreadPoints / 10 }}</span>
 
                                 <span class="pull-right">{{ event.odds[1].spreadOver / oddsDivisor }}</span>
 
@@ -110,7 +110,7 @@
 
                             <button class="waves-effect waves-light btn" @click="createBet(event.event_id, 5, event.teams.away, event.odds[1].spreadUnder)">
 
-                                <span class="pull-left">- {{ event.odds[1].spreadPoints }}</span>
+                                <span class="pull-left">- {{ event.odds[1].spreadPoints / 10 }}</span>
 
                                 <span class="pull-right">{{ event.odds[1].spreadUnder / oddsDivisor }}</span>
 
@@ -134,7 +134,7 @@
 
                             <button class="waves-effect waves-light btn" @click="createBet(event.event_id, 6, event.teams.home, event.odds[2].totalsOver)">
 
-                                <span class="pull-left">Over {{ event.odds[2].totalsPoints }}</span>
+                                <span class="pull-left">+ {{ event.odds[2].totalsPoints / 10}}</span>
 
                                 <span class="pull-right">{{ event.odds[2].totalsOver / oddsDivisor }}</span>
 
@@ -144,7 +144,7 @@
 
                             <button class="waves-effect waves-light btn" @click="createBet(event.event_id, 7, event.teams.home, event.odds[2].totalsUnder)">
 
-                                <span class="pull-left">Under {{ event.odds[2].totalsPoints }}</span>
+                                <span class="pull-left">- {{ event.odds[2].totalsPoints / 10 }}</span>
 
                                 <span class="pull-right">{{ event.odds[2].totalsUnder / oddsDivisor }}</span>
 
