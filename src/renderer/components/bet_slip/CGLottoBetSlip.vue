@@ -2,47 +2,47 @@
 
     <div id="betting-slip">
 
-            <div class="bet-list" v-if="gameID > 0">
+        <div class="bet-list">
 
-           <ul>
+            <ul>
 
-               <li class="card" >
+                <li class="card" >
 
-                    <div class="bet-details">
+                     <div class="bet-details">
 
-                        <div class="bet-details">
+                         <div class="bet-details">
 
-                            <span class="pull-left">Current Game ID:</span>
+                              <span class="pull-left">Current Game ID:</span>
 
-                            <span class="pull-right"> {{ gameID }}</span>
+                              <span class="pull-right"> {{ gameID }}</span>
 
-                            <div class="clear"></div>
+                              <div class="clear"></div>
 
-                        </div>
+                         </div>
 
-                        <div class="clearfix"></div>
+                         <div class="clearfix"></div>
 
-                        <div class="bet-details">
+                         <div class="bet-details">
 
-                            <span class="pull-left">Pot size:</span>
+                             <span class="pull-left">Pot size:</span>
 
-                            <span class="pull-right"> {{ potSize }}</span>
+                             <span class="pull-right"> {{ potSize }}</span>
 
-                            <div class="clear"></div>
+                             <div class="clear"></div>
 
-                        </div>
+                         </div>
 
-                        <div class="clearfix"></div>
+                         <div class="clearfix"></div>
 
-                        <div class="bet-details">
+                         <div class="bet-details">
 
-                            <span class="pull-left">Entry Fee:</span>
+                             <span class="pull-left">Entry Fee:</span>
 
-                            <span class="pull-right"> {{ entryFee }} </span>
+                             <span class="pull-right"> {{ entryFee }} </span>
 
-                            <div class="clear"></div>
+                             <div class="clear"></div>
 
-                        </div>
+                         </div>
 
                     </div>
 
@@ -52,19 +52,9 @@
 
             <div class="bet-slip-options">
 
-                <button class="btn waves-effect waves-light" @click="placeCGLottoBet">Enter Lotto ({{ entryFee }} )</button>
+                <button class="btn waves-effect pulse waves-effect waves-light" @click="placeCGLottoBet">Enter Lotto ({{ entryFee }})</button>
 
                 <div class="clearfix"></div>
-
-            </div>
-
-        </div>
-
-        <div v-else class="bet-list">
-
-            <div class="empty-slip-message text-center">
-
-                <p>No Lotto events currently active!</p>
 
             </div>
 
@@ -100,7 +90,7 @@
             ]),
 
             // Place a bet on the given event and sent the tx to the Wagerr blockchain.
-            placeCGLottoBet: function (gameID) {
+            placeCGLottoBet: function () {
 
                 let entryFeeInt = parseInt(this.entryFee.split(' ')[0]);
 
@@ -108,27 +98,21 @@
                     .then(function (resp) {
                         // If bet was successful then display bet TX-ID to the user.
                         if (resp.error !== 'null') {
-                            M.toast({ html: '<span class="toast__bold-font">Success &nbsp;</span> your bet has been placed: ' + resp.result, classes: 'green' })
+                            M.toast({ html: '<span class="toast__bold-font">Success &nbsp;</span> your bet has been placed: ' + resp.result, classes: 'green' });
                         }
 
                         // If bet was unsuccessful then show error to the user.
                         else {
-                            M.toast({ html: '<span class="toast__bold-font">Error &nbsp;</span> ' + resp.result, classes: 'wagerr-red-bg' })
+                            M.toast({ html: '<span class="toast__bold-font">Error &nbsp;</span> ' + resp.result, classes: 'wagerr-red-bg' });
                         }
-
-                        //this.listChainGamesEvents();
                     })
                     .catch(function (err) {
                         // TODO Parse the error from the response.
-                        M.toast({html: err, classes: 'wagerr-red-bg'})
-                        console.error(err)
+                        M.toast({html: err, classes: 'wagerr-red-bg'});
+                        console.error(err);
                     })
             }
         },
-
-        created () {
-            this.listChainGamesEvents();
-        }
 
     }
 

@@ -1,36 +1,48 @@
 <template>
 
-    <table class="highlight">
+    <div v-if="cgBetList.length === 0" class="no-transactions text-center">
 
-        <thead>
+        <p>No Chain Games transactions to list, buy a ticket above to enter the lotto.</p>
 
-            <tr>
+        <i class="far fa-list-alt"></i>
 
-                <th class="col s10">Transaction ID</th>
+    </div>
 
-                <th class="col s2">Event ID</th>
+    <div v-else>
 
-            </tr>
+        <table class="highlight">
 
-        </thead>
+            <thead>
 
-        <tbody>
+                <tr>
 
-            <tr v-for="tx in cgBetList" :key="tx.id">
+                    <th class="col s10">Transaction ID</th>
 
-                <td class="col s10">
+                    <th class="col s2">Event ID</th>
 
-                    {{ tx['tx-id'] }}
+                </tr>
 
-                </td>
+            </thead>
 
-                <td class="col s2"> {{ tx['event-id'] }}</td>
+            <tbody>
 
-            </tr>
+                <tr v-for="tx in cgBetList" :key="tx.id">
 
-        </tbody>
+                    <td class="col s10">
 
-    </table>
+                        {{ tx['tx-id'] }}
+
+                    </td>
+
+                    <td class="col s2"> {{ tx['event-id'] }}</td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
 
 </template>
 
@@ -63,11 +75,22 @@
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
-     th, td{
+    @import "../../assets/scss/_variables.scss";
+
+    th, td{
         margin-top: 15px;
-         margin-bottom: 15px;
+        margin-bottom: 15px;
+    }
+
+    .no-transactions p{
+        font-size: 1.5em;
+    }
+
+    .no-transactions .fa-list-alt{
+        color: $wagerr_dark_red;
+        font-size: 10em;
     }
 
 </style>
