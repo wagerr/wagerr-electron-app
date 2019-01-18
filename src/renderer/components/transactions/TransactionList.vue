@@ -1,50 +1,61 @@
 <template>
 
     <!-- Transaction List -->
+    <div v-if="wgrTransactionList.length === 0" class="no-transactions text-center">
 
-    <table class="highlight">
+        <p>Looks like a new wallet, no WGR transactions to list!</p>
 
-        <thead>
+        <i class="far fa-list-alt"></i>
 
-            <tr>
+    </div>
 
-                <th class="col s1 m1 l1 hide-on-med-and-down">Date</th>
+    <div v-else>
 
-                <th class="col s1 m1 l1 hide-on-small-only">Type</th>
+        <table class="highlight">
 
-                <!--<th class="col s3s m3 l3 hide-on-med-and-down show-on-large">Blockhash</th>-->
+            <thead>
 
-                <th class="col s3s m3 l3">Address</th>
+                <tr>
 
-                <th class="col s2 m2 l2">Amount</th>
+                    <th class="col s1 m1 l1 hide-on-med-and-down">Date</th>
 
-            </tr>
+                    <th class="col s1 m1 l1 hide-on-small-only">Type</th>
 
-        </thead>
+                    <!--<th class="col s3s m3 l3 hide-on-med-and-down show-on-large">Blockhash</th>-->
 
-        <tbody>
+                    <th class="col s3s m3 l3">Address</th>
 
-            <tr v-for="tx in wgrTransactionList" :key="tx.id">
+                    <th class="col s2 m2 l2">Amount</th>
 
-                <td class="col s2s m2 l2 hide-on-med-and-down">
+                </tr>
 
-                    {{ Number(tx.time) | moment('timezone', getTimezone, 'LLLL') }}
+            </thead>
 
-                </td>
+            <tbody>
 
-                <td class="col s1s m1 l1 hide-on-small-only">{{tx.category}}</td>
+                <tr v-for="tx in wgrTransactionList" :key="tx.id">
 
-                <!--<td class="col s3s m3 l3 hide-on-med-and-down show-on-large">{{tx.blockhash}}</td>-->
+                    <td class="col s2s m2 l2 hide-on-med-and-down">
 
-                <td class="col s3s m3 l3 ">{{tx.address}}</td>
+                        {{ Number(tx.time) | moment('timezone', getTimezone, 'LLLL') }}
 
-                <td class="col s2 m2 l2 ">{{tx.amount}}</td>
+                    </td>
 
-            </tr>
+                    <td class="col s1s m1 l1 hide-on-small-only">{{tx.category}}</td>
 
-        </tbody>
+                    <!--<td class="col s3s m3 l3 hide-on-med-and-down show-on-large">{{tx.blockhash}}</td>-->
 
-    </table>
+                    <td class="col s3s m3 l3 ">{{tx.address}}</td>
+
+                    <td class="col s2 m2 l2 ">{{tx.amount}}</td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
 
 </template>
 
@@ -71,6 +82,17 @@
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+
+    @import "../../assets/scss/_variables.scss";
+
+    .no-transactions p{
+        font-size: 1.5em;
+    }
+
+    .no-transactions .fa-list-alt{
+        color: $wagerr_dark_red;
+        font-size: 10em;
+    }
 
 </style>
