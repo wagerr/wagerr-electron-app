@@ -6,7 +6,7 @@
 
             <div class="col s6">
 
-                <h5>Active CG Lotto Events <i class="icon-license2 pull-right"></i></h5>
+                <h5>Active Lotto Events <i class="icon-license2 pull-right"></i></h5>
 
                 <div v-if="loadingCGEvent">
 
@@ -36,7 +36,7 @@
 
             <div class="col s6">
 
-                <h5>Active GC Lotto Details <i class="icon-history pull-right"></i></h5>
+                <h5>Active Lotto Details <i class="icon-history pull-right"></i></h5>
 
                 <table cellpadding="0" cellspacing="0" border="0">
 
