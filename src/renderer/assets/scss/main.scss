@@ -110,17 +110,6 @@ body {
   padding: 0px;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 #dashboard .bet-types ul {
   margin:0px;
   padding:0px;
@@ -575,81 +564,6 @@ body {
   font-weight:normal;
   text-transform:uppercase;
   cursor:pointer;
-}
-
-#address .preview {
-  width:833px;
-  height:530px;
-  margin:0 auto;
-  background:url(../images/wagerrwallet1addressbook2.png);
-  position:relative;
-}
-
-#address .preview .overlay {
-  width:100%;
-  height:100%;
-  position:absolute;
-  background-color:rgba(0,0,0,0.8);
-  display:none;
-}
-
-#address .preview:hover .overlay {
-  display:block;
-}
-
-#address .preview .overlay p {
-  color:#fff;
-  margin-top:20%;
-}
-
-#affiliates .preview {
-  width:833px;
-  height:530px;
-  margin:0 auto;
-  background:url(../images/wagerrwallet1affiliate2.png);
-  position:relative;
-}
-
-#affiliates .preview .overlay {
-  width:100%;
-  height:100%;
-  position:absolute;
-  background-color:rgba(0,0,0,0.8);
-  display:none;
-}
-
-#affiliates .preview:hover .overlay {
-  display:block;
-}
-
-#affiliates .preview .overlay p {
-  color:#fff;
-  margin-top:20%;
-}
-
-#tournaments .preview {
-  width:833px;
-  height:530px;
-  margin:0 auto;
-  background:url(../images/wagerrwallet1fantasy2.png);
-  position:relative;
-}
-
-#tournaments .preview .overlay {
-  width:100%;
-  height:100%;
-  position:absolute;
-  background-color:rgba(0,0,0,0.8);
-  display:none;
-}
-
-#tournaments .preview:hover .overlay {
-  display:block;
-}
-
-#tournaments .preview .overlay p {
-  color:#fff;
-  margin-top:20%;
 }
 
 #bets .bets-50 {
