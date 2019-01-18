@@ -38,7 +38,6 @@ const actions = {
 
         wagerrRPC.client.getAccountAddress(rand)
             .then(function (resp) {
-                console.log(resp.result);
                 commit('setAccountAddress', resp.result);
             })
             .catch(function (err) {

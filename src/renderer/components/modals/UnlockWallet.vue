@@ -87,8 +87,6 @@
                         let elem = document.querySelector('#unlock-wallet-modal');
                         let instance = M.Modal.getInstance(elem);
                         instance.close();
-
-                        console.log("should have closed")
                     }
                 })
             },

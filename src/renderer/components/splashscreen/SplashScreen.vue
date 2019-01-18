@@ -214,7 +214,7 @@
                 await this.getCGBetTransactionList();
 
                 // Set some network state values.
-                let networkInfo = await networkRPC.getNetworkInfo();
+                let networkInfo    = await networkRPC.getNetworkInfo();
                 let masternodeInfo = await masternodeRPC.getMasternodeCount();
                 let blockchainInfo = await blockchainRPC.getBlockchainInfo();
                 this.updateNetworkType(blockchainInfo.chain);
@@ -232,15 +232,6 @@
                     let timeBehindText = this.getTimeBehindText(secs, blockchainInfo);
                     this.updateInitText(timeBehindText);
                 }
-
-                // Check the wallet is MN synced.
-                // this.updateInitText('Syncing...');
-                //
-                // if (this.walletSynced) {
-                //     this.updateWalletSynced();
-                //     return setTimeout(initWallet, 2000);
-                // }
-
             }
         },
 
@@ -261,8 +252,6 @@
 </script>
 
 <style scoped lang="scss">
-
-    /* Preloader Styles */
 
     @import "../../assets/scss/_variables.scss";
     @import "../../assets/scss/_fonts.scss";
