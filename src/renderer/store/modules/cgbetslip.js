@@ -11,14 +11,16 @@ import moment from 'moment'
 const state = function () {
 
     return {
-        noOfEntrants: 'Loading',
-        entryFee: 'Loading',
-        gameID: 'Loading',
-        potSize: 'Loading',
-        gameStartBlock: 'Loading',
-        gameStartTime: 'Loading',
-        gameEndTime: 'Loading',
-        currentGameBets: 'Loading',
+        loadingCGEvent: true,
+        loadingCGDetails: true,
+        noOfEntrants: 0,
+        entryFee: 0,
+        gameID: 0,
+        potSize: 0,
+        gameStartBlock: '',
+        gameStartTime: '',
+        gameEndTime: 0,
+        currentGameBets: 0,
         cgBetList: []
     }
 
@@ -26,36 +28,44 @@ const state = function () {
 
 const getters = {
 
+    loadingCGEvent: (state) => {
+        return state.loadingCGEvent;
+    },
+
+    loadingCGDetails: (state) => {
+        return state.loadingCGDetails;
+    },
+
     noOfEntrants: (state) => {
-        return state.noOfEntrants
+        return state.noOfEntrants;
     },
 
     entryFee: (state) => {
-        return state.entryFee
+        return state.entryFee;
     },
 
     gameID: (state) => {
-        return state.gameID
+        return state.gameID;
     },
 
     potSize: (state) => {
-        return state.potSize
+        return state.potSize;
     },
 
     gameStartBlock: (state) => {
-        return state.gameStartBlock
+        return state.gameStartBlock;
     },
 
     gameStartTime: (state) => {
-        return state.gameStartTime
+        return state.gameStartTime;
     },
 
     gameEndTime: (state) => {
-        return state.gameEndTime
+        return state.gameEndTime;
     },
 
     currentGameBets: (state) => {
-        return state.currentGameBets
+        return state.currentGameBets;
     },
 
     cgBetList: (state) => {
@@ -69,7 +79,7 @@ const actions = {
     listChainGamesEvents ({commit, dispatch}) {
         wagerrRPC.client.listChainGamesEvents()
             .then(function (resp) {
-                let allEvts = resp.result;
+                let allEvts    = resp.result;
                 let latestGame = 0;
 
                 for (let b = 0; b < allEvts.length; b++) {
@@ -85,6 +95,7 @@ const actions = {
             })
             .catch(function (err) {
                 // TODO Handle error correctly.
+                commit('setLoadingCGEvent', true);
                 console.error(err);
             })
     },
@@ -115,10 +126,14 @@ const actions = {
                 }
 
                 commit('setCurrentGameBets', currentBets);
+                commit('setLoadingCGEvent', false);
+                commit('setLoadingCGDetails', false);
             })
             .catch(function (err) {
                 // TODO Handle error correctly.
                 console.error(err);
+                commit('setLoadingCGEvent', true);
+                commit('setLoadingCGDetails', true);
             })
     },
 
@@ -135,8 +150,6 @@ const actions = {
                 for (let i = 0; i < self.betList.length; i++) {
                     if (self.betList[i]['event-id'] === state.gameID) {
                         currentBets = currentBets + 1;
-                        console.log('FOUND CURRENT EVENT');
-                        console.log(state.gameID);
                     }
                 }
 
@@ -155,6 +168,14 @@ const actions = {
 };
 
 const mutations = {
+
+    setLoadingCGEvent (state, isLoading) {
+        state.loadingCGEvent = isLoading
+    },
+
+    setLoadingCGDetails (state, isLoading) {
+        state.loadingCGDetails = isLoading
+    },
 
     setNoOfEntrants (state, noOfEntrants) {
         state.noOfEntrants = noOfEntrants
