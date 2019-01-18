@@ -52,62 +52,60 @@
 
 <script>
 
-import Vuex from 'vuex'
+    import Vuex from 'vuex'
 
-export default {
-  name: 'UnlockWallet',
+    export default {
+        name: 'UnlockWallet',
 
-  computed: {
+        computed: {
+            ...Vuex.mapGetters([
+                'walletLoaded',
+                'walletUnlocked'
+            ])
+        },
 
-    ...Vuex.mapGetters([
-      'isWalletLoaded',
-      'isWalletUnlocked'
-    ])
+        methods: {
+            ...Vuex.mapActions([
+                'lockWallet',
+                'unlockWallet'
+            ]),
 
-  },
+            // Handle the unlock wallet from validation and id valid unlock the wallet.
+            handleSubmit: function () {
+                this.$validator.validate().then( async valid => {
+                    if (!valid) {
+                        return;
+                    }
 
-  methods: {
+                    // If the form is valid then attempt to unlock the wallet.
+                    await this.unlockWallet(this.walletPassword);
 
-    ...Vuex.mapActions([
-      'lockWallet',
-      'unlockWallet'
-    ]),
+                    if (this.walletUnlocked) {
+                        // Clear any errors after successful wallet unlock.
+                        this.clearForm();
 
-    // Handle the unlock wallet from validation and id valid unlock the wallet.
-    handleSubmit: function () {
-      this.$validator.validate().then(valid => {
-        if (!valid) {
-          return
+                        let elem = document.querySelector('#unlock-wallet-modal');
+                        let instance = M.Modal.getInstance(elem);
+                        instance.close();
+
+                        console.log("should have closed")
+                    }
+                })
+            },
+
+            clearForm: function () {
+                this.walletPassword = '';
+                this.$validator.reset();
+            }
+        },
+
+        data () {
+            return {
+                walletPassword: ''
+            }
         }
-
-        // If the form is valid then attempt to unlock the wallet.
-        this.unlockWallet(this.walletPassword).then(() => {
-
-          if (this.isWalletUnlocked) {
-            // Clear any errors after successful wallet unlock.
-            this.clearForm()
-
-            let elem = document.querySelector('#unlock-wallet-modal')
-            let instance = M.Modal.getInstance(elem)
-            instance.close()
-          }
-        })
-      })
-    },
-
-    clearForm: function () {
-      this.walletPassword = ''
-      this.$validator.reset()
     }
 
-  },
-
-  data () {
-    return {
-      walletPassword: ''
-    }
-  }
-}
 </script>
 
 <style scoped>

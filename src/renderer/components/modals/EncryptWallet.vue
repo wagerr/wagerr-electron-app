@@ -26,7 +26,7 @@
 
                     <div class="input-field col s12 m6">
 
-                        <input name="password" v-model="password" v-validate="'required|min:7'" ref="password" id="password" type="password">
+                        <input name="password" v-model="password" v-validate="'required'" ref="password" id="password" type="password">
 
                         <label for="password">Password</label>
 
@@ -36,7 +36,7 @@
 
                     <div class="input-field col s12 m6">
 
-                        <input name="confirm-password" v-model="confirmPassword" v-validate="'required|min:7|confirmed:password'" id="confirm-password" type="password">
+                        <input name="confirm-password" v-model="confirmPassword" v-validate="'required|confirmed:password'" id="confirm-password" type="password">
 
                         <label for="confirm-password">Confirm Password</label>
 
@@ -68,71 +68,80 @@
 
 <script>
 
-import wagerrRPC from '@/services/api/wagerrRPC'
+    import wagerrRPC from '@/services/api/wagerrRPC'
 
-export default {
-  name: 'EncryptWallet',
+    export default {
+        name: 'EncryptWallet',
 
-  methods: {
+        methods: {
+            // Handles the encrypt wallet form submission and ensures inputs are valid.
+            handleSubmit: function () {
+                this.$validator.validate().then(valid => {
+                    if (!valid) {
+                        return;
+                    }
 
-    // Handles the encrypt wallet form submission and ensures inputs are valid.
-    handleSubmit: function () {
-      this.$validator.validate().then(valid => {
-        if (!valid) {
-          return
+                    // If the form is valid then encrypt the wallet.
+                    this.encryptWallet().then(() => {
+                        // Clear any errors after successful wallet encryption.
+                        this.clearForm();
+                    })
+                })
+            },
+
+            // Encrypt the users Wallet.
+            encryptWallet: function () {
+                return new Promise((resolve, reject) => {
+                    // Send RPC request to encrypt the users wallet with the provided password.
+                    wagerrRPC.client.encryptWallet(this.password, this.confirmPassword)
+                        .then(function (resp) {
+                            // If successful response.
+                            if (resp.error === 'null') {
+                                M.toast({
+                                    html: '<span class="toast__bold-font">Success &nbsp;</span> ' + resp.result,
+                                    classes: 'green'
+                                });
+                            }
+                            else {
+                                M.toast({
+                                    html: '<span class="toast__bold-font">Error &nbsp;</span> ' + resp.result,
+                                    classes: 'wagerr-red-bg'
+                                });
+                            }
+
+                            resolve();
+                        })
+                        .catch(function (err) {
+                            M.toast({html: err, classes: 'wagerr-red-bg'});
+                            console.error(err);
+                            reject();
+                        })
+                });
+            },
+
+            // Clear the form data and errors.
+            clearForm: function () {
+                this.password = '';
+                this.confirmPassword = '';
+                this.$validator.reset();
+            }
+        },
+
+        data () {
+            return {
+                password: '',
+                confirmPassword: ''
+            }
+        },
+
+        mounted () {
+            // Initialise the Material JS so modals, drop down menus etc function.
+            M.AutoInit();
+
+            // Reset the form validation after opening the modal
+            this.$validator.reset();
         }
-
-        // If the form is valid then encrypt the wallet.
-        this.encryptWallet().then(() => {
-          // Clear any errors after successful wallet encryption.
-          this.clearForm()
-        })
-      })
-    },
-
-    // Encrypt the users Wallet.
-    encryptWallet: function () {
-      // Send RPC request to encrypt the users wallet with the provided password.
-      wagerrRPC.client.encryptWallet(this.password)
-        .then(function (resp) {
-          // If successful response.
-          if (resp.error === 'null') {
-            M.toast({ html: '<span class="toast__bold-font">Success &nbsp;</span> ' + resp.result, classes: 'green' })
-          }
-          else {
-            M.toast({ html: '<span class="toast__bold-font">Error &nbsp;</span> ' + resp.result, classes: 'wagerr-red-bg' })
-          }
-        })
-        .catch(function (err) {
-          M.toast({html: err, classes: 'wagerr-red-bg'})
-          console.error(err)
-        })
-    },
-
-    // Clear the form data and errors.
-    clearForm: function () {
-      this.password = ''
-      this.confirmPassword = ''
-      this.$validator.reset()
     }
-
-  },
-
-  data () {
-    return {
-      password: '',
-      confirmPassword: ''
-    }
-  },
-
-  mounted () {
-    // Initialise the Material JS so modals, drop down menus etc function.
-    M.AutoInit()
-
-    // Reset the form validation after opening the modal
-    this.$validator.reset()
-  }
-}
 
 </script>
 

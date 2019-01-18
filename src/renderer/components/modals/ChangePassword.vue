@@ -24,7 +24,7 @@
 
                     <div class="input-field col s12">
 
-                        <input v-model="oldPassword" v-validate="'required|min:4'" id="old-password" name="old-password" type="password" autofocus>
+                        <input v-model="oldPassword" v-validate="'required'" id="old-password" name="old-password" type="password" autofocus>
 
                         <label for="old-password">Old Password</label>
 
@@ -34,7 +34,7 @@
 
                     <div class="input-field col s12">
 
-                        <input v-model="newPassword" v-validate="'required|min:7'" ref="new-password" id="new-password" name="new-password" type="password" >
+                        <input v-model="newPassword" v-validate="'required'" ref="new-password" id="new-password" name="new-password" type="password" >
 
                         <label for="new-password">New Password</label>
 
@@ -44,7 +44,7 @@
 
                     <div class="input-field col s12">
 
-                        <input v-model="confPassword" v-validate="'required|min:6|confirmed:new-password'" id="conf-password" name="conf-password" type="password">
+                        <input v-model="confPassword" v-validate="'required|confirmed:new-password'" id="conf-password" name="conf-password" type="password">
 
                         <label for="conf-password">Confirm Password</label>
 

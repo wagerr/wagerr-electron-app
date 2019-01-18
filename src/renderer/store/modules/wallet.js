@@ -15,19 +15,19 @@ const state = function () {
 const getters = {
 
     balance: (state) => {
-        return state.balance
+        return state.balance;
     },
 
     walletLoaded: (state) => {
-        return state.loaded
+        return state.loaded;
     },
 
     walletUnlocked: (state) => {
-        return state.unlocked
+        return state.unlocked;
     },
 
     walletSynced: (state) => {
-        return state.synced
+        return state.synced;
     },
 
     initText: (state) => {
@@ -51,7 +51,7 @@ const actions = {
             })
             .catch(function (err) {
                 commit('setWalletSynced', false);
-                console.error(err)
+                console.error(err);
             })
     },
 
@@ -63,37 +63,46 @@ const actions = {
             })
             .catch(function (err) {
                 commit('setBalance', 0);
-                console.error(err)
+                console.error(err);
             })
     },
 
     unlockWallet ({commit}, password) {
-        wagerrRPC.client.walletPassphrase(password, 1000)
-            .then(function (resp) {
-                commit('setWalletUnlocked', true);
-                M.toast({ html: '<span class="toast__bold-font">Success &nbsp;</span> Wallet unlocked', classes: 'green' })
-            })
-            .catch(function (err) {
-                commit('setWalletUnlocked', false);
-                M.toast({html: err, classes: 'wagerr-red-bg'})
-                console.log(err)
-            })
+        return new Promise((resolve, reject) => {
+            wagerrRPC.client.walletPassphrase(password, 1000)
+                .then(function (resp) {
+                    commit('setWalletUnlocked', true);
+                    M.toast({
+                        html: '<span class="toast__bold-font">Success &nbsp;</span> Wallet unlocked',
+                        classes: 'green'
+                    });
+
+                    resolve();
+                })
+                .catch(function (err) {
+                    commit('setWalletUnlocked', false);
+                    M.toast({html: err, classes: 'wagerr-red-bg'});
+                    console.log(err);
+                    reject();
+                })
+
+        });
     },
 
     lockWallet ({commit}) {
         wagerrRPC.client.walletLock()
             .then(function (resp) {
-                commit('setWalletUnlocked', false)
-                M.toast({ html: '<span class="toast__bold-font">Success &nbsp;</span> Wallet locked', classes: 'green' })
+                commit('setWalletUnlocked', false);
+                M.toast({ html: '<span class="toast__bold-font">Success &nbsp;</span> Wallet locked', classes: 'green' });
             })
             .catch(function (err) {
-                 M.toast({html: err, classes: 'wagerr-red-bg'})
-                console.debug(err)
+                 M.toast({html: err, classes: 'wagerr-red-bg'});
+                console.debug(err);
             })
     },
 
     updateInitText ({commit}, walletInitText) {
-        commit('setInitText', walletInitText)
+        commit('setInitText', walletInitText);
     },
 
     // Add other wallet functions here...
@@ -103,15 +112,15 @@ const actions = {
 const mutations = {
 
     setBalance (state, balance) {
-        state.balance = balance
+        state.balance = balance;
     },
 
     setWalletLoaded (state) {
-        state.loaded = true
+        state.loaded = true;
     },
 
     setWalletUnlocked (state, unlocked) {
-        state.unlocked = unlocked
+        state.unlocked = unlocked;
     },
 
     setWalletSynced (state, synced) {
