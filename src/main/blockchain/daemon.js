@@ -137,6 +137,8 @@ export default class Daemon {
                         if (error) {
                             return reject(error);
                         }
+
+                        return resolve();
                     });
                 })
             )
