@@ -60,7 +60,7 @@
 
                 <button class="waves-effect waves-light red darken-4 btn" @click="resyncBlockchain">Delete Block Chain Folders</button>
 
-                <span>-rescan</span> Delete all local block chain so wallet synchronises from scratch.
+                <span>-resync</span> Delete all local block chain so wallet synchronises from scratch.
 
             </li>
 
