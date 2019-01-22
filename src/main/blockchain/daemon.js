@@ -179,7 +179,14 @@ export default class Daemon {
     async isWagerrdRunning () {
         let processList = await findProcess('name', `daemon/${blockchain.daemonName}`);
 
-        return processList.length > 0;
+        let platform = os.platform();
+
+        if (platform === 'linux'){
+            return processList.length > 1;
+        }
+        else {
+            return processList.length > 0;
+        }
     }
 
     /**
