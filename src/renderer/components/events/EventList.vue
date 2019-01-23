@@ -98,21 +98,21 @@
                         <!-- Show Spread odds if market is open for current event. -->
                         <div v-if="isEventSpreadsOddsSet(event)" class="col s12 m3 odds">
 
-                            <button class="waves-effect waves-light btn" @click="createBet(event.event_id, 4, event.teams.home, event.odds[1].spreadOver)">
+                            <button class="waves-effect waves-light btn" @click="createBet(event.event_id, 4, event.teams.home, event.odds[1].spreadHome)">
 
-                                <span class="pull-left">+ {{ event.odds[1].spreadPoints / 10 }}</span>
+                                <span class="pull-left">{{ event.odds[0].mlHome > event.odds[0].mlAway ? '+' : '-' }} {{ event.odds[1].spreadPoints / 10 }}</span>
 
-                                <span class="pull-right">{{ event.odds[1].spreadOver / oddsDivisor }}</span>
+                                <span class="pull-right">{{ event.odds[1].spreadHome / oddsDivisor }}</span>
 
                             </button>
 
                             <br>
 
-                            <button class="waves-effect waves-light btn" @click="createBet(event.event_id, 5, event.teams.away, event.odds[1].spreadUnder)">
+                            <button class="waves-effect waves-light btn" @click="createBet(event.event_id, 5, event.teams.away, event.odds[1].spreadAway)">
 
-                                <span class="pull-left">- {{ event.odds[1].spreadPoints / 10 }}</span>
+                                <span class="pull-left">{{ event.odds[0].mlAway > event.odds[0].mlHome ? '+' : '-' }} {{ event.odds[1].spreadPoints / 10 }}</span>
 
-                                <span class="pull-right">{{ event.odds[1].spreadUnder / oddsDivisor }}</span>
+                                <span class="pull-right">{{ event.odds[1].spreadAway / oddsDivisor }}</span>
 
                             </button>
 
@@ -238,7 +238,7 @@
 
             // Check if spreads odds are available for a given event.
             isEventSpreadsOddsSet: function (event) {
-                return !(event.odds[1].spreadOver === 0 && event.odds[1].spreadUnder === 0);
+                return !(event.odds[1].spreadHome === 0 && event.odds[1].spreadAway === 0);
             },
 
             // Check if the totals odds are available for a given event.
