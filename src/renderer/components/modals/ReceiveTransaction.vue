@@ -10,21 +10,23 @@
 
                 <div class="modal-header">
 
-                    <h4>Receive Address</h4>
+                    <h4>Request Payment</h4>
 
                 </div>
 
                 <div class="modal-text">
 
-                    <br>
+                    <div class="text-center">
 
-                    <p class="text-center">QR CODE HERE!</p>
+                        <qrcode-vue :value="accountAddress" :size="185" background="#2b2c2d" foreground="#B40101" level="H"></qrcode-vue>
+
+                    </div>
 
                 </div>
 
                 <div class="input-field col s12 text-center">
 
-                    <h6 class="wagerr-red">YOUR WAGERR ADDRESS</h6>
+                    <h6 class="wagerr-red">WAGERR RECEIVE ADDRESS:</h6>
 
                     <h5>{{ accountAddress }}</h5>
 
@@ -50,47 +52,46 @@
 
 <script>
 
-import Vuex from 'vuex'
+    import Vuex from 'vuex'
+    import QrcodeVue from 'qrcode.vue';
 
-export default {
-  name: 'RecieveTransaction',
+    export default {
+        name: 'RecieveTransaction',
 
-  computed: {
-    ...Vuex.mapGetters([
-      'accountAddress',
-    ])
-  },
+        computed: {
+            ...Vuex.mapGetters([
+                'accountAddress',
+            ])
+        },
 
-  methods: {
-    ...Vuex.mapActions([
-      'getAccountAddress'
-    ]),
+        methods: {
+            ...Vuex.mapActions([
+                'getAccountAddress'
+            ]),
 
-    copiedAlert: function () {
-      M.toast({ html: '<span class="toast__bold-font">Success &nbsp;</span> Address copied to your clipboard.', classes: 'green' })
+            copiedAlert: function () {
+                M.toast({ html: '<span class="toast__bold-font">Success &nbsp;</span> Address copied to your clipboard.', classes: 'green' });
+             }
+        },
+
+        mounted () {
+            // Initialise the Material JS so modals, drop down menus etc function.
+            M.AutoInit();
+
+            this.getAccountAddress();
+         },
+
+        components: {
+            QrcodeVue
+        }
     }
-  },
-
-  data () {
-    return {
-
-    }
-  },
-
-  created () {
-
-  },
-
-  mounted () {
-    // Initialise the Material JS so modals, drop down menus etc function.
-    M.AutoInit()
-
-    this.getAccountAddress()
-  },
-}
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+
+    .modal-text{
+        padding-top: 10px;
+    }
 
 </style>
