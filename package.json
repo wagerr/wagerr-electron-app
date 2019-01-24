@@ -116,7 +116,7 @@
     "webpack-merge": "^4.2.1"
   },
   "wagerrSettings": {
-    "daemonVersion": "2.1.0-rc3",
+    "daemonVersion": "v2.1.0-rc4",
     "daemonUrlTemplate": "https://github.com/marty987/WagerrTS/releases/download/DAEMONVER/wagerr-2.0.0-OSNAME.OSEXT",
     "daemonDir": "static/daemon",
     "daemonFileName": "wagerrd",
