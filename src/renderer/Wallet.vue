@@ -10,7 +10,7 @@
 
       </div>
 
-      <div class="dashboard-staking"><span class="amount">0</span> staking</div>
+      <!--<div class="dashboard-staking"><span class="amount">0</span> staking</div>-->
 
       <div class="text-center">
 
