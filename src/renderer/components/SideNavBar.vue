@@ -28,7 +28,7 @@
 
                       <i class="icon-football"></i>
 
-                      <span>NFL</span>
+                      <span>Football</span>
 
                       <i class="icon-chevron-down pull-right"></i>
 
@@ -255,6 +255,24 @@
                   <li class="open-demo-dialog"><span>FIFA World Cup</span></li>
 
               </ul>-->
+
+          </li>
+
+          <li @click="filterEvents('MMA')">
+
+              <div class="parent">
+
+                  <a>
+
+                      <i class="icon-bench-press"></i>
+
+                      <span>MMA</span>
+
+                      <i class="icon-chevron-down pull-right"></i>
+
+                  </a>
+
+              </div>
 
           </li>
 

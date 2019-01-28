@@ -1,41 +1,45 @@
 <template>
 
-  <div id="wallet" class="content">
+    <div id="wallet" class="content">
 
-      <h1 class="text-center">WGR <span class="spacing">Balance</span></h1>
+        <h1 class="text-center">
 
-      <div class="dashboard-balance">
+            WGR <span class="spacing">Balance</span>
 
-          <div class="amount">{{ walletLoaded ? balance : 'Loading...' }}</div>
+        </h1>
 
-      </div>
+        <div class="dashboard-balance">
 
-      <!--<div class="dashboard-staking"><span class="amount">0</span> staking</div>-->
+            <div class="amount">{{ walletLoaded ? balance : 'Loading...' }}</div>
 
-      <div class="text-center">
+        </div>
 
-          <br>
+        <!--<div class="dashboard-staking"><span class="amount">0</span> staking</div>-->
 
-          <a class="waves-effect waves-red btn-large modal-trigger wagerr-red-bg" data-target="send-tx-modal">Send</a>
+        <div class="text-center">
 
-          <a class="waves-effect waves-red btn-large modal-trigger wagerr-red-bg" @click="this.getAccountAddress" data-target="receive-tx-modal">Receive</a>
+            <br>
 
-          <br><br>
+            <a class="waves-effect waves-red btn-large modal-trigger wagerr-red-bg" data-target="send-tx-modal">Send</a>
 
-      </div>
+            <a class="waves-effect waves-red btn-large modal-trigger wagerr-red-bg" @click="this.getAccountAddress" data-target="receive-tx-modal">Receive</a>
 
-      <!-- Include the send & receive modals -->
-      <send-transaction></send-transaction>
-      <receive-transaction></receive-transaction>
+            <br><br>
 
-      <div class='table-container'>
+        </div>
 
-          <!-- Include the wallet transaction list. -->
-          <transaction-list></transaction-list>
+        <!-- Include the send & receive modals -->
+        <send-transaction></send-transaction>
+        <receive-transaction></receive-transaction>
 
-      </div>
+        <div class='table-container'>
 
-  </div>
+            <!-- Include the wallet transaction list. -->
+            <transaction-list></transaction-list>
+
+        </div>
+
+    </div>
 
 </template>
 
