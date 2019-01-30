@@ -264,6 +264,15 @@
 
         created () {
             this.listEvents();
+
+            // ping listevents every 5 secs for new and updated events.
+            this.timeout = setInterval( async function () {
+                this.listEvents();
+            }.bind(this), 5000);
+        },
+
+        destroyed () {
+            clearInterval(this.timeout)
         }
     }
 
