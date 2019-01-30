@@ -291,11 +291,13 @@
 
         methods: {
             ...Vuex.mapActions([
-                'listEvents',
+                'eventsFilter',
+                'listEvents'
             ]),
 
-            filterEvents: async function (filter) {
-                await this.listEvents(filter);
+            filterEvents: async function (eventFilter) {
+                await this.$store.dispatch('eventsFilter', eventFilter);
+                await this.listEvents(eventFilter);
             }
         }
     }

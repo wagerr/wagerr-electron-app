@@ -4,12 +4,17 @@ import moment from 'moment';
 const state = function () {
 
     return {
+        eventsFilter:  '',
         eventsList: {}
     }
 
 };
 
 const getters = {
+
+    eventsFilter: (state) => {
+        return state.eventsFilter;
+    },
 
     eventsList: (state) => {
         return state.eventsList;
@@ -19,7 +24,11 @@ const getters = {
 
 const actions = {
 
-    listEvents ({ commit, state }, filter) {
+    eventsFilter ({commit, state}, eventsFilter) {
+        commit('setEventsFilter', eventsFilter);
+    },
+
+    listEvents ({commit, state}, filter) {
         return new Promise((resolve, reject) => {
             if (filter) {
                 wagerrRPC.client.listEvents(filter)
@@ -82,6 +91,10 @@ const actions = {
 };
 
 const mutations = {
+
+    setEventsFilter (state, filter) {
+        state.eventsFilter = filter;
+    },
 
     setEventsList (state, eventsList) {
         state.eventsList = eventsList;

@@ -194,6 +194,7 @@
 
         computed: {
             ...Vuex.mapGetters([
+                'eventsFilter',
                 'eventsList',
                 'getTimezone'
             ])
@@ -258,21 +259,21 @@
         data () {
             return {
                 oddsDivisor: constants.ODDS_DIVISOR,
-                filteredEventsList: {}
+                timeout: 0
             }
         },
 
         created () {
-            this.listEvents();
+            this.listEvents(this.eventsFilter);
 
             // ping listevents every 5 secs for new and updated events.
             this.timeout = setInterval( async function () {
-                this.listEvents();
+                this.listEvents(this.eventsFilter);
             }.bind(this), 5000);
         },
 
         destroyed () {
-            clearInterval(this.timeout)
+            clearInterval(this.timeout);
         }
     }
 
