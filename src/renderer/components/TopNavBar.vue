@@ -140,6 +140,18 @@
 
                     </li>
 
+                    <li>
+
+                        <a @click="backupWallet">
+
+                            <i class="icon-files"></i>
+
+                            Backup Wallet
+
+                        </a>
+
+                    </li>
+
                 </ul>
 
             </li>
@@ -165,10 +177,13 @@
 <script>
 
     import Vuex from 'vuex'
+    import wagerrRPC from '@/services/api/wagerrRPC'
     import EncryptWallet from '@/components/modals/EncryptWallet.vue'
     import ChangePassword from '@/components/modals/ChangePassword.vue'
     import UnlockWallet from '@/components/modals/UnlockWallet'
     import SignVerifyMessage from '@/components/modals/SignVerifyMessage'
+
+    const { remote } = require('electron');
 
     export default {
         name: 'TopNavBar',
@@ -185,8 +200,39 @@
         methods: {
             ...Vuex.mapActions([
                 'lockWallet',
-            ])
-        }
+            ]),
+
+            backupWallet: function () {
+
+                let folderPath = remote.dialog.showOpenDialog({
+                    title : "Backup Wallet.dat file.",
+                    buttonLabel : "Select Folder",
+                    properties: ['openDirectory'],
+                    buttons: ['Confirm', 'Cancel'],
+                    cancelId: 1,
+                    defaultId: 0
+                });
+
+                console.log();
+
+                if( folderPath ) {
+                    wagerrRPC.client.backupWallet(folderPath)
+                        .then(function (resp) {
+                            console.log(resp)
+                            M.toast({ html: '<span class="toast__bold-font">Success &nbsp;</span> Wallet backup up located here: ' + folderPath, classes: 'green' });
+                        })
+                        .catch(function (err) {
+                            M.toast({html: err, classes: 'wagerr-red-bg'});
+                            console.log(err);
+                        })
+                }
+            }
+        },
+
+        mounted () {
+            // Initialise the Material JS so modals, drop down menus etc function.
+            M.AutoInit();
+        },
     }
 
 </script>
