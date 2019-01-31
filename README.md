@@ -1,8 +1,15 @@
+<h1 align="center">
+    <br>
+    <a href=""><img src="https://www.cryptoninjas.net/wp-content/uploads/wagerr-cryptoninjas.png" alt="Wagerr" width="500"></a>
+    <br>
+    Wagerr Electron Wallet
+    <br>
+</h1>
+
 [![Wagerr](https://img.shields.io/badge/Website-wagerr.com-eaa809.svg)](https://www.wagerr.com/)
 [![ContributorsWelcome](https://img.shields.io/badge/contributors-welcome-brightgreen.svg)](https://bitbucket.org/techsquadron1/wagerr_html5_wallet/src/master/)
 [![LICENSE](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-# Wagerr HTML5 Wallet
 Cross Platform HTML5 Wallet built with Electron & Vue JS.  This wallet is still in development so use at your own risk.
 
 Make sure you back up your Wagerr wallet.dat before running this wallet.
@@ -11,28 +18,24 @@ Make sure you back up your Wagerr wallet.dat before running this wallet.
 
 You need the following prerequisites to be able to build and develop the project on your local machine.
 
-#### Mac / Linux
-_NodeJS_: Use NVM to install and manage your NodeJS installation - https://github.com/creationix/nvm
-```
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
-```
-or Wget
-```
-wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
-```
-The script clones the nvm repository to ~/.nvm and adds the source line to your profile (~/.bash_profile, ~/.zshrc, ~/.profile, or ~/.bashrc).
+##### NodeJS + NPM #####
+Install the latest version of NodeJS and NPM for your OS using the link below:
 
 ```
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+https://nodejs.org/en/
 ```
 
-#### Windows
-_NodeJS:_
+Once installed test it by opening a terminal on your local computer and enter the following command:
+
 ```
-Download the windows installer here:
-https://nodejs.org/en/download/
+node -v
 ```
+
+```
+npm -v
+```
+
+If installed correctly you will see the current version your are running for NodeJS and NPM.
 
 ## Get the source
 ```
@@ -62,7 +65,7 @@ _To Build_
 npm run build
 ```
 
-_After running the build command the executable will be located in the /dist folder._
+_After running the build command the executable will be located in the /build folder._
 
 ## Built With
 * [Node.js](https://nodejs.org)
