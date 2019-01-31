@@ -147,4 +147,8 @@
 
 <style lang="scss" scoped>
 
+    .modal{
+        overflow-y: inherit;
+    }
+
 </style>

@@ -182,117 +182,125 @@ import Vuex from 'vuex'
 import wagerrRPC from '@/services/api/wagerrRPC'
 
 export default {
-  name: 'VerifyMessage',
+    name: 'VerifyMessage',
 
-  computed: {
-    ...Vuex.mapGetters([
+    computed: {
+        ...Vuex.mapGetters([
 
-    ])
-  },
+        ])
+    },
 
-  methods:{
+    methods:{
 
-    // Handle the sign from validation and if all fields valid sign the message.
-    handleSignSubmit: function() {
-      this.$validator.validateAll('sign-form').then(valid => {
-        if (!valid) {
-          return
+        // Handle the sign from validation and if all fields valid sign the message.
+        handleSignSubmit: function() {
+            this.$validator.validateAll('sign-form').then(valid => {
+                if (!valid) {
+                    return
+                }
+
+                // If from validation passes then sign the message.
+                this.signTheMessage()
+            })
+        },
+
+        // Handle the verify message form validation and if all fields valid then verify the signature.
+        handleVerifySubmit: function(scope) {
+            this.$validator.validateAll('verify-form').then(valid => {
+                if (!valid) {
+                    return;
+                }
+
+                // If the form vailidation passes then verify the signature.
+                this.verifyTheMessage();
+            })
+        },
+
+        // Sign a message using wallet private key.
+        signTheMessage: function () {
+            let that = this;
+
+            wagerrRPC.client.signMessage(this.signAddress, this.signMessage)
+                .then( function (resp) {
+                    if ( resp.error !== 'null' ){
+                        that.signedSignature = resp.result;
+                        M.toast({ html: '<span class="toast__bold-font">Success &nbsp;</span> Message signed.' , classes: 'green' });
+                    }
+                    else{
+                        M.toast({ html: '<span class="toast__bold-font">Error &nbsp;</span> ' + resp.error, classes: 'wagerr-red-bg' });
+                    }
+                })
+                .catch( function (err) {
+                    M.toast({html: err, classes: 'wagerr-red-bg'});
+                    console.debug(err);
+                })
+        },
+
+        // Verify a message using wallet public key.
+        verifyTheMessage: function () {
+            wagerrRPC.client.verifyMessage( this.verifyAddress, this.verifiedSignature, this.verifyMessage )
+                .then(function (resp) {
+                    if ( resp.result === true ){
+                        M.toast({ html: '<span class="toast__bold-font">Success &nbsp;</span> Message Verified.' , classes: 'green' });
+                    }
+                    else{
+                        M.toast({ html: '<span class="toast__bold-font">Error &nbsp;</span> Message could not be verified.' , classes: 'wagerr-red-bg' });
+                    }
+                })
+                .catch(function (err) {
+                    M.toast({html: err, classes: 'wagerr-red-bg'});
+                    console.debug(err);
+                })
+        },
+
+        // Clear the sign message from data and errors.
+        clearForms(){
+            this.signAddress = '';
+            this.signMessage = '';
+            this.signedSignature = '';
+            this.verifyAddress = '';
+            this.verifyMessage = '';
+            this.verifiedSignature = '';
+            this.$validator.reset();
+        },
+
+        copiedAlert () {
+            M.toast({ html: '<span class="toast__bold-font">Success &nbsp;</span> Signed signature copied to clipboard.' , classes: 'green' });
         }
 
-        // If from validation passes then sign the message.
-        this.signTheMessage()
-      })
     },
 
-    // Handle the verify message form validation and if all fields valid then verify the signature.
-    handleVerifySubmit: function(scope) {
-      this.$validator.validateAll('verify-form').then(valid => {
-        if (!valid) {
-          return
+    data () {
+        return {
+            signAddress: '',
+            signMessage: '',
+            signedSignature: '',
+            verifyAddress: '',
+            verifyMessage: '',
+            verifiedSignature: ''
         }
-
-        // If the form vailidation passes then verify the signature.
-        this.verifyTheMessage()
-      })
     },
 
-    // Sign a message using wallet private key.
-    signTheMessage: function () {
-      let that = this
-
-      wagerrRPC.client.signMessage(this.signAddress, this.signMessage)
-        .then( function (resp) {
-
-          if ( resp.error !== 'null' ){
-            that.signedSignature = resp.result
-            M.toast({ html: '<span class="toast__bold-font">Success &nbsp;</span> Message signed.' , classes: 'green' })
-          }
-          else{
-            M.toast({ html: '<span class="toast__bold-font">Error &nbsp;</span> ' + resp.error, classes: 'wagerr-red-bg' })
-          }
-
-        })
-        .catch( function (err) {
-          M.toast({html: err, classes: 'wagerr-red-bg'})
-          console.debug(err)
-        })
-    },
-
-    // Verify a message using wallet public key.
-    verifyTheMessage: function () {
-        wagerrRPC.client.verifyMessage( this.verifyAddress, this.verifiedSignature, this.verifyMessage )
-        .then(function (resp) {
-
-          if ( resp.result === true ){
-            M.toast({ html: '<span class="toast__bold-font">Success &nbsp;</span> Message Verified.' , classes: 'green' })
-          }
-          else{
-            M.toast({ html: '<span class="toast__bold-font">Error &nbsp;</span> Message could not be verified.' , classes: 'wagerr-red-bg' })
-          }
-        })
-        .catch(function (err) {
-          M.toast({html: err, classes: 'wagerr-red-bg'})
-          console.debug(err)
-        })
-    },
-
-    // Clear the sign message from data and errors.
-    clearForms(){
-      this.signAddress = ''
-      this.signMessage = ''
-      this.signedSignature = ''
-      this.verifyAddress = ''
-      this.verifyMessage = ''
-      this.verifiedSignature = ''
-      this.$validator.reset()
-    },
-
-    copiedAlert () {
-      M.toast({ html: '<span class="toast__bold-font">Success &nbsp;</span> Signed signature copied to clipboard.' , classes: 'green' })
+    mounted() {
+        // Initialise the materialize css tabs functionality.
+        M.Tabs.getInstance('sign-verify-message');
     }
-
-  },
-
-   data () {
-     return {
-       signAddress: '',
-       signMessage: '',
-       signedSignature: '',
-       verifyAddress: '',
-       verifyMessage: '',
-       verifiedSignature: ''
-     }
-  },
-
-  mounted() {
-      // Initialise the materialize css tabs functionality.
-      M.Tabs.getInstance('sign-verify-message');
-  }
 }
 
 </script>
 
 <style lang="scss" scoped>
+
+    .modal{
+        min-height: 520px;
+        overflow: inherit;
+        overflow-y: inherit;
+    }
+
+    .modal-open {
+        overflow-y: auto;
+    }
+
 
     #sign-verify-message .modal-content{
         padding-bottom: 0px;

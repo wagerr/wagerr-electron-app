@@ -4,47 +4,51 @@
 
     <div id="receive-tx-modal" class="modal">
 
-        <div class="modal-content">
+        <form>
 
-            <div class="row">
+            <div class="modal-content">
 
-                <div class="modal-header">
+                <div class="row">
 
-                    <h4>Request Payment</h4>
+                    <div class="modal-header">
 
-                </div>
+                        <h4>Request Payment</h4>
 
-                <div class="modal-text">
+                    </div>
 
-                    <div class="text-center">
+                    <div class="modal-text">
 
-                        <qrcode-vue :value="accountAddress" :size="185" background="#2b2c2d" foreground="#B40101" level="H"></qrcode-vue>
+                        <div class="text-center">
+
+                            <qrcode-vue :value="accountAddress" :size="185" background="#2b2c2d" foreground="#B40101" level="H"></qrcode-vue>
+
+                        </div>
+
+                    </div>
+
+                    <div class="input-field col s12 text-center">
+
+                        <h6 class="wagerr-red">WAGERR RECEIVE ADDRESS:</h6>
+
+                        <h5>{{ accountAddress }}</h5>
 
                     </div>
 
                 </div>
 
-                <div class="input-field col s12 text-center">
+            </div>
 
-                    <h6 class="wagerr-red">WAGERR RECEIVE ADDRESS:</h6>
+            <div class="modal-footer">
 
-                    <h5>{{ accountAddress }}</h5>
+                <!--<button class="waves-effect waves-light btn green pull-left">Save QR Image</button>-->
 
-                </div>
+                <a href="#!" class="modal-close waves-effect waves-light btn wagerr-red-bg">Close</a>
+
+                <a v-clipboard="accountAddress" @click="copiedAlert()" class="waves-effect waves-light btn green">Copy Address</a>
 
             </div>
 
-        </div>
-
-        <div class="modal-footer">
-
-            <!--<button class="waves-effect waves-light btn green pull-left">Save QR Image</button>-->
-
-            <a href="#!" class="modal-close waves-effect waves-light btn wagerr-red-bg">Close</a>
-
-            <a v-clipboard="accountAddress" @click="copiedAlert()" class="waves-effect waves-light btn green">Copy Address</a>
-
-        </div>
+        </form>
 
     </div>
 
@@ -90,8 +94,13 @@
 
 <style lang="scss" scoped>
 
+    .modal{
+        overflow-y: inherit;
+    }
+
     .modal-text{
         padding-top: 10px;
     }
+
 
 </style>

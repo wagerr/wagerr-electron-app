@@ -66,132 +66,136 @@ import Vuex from 'vuex'
 import wagerrRPC from '@/services/api/wagerrRPC'
 
 export default {
-  name: 'SendTransaction',
+    name: 'SendTransaction',
 
-  computed: {
+    computed: {
     ...Vuex.mapGetters([
-      'accountAddress',
+        'accountAddress',
     ])
-  },
-
-  methods: {
-
-    ...Vuex.mapActions([
-      'getAccountAddress'
-    ]),
-
-    // Handle the send transaction form submit and ensure all inputs are valid.
-    handleSubmit: function () {
-      this.$validator.validate().then(valid => {
-        if (!valid) {
-          return
-        }
-
-        // If the form is valid then encrypt the wallet.
-        this.sendTransaction()
-      })
     },
 
-    // Send a Wagerr transaction.
-    sendTransaction: function () {
-      let that = this
-      this.getAccountAddress()
+    methods: {
 
-      // Retrieve the wallet UTXOs (unspent outputs)
-      wagerrRPC.client.listUnspent()
-        .then(function (resp) {
-          let UTXOAmount = 0
-          let utxos = []
+        ...Vuex.mapActions([
+            'getAccountAddress'
+        ]),
 
-          // Only use the UTXO we require to cover the tx amount.
-          for (var i = 0; i < resp.result.length; i++) {
-            UTXOAmount += resp.result[i].amount
-            utxos.push(resp.result[i])
+        // Handle the send transaction form submit and ensure all inputs are valid.
+        handleSubmit: function () {
+            this.$validator.validate().then(valid => {
+                if (!valid) {
+                    return;
+                }
 
-            if (UTXOAmount > that.amount) {
-              utxos = JSON.stringify(utxos)
-              break
-            }
-          }
+                // If the form is valid then encrypt the wallet.
+                this.sendTransaction();
+            })
+        },
 
-          // Ensure we have enough Wagerr to cover the TX.
-          if (UTXOAmount < that.amount) {
-            M.toast({ html: '<span class="toast__bold-font">Error &nbsp;</span> Not enough WGR to send transaction.', classes: 'wagerr-red-bg' })
-            return
-          }
+        // Send a Wagerr transaction.
+        sendTransaction: function () {
+            let that = this;
+            this.getAccountAddress();
 
-          let txFee = 0.0001
-          let json = '{"' + that.sendAddress + '":' + that.amount + ', "' + that.accountAddress + '":' + (UTXOAmount - txFee - that.amount) + '}'
-
-          // Create the raw send transaction.
-          wagerrRPC.client.createRawTransaction(utxos, json)
-            .then(function (resp) {
-              console.log('Created raw transaction ' + resp.result)
-              let rawTxHex = resp.result
-
-              // Sign the raw transaction.
-              wagerrRPC.client.signRawTransaction(rawTxHex)
+            // Retrieve the wallet UTXOs (unspent outputs)
+            wagerrRPC.client.listUnspent()
                 .then(function (resp) {
-                  console.log('Created signed transaction ' + resp.result.hex)
-                  let signedHex = resp.result.hex
+                    let UTXOAmount = 0;
+                    let utxos = [];
 
-                  // Send the signed tx to the Wagerr blockchain.
-                  wagerrRPC.client.sendRawTransaction(signedHex)
-                    .then(function (resp) {
-                      // Sent transaction succesfully.
-                      M.toast({ html: '<span class="toast__bold-font">Success &nbsp;</span> Transaction sent ' + resp.result, classes: 'green' })
+                    // Only use the UTXO we require to cover the tx amount.
+                    for (var i = 0; i < resp.result.length; i++) {
+                        UTXOAmount += resp.result[i].amount;
+                        utxos.push(resp.result[i]);
 
-                      // Clear the sent TX form data and any errors.
-                      that.clearForm()
-                    })
-                    .catch(function (err) {
-                      M.toast({html: err, classes: 'wagerr-red-bg'})
-                      console.log(err)
-                    })
+                        if (UTXOAmount > that.amount) {
+                            utxos = JSON.stringify(utxos);
+                            break
+                        }
+                    }
+
+                    // Ensure we have enough Wagerr to cover the TX.
+                    if (UTXOAmount < that.amount) {
+                        M.toast({ html: '<span class="toast__bold-font">Error &nbsp;</span> Not enough WGR to send transaction.', classes: 'wagerr-red-bg' });
+                        return
+                    }
+
+                    let txFee = 0.0001
+                    let json = '{"' + that.sendAddress + '":' + that.amount + ', "' + that.accountAddress + '":' + (UTXOAmount - txFee - that.amount) + '}';
+
+                    // Create the raw send transaction.
+                    wagerrRPC.client.createRawTransaction(utxos, json)
+                        .then(function (resp) {
+                            console.log('Created raw transaction ' + resp.result);
+                            let rawTxHex = resp.result;
+
+                            // Sign the raw transaction.
+                            wagerrRPC.client.signRawTransaction(rawTxHex)
+                                .then(function (resp) {
+                                    console.log('Created signed transaction ' + resp.result.hex);
+                                    let signedHex = resp.result.hex;
+
+                                    // Send the signed tx to the Wagerr blockchain.
+                                    wagerrRPC.client.sendRawTransaction(signedHex)
+                                        .then(function (resp) {
+                                            // Sent transaction succesfully.
+                                            M.toast({ html: '<span class="toast__bold-font">Success &nbsp;</span> Transaction sent ' + resp.result, classes: 'green' });
+
+                                        // Clear the sent TX form data and any errors.
+                                        that.clearForm()
+                                    })
+                                    .catch(function (err) {
+                                        M.toast({html: err, classes: 'wagerr-red-bg'});
+                                        console.log(err);
+                                    })
+                                })
+                                .catch(function (err) {
+                                    M.toast({html: err, classes: 'wagerr-red-bg'});
+                                    console.log(err);
+                                })
+                        })
+                        .catch(function (err) {
+                            M.toast({html: err, classes: 'wagerr-red-bg'});
+                            console.log(err);
+                        })
                 })
                 .catch(function (err) {
-                  M.toast({html: err, classes: 'wagerr-red-bg'})
-                  console.log(err)
+                    M.toast({html: err, classes: 'wagerr-red-bg'});
+                    console.log(err);
                 })
-            })
-            .catch(function (err) {
-              M.toast({html: err, classes: 'wagerr-red-bg'})
-              console.log(err)
-            })
-        })
-        .catch(function (err) {
-          M.toast({html: err, classes: 'wagerr-red-bg'})
-          console.log(err)
-        })
+        },
+
+        // Clear the form data and errors.
+        clearForm: function () {
+            this.sendAddress = '';
+            this.amount = '';
+            this.$validator.reset();
+        }
     },
 
-    // Clear the form data and errors.
-    clearForm: function () {
-      this.sendAddress = ''
-      this.amount = ''
-      this.$validator.reset()
-    }
-  },
+    data () {
+        return {
+            sendAddress: '',
+            amount: ''
+        }
+    },
 
-  data () {
-    return {
-      sendAddress: '',
-      amount: ''
-    }
-  },
+    mounted () {
+        // Initialise the Material JS so modals, drop down menus etc function.
+        M.AutoInit();
 
-  mounted () {
-    // Initialise the Material JS so modals, drop down menus etc function.
-    M.AutoInit()
-
-    // Reset the form validation after opening the modal
-    this.$validator.reset()
-  },
+        // Reset the form validation after opening the modal
+        this.$validator.reset();
+    },
 
 }
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+
+    .modal{
+        overflow-y: inherit;
+    }
 
 </style>
