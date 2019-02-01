@@ -1,20 +1,35 @@
 <h1 align="center">
     <br>
-    <a href=""><img src="https://www.cryptoninjas.net/wp-content/uploads/wagerr-cryptoninjas.png" alt="Wagerr" width="500"></a>
-    <br>
-    Wagerr Electron Wallet
+    <img src="https://cdn-images-1.medium.com/max/1600/1*FH7osLAHjsNKe7gscCrobQ.png" alt="Wagerr Logo" width="300">
     <br>
 </h1>
 
-[![Wagerr](https://img.shields.io/badge/Website-wagerr.com-eaa809.svg)](https://www.wagerr.com/)
-[![ContributorsWelcome](https://img.shields.io/badge/contributors-welcome-brightgreen.svg)](https://bitbucket.org/techsquadron1/wagerr_html5_wallet/src/master/)
-[![LICENSE](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+<h4 align="center" style="color: #B40101">
+    A modern cross platform HTML5 Wallet built with <a href="http://electron.atom.io" target="_blank">Electron</a>
+    & <a href="https://vuejs.org/" target="_blank">Vue JS</a>.
+<h4>
 
-Cross Platform HTML5 Wallet built with Electron & Vue JS.  This wallet is still in development so use at your own risk.
-
-Make sure you back up your Wagerr wallet.dat before running this wallet.
+<p align="center" style="font-size:50px">
+    <a href="https://www.wagerr.com/">
+        <img src="https://img.shields.io/badge/Website-wagerr.com-eaa809.svg">
+    </a>
+    <a href="https://bitbucket.org/techsquadron1/wagerr_html5_wallet/src/master/">
+        <img src="https://img.shields.io/badge/contributors-welcome-brightgreen.svg">
+    </a>
+    <a href="https://travis-ci.org/marty987/WagerrTS">
+        <img src="https://img.shields.io/travis/php-censor/php-censor/master.svg?label=TravisCI&style=flat-square">
+    </a>
+    <a href="">
+        <img src="https://img.shields.io/packagist/v/php-censor/php-censor.svg?label=Version&style=flat-square">
+    </a>
+    <a href="LICENSE">
+        <img src="https://img.shields.io/badge/license-MIT-green.svg">
+    </a>
+</p>
 
 ## Prerequisites
+
+Make sure you back up your Wagerr wallet.dat before running this wallet.
 
 You need the following prerequisites to be able to build and develop the project on your local machine.
 
