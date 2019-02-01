@@ -4,7 +4,7 @@
     <br>
 </h1>
 
-<h4 align="center" style="color: #B40101">
+<h4 align="center">
     A modern cross platform HTML5 Wallet built with <a href="http://electron.atom.io" target="_blank">Electron</a>
     & <a href="https://vuejs.org/" target="_blank">Vue JS</a>.
 <h4>
@@ -22,7 +22,7 @@
     <a href="">
         <img src="https://img.shields.io/packagist/v/php-censor/php-censor.svg?label=Version&style=flat-square">
     </a>
-    <a href="LICENSE">
+    <a href="https://github.com/TechSquad111/WagerrHTML5Wallet/LICENSE.md">
         <img src="https://img.shields.io/badge/license-MIT-green.svg">
     </a>
 </p>
