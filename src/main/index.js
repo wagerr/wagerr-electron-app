@@ -1,7 +1,7 @@
 'use strict';
 
 // Import required modules.
-import isDev from 'electron-is-dev';
+// import isDev from 'electron-is-dev';
 const {ipcMain} = require('electron');
 import Daemon from  './blockchain/daemon';
 import * as blockchain from './blockchain/blockchain';
@@ -11,11 +11,6 @@ let path = require('path');
 
 // Main app URL.
 const winURL = process.env.NODE_ENV === 'development' ? `http://localhost:9080` : `file://${__dirname}/index.html`;
-
-// Turn off warnings on build.
-if ( !isDev ) {
-    process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
-}
 
 // Set `__static` path to static files in production
 if (process.env.NODE_ENV !== 'development') {
