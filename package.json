@@ -88,7 +88,6 @@
   "dependencies": {
     "childprocess": "^2.0.2",
     "decompress": "^4.2.0",
-    "element-ui": "^2.6.1",
     "find-process": "^1.2.1",
     "fs": "0.0.1-security",
     "fs-path": "0.0.24",
