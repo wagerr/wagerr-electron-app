@@ -5,7 +5,7 @@
 
         <p>Looks like a new wallet, no betting transactions to list!</p>
 
-        <p>Jump to the betting tab and start placing bets.</p>
+        <p>Jump to the <router-link class="router-link" tag="a" to="/betting">betting tab</router-link> and start placing bets.</p>
 
         <i class="fas fa-dice"></i>
 
