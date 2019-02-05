@@ -20,7 +20,7 @@
 
                         <div class="text-center">
 
-                            <qrcode-vue :value="accountAddress" :size="185" background="#2b2c2d" foreground="#B40101" level="H"></qrcode-vue>
+                            <qrcode-vue :value="accountAddress" :size="185" background="#FFFFFF" foreground="#000000" level="H"></qrcode-vue>
 
                         </div>
 
