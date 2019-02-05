@@ -1,4 +1,5 @@
 import moment from 'moment'
+import * as blockchain from '../../../main/blockchain/blockchain';
 
 const state = function () {
 
@@ -9,7 +10,7 @@ const state = function () {
         berkeleyDBv: 'Berkeley DB 4.8.30: (April  9, 2010)',
         buildDate: moment('2018-09-27T00:00:00').format('MMM Do YYYY, h:mm:ss a'),
         startUpTime: moment().format('MMM Do YYYY, h:mm:ss a'),
-        dataDir: '~/.wagerr',
+        dataDir: blockchain.getWagerrDataPath(),
         // Other
         initWalletText: 'Initialising Wagerr Wallet...'
     }
