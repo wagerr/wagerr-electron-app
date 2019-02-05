@@ -41,6 +41,10 @@ body {
   background-color: $dark_grey;
 }
 
+a.wallet-action {
+  width: 120px;
+}
+
 .second-nav ul li button:hover {
   background-color: $wagerr_dark_red;
 }

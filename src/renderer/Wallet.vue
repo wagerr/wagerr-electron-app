@@ -20,9 +20,9 @@
 
             <br>
 
-            <a class="waves-effect waves-red btn-large modal-trigger wagerr-red-bg" data-target="send-tx-modal">Send</a>
+            <a class="waves-effect waves-red wallet-action btn-large modal-trigger wagerr-red-bg" data-target="send-tx-modal">Send</a>
 
-            <a class="waves-effect waves-red btn-large modal-trigger wagerr-red-bg" @click="this.getAccountAddress" data-target="receive-tx-modal">Receive</a>
+            <a class="waves-effect waves-red wallet-action btn-large modal-trigger wagerr-red-bg" @click="this.getAccountAddress" data-target="receive-tx-modal">Receive</a>
 
             <br><br>
 
