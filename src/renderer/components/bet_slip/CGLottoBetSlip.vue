@@ -54,8 +54,6 @@
 
                 <button class="btn waves-effect pulse waves-effect waves-light" @click="placeCGLottoBet">Enter Lotto ({{ entryFee }})</button>
 
-                <div class="clearfix"></div>
-
             </div>
 
         </div>
@@ -112,6 +110,11 @@
                         console.error(err);
                     })
             }
+        },
+
+        mounted () {
+            // Initialise the Material JS so modals, drop down menus etc function.
+            M.AutoInit();
         },
 
     }

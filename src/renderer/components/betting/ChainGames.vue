@@ -6,7 +6,14 @@
 
             <div class="col s6">
 
-                <h5>Active Lotto Events <i class="icon-license2 pull-right"></i></h5>
+                <h5>
+                    Active Lotto Events
+
+                    <i class="far fa-question-circle pull-right modal-trigger" data-target="lotto-info"></i>
+
+                    <CGLottoInfo></CGLottoInfo>
+
+                </h5>
 
                 <div v-if="loadingCGEvent">
 
@@ -196,12 +203,13 @@
 <script>
 
     import Vuex from 'vuex'
-    import CGLottoBetSlip from '@/components/bet_slip/CGLottoBetSlip'
-    import CGLottoBetTransactionList from '@/components/transactions/CGLottoBetTransactionList'
+    import CGLottoBetSlip from '@/components/bet_slip/CGLottoBetSlip';
+    import CGLottoBetTransactionList from '@/components/transactions/CGLottoBetTransactionList';
+    import CGLottoInfo from '@/components/modals/info_modals/CGLottoInfo';
 
     export default {
         name: 'CGLottoBets',
-        components: { CGLottoBetTransactionList, CGLottoBetSlip },
+        components: { CGLottoBetTransactionList, CGLottoBetSlip, CGLottoInfo },
 
         computed: {
             ...Vuex.mapGetters([
@@ -252,6 +260,11 @@
     .table-container{
         width: 100%;
         font-size: 14px;
+    }
+
+    .fa-question-circle{
+        color: $wagerr_red;
+        cursor: pointer;
     }
 
     /** Block spinner styles **/
