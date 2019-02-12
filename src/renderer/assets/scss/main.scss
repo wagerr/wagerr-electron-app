@@ -10,6 +10,7 @@ body {
 }
 
 #app{
+
 }
 
 .wrapper{
@@ -57,12 +58,127 @@ a.wallet-action {
   background-color: $dark_grey;
 }
 
+
 .fade-enter-active,
 .fade-leave-active {
   transition-duration: 0.3s;
   transition-property: opacity;
   transition-timing-function: ease;
 }
+
+.inset-top {
+  width: 65%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.inset-top div {
+  background-color: #1D1D1E	;
+  height: 18px;
+  -moz-border-radius: 10px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.shadow {
+  -moz-box-shadow:    inset 0 0 10px rgba(0,0,0,0.12);
+  -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.12);
+  box-shadow:         inset 0 0 10px rgba(0,0,0,0.12);
+}
+
+.bg-gradient {
+  background: -webkit-linear-gradient(to left bottom,#2b2c2d, #191919); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(to left bottom,#2b2c2d, #191919); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(to left bottom,#2b2c2d, #191919); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to left bottom,#2b2c2d, #191919); /* Standard syntax */
+}
+
+.inner-circle{
+  display:inline-block;   /* add this */
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  border-style: solid;
+  border-width: 3px;
+  border-color: $wagerr_dark_red;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.inner-circle:hover{
+  border-color: $wagerr_red;
+}
+
+.circle-icon{
+  float: left;
+  width: 63px;
+  margin: 18px;
+}
+
+.circle-icon:hover{
+  cursor: pointer;
+  transform: scale(1.05);
+}
+
+.circle-icon-link{
+  font-size: 1.5em;
+  color: $wagerr_red;
+}
+
+.circle-icon-link i.far{
+  font-size: 1.2em;
+  border-radius: 60px;
+  padding: 17px;
+  margin-top: -2px;
+  color: grey;
+}
+
+.circle-icon-link i.fas{
+  font-size: 1.2em;
+  border-radius: 60px;
+  padding: 17px;
+  color: grey;
+}
+
+.circle-icon-link i.far:hover, .circle-icon-link i.fas:hover{
+  color: white;
+}
+
+
+/** Main table styles **/
+.main-table {
+  border-collapse: separate;
+  border: solid black 1px;
+  border-radius: 6px;
+  -moz-border-radius: 6px;
+}
+
+.main-table thead {
+  color: $wagerr_red;
+  background-color: $dark_grey;
+}
+
+.main-table  td, .main-table th {
+  padding: 15px;
+  border-radius: 0;
+}
+
+.main-table tr:nth-child(odd) {
+  background-color: #eee;
+}
+
+.main-table th {
+  font-size: 1.2em;
+  color: $wagerr_red;
+  background-color: $dark_grey;
+  border-top: none;
+}
+
+.main-table  td:first-child, .main-table th:first-child {
+  border-left: none;
+}
+/** End main table **/
+
+
 
 .fade-enter,
 .fade-leave-active {
@@ -118,166 +234,12 @@ a.wallet-action {
   padding: 0px;
 }
 
-#dashboard .bet-types ul {
-  margin:0px;
-  padding:0px;
+body{
+  overflow: inherit;
 }
 
-#dashboard .bet-types ul li {
-  padding:0px;
-  list-style:none;
-  display:block;
-  float:left;
-  width: 32%;
-  margin-left:2%;
-}
+.modal-open {overflow-y: auto}
 
-#dashboard .bet-types ul li:first-child{
-  margin-left:0px;
-}
-
-#dashboard .bet-types ul li button {
-  background-color:#e1e1e1;
-  border:none;
-  color:#878787;
-  font-family: 'open_sansextrabold';
-  font-weight:normal;
-  text-transform:uppercase;
-  cursor:pointer;
-  width:100%;
-  height:50px;
-  font-size:18px;
-}
-
-#dashboard .bet-types ul li button.selected {
-  color: $wagerr_red;
-}
-
-#dashboard .bets-50 {
-  margin-top:12px;
-}
-
-#dashboard .bets-50 .block {
-  width:49%;
-  margin:0px;
-  padding:0px;
-  margin-left:1%;
-  float:left;
-  list-style:none;
-  padding:0px;
-}
-
-#dashboard .bets-50 .block:first-child {
-  margin-right:1%;
-  margin-left:0%;
-}
-
-#dashboard .bets-50 .block h2 {
-  margin:0px 0px 12px 0;
-  padding:0px;
-  text-transform: uppercase;
-  color:#505151;
-  font-size:16px;
-  font-family: 'open_sanslight';
-  font-weight:normal;
-  background:#e1e1e1;
-  height:40px;
-  line-height:40px;
-  padding:0 12px;
-  cursor:default;
-}
-
-#dashboard .bets-50 .block h2 .pull-right {
-  color: $wagerr_red;
-  font-size:20px;
-  margin-top:10px;
-}
-
-#dashboard .bets-50 .block table {
-  border:solid 1px #e1e1e1;
-  border-bottom:none;
-  margin-bottom:12px;
-}
-
-#dashboard .bets-50 .block table tr td {
-  color:#2b2c2d;
-  font-size:14px;
-  padding:12px 6px;
-  border-bottom:solid 1px #e1e1e1;
-  cursor:pointer;
-}
-
-#dashboard .bets-50 .block table tr:hover td {
-  background-color:#e1e1e1;
-}
-
-#wallet .dashboard-balance {
-  font-weight:bold;
-  font-size:34px;
-  text-align:center;
-}
-
-#wallet .dashboard-balance .amount {
-  color:#383838;
-  padding:15px 80px;
-  background-color:#dbdbdb;
-  text-align:center;
-  display:inline-block;
-  letter-spacing:5px;
-}
-
-#wallet .dashboard-staking {
-  text-align:center;
-  color:#111111;
-  font-size:20px;
-  margin:20px 0px;
-}
-
-#wallet .btn-send {
-  width:133px;
-  height:33px;
-  color:#fff;
-  background-color: $wagerr_red;
-  border:none;
-  text-transform:uppercase;
-  font-family: 'open_sansbold';
-  font-weight:normal;
-  font-size:14px;
-  cursor:pointer;
-  margin:0px 10px;
-  padding:0px;
-}
-
-#wallet .btn-receive {
-  width:133px;
-  height:33px;
-  color:#fff;
-  background-color: $wagerr_red;
-  border:none;
-  text-transform:uppercase;
-  font-family: 'open_sansbold';
-  font-weight:normal;
-  font-size:14px;
-  cursor:pointer;
-  margin:0px 10px;
-  padding:0px;
-}
-
-#wallet-transactions {
-  width:98%;
-  margin:40px auto 0px;
-  text-align:left;
-  color:#111111;
-}
-
-#wallet-transactions tbody tr td {
-  font-size:13px;
-  padding:8px 4px;
-}
-
-#wallet-transactions tbody tr.bg td {
-  background-color:#cacaca;
-}
 
 #placebet .bet-types ul {
   margin:0px;

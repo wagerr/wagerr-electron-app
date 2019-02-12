@@ -1,6 +1,6 @@
 <template>
 
-    <div id="app">
+    <div id="app" class="bg-gradient">
 
         <SplashScreen v-if="!walletLoaded"></SplashScreen>
 
@@ -48,6 +48,10 @@
 </script>
 
 <style lang="scss" scoped>
+
+    #app{
+        height: 100vh;
+    }
 
     .nav{
         height: 65px;
