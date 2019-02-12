@@ -5,7 +5,6 @@ import Router from 'vue-router';
 import Betting from '@/Betting';
 import Wallet from '@/Wallet';
 import Bets from '@/Bets';
-import Address from '@/Address';
 import Tools from '@/Tools';
 // Tool Components
 import Information from '@/components/tools/Information';
@@ -43,7 +42,6 @@ export default new Router({
             ]
         },
         { path: '/bets', component: Bets },
-        { path: '/address', component: Address },
         { path: '/tools',
             component: Tools,
             children: [
