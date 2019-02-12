@@ -13,7 +13,7 @@
     <a href="https://www.wagerr.com/">
         <img src="https://img.shields.io/badge/Website-wagerr.com-eaa809.svg">
     </a>
-    <a href="https://bitbucket.org/techsquadron1/wagerr_html5_wallet/src/master/">
+    <a href="CONTRIBUTING.md">
         <img src="https://img.shields.io/badge/contributors-welcome-brightgreen.svg">
     </a>
     <a href="https://travis-ci.org/marty987/WagerrTS">
@@ -91,8 +91,8 @@ _After running the build command the executable will be located in the /build fo
 
 ## Contributing
 Contributing
-Please read [Contributing.md](Contributing.md) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details

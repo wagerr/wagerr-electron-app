@@ -261,7 +261,6 @@
         margin: auto;
         width: 50%;
         color: white;
-        background-color: $dark_grey;
         font-family: 'Raleway', cursive;
     }
 

@@ -2,35 +2,91 @@
 
     <!-- Receive Transaction Modal -->
 
-    <div id="receive-tx-modal" class="modal">
+    <div id="receive-tx-modal" class="modal bg-gradient">
 
-        <form>
+        <div class="modal-content">
 
-            <div class="modal-content">
+            <div class="row">
 
-                <div class="row">
+                <div class="inset-top">
 
-                    <div class="modal-header">
+                    <div class="shadow"></div>
 
-                        <h4>Request Payment</h4>
+                </div>
 
-                    </div>
+                <div class="modal-text">
 
-                    <div class="modal-text">
+                    <div class="card barcode text-center z-depth-3">
 
-                        <div class="text-center">
-
-                            <qrcode-vue :value="accountAddress" :size="185" background="#FFFFFF" foreground="#000000" level="H"></qrcode-vue>
-
-                        </div>
+                        <qrcode-vue :value="accountAddress" :size="145" background="#FFFFFF" foreground="#000000" level="H"></qrcode-vue>
 
                     </div>
 
-                    <div class="input-field col s12 text-center">
+                </div>
 
-                        <h6 class="wagerr-red">WAGERR RECEIVE ADDRESS:</h6>
+                <div class="col s12 text-center">
 
-                        <h5>{{ accountAddress }}</h5>
+                    <h5 class="wagerr-red address-label">YOUR WAGERR ADDRESS</h5>
+
+                    <h5 class="address">{{ accountAddress }}</h5>
+
+                </div>
+
+                <div class="options">
+
+                    <div class="circle-icon">
+
+                        <span class="inner-circle">
+
+                            <a v-clipboard="accountAddress" @click="copiedAlert()" class="circle-icon-link">
+
+                                <i class="far fa-copy"></i>
+
+                            </a>
+
+                        </span>
+
+                    </div>
+
+                    <div class="circle-icon">
+
+                        <span class="inner-circle">
+
+                            <a class="circle-icon-link">
+
+                                <i class="fas fa-print"></i>
+
+                            </a>
+
+                        </span>
+
+                    </div>
+
+                    <div class="circle-icon">
+
+                        <span class="inner-circle">
+
+                            <a class="circle-icon-link">
+
+                                <i class="far fa-envelope"></i>
+
+                            </a>
+
+                        </span>
+
+                    </div>
+
+                    <div class="circle-icon">
+
+                        <span class="inner-circle">
+
+                            <a class="circle-icon-link">
+
+                                <i class="fas fa-link"></i>
+
+                            </a>
+
+                        </span>
 
                     </div>
 
@@ -38,17 +94,7 @@
 
             </div>
 
-            <div class="modal-footer">
-
-                <!--<button class="waves-effect waves-light btn green pull-left">Save QR Image</button>-->
-
-                <a href="#!" class="modal-close waves-effect waves-light btn wagerr-red-bg">Close</a>
-
-                <a v-clipboard="accountAddress" @click="copiedAlert()" class="waves-effect waves-light btn green">Copy Address</a>
-
-            </div>
-
-        </form>
+        </div>
 
     </div>
 
@@ -94,13 +140,45 @@
 
 <style lang="scss" scoped>
 
+    @import '../../assets/scss/_variables';
+
     .modal{
         overflow-y: inherit;
     }
 
-    .modal-text{
-        padding-top: 10px;
+    .modal .modal-content{
+        padding: 0;
     }
 
+    .modal-text{
+        margin-top: 30px;
+    }
+
+    .modal-footer{
+        background-color: $dark_grey;
+    }
+
+    .barcode{
+        width: 170px;
+        padding: 10px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .address-label{
+        color: white;
+        font-size: 1.1em;
+        line-height: 20px;
+    }
+
+    .address{
+        color: $wagerr_red;
+    }
+
+    .options{
+        width: 397px;
+        margin-left: auto;
+        margin-right: auto;
+    }
 
 </style>

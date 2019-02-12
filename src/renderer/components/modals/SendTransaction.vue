@@ -2,7 +2,7 @@
 
     <!-- Send Transaction Modal -->
 
-    <div id="send-tx-modal" class="modal">
+    <div id="send-tx-modal" class="modal bg-gradient">
 
         <form @submit.prevent="handleSubmit">
 
@@ -10,19 +10,21 @@
 
                 <div class="row">
 
-                    <div class="modal-header">
+                    <div class="inset-top">
 
-                        <h4>Send Transaction</h4>
+                        <div class="shadow"></div>
 
                     </div>
 
-                    <div class="modal-text">
+                    <div class="modal-text text-center">
 
                         <p class="modal-font">Enter the address and amount to send WGR.</p>
 
                     </div>
 
                     <div class="input-field col s12">
+
+                        <i class="far fa-address-card prefix"></i>
 
                         <input v-model="sendAddress" v-validate="'required'" id="send-address" name="send-address" type="text" autofocus>
 
@@ -34,6 +36,20 @@
 
                     <div class="input-field col s12">
 
+                        <i class="fas fa-tags prefix"></i>
+
+                        <input v-model="label" v-validate="" id="label" name="label" type="text">
+
+                        <label for="label">Label</label>
+
+                        <span v-if="errors.has('label')" class="form-error">{{ errors.first('label') }}</span>
+
+                    </div>
+
+                    <div class="input-field col s12">
+
+                        <i class="fas fa-money-bill prefix"></i>
+
                         <input v-model="amount" v-validate="'required'" id="amount" name="amount" type="number">
 
                         <label for="amount">Amount</label>
@@ -44,13 +60,13 @@
 
                 </div>
 
-            </div>
+                <div class="options">
 
-            <div class="modal-footer">
+                    <button class="send btn waves-effect waves-light z-depth-2">Send</button>
 
-                <a href="#!" @click="clearForm" class="modal-close waves-effect waves-light btn wagerr-red-bg">Close</a>
+                </div>
 
-                <button type="submit" class="waves-effect waves-light btn green">Send</button>
+                <div class="clearfix"></div>
 
             </div>
 
@@ -69,9 +85,9 @@ export default {
     name: 'SendTransaction',
 
     computed: {
-    ...Vuex.mapGetters([
-        'accountAddress',
-    ])
+        ...Vuex.mapGetters([
+            'accountAddress',
+        ])
     },
 
     methods: {
@@ -169,6 +185,7 @@ export default {
         clearForm: function () {
             this.sendAddress = '';
             this.amount = '';
+            this.label = '';
             this.$validator.reset();
         }
     },
@@ -176,7 +193,9 @@ export default {
     data () {
         return {
             sendAddress: '',
-            amount: ''
+            label: '',
+            amount: '',
+            showModal: false
         }
     },
 
@@ -187,15 +206,75 @@ export default {
         // Reset the form validation after opening the modal
         this.$validator.reset();
     },
-
 }
 
 </script>
 
 <style lang="scss" scoped>
 
+    @import '../../assets/scss/_variables';
+
     .modal{
         overflow-y: inherit;
+    }
+
+    .input-field span {
+        margin-left: 45px;
+    }
+
+    .input-field input{
+        color: #fff;
+    }
+
+    .input-field .prefix{
+        font-size: 20px;
+        margin-top: 10px;
+        color: $wagerr_dark_red;
+    }
+
+    .input-field label {
+        color: white;
+        font-size: 1.1em;
+        font-weight: bold;
+    }
+
+    .input-field input[type=text]:focus + label, .input-field input[type=number]:focus + label {
+        color: $wagerr_dark_red;
+    }
+
+    input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):focus:not([readonly]), input[type=password]:not(.browser-default):focus:not([readonly]), input[type=email]:not(.browser-default):focus:not([readonly]), input[type=url]:not(.browser-default):focus:not([readonly]), input[type=time]:not(.browser-default):focus:not([readonly]), input[type=date]:not(.browser-default):focus:not([readonly]), input[type=datetime]:not(.browser-default):focus:not([readonly]), input[type=datetime-local]:not(.browser-default):focus:not([readonly]), input[type=tel]:not(.browser-default):focus:not([readonly]), input[type=number]:not(.browser-default):focus:not([readonly]), input[type=search]:not(.browser-default):focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
+        color: grey;
+        border-bottom: 1px solid $wagerr_red;
+        -webkit-box-shadow: 0 1px 0 0 $wagerr_red;
+        box-shadow: 0 1px 0 0 $wagerr_red;
+    }
+
+    .modal-content{
+        padding: 0;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .modal-font{
+        font-size: 1.3em;
+        color: white;
+    }
+
+    .options{
+        width: 150px;
+        height: 40px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 20px;
+    }
+
+    .options button{
+        width: 150px;
+        background-color: $wagerr_red;
+    }
+
+    .options button:active{
+        width: 150px;
     }
 
 </style>
