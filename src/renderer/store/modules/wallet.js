@@ -1,10 +1,14 @@
-import wagerrRPC from '@/services/api/wagerrRPC'
+import wagerrRPC from '@/services/api/wagerrRPC';
+import walletRPC from '@/services/api/wallet_rpc';
 
 const state = function () {
 
     return {
         loaded: false,
         balance: 0,
+        immature: 0,
+        pending: 0,
+        zerocoin: 0,
         unlocked: false,
         synced: false,
         initWalletText: 'Initialising Wagerr Wallet...'
@@ -16,6 +20,18 @@ const getters = {
 
     balance: (state) => {
         return state.balance;
+    },
+
+    immature: (state) => {
+        return state.immature;
+    },
+
+    pending: (state) => {
+        return state.pending;
+    },
+
+    zerocoin: (state) => {
+        return state.zerocoin;
     },
 
     walletLoaded: (state) => {
@@ -58,7 +74,6 @@ const actions = {
     walletBalance ({commit}) {
         wagerrRPC.client.getBalance()
             .then(function (resp) {
-                //console.log("Wallet Balance: " + resp.result);
                 commit('setBalance', resp.result);
             })
             .catch(function (err) {
@@ -66,6 +81,22 @@ const actions = {
                 console.error(err);
             })
     },
+
+    walletExtendedBalance ({commit}) {
+        wagerrRPC.client.getExtendedBalance()
+            .then(function (resp) {
+                commit('setBalance', resp.result.balance);
+                commit('setImmature', resp.result.balance_immature);
+                commit('setPending', resp.result.balance_unconfirmed);
+                commit('setZerocoin', resp.result.zerocoin_balance);
+
+            })
+            .catch(function (err) {
+                // TODO - Add better error handling.
+                console.error(err);
+            })
+    },
+
 
     unlockWallet ({commit}, password) {
         return new Promise((resolve, reject) => {
@@ -113,6 +144,18 @@ const mutations = {
 
     setBalance (state, balance) {
         state.balance = balance;
+    },
+
+    setImmature (state, immature) {
+        state.immature = immature;
+    },
+
+    setPending (state, pending) {
+        state.pending = pending;
+    },
+
+    setZerocoin (state, zerocoin) {
+        state.zerocoin = zerocoin;
     },
 
     setWalletLoaded (state) {
