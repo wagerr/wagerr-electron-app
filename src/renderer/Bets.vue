@@ -16,7 +16,7 @@
 
 <script>
 
-    import BetTransactionList from '@/components/transactions/BetTransactionList';
+    import BetTransactionList from '@/components/bets/components/BetTransactionList';
 
     export default {
         name: 'Bets',

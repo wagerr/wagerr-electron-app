@@ -20,8 +20,8 @@
 
 <script>
 
-    import BetSlip from '@/components/bet_slip/BetSlip'
-    import EventList from '@/components/events/EventList'
+    import BetSlip from '@/components/bet_slip/BetSlip';
+    import EventList from '@/components/betting/components/EventList';
 
     export default {
         name: 'Peerless',

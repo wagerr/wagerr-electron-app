@@ -39,8 +39,8 @@
 
 <script>
 
-    import bettingNav from './components/betting/bettingNav'
-    import SideNavBar from "./components/SideNavBar";
+    import bettingNav from './components/betting/bettingNav';
+    import SideNavBar from './components/SideNavBar';
 
     export default {
         name: 'Betting',

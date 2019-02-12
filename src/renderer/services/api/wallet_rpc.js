@@ -1,0 +1,31 @@
+import wagerrRPC from '@/services/api/wagerrRPC';
+
+export default {
+
+    getBalance () {
+        return new Promise((resolve, reject) => {
+            wagerrRPC.client.getBalance()
+                .then(function (resp) {
+                    resolve(resp.result);
+                })
+                .catch(function (err) {
+                    console.error(err);
+                    reject(err);
+                })
+        })
+    },
+
+    getExtendedBalance () {
+        return new Promise((resolve, reject) => {
+            wagerrRPC.client.getExtendedBalance()
+                .then(function (resp) {
+                    resolve(resp);
+                })
+                .catch(function (err) {
+                    console.error(err);
+                    reject(err);
+                })
+        })
+    },
+
+}

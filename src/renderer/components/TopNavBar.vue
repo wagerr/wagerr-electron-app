@@ -1,7 +1,7 @@
 <!-- Main Wagerr Wallet Nav Bar -->
 <template>
 
-    <header>
+    <header class="z-depth-2">
 
         <div class="wagerr-logo"></div>
 

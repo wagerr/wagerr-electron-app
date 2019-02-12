@@ -28,6 +28,7 @@ const actions = {
         commit('setEventsFilter', eventsFilter);
     },
 
+    // Todo - marty: remove code dupliation!
     listEvents ({commit, state}, filter) {
         return new Promise((resolve, reject) => {
             if (filter) {
