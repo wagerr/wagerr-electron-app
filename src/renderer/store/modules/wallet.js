@@ -97,7 +97,6 @@ const actions = {
             })
     },
 
-
     unlockWallet ({commit}, password) {
         return new Promise((resolve, reject) => {
             wagerrRPC.client.walletPassphrase(password, 1000)

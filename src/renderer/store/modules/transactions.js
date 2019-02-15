@@ -1,10 +1,12 @@
 import wagerrRPC from '@/services/api/wagerrRPC'
+import walletRPC from "../../services/api/wallet_rpc";
 
 const state = function () {
 
     return {
         accountAddress: '',
         wgrTransactionList: [],
+        wgrTransactionRecords: [],
         plBetTransactionList: [],
         cgBetTransactionList: [],
     }
@@ -19,6 +21,10 @@ const getters = {
 
     wgrTransactionList: (state) => {
         return state.wgrTransactionList;
+    },
+
+    wgrTransactionRecords: (state) => {
+        return state.wgrTransactionRecords;
     },
 
     plBetTransactionList: (state) => {
@@ -50,6 +56,29 @@ const actions = {
         wagerrRPC.client.listTransactions('*', length)
             .then(function (resp) {
                 commit('setWGRTransactionList', resp.result.reverse());
+            })
+            .catch(function (err) {
+                // TODO Handle error correctly.
+                console.error(err);
+            })
+    },
+
+    getWGRTransactionRecords ({commit}, length) {
+         wagerrRPC.client.listTransactionRecords('*', length)
+            .then(async function (resp) {
+                let txRecords     = resp.result.reverse();
+                let updatedTxList = [];
+
+                // Get the extra tx details for each tx record.
+                for (let i = 0; i < txRecords.length; i++) {
+                    let transactionRec = txRecords[i];
+                    let transaction    = await walletRPC.getTransaction(transactionRec.transactionid);
+                    let merged         = Object.assign({}, transactionRec, transaction);
+
+                    updatedTxList.push(merged)
+                }
+
+                commit('setWGRTransactionRecords', updatedTxList);
             })
             .catch(function (err) {
                 // TODO Handle error correctly.
@@ -89,6 +118,10 @@ const mutations = {
 
     setWGRTransactionList (state, txList) {
         state.wgrTransactionList = txList;
+    },
+
+    setWGRTransactionRecords (state, txList) {
+        state.wgrTransactionRecords = txList;
     },
 
     setPLBetTransactionList (state, txList) {

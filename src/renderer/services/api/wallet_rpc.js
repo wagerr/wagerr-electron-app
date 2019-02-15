@@ -28,4 +28,17 @@ export default {
         })
     },
 
+    getTransaction (tx_id) {
+        return new Promise((resolve, reject) => {
+            wagerrRPC.client.getTransaction(tx_id)
+                .then(function (resp) {
+                    resolve(resp.result);
+                })
+                .catch(function (err) {
+                    console.error(err);
+                    reject(err);
+                })
+        })
+    }
+
 }
