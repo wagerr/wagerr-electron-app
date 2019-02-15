@@ -67,8 +67,8 @@
 <script>
 
     import Vuex from 'vuex';
-    import SendTransaction from '@/components/modals/SendTransaction';
-    import ReceiveTransaction from '@/components/modals/ReceiveTransaction';
+    import SendTransaction from '@/components/wallet/SendTransaction';
+    import ReceiveTransaction from '@/components/wallet/ReceiveTransaction';
     import TransactionList from '@/components/wallet/TransactionList';
 
     export default {

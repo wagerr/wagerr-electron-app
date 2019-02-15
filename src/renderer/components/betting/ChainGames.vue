@@ -205,7 +205,7 @@
     import Vuex from 'vuex'
     import CGLottoBetSlip from '@/components/bet_slip/CGLottoBetSlip';
     import CGLottoBetTransactionList from '@/components/betting/components/CGLottoBetTransactionList';
-    import CGLottoInfo from '@/components/modals/info_modals/CGLottoInfo';
+    import CGLottoInfo from '@/components/betting/components/CGLottoInfo';
 
     export default {
         name: 'CGLottoBets',

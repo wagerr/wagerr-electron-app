@@ -157,13 +157,13 @@ export default {
                                             // Sent transaction succesfully.
                                             M.toast({ html: '<span class="toast__bold-font">Success &nbsp;</span> Transaction sent ' + resp.result, classes: 'green' });
 
-                                        // Clear the sent TX form data and any errors.
-                                        that.clearForm()
-                                    })
-                                    .catch(function (err) {
-                                        M.toast({html: err, classes: 'wagerr-red-bg'});
-                                        console.log(err);
-                                    })
+                                            // Clear the sent TX form data and any errors.
+                                            that.clearForm()
+                                        })
+                                        .catch(function (err) {
+                                            M.toast({html: err, classes: 'wagerr-red-bg'});
+                                            console.log(err);
+                                        })
                                 })
                                 .catch(function (err) {
                                     M.toast({html: err, classes: 'wagerr-red-bg'});
