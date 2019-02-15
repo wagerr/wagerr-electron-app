@@ -6,7 +6,7 @@ html{
 }
 
 body {
-  padding:0px;
+  padding:0;
 }
 
 #app{
@@ -14,811 +14,414 @@ body {
 }
 
 .wrapper{
-  background-color: #fff;
+    background-color: #fff;
 }
 
 .second-nav li {
-  list-style: none;
-  display: block;
+    list-style: none;
+    display: block;
 }
 
 .second-nav ul li button {
-  background-color: $wagerr_red;
-  border: none;
-  color: white;
-  font-weight: normal;
-  text-transform: uppercase;
-  cursor: pointer;
-  width: 100%;
-  height: 50px;
-  font-size: 18px;
+    background-color: $wagerr_red;
+    border: none;
+    color: white;
+    font-weight: normal;
+    text-transform: uppercase;
+    cursor: pointer;
+    width: 100%;
+    height: 50px;
+    font-size: 18px;
 }
 
 .router-link {
-  color: $wagerr_dark_red;
+    color: $wagerr_dark_red;
 }
 
 .btn:active{
-  background-color: $dark_grey;
+    background-color: $dark_grey;
 }
 
 a.wallet-action {
-  width: 120px;
+    width: 120px;
 }
 
 .second-nav ul li button:hover {
-  background-color: $wagerr_dark_red;
+    background-color: $wagerr_dark_red;
 }
 
 .second-nav ul li button:active {
-  background-color: $dark_grey;
+    background-color: $dark_grey;
 }
 
 .second-nav ul li button:visited {
-  background-color: $dark_grey;
+    background-color: $dark_grey;
 }
-
 
 .fade-enter-active,
 .fade-leave-active {
-  transition-duration: 0.3s;
-  transition-property: opacity;
-  transition-timing-function: ease;
+    transition-duration: 0.3s;
+    transition-property: opacity;
+    transition-timing-function: ease;
 }
 
 .inset-top {
-  width: 65%;
-  margin-left: auto;
-  margin-right: auto;
+    width: 65%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .inset-top div {
-  background-color: #1D1D1E	;
-  height: 18px;
-  -moz-border-radius: 10px;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+    background-color: #1D1D1E	;
+    height: 18px;
+    -moz-border-radius: 10px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
 }
 
 .shadow {
-  -moz-box-shadow:    inset 0 0 10px rgba(0,0,0,0.12);
-  -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.12);
-  box-shadow:         inset 0 0 10px rgba(0,0,0,0.12);
+    -moz-box-shadow:    inset 0 0 10px rgba(0,0,0,0.12);
+    -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.12);
+    box-shadow:         inset 0 0 10px rgba(0,0,0,0.12);
 }
 
 .bg-gradient {
-  background: -webkit-linear-gradient(to left bottom,#2b2c2d, #191919); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(to left bottom,#2b2c2d, #191919); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(to left bottom,#2b2c2d, #191919); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(to left bottom,#2b2c2d, #191919); /* Standard syntax */
+    background: -webkit-linear-gradient(to left bottom,#2b2c2d, #191919); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(to left bottom,#2b2c2d, #191919); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(to left bottom,#2b2c2d, #191919); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to left bottom,#2b2c2d, #191919); /* Standard syntax */
 }
 
 .inner-circle{
-  display:inline-block;   /* add this */
-  width: 65px;
-  height: 65px;
-  border-radius: 50%;
-  border-style: solid;
-  border-width: 3px;
-  border-color: $wagerr_dark_red;
-  background-color: rgba(0, 0, 0, 0);
+    display:inline-block;   /* add this */
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    border-style: solid;
+    border-width: 3px;
+    border-color: $wagerr_dark_red;
+    background-color: rgba(0, 0, 0, 0);
 }
 
 .inner-circle:hover{
-  border-color: $wagerr_red;
+    border-color: $wagerr_red;
 }
 
 .circle-icon{
-  float: left;
-  width: 63px;
-  margin: 18px;
+    float: left;
+    width: 63px;
+    margin: 18px;
 }
 
 .circle-icon:hover{
-  cursor: pointer;
-  transform: scale(1.05);
+    cursor: pointer;
+    transform: scale(1.05);
 }
 
 .circle-icon-link{
-  font-size: 1.5em;
-  color: $wagerr_red;
+    font-size: 1.5em;
+    color: $wagerr_red;
 }
 
 .circle-icon-link i.far{
-  font-size: 1.2em;
-  border-radius: 60px;
-  padding: 17px;
-  margin-top: -2px;
-  color: grey;
+    font-size: 1.2em;
+    border-radius: 60px;
+    padding: 17px;
+    margin-top: -2px;
+    color: grey;
 }
 
 .circle-icon-link i.fas{
-  font-size: 1.2em;
-  border-radius: 60px;
-  padding: 17px;
-  color: grey;
+    font-size: 1.2em;
+    border-radius: 60px;
+    padding: 17px;
+    color: grey;
 }
 
 .circle-icon-link i.far:hover, .circle-icon-link i.fas:hover{
-  color: white;
+    color: white;
 }
-
 
 /** Main table styles **/
 .main-table {
-  border-collapse: separate;
-  border: solid black 1px;
-  border-radius: 6px;
-  -moz-border-radius: 6px;
+    border-collapse: separate;
+    border: solid black 1px;
+    border-radius: 6px;
+    -moz-border-radius: 6px;
 }
 
 .main-table thead {
-  color: $wagerr_red;
-  background-color: $dark_grey;
+    color: $wagerr_red;
+    background-color: $dark_grey;
 }
 
 .main-table  td, .main-table th {
-  padding: 15px;
-  border-radius: 0;
+    padding: 15px;
+    border-radius: 0;
 }
 
 .main-table tr:nth-child(odd) {
-  background-color: #eee;
+    background-color: #eee;
 }
 
 .main-table th {
-  font-size: 1.2em;
-  color: $wagerr_red;
-  background-color: $dark_grey;
-  border-top: none;
+    font-size: 1.2em;
+    color: $wagerr_red;
+    background-color: $dark_grey;
+    border-top: none;
 }
 
 .main-table  td:first-child, .main-table th:first-child {
-  border-left: none;
+   border-left: none;
 }
 /** End main table **/
 
-
-
 .fade-enter,
 .fade-leave-active {
-  opacity: 0
+    opacity: 0
 }
 
 .text-center {
-  text-align:center;
+    text-align:center;
 }
 
 .text-right {
-  text-align:right;
+    text-align:right;
 }
 
 .text-left {
-  text-align:left;
+    text-align:left;
 }
 
 .pull-right {
-  float:right;
+    float:right;
 }
 
 .pull-left {
-  float:left;
+    float:left;
 }
 
 .clear {
-  clear:both;
+    clear:both;
 }
 
 .fade-enter-active,
 .fade-leave-active {
-  transition-duration: 0.3s;
-  transition-property: opacity;
-  transition-timing-function: ease;
+    transition-duration: 0.3s;
+    transition-property: opacity;
+    transition-timing-function: ease;
 }
 
 .fade-enter,
 .fade-leave-active {
-  opacity: 0
+    opacity: 0
 }
 
 .side-nav li{
-  width: 100%
+    width: 100%
 }
 
 .side-nav li div i{
-  padding-top:16px;
-  font-size: 23px;
+    padding-top:16px;
+    font-size: 23px;
 }
 
 .side-nav li .parent a{
-  padding: 0px;
+    padding: 0px;
 }
 
-body{
-  overflow: inherit;
-}
-
-.modal-open {overflow-y: auto}
-
-
-#placebet .bet-types ul {
-  margin:0px;
-  padding:0px;
-}
-
-#placebet .bet-types ul li {
-  padding:0px;
-  list-style:none;
-  display:block;
-  width:32%;
-  float:left;
-  margin-left:2%;
-}
-
-#placebet .bet-types ul li:first-child {
-  margin-left:0px;
-}
-
-#placebet .bet-types ul li button {
-  background-color:#e1e1e1;
-  border:none;
-  color:#878787;
-  font-family: 'open_sansextrabold';
-  font-weight:normal;
-  text-transform:uppercase;
-  cursor:pointer;
-  width:100%;
-  height:50px;
-  font-size:18px;
-}
-
-#placebet .bet-types ul li button.selected {
-  color: $wagerr_red;
-}
-
-#placebet .bets-50 {
-  margin-top:12px;
-}
-
-#placebet .bets-50 .block {
-  width:49%;
-  margin:0px;
-  padding:0px;
-  margin-left:1%;
-  float:left;
-  list-style:none;
-  padding:0px;
-}
-
-#placebet .bets-50 .block:first-child {
-  margin-right:1%;
-  margin-left:0%;
-}
-
-#placebet .bets-50 .block h2 {
-  margin:0px 0px 12px 0;
-  padding:0px;
-  text-transform: uppercase;
-  color:#505151;
-  font-size:16px;
-  font-family: 'open_sanslight';
-  font-weight:normal;
-  background:#e1e1e1;
-  height:40px;
-  line-height:40px;
-  padding:0 12px;
-  cursor:default;
-}
-
-#placebet .bets-50 .block h2 .pull-right {
-  color: $wagerr_red;
-  font-size:20px;
-  margin-top:10px;
-}
-
-#placebet .bets-50 .block table {
-  border:solid 1px #e1e1e1;
-  border-bottom:none;
-  margin-bottom:12px;
-}
-
-#placebet .bets-50 .block table tr td {
-  color:#2b2c2d;
-  font-size:14px;
-  padding:0 6px;
-  border-bottom:solid 1px #e1e1e1;
-  border-left:solid 1px #e1e1e1;
-  height:50px;
-  line-height:50px;
-}
-
-#placebet .bets-50 .block table tr.bg td {
-  background-color:#f4f2f2;
-}
-
-#placebet .bets-50 .block table tr td:first-child {
-  border-left:none;
-}
-
-#placebet .bets-50 .block table tr td .odds {
-  color: $wagerr_red;
-  font-weight:bold;
-  padding-left:5px;
-  float:left;
-  display:block;
-  width:35%;
-}
-
-#placebet .bets-50 .block table tr td .custom-checkbox {
-  width:14px;
-  height:14px;
-  border:solid 1px #9c9c9c;
-  cursor:pointer;
-  position:relative;
-  float:left;
-  margin-top:17px;
-}
-
-#placebet .bets-50 .block table tr td .custom-checkbox.checked:after {
-  content: "";
-  display:block;
-  position:absolute;
-  width:10px;
-  height:10px;
-  float:left;
-  display:block;
-  margin:2px;
-  background-color: $wagerr_red;
-}
-
-#placebet .bets-50 .block table tr td .custom-toggle {
-  width:20px;
-  display:block;
-  font-size:12px;
-  float:left;
-  width:10%;
-  margin-top:10px;
-}
-
-#placebet .bets-50 .block table tr td p {
-  float:left;
-  width:40%;
-  margin:0px;
-  padding:0px;
-}
-
-#placebet .bets-50 .block table tr td .custom-toggle .btn-up, #placebet .bets-50 .block table tr td .custom-toggle .btn-down, #placebet .bets-50 .block table tr td .custom-toggle .btn-up::before, #placebet .bets-50 .block table tr td .custom-toggle .btn-down::before {
-  display:block;
-  cursor:pointer;
-  margin:2px 0px;
-}
-
-#placebet .bets-50 .block .custom-line .custom-checkbox {
-  display:block;
-  float:left;
-}
-
-#placebet .bets-50 .block .selection {
-  padding:12px;
-  margin:0px;
-  border:solid 1px #e1e1e1;
-  height:100px;
-}
-
-#placebet .bets-50 .block .selection h4 {
-  margin:0px;
-  padding:0px;
-  color:#2b2c2d;
-  font-size:18px;
-  font-weight:bold;
-}
-
-#placebet .bets-50 .block .selection h4 .odds {
-  color: $wagerr_red;
-}
-
-#placebet .bets-50 .block .selection h5 {
-  margin:0px;
-  padding:0px;
-  color:#2b2c2d;
-  font-size:13px;
-  font-weight:normal;
-  color:#b4b4b5;
-}
-
-#placebet .bets-50 .block .bet-amount {
-  padding:12px;
-  margin:0px;
-  border:solid 1px #e1e1e1;
-  height:100px;
-  position:relative;
-}
-
-#placebet .bets-50 .block .bet-amount p {
-  color:#2b2c2d;
-  text-transform:uppercase;
-  margin:0px;
-  padding:0px;
-}
-
-#placebet .bets-50 .block .bet-amount span {
-  color: $wagerr_red;
-  font-size:18px;
-  font-weight:bold;
-}
-
-#placebet .bets-50 .block .bet-amount .input-container {
-  width:200px;
-  height:42px;
-  position:relative;
-}
-
-#placebet .bets-50 .block .bet-amount .input-container input {
-  width:200px;
-  height:42px;
-  color:#2b2c2d;
-  font-size:18px;
-  font-weight:bold;
-  background:#ebebeb;
-  border:none;
-  padding:0 5px;
-}
-
-#placebet .bets-50 .block .bet-amount .input-container .custom-toggle {
-  width:10px;
-  position:absolute;
-  top:5px;
-  right:3px;
-}
-
-#placebet .bets-50 .block .bet-amount .input-container .custom-toggle .btn-up, #placebet .bets-50 .block .bet-amount .input-container .custom-toggle .btn-down, #placebet .bets-50 .block .bet-amount .input-container .custom-toggle .btn-up::before, #placebet .bets-50 .block .bet-amount .input-container .custom-toggle .btn-down::before {
-  display:block;
-  font-size:13px;
-  margin:2px 0px;
-  cursor:pointer;
-}
-
-#placebet .bets-50 .block .bet-amount .max-bet {
-  font-size:14px;
-  font-weight:bold;
-  display:block;
-  color: $wagerr_red;
-  cursor:pointer;
-  position:absolute;
-  bottom:12px;
-  left:12px;
-}
-
-#placebet .bets-50 .block .bet-amount .max-bet:hover {
-  color: $wagerr_dark_red;
-}
-
-#placebet .btn-complete {
-  width:133px;
-  height:33px;
-  color:#fff;
-  background-color: $wagerr_red;
-  border:none;
-  text-transform:uppercase;
-  font-family: 'open_sansbold';
-  font-weight:normal;
-  font-size:14px;
-  cursor:pointer;
-  margin:50px 10px 0;
-  padding:0px;
-}
-
-#placebet .btn-cancel {
-  width:133px;
-  height:33px;
-  color:#fff;
-  background-color: $wagerr_red;
-  border:none;
-  text-transform:uppercase;
-  font-family: 'open_sansbold';
-  font-weight:normal;
-  font-size:14px;
-  cursor:pointer;
-  margin:50px 10px 0;
-  padding:0px;
-}
-
-#placebet .btn-active {
-  width:160px;
-  height:28px;
-  text-align:center;
-  background: $wagerr_red;
-  border:solid 1px $wagerr_dark_red;
-  color:#fff;
-  font-family: 'open_sansbold';
-  font-weight:normal;
-  text-transform:uppercase;
-  cursor:pointer;
-}
-
-#bets .bets-50 {
-  margin-top:12px;
-}
-
-#bets .bets-50 .block {
-  width:49%;
-  margin:0px;
-  padding:0px;
-  margin-left:1%;
-  float:left;
-  list-style:none;
-  padding:0px;
-}
-
-#bets .bets-50 .block:first-child {
-  margin-right:1%;
-  margin-left:0%;
-}
-
-#bets .bets-50 .block h2 {
-  margin:0px 0px 12px 0;
-  padding:0px;
-  text-transform: uppercase;
-  color:#505151;
-  font-size:16px;
-  font-weight:normal;
-  background:#e1e1e1;
-  height:40px;
-  line-height:40px;
-  padding:0 12px;
-  cursor:default;
-}
-
-#bets .bets-50 .block h2 .pull-right {
-  color: $wagerr_red;
-  font-size:20px;
-  margin-top:10px;
-}
-
-#bets .bets-50 .block table {
-  border:solid 1px #cdcdcd;
-  border-bottom:none;
-}
-
-#bets .bets-50 .block table tr td {
-  height:50px;
-  line-height:50px;
-  color:#2b2c2d;
-  padding:0 6px;
-  font-size:14px;
-  border-bottom:solid 1px #cdcdcd;
-  border-left:solid 1px #cdcdcd;
-}
-
-#bets .bets-50 .block table tr td:first-child {
-  border-left:none;
-}
-
-#bets .bets-50 .block table tr.bg td {
-  background-color:#f4f2f2;
-}
-
-#bets .bets-50 .block table tr td.green {
-  color:#00b100;
-}
-
-#bets .bets-50 .block table tr td.red {
-  color: $wagerr_red;
-}
-
-#bets .bets-50 .block table tr td .btn-view {
-  width:70px;
-  height:28px;
-  text-align:center;
-  background: $wagerr_red;
-  border:solid 1px $wagerr_dark_red;
-  color:#fff;
-  font-weight:bold;
-  text-transform:uppercase;
-  cursor:pointer;
-}
-
-#bets .bets-50 .block table tr td .btn-view:hover {
-  background-color: $wagerr_red;
-}
-
-#bets .bets-50 .block .selection {
-  padding:12px;
-  margin:0px 0px 12px 0px;
-  border:solid 1px #e1e1e1;
-  height:100px;
-}
-
-#bets .bets-50 .block .selection h4 {
-  margin:0px;
-  padding:0px;
-  color:#2b2c2d;
-  font-size:18px;
-  font-family: 'open_sansbold';
-  font-weight:normal;
-}
-
-#bets .bets-50 .block .selection h4 .amount {
-  color: $wagerr_red;
-  text-align:right;
-}
-
-#bets .bets-50 .block .selection h4 .amount .odds {
-  color:#c8c8c8;
-  display:block;
-}
-
-#bets .bets-50 .block .selection h5 {
-  margin:0px;
-  padding:0px;
-  color:#2b2c2d;
-  font-size:13px;
-  font-weight:normal;
-  color:#b4b4b5;
-}
-
-#bets .btn-makebet {
-  width:140px;
-  height:28px;
-  text-align:center;
-  background: $wagerr_red;
-  border:solid 1px $wagerr_dark_red;
-  color:#fff;
-  font-weight:bold;
-  text-transform:uppercase;
-  cursor:pointer;
-}
-
-#alert-dialog {
-  position:absolute;
-  top:0px;
-  left:0px;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.8);
-  z-index:9999;
-}
-
-#alert-dialog .dialog-message {
-  width:50%;
-  min-height:200px;
-  background:#fff;
-  margin-left:25%;
-  margin-top:10%;
-  padding:20px;
-}
-
-#alert-dialog .btn {
-  height:28px;
-  text-align:center;
-  background: $wagerr_red;
-  border:solid 1px $wagerr_dark_red;
-  color:#fff;
-  font-weight:bold;
-  text-transform:uppercase;
-  cursor:pointer;
-}
-
-#demo-dialog {
-  position:absolute;
-  top:0px;
-  left:0px;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.8);
-  z-index:9999;
-  display:none;
-}
-
-#demo-dialog .dialog-message {
-  width:50%;
-  min-height:40px;
-  background:#fff;
-  margin-left:25%;
-  margin-top:10%;
-  padding:20px;
-}
-
-#demo-dialog .btn {
-  height:28px;
-  text-align:center;
-  background: $wagerr_red;
-  border:solid 1px $wagerr_dark_red;
-  color:#fff;
-  font-weight:bold;
-  text-transform:uppercase;
-  cursor:pointer;
+.modal-open {
+    overflow-y: auto
 }
 
 .team-font{
-  font-size: 1.2em;
-  color: $dark_grey;
+    font-size: 1.2em;
+    color: $dark_grey;
 }
 
 // Styling the error toast popups
 .toast-error{
-  color: $wagerr_red;
-  background-color: #f2dede;
-  border-color: #ebccd1;
+    color: $wagerr_red;
+    background-color: #f2dede;
+    border-color: #ebccd1;
 }
 
 .toast-error > .toast-bold{
-  font-weight: bold;
-  color: #a94442;
+    font-weight: bold;
+    color: #a94442;
 }
 
 .toast-error > .toast-text {
-  color: #a94442;
+    color: #a94442;
 }
 
 .toast-error > .toast-action span{
-  color: #a94442;
+    color: #a94442;
 }
 
 .toast__bold-font{
-  font-weight: bold;
+    font-weight: bold;
 }
 
 .form-error{
-  color: $wagerr_red;
+    color: $wagerr_red;
 }
 
 .wagerr-red{
-  color: $wagerr_red;
+    color: $wagerr_red;
 }
 
 .wagerr-white{
-  color: #fff;
+    color: #fff;
 }
 
 .wagerr-red-bg{
-  background-color: $wagerr_red;
+    background-color: $wagerr_red;
 }
 
 .wagerr-red-bg:hover{
-  background-color: $wagerr_red;
+    background-color: $wagerr_red;
 }
 
 .modal .modal-header{
-  color: $wagerr_red;
+    color: $wagerr_red;
 }
 
 .modal .modal-header, .modal .modal-text{
-  padding-left: 10px;
-  padding-right: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .modal > form > .modal-footer{
-  padding-left: 35px;
-  padding-right: 35px;
+    padding-left: 35px;
+    padding-right: 35px;
 }
 
 .modal-content{
-  color: $dark_grey
+    color: $dark_grey
 }
 
 .dropdown-content{
-  background-color: $dark_grey;
+    background-color: $dark_grey;
 }
 
 .dropdown-content li  a {
-  color: white;
+    color: white;
 }
 
 .dropdown-content li a i {
-  color: $wagerr_red;
-  font-size: 1.3em;
+    color: $wagerr_red;
+    font-size: 1.3em;
 }
 
 .dropdown-content li:hover{
-  background-color: rgba(0,0,0,0.1);
+    background-color: rgba(0,0,0,0.1);
 }
 
 .tabs .indicator{
-  border-bottom: 1px solid $wagerr_red;
-  background-color: transparent;
+    border-bottom: 1px solid $wagerr_red;
+    background-color: transparent;
 }
 
+
+/* Time loader animation */
+@-moz-keyframes timer-loader {
+    0% {
+        -moz-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -moz-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes timer-loader {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes timer-loader {
+    0% {
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -moz-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+.timer-loader:not(:required) {
+    padding: 0;
+    margin: -10px;
+    transform: scale(.6);
+    border: 6px solid orangered;
+    -moz-border-radius: 24px;
+    -webkit-border-radius: 24px;
+    border-radius: 24px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+    text-indent: -9999px;
+    width: 48px;
+    height: 48px;
+}
+
+.timer-loader:not(:required)::before {
+    -moz-animation: timer-loader 1250ms infinite linear;
+    -webkit-animation: timer-loader 1250ms infinite linear;
+    animation: timer-loader 1250ms infinite linear;
+    -moz-transform-origin: 3px 3px;
+    -ms-transform-origin: 3px 3px;
+    -webkit-transform-origin: 3px 3px;
+    transform-origin: 3px 3px;
+    background: orangered;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    content: '';
+    display: block;
+    position: absolute;
+    width: 6px;
+    height: 19.2px;
+    left: 15px;
+    top: 15px;
+}
+
+.timer-loader:not(:required)::after {
+    -moz-animation: timer-loader 15000ms infinite linear;
+    -webkit-animation: timer-loader 15000ms infinite linear;
+    animation: timer-loader 15000ms infinite linear;
+    -moz-transform-origin: 3px 3px;
+    -ms-transform-origin: 3px 3px;
+    -webkit-transform-origin: 3px 3px;
+    transform-origin: 3px 3px;
+    background: orangered;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    content: '';
+    display: block;
+    position: absolute;
+    width: 6px;
+    height: 16px;
+    left: 15px;
+    top: 15px;
+}
 
 
 
