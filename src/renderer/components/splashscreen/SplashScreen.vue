@@ -115,9 +115,11 @@
                 'updateWalletSynced',
                 'updateNumMasternodes',
                 'updateNumConnections',
+                'walletExtendedBalance',
                 'getWGRTransactionList',
                 'getPLBetTransactionList',
                 'getCGBetTransactionList',
+                'getWGRTransactionRecords'
             ]),
 
             rescanBlockchain: function () {
@@ -204,12 +206,9 @@
                 }
 
                 // Set some wallet state values.
-                this.walletBalance();
-                setInterval(function () {
-                    this.walletBalance();
-                }.bind(this), 5000);
-
-                this.getWGRTransactionList(100);
+                this.updateInitText('Getting Blockchain Info...');
+                await this.walletExtendedBalance();
+                await this.getWGRTransactionRecords(100);
                 await this.getPLBetTransactionList();
                 await this.getCGBetTransactionList();
 

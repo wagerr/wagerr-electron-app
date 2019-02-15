@@ -67,7 +67,6 @@
 <script>
 
     import Vuex from 'vuex';
-    import walletRPC from '@/services/api/wallet_rpc';
     import SendTransaction from '@/components/modals/SendTransaction';
     import ReceiveTransaction from '@/components/modals/ReceiveTransaction';
     import TransactionList from '@/components/wallet/TransactionList';
@@ -92,7 +91,8 @@
             ...Vuex.mapActions([
                 'getAccountAddress',
                 'walletExtendedBalance',
-                'getWGRTransactionList'
+                'getWGRTransactionList',
+                'getWGRTransactionRecords'
             ])
 
         },
@@ -106,15 +106,12 @@
         mounted () {
 
             setInterval( function () {
-                this.balanceInfo = this.walletExtendedBalance();
+                this.walletExtendedBalance();
             }.bind(this), 1000);
-
 
             this.timeout = setInterval( function () {
-                 this.getWGRTransactionList(100);
-            }.bind(this), 1000);
-
-            this.walletExtendedBalance();
+                this.getWGRTransactionRecords(100);
+            }.bind(this), 2000);
         },
 
         destroyed () {
