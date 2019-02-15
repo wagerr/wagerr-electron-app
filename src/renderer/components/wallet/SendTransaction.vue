@@ -226,6 +226,10 @@ export default {
         color: #fff;
     }
 
+    .input-field input:focus{
+        color: #fff;
+    }
+
     .input-field .prefix{
         font-size: 20px;
         margin-top: 10px;
@@ -243,7 +247,7 @@ export default {
     }
 
     input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):focus:not([readonly]), input[type=password]:not(.browser-default):focus:not([readonly]), input[type=email]:not(.browser-default):focus:not([readonly]), input[type=url]:not(.browser-default):focus:not([readonly]), input[type=time]:not(.browser-default):focus:not([readonly]), input[type=date]:not(.browser-default):focus:not([readonly]), input[type=datetime]:not(.browser-default):focus:not([readonly]), input[type=datetime-local]:not(.browser-default):focus:not([readonly]), input[type=tel]:not(.browser-default):focus:not([readonly]), input[type=number]:not(.browser-default):focus:not([readonly]), input[type=search]:not(.browser-default):focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
-        color: grey;
+        color: white;
         border-bottom: 1px solid $wagerr_red;
         -webkit-box-shadow: 0 1px 0 0 $wagerr_red;
         box-shadow: 0 1px 0 0 $wagerr_red;
