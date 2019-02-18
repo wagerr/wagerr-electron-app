@@ -2,9 +2,15 @@
 
     <!-- Change Password Modal -->
 
-    <div id="change-wallet-password" class="modal">
+    <div id="change-wallet-password" class="modal bg-gradient">
 
         <form @submit.prevent="handleSubmit">
+
+            <div class="inset-top">
+
+                <div class="shadow"></div>
+
+            </div>
 
             <div class="modal-content">
 
@@ -52,15 +58,15 @@
 
                     </div>
 
+                    <div class="options">
+
+                        <a href="#!" @click="clearForm()" class="modal-close waves-effect waves-light btn wagerr-red-bg">CANCEL</a>
+
+                        <button type="submit" class="waves-effect waves-light btn green">UPDATE</button>
+
+                    </div>
+
                 </div>
-
-            </div>
-
-            <div class="modal-footer">
-
-                <a href="#!" @click="clearForm()" class="modal-close waves-effect waves-light btn wagerr-red-bg">CANCEL</a>
-
-                <button type="submit" class="waves-effect waves-light btn green">UPDATE</button>
 
             </div>
 
@@ -72,7 +78,7 @@
 
 <script>
 
-    import wagerrRPC from '@/services/api/wagerrRPC'
+    import wagerrRPC from '@/services/api/wagerrRPC';
 
     export default {
         name: 'ChangePassword',
@@ -92,7 +98,7 @@
 
             // Update the wallet password using the JSON RPC call the the wagerrd.
             changePassword: function () {
-                let self = this
+                let self = this;
 
                 wagerrRPC.client.walletPassphraseChange(this.oldPassword, this.newPassword)
                     .then(function (resp) {
@@ -125,9 +131,14 @@
 
         mounted () {
             // Initialise the Material JS so modals, drop down menus etc function.
-            M.AutoInit()
+            M.AutoInit();
 
-            this.$validator.reset()
+            this.$validator.reset();
+        },
+
+        destroyed () {
+            this.clearForm();
+            this.$validator.reset();
         }
     }
 
@@ -135,8 +146,26 @@
 
 <style lang="scss" scoped>
 
-    .modal{
+    .row{
+        margin-bottom: 0;
+    }
+
+    .modal {
+        padding: 0;
         overflow-y: inherit;
+        min-height: 0 !important;
+        max-height: 80%;
+    }
+
+    .options{
+        width: 188px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-top: 10px;
+    }
+
+    .options a, .options button{
+        margin-top: 20px;
     }
 
 </style>
