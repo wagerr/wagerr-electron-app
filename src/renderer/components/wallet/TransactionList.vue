@@ -79,7 +79,7 @@
 
                     <td class="col s3s m3 l3" :class="{ 'confirmation-conflicted' : tx.confirmations === -1 }">
 
-                        {{ tx.details[0].address }}
+                        {{ tx.details[0] ? tx.details[0].address : ""}}
 
                     </td>
 
