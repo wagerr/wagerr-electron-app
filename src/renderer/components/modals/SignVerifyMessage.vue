@@ -2,7 +2,13 @@
 
     <!-- Sign / Verify Messages Modal -->
 
-    <div id="sign-verify-message" class="modal">
+    <div id="sign-verify-message" class="modal bg-gradient">
+
+        <div class="inset-top">
+
+            <div class="shadow"></div>
+
+        </div>
 
         <div class="modal-content">
 
@@ -16,7 +22,7 @@
 
                     </li>
 
-                    <li class="tab  col s6 m6 l6 ">
+                    <li class="tab col s6 m6 l6 ">
 
                         <a href="#verify-message-form">Verify Message</a>
 
@@ -26,25 +32,21 @@
 
                 <div id="sign-message-form" class="sign-message">
 
+                    <div class="modal-text">
+
+                        <p class="modal-font">
+                            You can sign messages with your addresses to prove you own them. Be careful not to
+                            sign anything vague, as phishing attacks may try to trick you into signing your
+                            identity over to them. Only sign fully-detailed statements you agreed to.
+                        </p>
+
+                    </div>
+
                     <form @submit.prevent="handleSignSubmit()" data-vv-scope="sign-form">
 
-                        <br>
-
-                        <div class="modal-header">
-
-                        </div>
-
-                        <div class="modal-text">
-
-                            <p class="modal-font">
-                                You can sign messages with your addresses to prove you own them. Be careful not to
-                                sign anything vague, as phishing attacks may try to trick you into signing your
-                                identity over to them. Only sign fully-detailed statements you agreed to.
-                            </p>
-
-                        </div>
-
                         <div class="input-field col s12">
+
+                            <i class="far fa-address-card prefix"></i>
 
                             <input v-model="signAddress" v-validate="'required|min:20'" id="sign-address" name="sign-address" type="text">
 
@@ -56,7 +58,9 @@
 
                         <div class="input-field col s12">
 
-                            <textarea v-model="signMessage" v-validate="'required'" id="sign-message" name="sign-message" class="materialize-textarea"></textarea>
+                            <i class="far fa-envelope prefix"></i>
+
+                            <input v-model="signMessage" v-validate="'required'" id="sign-message" name="sign-message" type="text">
 
                             <label for="sign-message">Message</label>
 
@@ -66,7 +70,9 @@
 
                         <div class="input-field col s11">
 
-                            <input v-model="signedSignature" id="signed-signature" name="signed-signature" disabled>
+                            <i class="fas fa-file-contract prefix"></i>
+
+                            <input v-model="signedSignature" id="signed-signature" name="signed-signature" type="text">
 
                             <label for="signed-signature" class="active">Signature</label>
 
@@ -82,17 +88,11 @@
 
                         </div>
 
-                        <div class="clear"></div>
+                        <div class="options">
 
-                        <div class="modal-footer">
+                            <a href="#!" @click="clearForms()" class="modal-close waves-effect waves-light btn wagerr-red-bg">CANCEL</a>
 
-                            <div class="modal-btn-padding">
-
-                                <a href="#!" @click="clearForms()" class="modal-close waves-effect waves-light btn wagerr-red-bg">CANCEL</a>
-
-                                <button type="submit" class="waves-effect waves-light btn green">SIGN MESSAGE</button>
-
-                            </div>
+                            <button type="submit" class="waves-effect waves-light btn green">SIGN MESSAGE</button>
 
                         </div>
 
@@ -102,25 +102,21 @@
 
                 <div id="verify-message-form" class="verify-message">
 
+                    <div class="modal-text">
+
+                        <p class="modal-font">
+                            Enter the signing address, message (ensure you copy line breaks, spaces, tabs, etc. exactly)
+                            and signature below to verify the message. Be careful not to read more into the signature
+                            than what is in the signed message itself, to avoid being tricked by a man-in-the-middle attack.
+                        </p>
+
+                    </div>
+
                     <form @submit.prevent="handleVerifySubmit" data-vv-scope="verify-form">
 
-                        <br>
-
-                        <div class="modal-header">
-
-                        </div>
-
-                        <div class="modal-text">
-
-                            <p class="modal-font">
-                                Enter the signing address, message (ensure you copy line breaks, spaces, tabs, etc. exactly) and signature
-                                below to verify the message. Be careful not to read more into the signature than what is in the signed
-                                message itself, to avoid being triked by a man in the middle attack.
-                            </p>
-
-                        </div>
-
                         <div class="input-field col s12">
+
+                            <i class="far fa-address-card prefix"></i>
 
                             <input v-model="verifyAddress" v-validate="'required|min:20'" id="verify-address" name="verify-address" type="text">
 
@@ -132,7 +128,9 @@
 
                         <div class="input-field col s12">
 
-                            <textarea v-model="verifyMessage" v-validate="'required'" id="verify-message" name="verify-message" class="materialize-textarea"></textarea>
+                            <i class="far fa-envelope prefix"></i>
+
+                            <input v-model="verifyMessage" v-validate="'required'" id="verify-message" name="verify-message" type="text">
 
                             <label for="verify-message">Message</label>
 
@@ -142,7 +140,9 @@
 
                         <div class="input-field col s12">
 
-                            <input v-model="verifiedSignature" v-validate="'required|min:20'" id="verified-signature" name="verified-signature">
+                            <i class="fas fa-file-contract prefix"></i>
+
+                            <input v-model="verifiedSignature" v-validate="'required|min:20'" id="verified-signature" name="verified-signature" type="text">
 
                             <label for="verified-signature" class="active">Signature</label>
 
@@ -150,17 +150,11 @@
 
                         </div>
 
-                        <div class="clear"></div>
+                        <div class="options-verify">
 
-                        <div class="modal-footer">
+                            <a href="#!" @click="clearForms()" class="modal-close waves-effect waves-light btn wagerr-red-bg">CANCEL</a>
 
-                            <div class="modal-btn-padding">
-
-                                <a href="#!" @click="clearForms()" class="modal-close waves-effect waves-light btn wagerr-red-bg">CANCEL</a>
-
-                                <button type="submit" class="waves-effect waves-light btn green">VERIFY MESSAGE</button>
-
-                            </div>
+                            <button type="submit" class="waves-effect waves-light btn green">VERIFY MESSAGE</button>
 
                         </div>
 
@@ -282,8 +276,12 @@ export default {
     },
 
     mounted() {
-        // Initialise the materialize css tabs functionality.
-        M.Tabs.getInstance('sign-verify-message');
+        // Initialise the Material JS so modals, drop down menus etc function.
+        M.AutoInit();
+    },
+
+    destroyed () {
+        alert()
     }
 }
 
@@ -291,23 +289,32 @@ export default {
 
 <style lang="scss" scoped>
 
+    @import '../../assets/scss/_variables';
+
+    .row{
+        margin-bottom: 0;
+    }
+
     .modal{
-        min-height: 520px;
-        overflow: inherit;
         overflow-y: inherit;
+        min-height: 0 !important;
+        max-height: 90% !important;
     }
 
-    .modal-open {
-        overflow-y: auto;
+    .modal-font{
+        text-align: justify;
     }
 
-
-    #sign-verify-message .modal-content{
-        padding-bottom: 0px;
+    .tab{
+        background-color: $dark_grey;
     }
 
-    #sign-verify-message .modal-content .row{
-        margin-bottom: 0px;
+    .tab .active{
+        color: $wagerr_red;
+    }
+
+    .input-field span{
+        margin-left: 45px;
     }
 
     .modal-footer .modal-btn-padding{
@@ -317,6 +324,22 @@ export default {
     .sign-message__copy {
         margin-top: 25px;
         margin-left: -15px;
+    }
+
+    .options{
+        width: 240px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .options-verify{
+        width: 260px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .options a, .options button, .options-verify a, .options-verify button{
+        margin-top: 20px;
     }
 
 </style>
