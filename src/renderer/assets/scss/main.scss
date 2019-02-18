@@ -6,7 +6,7 @@ html{
 }
 
 body {
-  padding:0;
+    padding:0;
 }
 
 #app{
@@ -283,6 +283,12 @@ a.wallet-action {
     background-color: $wagerr_red;
 }
 
+.modal-content{
+    padding: 0;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
 .modal .modal-header{
     color: $wagerr_red;
 }
@@ -298,7 +304,7 @@ a.wallet-action {
 }
 
 .modal-content{
-    color: $dark_grey
+    color: white;
 }
 
 .dropdown-content{
@@ -323,6 +329,48 @@ a.wallet-action {
     background-color: transparent;
 }
 
+.input-field > .active {
+    color: $wagerr_red !important;
+}
+
+.input-field .prefix{
+    font-size: 20px !important;
+    margin-top: 10px !important;
+    color: $wagerr_dark_red !important;
+}
+
+.input-field input{
+    color: #fff;
+}
+
+.input-field input:focus {
+    color: #fff;
+}
+
+.input-field .prefix{
+    font-size: 20px;
+    margin-top: 10px;
+    color: $wagerr_dark_red;
+}
+
+.input-field label {
+    color: white;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.input-field input:not([type]):focus:not([readonly]), .input-field input[type=text]:not(.browser-default):focus:not([readonly]), .input-field input[type=password]:not(.browser-default):focus:not([readonly]), .input-field input[type=email]:not(.browser-default):focus:not([readonly]), .input-field input[type=url]:not(.browser-default):focus:not([readonly]), .input-field input[type=time]:not(.browser-default):focus:not([readonly]), .input-field input[type=date]:not(.browser-default):focus:not([readonly]), .input-field input[type=datetime]:not(.browser-default):focus:not([readonly]), .input-field input[type=datetime-local]:not(.browser-default):focus:not([readonly]), .input-field input[type=tel]:not(.browser-default):focus:not([readonly]), .input-field input[type=number]:not(.browser-default):focus:not([readonly]), .input-field input[type=search]:not(.browser-default):focus:not([readonly]), .input-field textarea.materialize-textarea:focus:not([readonly]) {
+    color: white;
+    border-bottom: 1px solid $wagerr_red;
+    -webkit-box-shadow: 0 1px 0 0 $wagerr_red;
+    box-shadow: 0 1px 0 0 $wagerr_red;
+}
+
+.input-field .prefix{
+    font-size: 20px;
+    margin-top: 10px;
+    color: $wagerr_dark_red;
+}
 
 /* Time loader animation */
 @-moz-keyframes timer-loader {

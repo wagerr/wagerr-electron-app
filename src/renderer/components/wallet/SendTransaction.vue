@@ -218,41 +218,6 @@ export default {
         overflow-y: inherit;
     }
 
-    .input-field span {
-        margin-left: 45px;
-    }
-
-    .input-field input{
-        color: #fff;
-    }
-
-    .input-field input:focus{
-        color: #fff;
-    }
-
-    .input-field .prefix{
-        font-size: 20px;
-        margin-top: 10px;
-        color: $wagerr_dark_red;
-    }
-
-    .input-field label {
-        color: white;
-        font-size: 1.1em;
-        font-weight: bold;
-    }
-
-    .input-field input[type=text]:focus + label, .input-field input[type=number]:focus + label {
-        color: $wagerr_dark_red;
-    }
-
-    input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):focus:not([readonly]), input[type=password]:not(.browser-default):focus:not([readonly]), input[type=email]:not(.browser-default):focus:not([readonly]), input[type=url]:not(.browser-default):focus:not([readonly]), input[type=time]:not(.browser-default):focus:not([readonly]), input[type=date]:not(.browser-default):focus:not([readonly]), input[type=datetime]:not(.browser-default):focus:not([readonly]), input[type=datetime-local]:not(.browser-default):focus:not([readonly]), input[type=tel]:not(.browser-default):focus:not([readonly]), input[type=number]:not(.browser-default):focus:not([readonly]), input[type=search]:not(.browser-default):focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
-        color: white;
-        border-bottom: 1px solid $wagerr_red;
-        -webkit-box-shadow: 0 1px 0 0 $wagerr_red;
-        box-shadow: 0 1px 0 0 $wagerr_red;
-    }
-
     .modal-content{
         padding: 0;
         padding-left: 20px;
@@ -262,6 +227,10 @@ export default {
     .modal-font{
         font-size: 1.3em;
         color: white;
+    }
+
+    .input-field span{
+        margin-left: 45px;
     }
 
     .options{
