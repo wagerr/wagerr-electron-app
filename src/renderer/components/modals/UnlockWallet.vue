@@ -2,9 +2,15 @@
 
     <!-- Unlock Wallet Modal -->
 
-    <div id="unlock-wallet-modal" class="modal">
+    <div id="unlock-wallet-modal" class="modal bg-gradient">
 
         <form @submit.prevent="handleSubmit">
+
+            <div class="inset-top">
+
+                <div class="shadow"></div>
+
+            </div>
 
             <div class="modal-content">
 
@@ -24,6 +30,8 @@
 
                     <div class="input-field col s12">
 
+                        <i class="fas fa-unlock-alt prefix"></i>
+
                         <input name="wallet-password" v-model="walletPassword" v-validate="'required'" id="wallet-password" type="password"  autofocus>
 
                         <label for="wallet-password"> Wallet Password</label>
@@ -32,15 +40,15 @@
 
                     </div>
 
+                    <div class="options">
+
+                        <a href="#!" @click="clearForm" class="modal-close waves-effect waves-light btn wagerr-red-bg">CANCEL</a>
+
+                        <button type="submit" class="waves-effect waves-light btn green">UNLOCK</button>
+
+                    </div>
+
                 </div>
-
-            </div>
-
-            <div class="modal-footer">
-
-                <a href="#!" @click="clearForm" class="modal-close waves-effect waves-light btn wagerr-red-bg">CANCEL</a>
-
-                <button type="submit" class="waves-effect waves-light btn green">UNLOCK</button>
 
             </div>
 
@@ -110,6 +118,24 @@
 
     .modal{
         overflow-y: inherit;
+    }
+
+    .input-field span{
+        margin-left: 45px;
+    }
+
+    .options{
+        width: 190px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .options a, .options button{
+        margin-top: 20px;
+    }
+
+    .row{
+        margin-bottom: 0;
     }
 
 </style>
