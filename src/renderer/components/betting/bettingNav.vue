@@ -10,15 +10,15 @@
 
             </router-link>
 
-            <router-link class="col s4" tag="li" to="/h2h">
-
-                <button class="btn waves-effect red darken-4 waves-light">HEAD TO HEAD</button>
-
-            </router-link>
-
             <router-link class="col s4" tag="li" to="/chain_games">
 
                 <button class="btn waves-effect red darken-4 waves-light">CHAIN GAMES</button>
+
+            </router-link>
+
+            <router-link class="col s4" tag="li" to="/h2h">
+
+                <button class="btn waves-effect red darken-4 waves-light">HEAD TO HEAD</button>
 
             </router-link>
 
