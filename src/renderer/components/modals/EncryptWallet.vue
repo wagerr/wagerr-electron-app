@@ -2,9 +2,15 @@
 
     <!-- Encrypt Wallet Modal -->
 
-    <div id="encrypt-wallet" class="modal">
+    <div id="encrypt-wallet" class="modal bg-gradient">
 
         <form @submit.prevent="handleSubmit">
+
+            <div class="inset-top">
+
+                <div class="shadow"></div>
+
+            </div>
 
             <div class="modal-content">
 
@@ -24,7 +30,9 @@
 
                     </div>
 
-                    <div class="input-field col s12 m6">
+                    <div class="input-field col s12">
+
+                        <i class="fas fa-lock-open prefix"></i>
 
                         <input name="password" v-model="password" v-validate="'required'" ref="password" id="password" type="password">
 
@@ -34,7 +42,9 @@
 
                     </div>
 
-                    <div class="input-field col s12 m6">
+                    <div class="input-field col s12">
+
+                        <i class="fas fa-unlock prefix "></i>
 
                         <input name="confirm-password" v-model="confirmPassword" v-validate="'required|confirmed:password'" id="confirm-password" type="password">
 
@@ -44,17 +54,13 @@
 
                     </div>
 
-                </div>
+                    <div class="options">
 
-            </div>
+                        <a href="#!" @click="clearForm" class="modal-close waves-effect waves-light btn wagerr-red-bg">Cancel</a>
 
-            <div class="modal-footer">
+                        <button type="submit" class="waves-effect waves-light btn green">Encrypt</button>
 
-                <div class="row">
-
-                    <a href="#!" @click="clearForm" class="modal-close waves-effect waves-light btn wagerr-red-bg">Cancel</a>
-
-                    <button type="submit" class="waves-effect waves-light btn green">Encrypt</button>
+                    </div>
 
                 </div>
 
@@ -149,6 +155,24 @@
 
     .modal{
         overflow-y: inherit;
+    }
+
+    .input-field span{
+        margin-left: 45px;
+    }
+
+    .options{
+        width: 200px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .options a, .options button{
+        margin-top: 15px;
+    }
+
+    .row{
+        margin-bottom: 0;
     }
 
 </style>
