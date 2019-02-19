@@ -66,7 +66,7 @@
 
                         <span class="inner-circle">
 
-                            <a class="circle-icon-link">
+                            <a class="circle-icon-link" :href="'mailto:wagerr@example.com?Subject=Wagerr Wallet Address&Body=My Wagerr address is: ' + accountAddress" target="_top">
 
                                 <i class="far fa-envelope"></i>
 
@@ -80,7 +80,7 @@
 
                         <span class="inner-circle">
 
-                            <a class="circle-icon-link">
+                            <a class="circle-icon-link" @click="blockExplorerUrl">
 
                                 <i class="fas fa-link"></i>
 
@@ -105,12 +105,15 @@
     import Vuex from 'vuex'
     import QrcodeVue from 'qrcode.vue';
 
+    import constants from '../../../main/constants/constants';
+
     export default {
         name: 'RecieveTransaction',
 
         computed: {
             ...Vuex.mapGetters([
                 'accountAddress',
+                'getNetworkType'
             ])
         },
 
@@ -121,7 +124,20 @@
 
             copiedAlert: function () {
                 M.toast({ html: '<span class="toast__bold-font">Success &nbsp;</span> Address copied to your clipboard.', classes: 'green' });
-             }
+            },
+
+            blockExplorerUrl () {
+                let shell       = require('electron').shell;
+                let explorerUrl = this.getNetworkType === 'Testnet' ? constants.TESTNET_EXP_URL : constants.MAINNET_EXP_URL;
+
+                shell.openExternal(explorerUrl + '/#/address/' + this.accountAddress);
+            }
+        },
+
+        data () {
+            return {
+                explorerUrl: ''
+            }
         },
 
         mounted () {

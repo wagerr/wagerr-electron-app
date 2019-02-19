@@ -14,5 +14,9 @@ export default {
     WIN_64:       'win64',
     MAC:          'darwin',
     LINUX:        'linux',
-    LINUX_X86_64: 'x86_64-linux-gnu'
+    LINUX_X86_64: 'x86_64-linux-gnu',
+
+    // Block Explore URL's
+    MAINNET_EXP_URL: 'https://explorer.wagerr.com',
+    TESTNET_EXP_URL: 'https://explorer2.wagerr.com'
 }
