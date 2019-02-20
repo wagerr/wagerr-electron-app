@@ -163,9 +163,7 @@
                     timeBehindText = Math.round(secs / WEEK_IN_SECONDS) + " weeks behind, Scanning block " + blockchainInfo.blocks;
                 }
                 else {
-                    years          = secs / YEAR_IN_SECONDS;
-                    remainder      = secs % YEAR_IN_SECONDS;
-                    timeBehindText = years + " " + remainder;
+                    timeBehindText = "Resyncing...";
                 }
 
                 return timeBehindText;
