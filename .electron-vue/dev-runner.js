@@ -186,7 +186,7 @@ function greeting () {
       '                                   |     o |/   \\ o/  o  /\n' +
       '                                   \'-------\'     \\/____o/'
 
-  ))
+  ));
 
   console.log('\n\n' + chalk.blue('Getting things ready....\n'));
 }

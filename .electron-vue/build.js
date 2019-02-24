@@ -117,16 +117,31 @@ function greeting () {
   const cols = process.stdout.columns
   let text = ''
 
-  if (cols > 85) text = 'lets-build'
-  else if (cols > 60) text = 'lets-|build'
+  if (cols > 104) text = 'Wagerr-Dev-Build ';
+  else if (cols > 76) text = 'Wagerr-|Dev-|Build';
   else text = false
 
-  if (text && !isCI) {
-    say(text, {
-      colors: ['yellow'],
-      font: 'simple3d',
-      space: false
-    })
-  } else console.log(chalk.yellow.bold('\n  lets-build'))
-  console.log()
+  if (text) {
+      say(text, {
+          align: 'left',
+          colors: ['Red', 'blueBright'],
+          font: 'block',
+          space: false
+      })
+  } else console.log(chalk.red.bold('Wagerr-Dev'));
+
+
+    console.log(chalk.blue('\n                         Money won is twice as sweet as money earned ;)') + '\n')
+
+    console.log(chalk.blue(
+
+        '                                     .-------.    ______\n' +
+        '                                    /   o   /|   /\\     \\\n' +
+        '                                   /_______/o|  /o \\  o  \\\n' +
+        '                                   | o     | | /   o\\_____\\\n' +
+        '                                   |   o   |o/ \\o   /o    /\n' +
+        '                                   |     o |/   \\ o/  o  /\n' +
+        '                                   \'-------\'     \\/____o/'
+
+    ));
 }
