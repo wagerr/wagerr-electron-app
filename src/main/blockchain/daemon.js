@@ -5,11 +5,11 @@ import axios from 'axios';
 import fsPath from 'fs-path';
 import {dialog} from 'electron';
 import decompress from 'decompress';
+import findProcess from "find-process";
 import constants from '../constants/constants';
 import { spawn, execSync } from 'child_process';
 const packageJSON = require('../../../package.json');
 import * as blockchain from '../blockchain/blockchain';
-import findProcess from "find-process";
 
 export default class Daemon {
 
@@ -85,33 +85,33 @@ export default class Daemon {
         return new Promise((resolve, reject) => {
 
             const daemonURLTemplate = packageJSON.wagerrSettings.daemonUrlTemplate;
-            const daemonVersion = packageJSON.wagerrSettings.daemonVersion;
-            let daemonFileName = packageJSON.wagerrSettings.daemonFileName;
-            const daemonDir = packageJSON.wagerrSettings.daemonDir;
-            let daemonOriginalName = packageJSON.wagerrSettings.daemonOriginalName;
+            const daemonVersion     = packageJSON.wagerrSettings.daemonVersion;
+            let daemonFileName      = packageJSON.wagerrSettings.daemonFileName;
+            const daemonDir         = packageJSON.wagerrSettings.daemonDir;
+            let daemonOriginalName  = packageJSON.wagerrSettings.daemonOriginalName;
 
             let buildingPlatform = os.platform();
 
             let daemonPlatform = constants.OSX_64;
-            let daemonExt = constants.TAR_EXT;
+            let daemonExt      = constants.TAR_EXT;
 
             // Mac
             if (buildingPlatform === constants.MAC) {
                 daemonPlatform = constants.OSX_64;
-                daemonExt = constants.TAR_EXT;
+                daemonExt      = constants.TAR_EXT;
             }
 
             // Linux
             if (buildingPlatform === constants.LINUX) {
                 daemonPlatform = constants.LINUX_X86_64;
-                daemonExt = constants.TAR_EXT;
+                daemonExt      = constants.TAR_EXT;
             }
 
             // Windows
             if (buildingPlatform === constants.WIN_32) {
-                daemonPlatform = constants.WIN_64;
-                daemonExt = constants.ZIP_EXT;
-                daemonFileName = daemonFileName + constants.EXE_EXT;
+                daemonPlatform     = constants.WIN_64;
+                daemonExt          = constants.ZIP_EXT;
+                daemonFileName     = daemonFileName + constants.EXE_EXT;
                 daemonOriginalName = daemonOriginalName + constants.EXE_EXT;
             }
 
@@ -120,7 +120,7 @@ export default class Daemon {
                 .replace(/DAEMONVER/g, daemonVersion)
                 .replace(/OSNAME/g, daemonPlatform)
                 .replace(/OSEXT/g, daemonExt);
-            const tmpZipPath = 'dist/daemon.' + daemonExt;
+            const tmpZipPath = path.join('dist/daemon.' + daemonExt);
 
             console.log('\x1b[32m' + daemonURL, '\nDownloading daemon...\x1b[32m');
 
@@ -143,7 +143,7 @@ export default class Daemon {
                 })
             )
             .then(() => {
-                return decompress(tmpZipPath, 'static/daemon/', {
+                return decompress(tmpZipPath, path.join(__static,'/daemon/'), {
                     filter: file => {
                         return file.path === daemonFileName;
                     },
@@ -151,7 +151,7 @@ export default class Daemon {
                 })
             })
             .then(() => {
-                fs.rename(`static/daemon/wagerrd`, `${daemonDir}/${daemonOriginalName}`, function (error) {
+                fs.rename(path.join( __static, `daemon/wagerrd`, `${daemonDir}/${daemonOriginalName}`), function (error) {
                     if (error) return reject(error);
                 })
             })
@@ -171,7 +171,7 @@ export default class Daemon {
      * @returns {boolean}
      */
     wagerrdExists () {
-        return fs.existsSync('static/daemon/wagerrd') || fs.existsSync('static/daemon/wagerrd.exe');
+        return fs.existsSync(path.join(__static,'daemon/wagerrd')) || fs.existsSync(path.join(__static,'/daemon/wagerrd.exe'));
     }
 
     /**

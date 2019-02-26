@@ -1,10 +1,14 @@
 {
   "name": "wagerr-wallet",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "author": "CryptoKnight <cryptoknight1988@gmail.com>",
-  "description": "Wagerr HTML5 electron wallet",
-  "license": null,
+  "description": "Wagerr Electron Wallet",
+  "license": "MIT",
   "main": "./dist/electron/main.js",
+  "engines": {
+    "node": ">=8.12.0",
+    "npm": ">=6.4.0"
+  },
   "scripts": {
     "build": "node .electron-vue/build.js && electron-builder",
     "build:dir": "node .electron-vue/build.js && electron-builder --dir",
@@ -15,18 +19,21 @@
     "pack": "npm run pack:main && npm run pack:renderer",
     "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.main.config.js",
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
-    "postinstall": ""
+    "dist": "electron-builder"
   },
   "build": {
-    "productName": "wagerr-wallet",
-    "appId": "com.example.yourapp",
+    "productName": "WagerrWallet",
+    "appId": "com.wagerr.wallet",
     "directories": {
       "output": "build"
     },
+    "asar": false,
     "files": [
       "dist/electron/**/*"
     ],
     "dmg": {
+      "title": "Wagerr Wallet",
+      "backgroundColor": "#fff",
       "contents": [
         {
           "x": 410,
@@ -42,9 +49,11 @@
       ]
     },
     "mac": {
+      "target":"dmg",
       "icon": "build/icons/icon.icns"
     },
     "win": {
+      "target":"nsis",
       "icon": "build/icons/icon.ico"
     },
     "linux": {
