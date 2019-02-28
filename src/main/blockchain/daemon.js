@@ -3,13 +3,14 @@ import fs from 'fs';
 import path from 'path';
 import axios from 'axios';
 import fsPath from 'fs-path';
-import {dialog} from 'electron';
+import {app, dialog} from 'electron';
 import decompress from 'decompress';
 import findProcess from "find-process";
 import constants from '../constants/constants';
 import { spawn, execSync } from 'child_process';
 const packageJSON = require('../../../package.json');
 import * as blockchain from '../blockchain/blockchain';
+let appRoot = require('app-root-path');
 
 export default class Daemon {
 
@@ -151,11 +152,6 @@ export default class Daemon {
                 })
             })
             .then(() => {
-                fs.rename(path.join( __static, `daemon/wagerrd`, `${daemonDir}/${daemonOriginalName}`), function (error) {
-                    if (error) return reject(error);
-                })
-            })
-            .then(() => {
                 resolve(true);
             })
             .catch(error => {
@@ -197,7 +193,9 @@ export default class Daemon {
      * @returns string
      */
     getWagerrdPath () {
-        return process.env.WAGERR_DAEMON || path.join(__static, `daemon/${blockchain.daemonName}${os.platform() === 'win32' ? '.exe' : ''}`).replace('app.asar', 'app.asar.unpacked')
+        //return process.env.WAGERR_DAEMON || path.join(__static, `daemon/${blockchain.daemonName}${os.platform() === 'win32' ? '.exe' : ''}`)
+
+        return appRoot + '/daemon/wagerrd'
     }
 
     /**

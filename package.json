@@ -2,9 +2,10 @@
   "name": "wagerr-wallet",
   "version": "1.0.0",
   "author": "CryptoKnight <cryptoknight1988@gmail.com>",
-  "description": "Wagerr Electron Wallet",
+  "description": "Wagerr Electron Wallet which enables betting on the Wagerr blockchain.",
   "license": "MIT",
   "main": "./dist/electron/main.js",
+  "homepage": "https://www.wagerr.com/",
   "engines": {
     "node": ">=8.12.0",
     "npm": ">=6.4.0"
@@ -22,15 +23,25 @@
     "dist": "electron-builder"
   },
   "build": {
-    "productName": "WagerrWallet",
     "appId": "com.wagerr.wallet",
+    "productName": "WagerrElectronWallet",
     "directories": {
       "output": "build"
     },
-    "asar": false,
     "files": [
-      "dist/electron/**/*"
+      "dist/electron/**/*",
+      "static/daemon/**/*"
     ],
+    "extraResources": [
+      {
+        "from": "./static/",
+        "to": "./app/",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "asar": false,
     "dmg": {
       "title": "Wagerr Wallet",
       "backgroundColor": "#fff",
@@ -49,18 +60,39 @@
       ]
     },
     "mac": {
-      "target":"dmg",
+      "target": "dmg",
       "icon": "build/icons/icon.icns"
     },
     "win": {
-      "target":"nsis",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ],
       "icon": "build/icons/icon.ico"
     },
     "linux": {
-      "icon": "build/icons"
+      "category": "Utils",
+      "packageCategory": "utils",
+      "icon": "build/icons/icon.icns",
+      "maintainer": "CryptoKnight <cryptoknight1988@gmail.com>",
+      "target": [
+        {
+          "target": "deb",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ]
     }
   },
   "dependencies": {
+    "app-root-path": "^2.1.0",
     "axios": "^0.18.0",
     "childprocess": "^2.0.2",
     "decompress": "^4.2.0",
@@ -102,7 +134,7 @@
     "del": "^3.0.0",
     "devtron": "^1.4.0",
     "electron": "^2.0.16",
-    "electron-builder": "^20.38.5",
+    "electron-builder": "^20.5.1",
     "electron-debug": "^1.5.0",
     "electron-devtools-installer": "^2.2.4",
     "file-loader": "^1.1.11",
