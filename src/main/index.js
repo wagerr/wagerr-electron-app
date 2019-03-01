@@ -94,7 +94,7 @@ function createMainWindow () {
             submenu: [
                 {
                     label: 'Learn More',
-                    click () { require('electron').shell.openExternal('https://electronjs.org') }
+                    click () { require('electron').shell.openExternal('https://www.wagerr.com') }
                 }
             ]
         }
