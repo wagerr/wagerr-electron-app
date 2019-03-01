@@ -24,7 +24,7 @@
   },
   "build": {
     "appId": "com.wagerr.wallet",
-    "productName": "WagerrElectronWallet",
+    "productName": "WagerrWallet",
     "directories": {
       "output": "build"
     },
@@ -44,10 +44,11 @@
     "asar": false,
     "dmg": {
       "title": "Wagerr Wallet",
-      "backgroundColor": "#fff",
+      "background": "build/splash.png",
+      "iconTextSize": 14,
       "contents": [
         {
-          "x": 410,
+          "x": 350,
           "y": 150,
           "type": "link",
           "path": "/Applications"
