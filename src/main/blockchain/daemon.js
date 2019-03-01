@@ -60,20 +60,10 @@ export default class Daemon {
     async stop () {
         console.log('Stopping wagerrd....');
 
-        if (process.platform === 'win32') {
-            try {
-                execSync(`taskkill /pid ${this.wagerrdProcess.pid} /t /f`);
-            }
-            catch (error) {
-                console.error(error.message);
-            }
-        }
-        else {
-            let isRunning = await this.isWagerrdRunning();
+        let isRunning = this.isWagerrdRunning();
 
-            if (isRunning) {
-                await this.wagerrdProcess.kill();
-            }
+        if (isRunning) {
+            await this.wagerrdProcess.kill();
         }
     }
 

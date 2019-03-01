@@ -236,15 +236,16 @@ app.on('will-quit', () => {
 
 app.on('before-quit', async () => {
     console.log('\x1b[32mbefore-quit\x1b[0m');
+    await daemon.stop();
 });
 
 // If user closes the window, kill the electron app.
-app.on('window-all-closed', () => {
+app.on('window-all-closed', async () => {
     console.log('\x1b[32mwindow-all-closed\x1b[0m');
 
     if (process.platform !== 'darwin') {
         if (daemon) {
-            daemon.stop();
+            await daemon.stop();
             //app.quit();
         }
     }
