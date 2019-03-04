@@ -102,7 +102,7 @@
 
             <div class="bet-slip-options text-center ">
 
-                <button class="waves-effect waves-light btn wagerr-red-bg pulse" @click="placeCGLottoBet">Buy Ticket</button>
+                <button class="waves-effect waves-light btn-large wagerr-red-bg pulse" @click="placeCGLottoBet">Buy Ticket</button>
 
             </div>
 
