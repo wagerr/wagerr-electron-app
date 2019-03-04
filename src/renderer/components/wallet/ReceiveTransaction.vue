@@ -126,17 +126,12 @@
                 M.toast({ html: '<span class="toast__bold-font">Success &nbsp;</span> Address copied to your clipboard.', classes: 'green' });
             },
 
+            // Create the Wagerr block explorer URL to view the wallet address.
             blockExplorerUrl () {
                 let shell       = require('electron').shell;
                 let explorerUrl = this.getNetworkType === 'Testnet' ? constants.TESTNET_EXP_URL : constants.MAINNET_EXP_URL;
 
                 shell.openExternal(explorerUrl + '/#/address/' + this.accountAddress);
-            }
-        },
-
-        data () {
-            return {
-                explorerUrl: ''
             }
         },
 
