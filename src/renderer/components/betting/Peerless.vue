@@ -20,7 +20,7 @@
 
 <script>
 
-    import BetSlip from '@/components/bet_slip/BetSlip';
+    import BetSlip from '@/components/betting/components/BetSlip';
     import EventList from '@/components/betting/components/EventList';
 
     export default {
