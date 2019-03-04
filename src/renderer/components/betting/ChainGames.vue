@@ -211,7 +211,9 @@
     }
 
     .fa-question-circle{
-        margin-top: -20px;
+        margin-top: -10px;
+        margin-left: -40px;
+        margin-right: 10px;
         font-size: 30px;
         color: $wagerr_red;
         cursor: pointer;
@@ -219,7 +221,6 @@
 
     .cg-lotto-info{
         width: 60%;
-        padding: 10px;
         margin-left: auto;
         margin-right: auto;
         color: $wagerr_red;
