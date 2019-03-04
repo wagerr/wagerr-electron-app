@@ -31,7 +31,7 @@
 
             <div>
 
-                <div class="col s3 text-center stats">
+                <div class="col s4 text-center stats">
 
                     <h5>Lotto ID</h5>
 
@@ -45,7 +45,7 @@
 
                 </div>
 
-                <div class="col s3 text-center  stats">
+                <div class="col s4 text-center  stats">
 
                     <h5>Entrants</h5>
 
@@ -59,21 +59,7 @@
 
                 </div>
 
-                <div class="col s3 text-center stats">
-
-                    <h5>Block</h5>
-
-                    <div v-if="loadingCGEvent">
-
-                        <spinner></spinner>
-
-                    </div>
-
-                    <div v-else class="cg-info">{{ gameStartBlock }}</div>
-
-                </div>
-
-                <div class="col s3 text-center stats">
+                <div class="col s4 text-center stats">
 
                     <h5>Entry</h5>
 
@@ -255,11 +241,6 @@
     .cg-dates{
         padding: 10px;
         color: white;
-        margin-left: 15px;
-    }
-
-    .bet-slip-options{
-
     }
 
 </style>
