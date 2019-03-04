@@ -27,7 +27,7 @@
 
             </div>
 
-            <div v-else class="wgr text-center">{{ potSize }}</div>
+            <div v-else class="cg-jackpot text-center">{{ potSize }}</div>
 
             <div>
 
@@ -41,7 +41,7 @@
 
                     </div>
 
-                    <div v-else class="wgr-smaller">{{ gameID }}</div>
+                    <div v-else class="cg-info">{{ gameID }}</div>
 
                 </div>
 
@@ -55,7 +55,7 @@
 
                     </div>
 
-                    <div v-else class="wgr-smaller">{{ noOfEntrants }}</div>
+                    <div v-else class="cg-info">{{ noOfEntrants }}</div>
 
                 </div>
 
@@ -69,7 +69,7 @@
 
                     </div>
 
-                    <div v-else class="wgr-smaller">{{ gameStartBlock }}</div>
+                    <div v-else class="cg-info">{{ gameStartBlock }}</div>
 
                 </div>
 
@@ -83,7 +83,7 @@
 
                     </div>
 
-                    <div v-else class="wgr-smaller">{{ entryFee }}</div>
+                    <div v-else class="cg-info">{{ entryFee }}</div>
 
                 </div>
 
@@ -91,16 +91,16 @@
 
             <div class="cg-dates text-center clearfix">
 
-                {{ gameStartTime | moment("MMM Do YYYY, h:mm:ss a") }} - {{ gameEndTime | moment("MMMM Do YYYY, h:mm:ss a")}}
+                {{ gameStartTime | moment("MMM Do YYYY, h:mm:ss a") }} - {{ gameEndTime | moment("MMM Do YYYY, h:mm:ss a")}}
 
             </div>
 
         </div>
 
 
-        <div class="col s12">
+        <div class="col s12 clearfix">
 
-            <div class="bet-slip-options text-center ">
+            <div class="bet-slip-options text-center clearfix">
 
                 <button class="waves-effect waves-light btn-large wagerr-red-bg pulse" @click="placeCGLottoBet">Buy Ticket</button>
 
@@ -180,12 +180,11 @@
         },
 
         created() {
-            this.listChainGamesEvents()
+            this.listChainGamesEvents();
 
             this.timeout = setInterval(function () {
-                console.log('events')
-                this.listChainGamesEvents()
-            }.bind(this), 3000)
+                this.listChainGamesEvents();
+            }.bind(this), 3000);
         },
 
         data () {
@@ -239,10 +238,27 @@
         background-color: $wagerr_red;
     }
 
+    .cg-jackpot{
+        color: white;
+        font-size: 2.5em;
+        margin: 10px;
+
+    }
+
+    .cg-info{
+        color: white;
+        font-size: 2.3em;
+        height: 80px;
+    }
+
     .cg-dates{
         padding: 10px;
         color: white;
         margin-left: 15px;
+    }
+
+    .bet-slip-options{
+
     }
 
 </style>
