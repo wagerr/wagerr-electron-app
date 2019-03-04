@@ -2,7 +2,7 @@
 
     <!-- Chain Games Lotto Information Modal -->
 
-    <div id="lotto-info" class="modal modal-fixed-footer">
+    <div id="lotto-info" class="modal modal-fixed-footer bg-gradient">
 
         <div class="modal-content">
 
@@ -64,9 +64,13 @@
 
         </div>
 
-        <div class="modal-footer">
+        <div class="modal-footer bg-gradient">
 
-            <button class="modal-close waves-effect waves-light btn green">Close</button>
+            <div class="options">
+
+                <button class="modal-close waves-effect waves-light btn green">Close</button>
+
+            </div>
 
         </div>
 
@@ -83,8 +87,19 @@
 <style lang="scss" scoped>
 
     .info-text{
-        font-size: .6em;
+        font-size: 1em;
         text-align: justify;
+    }
+
+    .modal-footer{
+        display: block;
+        background: transparent;
+    }
+
+    .options{
+        width: 80px;
+        margin-left: auto;
+        margin-right: auto;
     }
 
 </style>
