@@ -86,7 +86,7 @@ const actions = {
             })
     },
 
-    getPLBetTransactionList ({commit}, length) {
+    getPLBetTransactionList ({commit}) {
         wagerrRPC.client.listBets()
             .then(function (resp) {
                 commit('setPLBetTransactionList', resp.result.reverse());
@@ -97,7 +97,7 @@ const actions = {
             })
     },
 
-    getCGBetTransactionList ({commit}, length) {
+    getCGBetTransactionList ({commit}) {
         wagerrRPC.client.listChainGamesBets()
             .then(function (resp) {
                 commit('setCGBetTransactionList', resp.result.reverse());
