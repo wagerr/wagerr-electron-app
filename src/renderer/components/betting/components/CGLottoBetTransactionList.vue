@@ -68,8 +68,26 @@
             ])
         },
 
+        data () {
+            return {
+                timeout: 0
+            }
+        },
+
         mounted () {
             this.listCGLottoBets();
+
+            this.timeout = setInterval( function () {
+                this.listCGLottoBets();
+
+            }.bind(this), 2000);
+
+            // Initialise the Material JS so modals, drop down menus etc function.
+            M.AutoInit();
+        },
+
+        destroyed () {
+            clearInterval(this.timeout)
         }
     }
 

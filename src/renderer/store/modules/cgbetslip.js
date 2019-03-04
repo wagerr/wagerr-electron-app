@@ -7,7 +7,6 @@ import moment from 'moment'
  * @module BetSlip
  * @package Wagerr HTML5 Wallet
  */
-
 const state = function () {
 
     return {
@@ -17,7 +16,7 @@ const state = function () {
         entryFee: 0,
         gameID: 0,
         potSize: 0,
-        gameStartBlock: '',
+        gameStartBlock: 0,
         gameStartTime: '',
         gameEndTime: 0,
         currentGameBets: 0,
@@ -103,20 +102,15 @@ const actions = {
     getChainGamesInfo ({commit, state}) {
         wagerrRPC.client.getChainGamesInfo(state.gameID)
             .then(function (resp) {
-                commit('setEntryFee', '' + resp.result['entry-fee'] + ' WGR');
-                commit('setPotSize', '' + resp.result['pot-size'] + ' WGR');
+                // Calculate the lotto end date. Add one day for testnet and seven days for mainnet.
+                let endDate = moment.unix(resp.result['start-time']).add((resp.result['network'] === 1) ? 1 : 7, 'days');
+
+                commit('setEntryFee', '' + resp.result['entry-fee']);
+                commit('setPotSize', '' + resp.result['pot-size']);
                 commit('setGameStartBlock', resp.result['start-block']);
                 commit('setNoOfEntrants', resp.result['total-bets']) ;
-
-                let months       = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-                let startTime    = new Date(resp.result['start-time'] * 1000);
-                let startTimeStr = startTime.getDate() + ' ' + months[startTime.getMonth()] + ' ' + startTime.getFullYear() + ' ' + startTime.getHours() + ':' + startTime.getMinutes() + '';
-                let endTime      = new Date(resp.result['start-time'] * 1000);
-                endTime.setDate(endTime.getDate() + 7);
-                let endTimeStr   = endTime.getDate() + ' ' + months[endTime.getMonth()] + ' ' + endTime.getFullYear() + ' ' + endTime.getHours() + ':' + endTime.getMinutes() + '';
-
-                commit('setGameStartTime', startTimeStr);
-                commit('setGameEndTime', endTimeStr);
+                commit('setGameStartTime', resp.result['start-time']);
+                commit('setGameEndTime', endDate );
 
                 let currentBets = 0;
                 for (let i = 0; i < state.cgBetList.length; i++) {
@@ -143,7 +137,7 @@ const actions = {
         wagerrRPC.client.listChainGamesBets()
             .then(function (resp) {
                 self.betList = resp.result.reverse();
-                commit('setCGBetList', resp.result.reverse());
+                commit('setCGBetList', self.betList);
                 self.betCount = self.betList.length;
 
                 let currentBets = 0;
