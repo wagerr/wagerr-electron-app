@@ -242,6 +242,7 @@
     .cg-dates{
         padding: 10px;
         color: white;
+        margin-left: 15px;
     }
 
 </style>
