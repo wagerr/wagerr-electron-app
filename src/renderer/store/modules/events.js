@@ -28,7 +28,7 @@ const actions = {
         commit('setEventsFilter', eventsFilter);
     },
 
-    // Todo - marty: remove code dupliation!
+    // Todo - marty: remove code duplication!
     listEvents ({commit, state}, filter) {
         return new Promise((resolve, reject) => {
             if (filter) {
@@ -39,8 +39,8 @@ const actions = {
                         let numEvents    = resp.result.length;
 
                         for (let i = 0; i < numEvents; i++) {
-                            // Prevent events that are starting in less than 12 mins getting listed.
-                            if (resp.result[i].starting - (12 * 60) > moment().unix()) {
+                            // Prevent events that are starting in less than 12 mins and events starting outside the two weeks listed.
+                            if (resp.result[i].starting - (12 * 60) > moment().unix() && resp.result[i].starting < moment().add(13, 'days').unix() ) {
                                 filteredList.push(resp.result[i]);
                             }
                         }
@@ -67,7 +67,8 @@ const actions = {
                         let numEvents    = resp.result.length;
 
                         for (let i = 0; i < numEvents; i++) {
-                            if (resp.result[i].starting - (12 * 60) > moment().unix()) {
+                            // Prevent events that are starting in less than 12 mins and events starting outside the two weeks listed.
+                            if (resp.result[i].starting - (12 * 60) > moment().unix() && resp.result[i].starting < moment().add(13, 'days').unix() ) {
                                 filteredList.push(resp.result[i]);
                             }
                         }
