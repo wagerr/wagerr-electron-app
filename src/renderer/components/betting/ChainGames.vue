@@ -77,7 +77,7 @@
 
             <div class="cg-dates text-center clearfix">
 
-                {{ gameStartTime | moment("MMM Do YYYY, h:mm:ss a") }} - {{ gameEndTime | moment("MMM Do YYYY, h:mm:ss a")}}
+                {{ gameStartTime | moment("MMM Do YYYY") }} - {{ gameEndTime | moment("MMM Do YYYY")}}
 
             </div>
 
@@ -229,18 +229,21 @@
         color: white;
         font-size: 2.5em;
         margin: 10px;
-
     }
 
     .cg-info{
         color: white;
         font-size: 2.3em;
-        height: 80px;
+        height: 60px;
     }
 
     .cg-dates{
         padding: 10px;
         color: white;
+    }
+
+    .wagerr-red-bg:focus{
+        background-color: $wagerr_red;
     }
 
 </style>

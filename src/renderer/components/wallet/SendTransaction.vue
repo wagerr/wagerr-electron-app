@@ -142,13 +142,11 @@ export default {
                     // Create the raw send transaction.
                     wagerrRPC.client.createRawTransaction(utxos, json)
                         .then(function (resp) {
-                            console.log('Created raw transaction ' + resp.result);
                             let rawTxHex = resp.result;
 
                             // Sign the raw transaction.
                             wagerrRPC.client.signRawTransaction(rawTxHex)
                                 .then(function (resp) {
-                                    console.log('Created signed transaction ' + resp.result.hex);
                                     let signedHex = resp.result.hex;
 
                                     // Send the signed tx to the Wagerr blockchain.

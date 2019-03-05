@@ -110,7 +110,6 @@
         mounted () {
             // Ping the get bets RPC method every 5 secs to show any new bet transactions.
             this.timeout = setInterval( async function () {
-                console.log('asdad')
                 this.getPLBetTransactionList();
             }.bind(this), 5000);
         },
