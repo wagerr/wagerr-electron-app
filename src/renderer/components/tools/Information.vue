@@ -2,133 +2,170 @@
 
     <div id="information">
 
-        <h3 class="text-center">Information</h3>
+        <div class="row text-center">
 
-        <div class="row">
+            <h4>Wallet Info</h4>
 
             <div class="col s4">
 
-                <h5>General</h5>
+                <div class="bg-gradient card z-depth-2">
 
-                <table>
+                    <h5>Version</h5>
 
-                    <tr>
+                    <div class="number">{{ walletVersion }}</div>
 
-                        <th>Client name</th>
-
-                        <td>{{ networkInfo.subversion }}</td>
-
-                    </tr>
-
-                    <tr>
-
-                        <th>Client version</th>
-
-                        <td>{{ networkInfo.version }}</td>
-
-                    </tr>
-
-                    <tr>
-
-                        <th>Open SSL version</th>
-
-                        <td>{{ openSSLv }}</td>
-
-                    </tr>
-
-                    <tr>
-
-                        <th>Berkeley DB version</th>
-
-                        <td>{{ berkeleyDBv }}</td>
-
-                    </tr>
-
-                    <tr>
-
-                        <th>Build date</th>
-
-                        <td>{{ buildDate }}</td>
-
-                    </tr>
-
-                    <tr>
-
-                        <th>Data directory</th>
-
-                        <td>{{ dataDir }}</td>
-
-                    </tr>
-
-                </table>
+                </div>
 
             </div>
 
             <div class="col s4">
 
-                <h5>Network</h5>
+                <div class="bg-gradient card z-depth-2">
 
-                <table>
+                    <h5>Transactions</h5>
 
-                    <tr>
+                    <div class="number">{{ getTxCount }}</div>
 
-                        <th>Name</th>
-
-                        <td>{{ getNetworkType }}</td>
-
-                    </tr>
-
-                    <tr>
-
-                        <th>Number of connections</th>
-
-                        <td>{{ getNumConnections }}</td>
-
-                    </tr>
-
-                    <tr>
-
-                        <th>Number of Masternodes</th>
-
-                        <td>{{ getNumMasternodes }}</td>
-
-                    </tr>
-
-                    <tr>
-
-                        <th>Protocol version</th>
-
-                        <td>{{ networkInfo.protocolversion }}</td>
-
-                    </tr>
-
-                </table>
+                </div>
 
             </div>
 
             <div class="col s4">
 
-                <h5>Block Chain</h5>
+                <div class="bg-gradient card z-depth-2">
 
-                <table>
+                    <h5>DataDir</h5>
 
-                    <tr>
+                    <div class="datadir">{{ dataDir }}</div>
 
-                        <th>Current No of blocks</th>
+                </div>
 
-                        <td>{{ getBlocks }}</td>
+            </div>
 
-                    </tr>
+        </div>
 
-                    <tr>
+        <div class="row text-center">
 
-                        <th>Time since last block</th>
+            <h4>Blockchain Info</h4>
 
-                        <td>{{ this.lastBlockTime }}</td>
+            <div class="col s4">
 
-                    </tr>
+                <div class="bg-gradient card z-depth-2">
 
-                </table>
+                    <h5>Block Count</h5>
+
+                    <div class="number">{{ getBlocks }}</div>
+
+                </div>
+
+            </div>
+
+            <div class="col s4">
+
+                <div class="bg-gradient card z-depth-2">
+
+                    <h5>Last Block</h5>
+
+                    <div class="date">{{ this.lastBlockTime }}</div>
+
+                </div>
+
+            </div>
+
+            <div class="col s4">
+
+                <div class="bg-gradient card z-depth-2">
+
+                    <h5>Money Supply</h5>
+
+                    <div class="number">{{ Number((getMoneySupply).toFixed(2)) }}</div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="row text-center">
+
+            <h4>Network Info</h4>
+
+            <div class="col s4">
+
+                <div class="bg-gradient card z-depth-2">
+
+                    <h5>Network</h5>
+
+                    <div class="words">{{ getNetworkType }}</div>
+
+                </div>
+
+            </div>
+
+            <div class="col s4">
+
+                <div class="bg-gradient card z-depth-2">
+
+                    <h5>Peers</h5>
+
+                    <div class="number">{{ getNumConnections }}</div>
+
+                </div>
+
+            </div>
+
+            <div class="col s4">
+
+                <div class="bg-gradient card z-depth-2">
+
+                    <h5>Protocol Version</h5>
+
+                    <div class="number">{{ getProtocolVersion }}</div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="row text-center">
+
+            <h4>MasterNode Info</h4>
+
+            <div class="col s4 text-center">
+
+                <div class="bg-gradient card z-depth-2">
+
+                    <h5>Masternodes</h5>
+
+                    <div class="number">{{ getNumMasternodes }}</div>
+
+                </div>
+
+            </div>
+
+            <div class="col s4 text-center">
+
+                <div class="bg-gradient card z-depth-2">
+
+                    <h5>Staking Status</h5>
+
+                    <div class="words">{{ getStakingStatus }}</div>
+
+                </div>
+
+            </div>
+
+            <div class="col s4 text-center">
+
+                <div class="bg-gradient card z-depth-2">
+
+                    <h5>Msync Status</h5>
+
+                    <div class="words">{{ getMsyncStatus }}</div>
+
+                </div>
 
             </div>
 
@@ -142,73 +179,104 @@
 
     import Vuex from 'vuex';
     import moment from 'moment';
-    import blockchainRPC from '../../services/api/blockchain_rpc';
-    import networkRPC from '../../services/api/network_rpc';
 
     export default {
         name: 'Information',
 
         computed: {
             ...Vuex.mapGetters([
-                'clientName',
-                'clientVersion',
-                'openSSLv',
-                'berkeleyDBv',
-                'buildDate',
-                'startUpTime',
                 'dataDir',
                 'getNetworkType',
+                'getNetworkVersion',
                 'getNumConnections',
                 'getNumMasternodes',
-                'getBlocks'
+                'getBlocks',
+                'getMoneySupply',
+                'getProtocolVersion',
+                'getTxCount',
+                'walletVersion',
+                'getStakingStatus',
+                'getMsyncStatus'
             ])
         },
 
         methods: {
             ...Vuex.mapActions([
-                'updateBlocks'
+                'updateBlocks',
+                'walletInfo',
+                'updateInfo',
+                'updateStakingStatus'
             ]),
-
-            // Polls the blockchain for network info.
-            async checkNetwokInfo () {
-                let blockchainInfo = await blockchainRPC.getBlockchainInfo();
-
-                console.log(blockchainInfo.blocks)
-                if (blockchainInfo.blocks > this.getBlocks) {
-
-                    this.updateBlocks(blockchainInfo.blocks);
-                    this.lastBlockTime = moment().format('MMM Do YYYY, h:mm:ss a');
-                }
-            }
         },
 
-        async created () {
-            this.networkInfo = await networkRPC.getNetworkInfo();
+        created () {
+            this.blockCount = this.getBlocks;
 
-            this.timeout = setInterval( async function () {
-                this.networkInfo = await networkRPC.getNetworkInfo()
-                this.checkNetwokInfo();
-            }.bind(this), 5000);
+            this.walletInfo();
+            this.updateInfo();
+            this.updateStakingStatus();
+
+            this.timeout = setInterval(function () {
+                this.walletInfo();
+                this.updateInfo();
+                this.updateStakingStatus();
+
+                if (this.blockCount !== this.getBlocks) {
+                    this.blockCount = this.getBlocks;
+                    this.lastBlockTime = moment().format('MMM Do YYYY, h:mm:ss a');
+                }
+
+            }.bind(this), 3000);
         },
 
         data () {
             return {
                 timeout: 0,
-                blockchainInfo: {},
-                networkInfo: {},
+                blockCount: 0,
                 lastBlockTime: moment().format('MMM Do YYYY, h:mm:ss a')
             }
         },
 
         destroyed () {
-            clearInterval(this.timeout)
+            clearInterval(this.timeout);
         }
 
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
+    @import "../../assets/scss/_variables.scss";
 
+    .s4 h5 {
+        padding: 30px 30px 0px 30px;
+        font-size: 2em;
+        color: $wagerr_red;
+    }
+
+    .card div {
+        height: 80px;
+        color: $white;
+        padding: 0px 30px 30px 30px;
+        word-wrap: break-word;
+    }
+
+    .number{
+        font-size: 2.5em;
+    }
+
+    .words{
+        font-size: 2em;
+    }
+
+    .datadir{
+        margin-top: 10px;
+        font-size: 1.2em;
+    }
+
+    div .date{
+        padding-top: 10px;
+        font-size: 1.5em;
+    }
 
 </style>
