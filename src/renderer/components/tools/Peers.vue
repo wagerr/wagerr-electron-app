@@ -1,74 +1,125 @@
 <template>
 
-  <div id="peers" class="settings-sub-section">
+    <div id="peers" class="settings-sub-section">
 
-      <h3 class="text-center">Peers</h3>
+        <h3 class="text-center">Peers</h3>
 
-      <table class="col-12 col-sm-12 col-md-12 col-lg-8">
+        <table class="col-12 col-sm-12 col-md-12 col-lg-8 main-table card z-depth-2">
 
-          <thead>
+            <thead>
 
-              <tr>
+                <tr>
 
-                  <th>Address:Port</th>
+                    <th>Address:Port</th>
 
-                  <th>Version</th>
+                    <th>Version</th>
 
-                  <th>Ping Time</th>
+                     <th>Ping Time</th>
 
-              </tr>
+                </tr>
 
-          </thead>
+            </thead>
 
-          <tbody>
+            <tbody>
 
-              <tr v-for="(peer) in peerInfo" :key="peer.id">
+                <tr v-for="(peer) in getPeerInfo" :key="peer.id">
 
-                <td>{{ peer.addr }}</td>
+                    <td>{{ peer.addr }}</td>
 
-                <td>{{ peer.subver }}</td>
+                    <td>{{ peer.subver }}</td>
 
-                <td>{{ peer.pingtime }}</td>
+                    <td>{{ peer.pingtime }}</td>
 
-              </tr>
+                  </tr>
 
-          </tbody>
+            </tbody>
 
-      </table>
+        </table>
 
-  </div>
+
+        <div v-if="getBannedInfo.length > 0">
+
+            <h3 class="text-center">Banned</h3>
+
+            <table class="col-12 col-sm-12 col-md-12 col-lg-8 main-table card z-depth-2">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Address:Port</th>
+
+                        <th>Version</th>
+
+                        <th>Ping Time</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr v-for="(peer) in getBannedInfo" :key="peer.id">
+
+                        <td>{{ peer.addr }}</td>
+
+                        <td>{{ peer.subver }}</td>
+
+                        <td>{{ peer.pingtime }}</td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
 
 </template>
 
 <script>
 
-    import Vuex from 'vuex'
-    import networkRPC from '@/services/api/network_rpc'
+    import Vuex from 'vuex';
 
     export default {
         name: 'Peers',
 
         computed: {
             ...Vuex.mapGetters([
-                'peerList'
+                'getPeerInfo',
+                'getBannedInfo'
             ])
         },
 
         methods: {
             ...Vuex.mapActions([
-                'getPeerinfo'
+                'updatePeerInfo',
+                'updateBannedInfo'
             ])
         },
 
-        async created () {
-            this.peerInfo = await networkRPC.getPeerInfo();
+        created () {
+            this.updatePeerInfo();
+            this.updateBannedInfo();
+
+            this.timeout = setInterval(function () {
+                this.updatePeerInfo();
+                this.updateBannedInfo();
+            }.bind(this), 3000);
         },
 
         data () {
             return {
-                peerInfo: {}
+                timeout: 0
             }
+        },
+
+        destroyed () {
+            clearInterval(this.timeout);
         }
+
     }
 
 </script>
