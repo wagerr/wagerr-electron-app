@@ -37,15 +37,11 @@
 
         <!--<div class="dashboard-staking"><span class="amount">0</span> staking</div>-->
 
-        <div class="text-center">
-
-            <br>
+        <div class="text-center wallet-btns">
 
             <a class="waves-effect waves-red wallet-action btn-large modal-trigger wagerr-red-bg z-depth-2" data-target="send-tx-modal">Send</a>
 
             <a class="waves-effect waves-red wallet-action btn-large modal-trigger wagerr-red-bg z-depth-2" @click="this.getAccountAddress" data-target="receive-tx-modal">Receive</a>
-
-            <br><br>
 
         </div>
 
@@ -164,6 +160,12 @@
 
     .dashboard-balance div{
         color: white;
+    }
+
+
+    .wallet-btns{
+        margin-top: 10px;
+        margin-bottom: 20px;
     }
 
 </style>
