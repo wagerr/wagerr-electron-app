@@ -1,5 +1,6 @@
 import wagerrRPC from '@/services/api/wagerrRPC';
 import walletRPC from '@/services/api/wallet_rpc';
+import * as blockchain from '../../../main/blockchain/blockchain';
 
 const state = function () {
 
@@ -11,7 +12,10 @@ const state = function () {
         zerocoin: 0,
         unlocked: false,
         synced: false,
-        initWalletText: 'Initialising Wagerr Wallet...'
+        initWalletText: 'Initialising Wagerr Wallet...',
+        walletVersion: "v1.0.0",
+        txCount: 0,
+        dataDir: blockchain.getWagerrDataPath()
     }
 
 };
@@ -49,6 +53,18 @@ const getters = {
     initText: (state) => {
         return state.initWalletText;
     },
+
+    walletVersion: (state) => {
+        return state.walletVersion;
+    },
+
+    getTxCount: (state) => {
+        return state.txCount;
+    },
+
+    dataDir: (state) => {
+        return state.dataDir;
+    }
 
     // Add other wallet getter functions here...
 
@@ -131,6 +147,17 @@ const actions = {
             })
     },
 
+    walletInfo ({commit}) {
+        walletRPC.getWalletInfo()
+            .then(function (resp) {
+                commit('setTXCount', resp.txcount);
+            })
+            .catch(function (err) {
+                console.debug(err);
+            })
+
+    },
+
     updateInitText ({commit}, walletInitText) {
         commit('setInitText', walletInitText);
     },
@@ -171,6 +198,10 @@ const mutations = {
 
     setInitText (state, walletText) {
         state.initWalletText = walletText;
+    },
+
+    setTXCount (state, count) {
+        state.txCount = count;
     },
 
 };

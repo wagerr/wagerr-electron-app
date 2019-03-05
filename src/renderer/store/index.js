@@ -2,7 +2,6 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 // Modules
 import wallet from './modules/wallet';
-import info from './modules/blockchain_info';
 import ui from './modules/ui';
 import transactions from './modules/transactions';
 import events from './modules/events';
@@ -18,7 +17,6 @@ export default new Vuex.Store({
 
     modules: {
         wallet,
-        info,
         ui,
         events,
         user,

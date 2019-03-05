@@ -39,6 +39,19 @@ export default {
                     reject(err);
                 })
         })
+    },
+
+    getWalletInfo () {
+        return new Promise((resolve, reject) => {
+            wagerrRPC.client.getWalletInfo()
+                .then(function (resp) {
+                    resolve(resp.result);
+                })
+                .catch(function (err) {
+                    console.error(err);
+                    reject(err);
+                })
+        })
     }
 
 }
