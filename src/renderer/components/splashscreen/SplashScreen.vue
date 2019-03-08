@@ -88,7 +88,6 @@
     import moment from 'moment';
     import blockchainRPC from '@/services/api/blockchain_rpc';
     import networkRPC from '@/services/api/network_rpc';
-    import masternodeRPC from '@/services/api/masternode_rpc';
     import ipcRender from '../../../common/ipc/ipcRender';
 
     export default {
@@ -138,20 +137,24 @@
                 ipcRender.restartWallet();
             },
 
+            closeWallet: function () {
+                ipcRender.closeWallet();
+            },
+
             getTimeBehindText: function (secs, blockchainInfo) {
+
                 const HOUR_IN_SECONDS = 60 * 60;
                 const DAY_IN_SECONDS  = 24 * 60 * 60;
                 const WEEK_IN_SECONDS = 7 * 24 * 60 * 60;
-                const YEAR_IN_SECONDS = 31556952; // Average length of year in Gregorian calendar
+                const YEAR_IN_SECONDS = 31556952; // Average length of year in Gregorian calendar.
 
                 let timeBehindText;
                 let years;
                 let remainder;
 
                 if( Math.round(secs / HOUR_IN_SECONDS) === 0 ){
-                    timeBehindText = 'Verifying last 100 blocks...';
+                    // Wallet is synced enough to all user access.
                     this.updateWalletLoaded(true);
-
                 }
                 else if (secs < 2 * DAY_IN_SECONDS) {
                     timeBehindText = Math.round(secs / HOUR_IN_SECONDS) + " hours behind, Scanning block " + blockchainInfo.blocks;
@@ -170,78 +173,81 @@
             },
 
             // Check for peers to ensure we are connected to the network.
-            checkNetworkStatus: async () => {
-                let peers = await networkRPC.getPeerInfo();
+            checkPeerStatus: function () {
+               return new Promise(function(resolve, reject) {
 
-                return peers.length;
+                    let count = 0;
+                    let peers = 0;
+
+                    let intervalId = setInterval( async function(){
+
+                        peers = await networkRPC.getPeerInfo();
+                        //console.log('peer count: ' + peers.length);
+
+                        // If we have successfully connected to peers return
+                        if( peers.length > 0 ){
+                            clearInterval(intervalId);
+                            resolve(true);
+                        }
+
+                        // If we have no peers show a warning message to the user.
+                        if(count === 10){
+                            ipcRender.noPeers();
+                            clearInterval(intervalId);
+                            resolve(true);
+                        }
+
+                        count++;
+                    }, 2000);
+               });
             },
 
-            // Check the status of the blockchain to see if we need to sync to tip.
-            getLatestBlockStatus: async () => {
-                let blockchainInfo = await blockchainRPC.getBlockchainInfo();
-                let bestBlockHash  = blockchainInfo.bestblockhash;
+            // Show the blockchain sync status information.
+            syncBlockchainStatus: function () {
+                return new Promise(function(resolve, reject) {
+                    let secs = 1;
+                    let block;
 
-                return await blockchainRPC.getBlockInfo(bestBlockHash);
+                    // Check the status of the blockchain to see if we need to sync to the tip.
+                    let intervalId = setInterval( async function() {
+
+                        let blockchainInfo = await blockchainRPC.getBlockchainInfo();
+                        let bestBlockHash  = blockchainInfo.bestblockhash;
+
+                        block = await blockchainRPC.getBlockInfo(bestBlockHash);
+                        secs  = moment().diff(block.time * 1000, 'seconds');
+                        //console.log('secs: ' +  secs)
+
+                        let timeBehindText = this.getTimeBehindText(secs, blockchainInfo);
+                        this.updateInitText(timeBehindText);
+
+                        // if the blockchain has been fully synced.
+                        if (secs < 0) {
+                            // Set the network type.
+                            this.updateNetworkType(blockchainInfo.chain);
+                            clearInterval(intervalId);
+                            resolve(true);
+                        }
+                    }.bind(this), 500)
+                }.bind(this));
             }
+
         },
 
-        created () {
-            // Wait a few secs before init wallet.
-            setTimeout(function () {
-                initWallet();
-            }, 2000);
+        async created () {
+            // Check if connected to the Wagerr network and if we have peers.
+            this.updateInitText('Connecting to peers...');
+            await this.checkPeerStatus();
 
-            const initWallet = async () => {
-                let secs = 1;
-                let peers = 0;
-                let block;
+            // After connecting to peers get some blockchain info.
+            this.updateInitText('Getting blockchain information...');
+            await this.walletExtendedBalance();
+            await this.getWGRTransactionRecords(100);
+            await this.getPLBetTransactionList();
+            await this.getCGBetTransactionList();
 
-                // Check for peers to ensure we are connected to the network.
-                this.updateInitText('Connecting to peers...');
-                while (peers === 0) {
-                    peers = await this.checkNetworkStatus();
-                    //console.log(peers);
-                }
-
-                // Set some wallet state values.
-                this.updateInitText('Getting Blockchain Info...');
-                await this.walletExtendedBalance();
-                await this.getWGRTransactionRecords(100);
-                await this.getPLBetTransactionList();
-                await this.getCGBetTransactionList();
-
-                // Set some network state values.
-                let networkInfo    = await networkRPC.getNetworkInfo();
-                let masternodeInfo = await masternodeRPC.getMasternodeCount();
-                let blockchainInfo = await blockchainRPC.getBlockchainInfo();
-                this.updateNetworkType(blockchainInfo.chain);
-                this.updateNumConnections(networkInfo.connections);
-                this.updateNumMasternodes(masternodeInfo.total);
-                this.updateBlocks(blockchainInfo.blocks);
-
-                // Check the status of the blockchain to see if we need to sync to the tip.
-                this.updateInitText('Syncing Blockchain...');
-                while (secs > 0) {
-                    let blockchainInfo = await blockchainRPC.getBlockchainInfo();
-                    block = await this.getLatestBlockStatus();
-                    secs  = moment().diff(block.time * 1000, 'seconds');
-
-                    let timeBehindText = this.getTimeBehindText(secs, blockchainInfo);
-                    this.updateInitText(timeBehindText);
-                }
-            }
-        },
-
-        data () {
-            return {
-                isLock: true,
-                isStaking: false,
-                isLoading: true,
-                noConnections: true,
-                reindex: false,
-                rescan: false,
-                resync: false
-            }
+            // If Wallet not synced show time behind text.
+            await this.syncBlockchainStatus();
         },
 
     }
