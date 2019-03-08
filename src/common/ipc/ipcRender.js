@@ -32,6 +32,10 @@ function restartWallet () {
     ipcRenderer.send('restart-wagerrd');
 }
 
+function noPeers () {
+    ipcRenderer.send('no-peers');
+}
+
 export default{
     salvageWallet,
     rescanBlockchain,
@@ -41,4 +45,5 @@ export default{
     reindexBlockchain,
     resyncBlockchain,
     restartWallet,
+    noPeers
 }

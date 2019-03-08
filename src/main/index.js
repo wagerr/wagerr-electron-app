@@ -212,7 +212,11 @@ async function init (args) {
 
     // If not then start it.
     if (!isRunning) {
-        daemon.launch(args);
+         daemon.launch(args);
+    }
+    else{
+        // Show popup warning the users a wagerrd instance is allreaday running
+        errors.deamonRunningError()
     }
 
     // Render the main window.
@@ -443,6 +447,11 @@ ipcMain.on('restart-wagerrd', (event, arg) => {
             init(arg)
         }, 5000);
     }
+});
+
+// Show error dialog informing user that the wallet could not connect to wagerr network.
+ipcMain.on('no-peers', (event, arg) => {
+    errors.noPeersConnectionError();
 });
 
 /**

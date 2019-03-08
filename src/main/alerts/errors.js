@@ -3,17 +3,27 @@ const { app, dialog } = require('electron');
 function deamonRunningError () {
     let cancel = dialog.showMessageBox({
         type: 'error',
-        buttons: ['Exit'],
-        message: 'Wagerr Daemon Running',
+        buttons: ['Confirm'],
+        message: 'Wagerr daemon already running!',
         defaultId: 0,
-        detail: 'Detected a running wagerrd process! \n\nPlease stop any wagerrd processes including the QT wallet before running this wallet. \n\nWallet will now exit.'
+        detail: 'Detected a running wagerrd process! \n\n Warning: Running this wallet with an already running deamon can cause inconsistent behaviour.'
     });
+}
 
-    app.quit();
+function noPeersConnectionError () {
+    let cancel = dialog.showMessageBox({
+        type: 'error',
+        title: 'Wagerr Network Error',
+        buttons: ['Confirm'],
+        message: 'Could not connect to the Wagerr network!',
+        defaultId: 0,
+        detail: 'No peers found. \n\nWarning: Some wallet features may not work without a Wagerr network connection.'
+    });
 }
 
 export default {
-    deamonRunningError
+    deamonRunningError,
+    noPeersConnectionError
 }
 
 
