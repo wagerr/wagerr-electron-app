@@ -37,11 +37,15 @@
 
                     <td class="col s1s m1 l1 hide-on-small-only">
 
-                        {{ tx['tx-id'] }}
+                        <a @click="blockExplorerUrl(tx['tx-id'])" class="transaction-link">
+
+                            {{ tx['tx-id'] }}
+
+                        </a>
 
                     </td>
 
-                    <td class="col s1s m1 l1 hide-on-small-only">{{ tx['event-id']}}</td>
+                    <td class="col s1s m1 l1 hide-on-small-only" >{{ tx['event-id'] }}</td>
 
                     <td class="col s3s m3 l3 hide-on-med-and-down show-on-large">{{ outcomeToText( tx['team-to-win'] ) }}</td>
 
@@ -59,7 +63,8 @@
 
 <script>
 
-    import Vuex from 'vuex'
+    import Vuex from 'vuex';
+    import constants from '../../../../main/constants/constants';
 
     export default {
         name: 'BetTransactionList',
@@ -67,7 +72,8 @@
         computed: {
             ...Vuex.mapGetters([
                 'timezone',
-                'plBetTransactionList'
+                'plBetTransactionList',
+                'getNetworkType'
             ])
         },
 
@@ -98,6 +104,13 @@
                         return outcome;
 
                 }
+            },
+
+            blockExplorerUrl (txId) {
+                let shell       = require('electron').shell;
+                let explorerUrl = this.getNetworkType === 'Testnet' ? constants.TESTNET_EXP_URL : constants.MAINNET_EXP_URL;
+
+                shell.openExternal(explorerUrl + '/#/tx/' + txId);
             }
         },
 
@@ -136,6 +149,16 @@
     .no-transactions .fa-dice{
         color: $wagerr_dark_red;
         font-size: 10em;
+    }
+
+    .transaction-link{
+        color: $dark_grey;
+        cursor: pointer;
+    }
+
+    .transaction-link:hover{
+        color: $wagerr_dark_red;
+        cursor: pointer;
     }
 
 </style>

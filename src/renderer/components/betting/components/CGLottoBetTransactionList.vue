@@ -30,7 +30,11 @@
 
                     <td class="col s10">
 
-                        {{ tx['tx-id'] }}
+                        <a @click="blockExplorerUrl(tx['tx-id'])" class="transaction-link">
+
+                            {{ tx['tx-id'] }}
+
+                        </a>
 
                     </td>
 
@@ -48,7 +52,8 @@
 
 <script>
 
-    import Vuex from 'vuex'
+    import Vuex from 'vuex';
+    import constants from '../../../../main/constants/constants';
 
     export default {
         name: 'CGLottoBetTransactionList',
@@ -65,7 +70,14 @@
         methods: {
             ...Vuex.mapActions([
                 'listCGLottoBets'
-            ])
+            ]),
+
+            blockExplorerUrl (txId) {
+                let shell       = require('electron').shell;
+                let explorerUrl = this.getNetworkType === 'Testnet' ? constants.TESTNET_EXP_URL : constants.MAINNET_EXP_URL;
+
+                shell.openExternal(explorerUrl + '/#/tx/' + txId);
+            }
         },
 
         data () {
@@ -109,6 +121,16 @@
     .no-transactions .fa-list-alt{
         color: $wagerr_dark_red;
         font-size: 10em;
+    }
+
+    .transaction-link{
+        color: $dark_grey;
+        cursor: pointer;
+    }
+
+    .transaction-link:hover{
+        color: $wagerr_dark_red;
+        cursor: pointer;
     }
 
 </style>
