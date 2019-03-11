@@ -77,8 +77,14 @@ const actions = {
         commit('setNumConnections', connections);
     },
 
-    updateNumMasternodes ({commit}, masternodes) {
-        commit('setNumMasternodes', masternodes);
+    updateNumMasternodes ({commit}) {
+        networkRPC.getMasterNodeNum()
+            .then(function (resp){
+                commit('setNumMasternodes', resp.total);
+            })
+            .catch(function (err) {
+                console.error(err);
+            })
     },
 
     updateBlocks ({commit}, blocks) {

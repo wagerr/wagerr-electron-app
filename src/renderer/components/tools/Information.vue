@@ -205,7 +205,8 @@
                 'updateBlocks',
                 'walletInfo',
                 'updateInfo',
-                'updateStakingStatus'
+                'updateStakingStatus',
+                'updateNumMasternodes'
             ]),
         },
 
@@ -215,11 +216,13 @@
             this.walletInfo();
             this.updateInfo();
             this.updateStakingStatus();
+            this.updateNumMasternodes();
 
             this.timeout = setInterval(function () {
                 this.walletInfo();
                 this.updateInfo();
                 this.updateStakingStatus();
+                this.updateNumMasternodes();
 
                 if (this.blockCount !== this.getBlocks) {
                     this.blockCount = this.getBlocks;
