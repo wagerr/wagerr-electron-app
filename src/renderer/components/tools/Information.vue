@@ -161,7 +161,7 @@
 
                 <div class="bg-gradient card z-depth-2">
 
-                    <h5>Msync Status</h5>
+                    <h5>MN Sync Status</h5>
 
                     <div class="words">{{ getMsyncStatus }}</div>
 
