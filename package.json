@@ -158,8 +158,8 @@
     "webpack-merge": "^4.2.1"
   },
   "wagerrSettings": {
-    "daemonVersion": "v2.1.0-rc7",
-    "daemonUrlTemplate": "https://github.com/marty987/WagerrTS/releases/download/DAEMONVER/wagerr-2.0.0-OSNAME.OSEXT",
+    "daemonVersion": "v3.0.0",
+    "daemonUrlTemplate": "https://github.com/Wagerr-TestNet/wagerr/releases/download/DAEMONVER/wagerr-2.0.99-OSNAME.OSEXT",
     "daemonDir": "static/daemon",
     "daemonFileName": "wagerrd",
     "daemonOriginalName": "wagerrd"
