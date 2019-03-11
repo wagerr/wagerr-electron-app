@@ -22,7 +22,7 @@ const state = function () {
 const getters = {
 
     getNetworkType: (state) => {
-        return state.network == 'test' ? 'Testnet' : 'Mainnet';
+        return state.network;
     },
 
     getNumConnections: (state) => {

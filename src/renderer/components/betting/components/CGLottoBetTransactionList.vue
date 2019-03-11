@@ -63,7 +63,8 @@
                 'timezone',
                 'gameID',
                 'currentGameBets',
-                'cgBetList'
+                'cgBetList',
+                'getNetworkType'
             ])
         },
 

@@ -106,6 +106,7 @@
         methods: {
             ...Vuex.mapActions([
                 'syncWallet',
+                'updateInfo',
                 'updateBlocks',
                 'walletBalance',
                 'updateInitText',
@@ -216,7 +217,6 @@
 
                         block = await blockchainRPC.getBlockInfo(bestBlockHash);
                         secs  = moment().diff(block.time * 1000, 'seconds');
-                        //console.log('secs: ' +  secs)
 
                         let timeBehindText = this.getTimeBehindText(secs, blockchainInfo);
                         this.updateInitText(timeBehindText);
@@ -224,7 +224,6 @@
                         // if the blockchain has been fully synced.
                         if (secs < 0) {
                             // Set the network type.
-                            this.updateNetworkType(blockchainInfo.chain);
                             clearInterval(intervalId);
                             resolve(true);
                         }
@@ -245,6 +244,11 @@
             await this.getWGRTransactionRecords(100);
             await this.getPLBetTransactionList();
             await this.getCGBetTransactionList();
+
+            // Set the network.
+            let blockchainInfo = await blockchainRPC.getBlockchainInfo();
+            let network = blockchainInfo.chain === 'test' ? 'Testnet' : 'Mainnet';
+            await this.updateNetworkType(network);
 
             // If Wallet not synced show time behind text.
             await this.syncBlockchainStatus();
