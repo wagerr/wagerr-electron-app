@@ -129,7 +129,7 @@ const actions = {
     updateBannedInfo ({commit}) {
         networkRPC.getBannedInfo()
             .then(function (resp) {
-                commit('setBannedInfo', resp);
+                commit('setBannedInfo', resp.result);
             })
             .catch(function (err) {
                 console.error(err);
