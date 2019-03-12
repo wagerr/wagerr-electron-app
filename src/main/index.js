@@ -155,9 +155,9 @@ app.on('will-quit', () => {
     }
 });
 
-app.on('before-quit', async () => {
+app.on('before-quit',  () => {
     console.log('\x1b[32mbefore-quit\x1b[0m');
-    await daemon.stop();
+    daemon.stop();
 });
 
 // If user closes the window, kill the electron app.
@@ -167,7 +167,7 @@ app.on('window-all-closed', async () => {
     if (process.platform !== 'darwin') {
         if (daemon) {
             await daemon.stop();
-            //app.quit();
+            await app.quit();
         }
     }
 });
@@ -184,7 +184,7 @@ app.on('activate',async () => {
 /**
  * Wallet repair main IPC handlers
  */
-ipcMain.on('salvage-wallet', (event, arg) => {
+ipcMain.on('salvage-wallet', async (event, arg) => {
     let cancel = dialog.showMessageBox({
         type: 'question',
         buttons: ['Confirm', 'Cancel'],
@@ -195,19 +195,16 @@ ipcMain.on('salvage-wallet', (event, arg) => {
     });
 
     if (!cancel) {
-        daemon.stop().catch(function () {
-            console.log('Wagerrd may not have shutdown correctly.')
+        await daemon.stop().catch(function () {
+            console.log('Wagerrd may not have shutdown correctly.');
         });
-
-        setTimeout(function () {
-            mainWindow.close();
-            init(arg);
-        }, 5000);
+        await mainWindow.close();
+        await init(arg);
     }
 });
 
 // Handles the render process of rescanning the locally stored blockchain.
-ipcMain.on('rescan-blockchain', (event, arg) => {
+ipcMain.on('rescan-blockchain', async (event, arg) => {
     let cancel = dialog.showMessageBox({
         type: 'question',
         buttons: ['Confirm', 'Cancel'],
@@ -218,19 +215,16 @@ ipcMain.on('rescan-blockchain', (event, arg) => {
     });
 
     if (!cancel) {
-        daemon.stop().catch(function () {
-            console.log('Wagerrd may not have shutdown correctly.')
+        await daemon.stop().catch(function () {
+            console.log('Wagerrd may not have shutdown correctly.');
         });
-
-        setTimeout(function () {
-            mainWindow.close();
-            init(arg);
-        }, 5000);
+        await mainWindow.close();
+        await init(arg);
     }
 });
 
 // Handles the render process of recovering transactions while keeping account info.
-ipcMain.on('recover-tx-1', (event, arg) => {
+ipcMain.on('recover-tx-1', async (event, arg) => {
     let cancel = dialog.showMessageBox({
         type: 'question',
         buttons: ['Confirm', 'Cancel'],
@@ -241,19 +235,16 @@ ipcMain.on('recover-tx-1', (event, arg) => {
     });
 
     if (!cancel) {
-        daemon.stop().catch(function () {
-            console.log('Wagerrd may not have shutdown correctly.')
+        await daemon.stop().catch(function () {
+            console.log('Wagerrd may not have shutdown correctly.');
         });
-
-        setTimeout(function () {
-            mainWindow.close();
-            init(arg)
-        }, 5000);
+        await mainWindow.close();
+        await init(arg);
     }
 });
 
 // Handles the render process of recovering transactions while dropping account info.
-ipcMain.on('recover-tx-2', (event, arg) => {
+ipcMain.on('recover-tx-2', async (event, arg) => {
     let cancel = dialog.showMessageBox({
         type: 'question',
         buttons: ['Confirm', 'Cancel'],
@@ -264,19 +255,16 @@ ipcMain.on('recover-tx-2', (event, arg) => {
     });
 
     if (!cancel) {
-        daemon.stop().catch(function () {
-            console.log('Wagerrd may not have shutdown correctly.')
+        await daemon.stop().catch(function () {
+            console.log('Wagerrd may not have shutdown correctly.');
         });
-
-        setTimeout(function () {
-            mainWindow.close();
-            init(arg)
-        }, 5000);
+        await mainWindow.close();
+        await init(arg);
     }
 });
 
 // Handles the render process upgrading the wallet.
-ipcMain.on('upgrade-wallet', (event, arg) => {
+ipcMain.on('upgrade-wallet', async (event, arg) => {
     let cancel = dialog.showMessageBox({
         type: 'question',
         buttons: ['Confirm', 'Cancel'],
@@ -287,19 +275,16 @@ ipcMain.on('upgrade-wallet', (event, arg) => {
     });
 
     if (!cancel) {
-        daemon.stop().catch(function () {
-            console.log('Wagerrd may not have shutdown correctly.')
+        await daemon.stop().catch(function () {
+            console.log('Wagerrd may not have shutdown correctly.');
         });
-
-        setTimeout(function () {
-            mainWindow.close();
-            init(arg);
-        }, 5000);
+        await mainWindow.close();
+        await init(arg);
     }
 });
 
 // Handles the render process of reindexing the locally stored blockchain.
-ipcMain.on('reindex-blockchain', (event, arg) => {
+ipcMain.on('reindex-blockchain', async (event, arg) => {
     let cancel = dialog.showMessageBox({
         type: 'question',
         buttons: ['Confirm', 'Cancel'],
@@ -310,19 +295,16 @@ ipcMain.on('reindex-blockchain', (event, arg) => {
     });
 
     if (!cancel) {
-        daemon.stop().catch(function () {
-            console.log('Wagerrd may not have shutdown correctly.')
+        await daemon.stop().catch(function () {
+            console.log('Wagerrd may not have shutdown correctly.');
         });
-
-        setTimeout(function () {
-            mainWindow.close();
-            init(arg);
-        }, 5000);
+        await mainWindow.close();
+        await init(arg);
     }
 });
 
 // Handles the render process of rescanning the locally stored blockchain.
-ipcMain.on('resync-blockchain', (event, arg) => {
+ipcMain.on('resync-blockchain', async (event, arg) => {
     let cancel = dialog.showMessageBox({
         type: 'question',
         buttons: ['Confirm', 'Cancel'],
@@ -333,19 +315,16 @@ ipcMain.on('resync-blockchain', (event, arg) => {
     });
 
     if (!cancel) {
-        daemon.stop().catch(function () {
-            console.log('Wagerrd may not have shutdown correctly.')
+        await daemon.stop().catch(function () {
+            console.log('Wagerrd may not have shutdown correctly.');
         });
-
-        setTimeout(function () {
-            mainWindow.close();
-            init(arg);
-        }, 5000);
+        await mainWindow.close();
+        await init(arg);
     }
 });
 
 // Handles the render process of resyncing the blockchain.
-ipcMain.on('restart-wagerrd', (event, arg) => {
+ipcMain.on('restart-wagerrd', async (event, arg) => {
     let cancel = dialog.showMessageBox({
         type: 'question',
         buttons: ['Confirm', 'Cancel'],
@@ -356,31 +335,26 @@ ipcMain.on('restart-wagerrd', (event, arg) => {
     });
 
     if (!cancel) {
-        daemon.stop().catch(function () {
-            console.log('Could not kill wagerrd process.')
+        await daemon.stop().catch(function () {
+            console.log('Wagerrd may not have shutdown correctly.');
         });
-
-        setTimeout(function () {
-            mainWindow.close();
-            init(arg)
-        }, 5000);
+        await mainWindow.close();
+        await init(arg);
     }
 });
 
 // Send the RPC username to the render process.
 ipcMain.on('rpc-username', (event) => {
-    console.log(blockchain.rpcUser);
     event.returnValue = blockchain.rpcUser
 });
 
 // Send the RPC password to the render process.
 ipcMain.on('rpc-password', (event) => {
-    console.log(blockchain.rpcPass);
     event.returnValue = blockchain.rpcPass
 });
 
 // Show error dialog informing user that the wallet could not connect to wagerr network.
-ipcMain.on('no-peers', (event, arg) => {
+ipcMain.on('no-peers', () => {
     errors.noPeersConnectionError();
 });
 

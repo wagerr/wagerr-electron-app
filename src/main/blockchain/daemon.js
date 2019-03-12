@@ -57,14 +57,27 @@ export default class Daemon {
      *
      * @returns {Promise<void>}
      */
-    async stop () {
-        console.log('Stopping wagerrd....');
+    stop () {
+        return new Promise(async (resolve, reject) => {
 
-        let isRunning = this.isWagerrdRunning();
+            console.log('Stopping wagerrd....');
 
-        if (isRunning) {
-            await this.wagerrdProcess.kill();
-        }
+            let isRunning = this.isWagerrdRunning();
+
+            // If wagerrd running then kill it.
+            if (isRunning) {
+                this.wagerrdProcess.stdin.pause();
+                this.wagerrdProcess.kill();
+            }
+
+            // Wait while the wagerrd exits as this can varying in time.
+            while (isRunning){
+                console.log(isRunning)
+                isRunning = await this.isWagerrdRunning();
+            }
+
+            resolve();
+        })
     }
 
     /**
@@ -193,7 +206,7 @@ export default class Daemon {
      */
     getWagerrdArgs (args) {
         // Required args.
-        let wagerrdArgs = [`-rpcuser=${blockchain.rpcUser}`, `-rpcpassword=${blockchain.rpcPass}`, `-rpcbind=127.0.0.1`, `-rpcport=8332` ,`-server=1`, `-testnet=1` ];
+        let wagerrdArgs = [`-rpcuser=${blockchain.rpcUser}`, `-rpcpassword=${blockchain.rpcPass}`, `-rpcbind=127.0.0.1`, `-rpcport=8332` ,`-server=1` ];
 
         // Add Supplied args if any.
         if (args) {
