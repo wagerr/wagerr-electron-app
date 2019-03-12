@@ -44,7 +44,8 @@ function createMainWindow () {
         // }
     });
 
-    //mainWindow.webContents.closeDevTools();
+    // Close the web developer's console.
+    mainWindow.webContents.closeDevTools();
 
     // Load the main browser window with the Wagerr vue application.
     mainWindow.loadURL(winURL);
