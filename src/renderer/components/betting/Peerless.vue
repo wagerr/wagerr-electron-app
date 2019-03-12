@@ -8,7 +8,7 @@
 
         </div>
 
-        <div class="col s1 m3">
+        <div class="col s1 m3 bet-slip-div">
 
             <bet-slip></bet-slip>
 
@@ -30,6 +30,11 @@
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+
+    .bet-slip-div{
+        margin-top: 5px;
+        height: 100%;
+    }
 
 </style>

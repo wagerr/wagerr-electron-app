@@ -16,7 +16,7 @@
 
             <ul>
 
-                <li v-for="( bet, index ) in betSlip" :key="bet.betId" class="card" >
+                <li v-for="( bet, index ) in betSlip" :key="bet.betId" class="card bg-gradient">
 
                     <div class="bet-details">
 
@@ -142,12 +142,33 @@
                         M.toast({html: err, classes: 'wagerr-red-bg'});
                         console.error(err);
                     })
+            },
+
+            handleScroll (event) {
+                // Get the bet slip.
+                let navbar = document.getElementById("betting-slip");
+
+                // Get the offset position of the navbar.
+                let sticky = navbar.offsetTop;
+
+                if (window.pageYOffset >= sticky) {
+                    navbar.classList.add("sticky");
+                }
+                else {
+                    navbar.classList.remove("sticky");
+                }
             }
+
         },
 
         created () {
-            //console.log(this.betSlip);
+            window.addEventListener('scroll', this.handleScroll);
+        },
+
+        destroyed () {
+            window.removeEventListener('scroll', this.handleScroll);
         }
+
     }
 
 </script>
@@ -160,9 +181,23 @@
         color: white;
     }
 
+    .sticky {
+        position: fixed;
+        overflow-y: scroll;
+        top: 65px;
+        width: 21%;
+        height: 100%;
+        -webkit-animation: stick-bet-slip 1s ; /* Safari 4.0 - 8.0 */
+        animation: stick-bet-slip 1s ;
+    }
+
+    @keyframes stick-bet-slip {
+        from {top: 0px;}
+        to {top: 65px;}
+    }
+
     .bet-list{
         padding: 10px;
-        margin-top: 15px;
         background-color: #414141;
     }
 
