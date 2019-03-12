@@ -238,24 +238,6 @@
 
               </div>
 
-              <!--<ul>
-
-                  <li class="open-demo-dialog"><span>Champions League</span></li>
-
-                  <li class="open-demo-dialog"><span>Europa League</span></li>
-
-                  <li class="open-demo-dialog"><span>EPL</span></li>
-
-                  <li class="open-demo-dialog"><span>La Liga</span></li>
-
-                  <li class="open-demo-dialog"><span>Bundesliga</span></li>
-
-                  <li class="open-demo-dialog"><span>MLS</span></li>
-
-                  <li class="open-demo-dialog"><span>FIFA World Cup</span></li>
-
-              </ul>-->
-
           </li>
 
           <li @click="filterEvents('MMA')">
@@ -267,6 +249,78 @@
                       <i class="icon-bench-press"></i>
 
                       <span>MMA</span>
+
+                      <i class="icon-chevron-down pull-right"></i>
+
+                  </a>
+
+              </div>
+
+          </li>
+
+          <li @click="filterEvents('Aussie Rules')">
+
+              <div class="parent">
+
+                  <a>
+
+                      <i class="icon-football"></i>
+
+                      <span>Aussie Rules</span>
+
+                      <i class="icon-chevron-down pull-right"></i>
+
+                  </a>
+
+              </div>
+
+          </li>
+
+          <li @click="filterEvents('Cricket')">
+
+              <div class="parent">
+
+                  <a>
+
+                      <i class="icon-baseball"></i>
+
+                      <span>Cricket</span>
+
+                      <i class="icon-chevron-down pull-right"></i>
+
+                  </a>
+
+              </div>
+
+          </li>
+
+          <li @click="filterEvents('Rugby Union')">
+
+              <div class="parent">
+
+                  <a>
+
+                      <i class="icon-football"></i>
+
+                      <span>Rugby Union</span>
+
+                      <i class="icon-chevron-down pull-right"></i>
+
+                  </a>
+
+              </div>
+
+          </li>
+
+          <li @click="filterEvents('Rugby League')">
+
+              <div class="parent">
+
+                  <a>
+
+                      <i class="icon-football"></i>
+
+                      <span>Rugby League</span>
 
                       <i class="icon-chevron-down pull-right"></i>
 
