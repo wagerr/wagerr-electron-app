@@ -37,7 +37,7 @@
         </table>
 
 
-        <div v-if="getBannedInfo.length > 0">
+        <div v-if="getBannedInfo">
 
             <h3 class="text-center">Banned</h3>
 
