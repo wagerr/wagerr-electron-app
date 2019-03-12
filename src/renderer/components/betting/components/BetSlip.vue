@@ -114,7 +114,7 @@
                 let winnings = odds * betStake;
 
                 // Set the potential winnings on the UI.
-                document.getElementById(index).innerText = ((winnings - ((winnings - betStake * 10000) * 60 / 1000)) / 10000) + (this.getNetworkType === "Testnet"? 'tWGR' : 'WGR');
+                document.getElementById(index).innerText = ((winnings - ((winnings - betStake * 10000) * 60 / 1000)) / 10000) + (this.getNetworkType === "Testnet"? ' tWGR' : ' WGR');
             },
 
             // Place a bet on a given event and sent the tx to the Wagerr blockchain.
