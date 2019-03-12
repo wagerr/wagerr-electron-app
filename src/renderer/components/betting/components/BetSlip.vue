@@ -52,7 +52,7 @@
 
                         <div class="bet-returns">
 
-                            <span class="pull-left">Potential returns:</span>
+                            <span class="pull-left">Winnings:</span>
 
                             <span :id="index" class="potential-returns pull-right">0 {{ getNetworkType === "Testnet"? 'tWGR' : 'WGR' }}</span>
 
@@ -114,7 +114,7 @@
                 let winnings = odds * betStake;
 
                 // Set the potential winnings on the UI.
-                document.getElementById(index).innerText = ((winnings - ((winnings - betStake * 10000) * 60 / 1000)) / 10000) + ' WGR';
+                document.getElementById(index).innerText = ((winnings - ((winnings - betStake * 10000) * 60 / 1000)) / 10000) + (this.getNetworkType === "Testnet"? 'tWGR' : 'WGR');
             },
 
             // Place a bet on a given event and sent the tx to the Wagerr blockchain.
