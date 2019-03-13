@@ -60,7 +60,7 @@
 
                     <div class="options">
 
-                        <a href="#!" @click="clearForm()" class="modal-close waves-effect waves-light btn wagerr-red-bg">CANCEL</a>
+                        <a @click="clearForm()" class="modal-close waves-effect waves-light btn wagerr-red-bg">CANCEL</a>
 
                         <button type="submit" class="waves-effect waves-light btn green">UPDATE</button>
 

@@ -152,7 +152,7 @@
 
                         <div class="options-verify">
 
-                            <a href="#!" @click="clearForms()" class="modal-close waves-effect waves-light btn wagerr-red-bg">CANCEL</a>
+                            <a @click="clearForms()" class="modal-close waves-effect waves-light btn wagerr-red-bg">CANCEL</a>
 
                             <button type="submit" class="waves-effect waves-light btn green">VERIFY MESSAGE</button>
 

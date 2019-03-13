@@ -56,7 +56,7 @@
 
                     <div class="options">
 
-                        <a href="#!" @click="clearForm" class="modal-close waves-effect waves-light btn wagerr-red-bg">Cancel</a>
+                        <a @click="clearForm" class="modal-close waves-effect waves-light btn wagerr-red-bg">Cancel</a>
 
                         <button type="submit" class="waves-effect waves-light btn green">Encrypt</button>
 
