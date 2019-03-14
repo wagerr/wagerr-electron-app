@@ -6,7 +6,7 @@
 
             <div class="col s12 splash-image">
 
-                <img src="../../assets/images/wagerr_logo_red.png"/>
+                <img :src="logoUrl"/>
 
             </div>
 
@@ -90,6 +90,8 @@
     import networkRPC from '@/services/api/network_rpc';
     import ipcRender from '../../../common/ipc/ipcRender';
 
+    let path = require('path');
+
     export default {
         name: "SplashScreen",
 
@@ -153,7 +155,7 @@
                 let years;
                 let remainder;
 
-                if( Math.round(secs / HOUR_IN_SECONDS) === 0 ){
+                if ( Math.round(secs / HOUR_IN_SECONDS) === 0 ) {
                     // Wallet is synced enough to all user access.
                     this.updateWalletLoaded(true);
                 }
@@ -231,6 +233,12 @@
                 }.bind(this));
             }
 
+        },
+
+        data () {
+            return {
+                logoUrl: path.join( __static, '/images/wagerr_logo_red.png')
+            }
         },
 
         async created () {

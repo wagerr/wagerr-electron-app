@@ -38,7 +38,7 @@ export default class Daemon {
             }
         });
 
-        this.wagerrdProcess = spawn(wagerrdPath, wagerrdArgs, { shell:true });
+        this.wagerrdProcess = spawn(wagerrdPath, wagerrdArgs);
         this.wagerrdProcess.stdout.on('data', data => console.log(`Daemon: ${data}`));
         this.wagerrdProcess.stderr.on('data', data => console.error(`Daemon: ${data}`));
         this.wagerrdProcess.on('error', data => console.log(`Daemon: ${data}`));
