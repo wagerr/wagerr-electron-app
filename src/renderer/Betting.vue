@@ -57,7 +57,7 @@
     }
 
     .betting-main{
-        margin-left: 150px;
+        margin-left: 160px;
     }
 
 </style>

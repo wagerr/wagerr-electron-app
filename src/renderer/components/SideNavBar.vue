@@ -371,7 +371,7 @@
         position:fixed;
         top:0px;
         left:0px;
-        width: 150px;
+        width: 160px;
         height:100%;
         background-color: $dark_grey;
         padding-top:60px;
