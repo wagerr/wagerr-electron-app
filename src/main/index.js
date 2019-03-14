@@ -167,8 +167,8 @@ app.on('window-all-closed', async () => {
 
     if (process.platform !== 'darwin') {
         if (daemon) {
-            await daemon.stop();
-            await app.quit();
+             daemon.stop();
+             //app.quit();
         }
     }
 });

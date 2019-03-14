@@ -7,7 +7,7 @@ import {dialog} from 'electron';
 import decompress from 'decompress';
 import findProcess from "find-process";
 import constants from '../constants/constants';
-import {spawn} from 'child_process';
+import {spawn, execSync} from 'child_process';
 const packageJSON = require('../../../package.json');
 import * as blockchain from '../blockchain/blockchain';
 let appRoot = require('app-root-path');
@@ -47,7 +47,7 @@ export default class Daemon {
                 type: 'error',
                 buttons: ['OK'],
                 message: 'Wagerr daemon has stopped!',
-                detail: 'The Wagerr daemon is no longer running, Wagerr wallet will now exit.'
+                detail: 'The Wagerr daemon is no longer running.'
             });
         });
     }
@@ -62,17 +62,32 @@ export default class Daemon {
 
             console.log('Stopping wagerrd....');
 
-            let isRunning = this.isWagerrdRunning();
+            let isRunning = await this.isWagerrdRunning();
 
             // If wagerrd running then kill it.
             if (isRunning) {
-                this.wagerrdProcess.stdin.pause();
-                this.wagerrdProcess.kill();
+                let platform = os.platform();
+
+                console.log(platform)
+
+                // Kill the wagerrd child process on windows OS.
+                if (platform === 'win32') {
+                    try {
+                        execSync(`taskkill /pid ${this.wagerrdProcess.pid} /t /f`)
+                    }
+                    catch (error) {
+                        reject();
+                        console.error(error.message)
+                    }
+                }
+                // Kill the wagerrd process on Mac and Linux OS.
+                else {
+                    this.wagerrdProcess.kill();
+                }
             }
 
             // Wait while the wagerrd exits as this can varying in time.
             while (isRunning){
-                console.log(isRunning)
                 isRunning = await this.isWagerrdRunning();
             }
 
@@ -178,7 +193,7 @@ export default class Daemon {
      * @returns {Promise<*>}
      */
     async isWagerrdRunning () {
-        let processList = await findProcess('name', `daemon/${blockchain.daemonName}`);
+        let processList = await findProcess('name', `${blockchain.daemonName}`);
 
         let platform = os.platform();
 
