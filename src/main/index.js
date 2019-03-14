@@ -312,7 +312,7 @@ ipcMain.on('resync-blockchain', async (event, arg) => {
         message: 'Are you sure?',
         cancelId: 1,
         defaultId: 0,
-        detail: 'Delete all local block chain so wallet synchronises from scratch.'
+        detail: 'Delete local block chain so wallet synchronises from scratch.'
     });
 
     if (!cancel) {
