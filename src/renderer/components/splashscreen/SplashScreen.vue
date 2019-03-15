@@ -197,7 +197,7 @@
                         }
 
                         // If we have no peers show a warning message to the user.
-                        if(count === 10){
+                        if(count === 15){
                             ipcRender.noPeers();
                             clearInterval(intervalId);
                             resolve(true);
