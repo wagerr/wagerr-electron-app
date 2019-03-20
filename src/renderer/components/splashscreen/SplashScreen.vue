@@ -172,7 +172,7 @@
                     years     = secs / YEAR_IN_SECONDS;
                     remainder = secs % YEAR_IN_SECONDS;
 
-                    timeBehindText = Math.round(years) + ' year and ' + Math.round(remainder / WEEK_IN_SECONDS) + ' behind, Scanning block ' + blockchainInfo.blocks;
+                    timeBehindText = Math.round(years) + ' year and ' + Math.round(remainder / WEEK_IN_SECONDS) + ' weeks behind, Scanning block ' + blockchainInfo.blocks;
                 }
 
                 return timeBehindText;
