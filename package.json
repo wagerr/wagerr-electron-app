@@ -82,6 +82,8 @@
       "packageCategory": "utils",
       "icon": "build/icons/icon.icns",
       "maintainer": "CryptoKnight <cryptoknight1988@gmail.com>",
+      "synopsis": "Wagerr Electron Wallet",
+      "executableName": "WagerrWallet",
       "target": [
         {
           "target": "deb",

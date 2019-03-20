@@ -1,7 +1,8 @@
-const { app, dialog } = require('electron');
+const {dialog, BrowserWindow} = require('electron');
 
 function deamonRunningError () {
-    let cancel = dialog.showMessageBox({
+    dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
+
         type: 'error',
         buttons: ['Confirm'],
         message: 'Wagerr daemon already running!',
@@ -11,7 +12,7 @@ function deamonRunningError () {
 }
 
 function noPeersConnectionError () {
-    let cancel = dialog.showMessageBox({
+    dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
         type: 'error',
         title: 'Wagerr Network Error',
         buttons: ['Confirm'],

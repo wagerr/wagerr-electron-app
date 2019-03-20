@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import axios from 'axios';
 import fsPath from 'fs-path';
-import {dialog} from 'electron';
+import {BrowserWindow, dialog} from 'electron';
 import decompress from 'decompress';
 import findProcess from "find-process";
 import constants from '../constants/constants';
@@ -43,7 +43,7 @@ export default class Daemon {
         this.wagerrdProcess.stderr.on('data', data => console.error(`Daemon: ${data}`));
         this.wagerrdProcess.on('error', data => console.log(`Daemon: ${data}`));
         this.wagerrdProcess.on('exit', data => {
-            dialog.showMessageBox({
+            dialog.showMessageBox( BrowserWindow.getFocusedWindow(),{
                 type: 'error',
                 buttons: ['OK'],
                 message: 'Wagerr daemon has stopped!',
@@ -62,13 +62,11 @@ export default class Daemon {
 
             console.log('Stopping wagerrd....');
 
-            let isRunning = await this.isWagerrdRunning();
+            let isRunning = this.isWagerrdRunning();
 
             // If wagerrd running then kill it.
             if (isRunning) {
                 let platform = os.platform();
-
-                console.log(platform)
 
                 // Kill the wagerrd child process on windows OS.
                 if (platform === 'win32') {
@@ -76,7 +74,7 @@ export default class Daemon {
                         execSync(`taskkill /pid ${this.wagerrdProcess.pid} /t /f`)
                     }
                     catch (error) {
-                        reject();
+                        reject(error.message);
                         console.error(error.message)
                     }
                 }
@@ -203,6 +201,15 @@ export default class Daemon {
         else {
             return processList.length > 0;
         }
+
+        //processList.forEach(function (process) {
+        //    if (process.name === `${blockchain.daemonName}`) {
+        //        console.log("Wagerrd running...");
+        //        return true;
+        //    }
+        //});
+
+        //return false;
     }
 
     /**
