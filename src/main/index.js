@@ -1,14 +1,14 @@
 'use strict';
 
-// import isDev from 'electron-is-dev';
-let path = require('path');
-
 import menus from './menu/menus';
 import errors from './alerts/errors';
 const {ipcMain} = require('electron');
 import Daemon from  './blockchain/daemon';
 import * as blockchain from './blockchain/blockchain';
-import {app, BrowserWindow, dialog, Menu} from 'electron';
+import {app, BrowserWindow, dialog} from 'electron';
+
+// import isDev from 'electron-is-dev';
+let path = require('path');
 
 // Main app URL.
 const winURL = process.env.NODE_ENV === 'development' ? `http://localhost:9080` : `file://${__dirname}/index.html`;
@@ -18,6 +18,7 @@ if (process.env.NODE_ENV !== 'development') {
     global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
 
+// Globals
 let daemon;
 let mainWindow;
 global.restarting = false;
@@ -26,7 +27,6 @@ global.restarting = false;
  * Render the main window for the Wagerr wallet.
  */
 function createMainWindow () {
-
     // Initial window options.
     mainWindow = new BrowserWindow({
         backgroundColor: '#2B2C2D',
@@ -36,13 +36,7 @@ function createMainWindow () {
         minWidth: 1200,
         show: false,
         icon:  path.join(__dirname, '../renderer/assets/images/icons/png/256.png'),
-        useContentSize: true
-        // webPreferences: {
-        //     // Disable renderer process's webSecurity on development to enable CORS.
-        //     webSecurity: !isDev,
-        //     //nodeIntegration: false,
-        //     plugins: true
-        // }
+        useContentSize: true,
     });
 
     // Close the web developer's console.
@@ -61,22 +55,7 @@ function createMainWindow () {
 
     // Show a popup dialog if the main window is unresponsive.
     mainWindow.on('unresponsive', () => {
-        dialog.showMessageBox(
-            BrowserWindow.getFocusedWindow(),
-            {
-                type: 'warning',
-                buttons: ['Wait', 'Quit'],
-                title: 'Wagerr Unresponsive',
-                defaultId: 1,
-                message: 'WAGERR is not responding. Would you like to quit?',
-                cancelId: 0
-            },
-            buttonIndex => {
-                if (buttonIndex === 1){
-                    app.quit();
-                }
-            }
-        )
+       errors.wagerrdUnresponsive();
     });
 
     // Once electron app is ready then display the vue UI.
@@ -90,17 +69,17 @@ function createMainWindow () {
     });
 
     // If running in dev mode then also open dev tools on the main window.
-    // mainWindow.webContents.on('did-finish-load', () => {
-    //     if (isDev) {
-    //         mainWindow.webContents.openDevTools()
-    //     }
-    // });
+    mainWindow.webContents.on('did-finish-load', () => {
+        //console.log('did-finish-loading...');
+        //mainWindow.webContents.openDevTools()
+    });
 
     // If the main window has crashed, clear it.
     mainWindow.webContents.on('crashed', () => {
         mainWindow = null
     });
 
+    // Reset the wallet restarting setting.
     global.restarting = false;
 }
 
@@ -144,11 +123,9 @@ async function init (args) {
     await createMainWindow();
 }
 
-// If electron app is ready start the daemon and render the UI.
 app.on('ready', async () => {
     console.log('\x1b[32mElectron starting...\x1b[0m');
     await init();
-
 });
 
 app.on('before-quit', async () => {
@@ -163,22 +140,14 @@ app.on('will-quit', async () => {
     }
 });
 
-// If user closes the window, kill the electron app.
 app.on('window-all-closed', async () => {
     console.log('\x1b[32mwindow-all-closed\x1b[0m');
 
     if (process.platform !== 'darwin') {
 
         if (daemon && !global.restarting ) {
-            await daemon.stop()
-                .then(function () {
-                    console.log("app quit()")
-                    app.quit();
-                })
-                .catch(function () {
-                    console.log('Wagerrd may not have shutdown correctly.');
-                });
-
+            await daemon.stop();
+            app.quit();
         }
     }
 });
@@ -188,7 +157,6 @@ app.on('activate', async () => {
         await createMainWindow();
     }
 });
-
 
 
 // TODO - Move code to more appropriate location or new file.
@@ -402,4 +370,4 @@ autoUpdater.on('update-downloaded', () => {
 app.on('ready', () => {
   if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
 })
- */
+*/

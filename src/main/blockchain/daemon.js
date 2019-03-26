@@ -1,21 +1,21 @@
 import os from 'os';
 import fs from 'fs';
 import path from 'path';
-import axios from 'axios';
-import fsPath from 'fs-path';
-import {BrowserWindow, dialog} from 'electron';
+import {spawn} from 'child_process';
 import decompress from 'decompress';
 import findProcess from "find-process";
+import errDialog from '../alerts/errors';
+import {app, BrowserWindow} from 'electron';
 import constants from '../constants/constants';
-import {spawn, execSync} from 'child_process';
-const packageJSON = require('../../../package.json');
 import * as blockchain from '../blockchain/blockchain';
-let appRoot = require('app-root-path');
+
+const request = require('request');
+const packageJSON = require('../../../package.json');
 
 export default class Daemon {
 
-    handlers;
     wagerrdProcess;
+    downloadWin;
 
     constructor () {
 
@@ -36,19 +36,13 @@ export default class Daemon {
             if (err) {
                 console.error(err)
             }
-        });
 
-        this.wagerrdProcess = spawn(wagerrdPath, wagerrdArgs);
-        this.wagerrdProcess.stdout.on('data', data => console.log(`Daemon: ${data}`));
-        this.wagerrdProcess.stderr.on('data', data => console.error(`Daemon: ${data}`));
-        this.wagerrdProcess.on('error', data => console.log(`Daemon: ${data}`));
-        this.wagerrdProcess.on('exit', data => {
-            dialog.showMessageBox( BrowserWindow.getFocusedWindow(),{
-                type: 'error',
-                buttons: ['OK'],
-                message: 'Wagerr daemon has stopped!',
-                detail: 'The Wagerr daemon is no longer running.'
-            });
+            // Spawn the wagerrd and attach event callbacks.
+            this.wagerrdProcess = spawn(wagerrdPath, wagerrdArgs);
+            this.wagerrdProcess.stdout.on('data', data => console.log(`Daemon: ${data}`));
+            this.wagerrdProcess.stderr.on('data', data => console.error(`Daemon: ${data}`));
+            this.wagerrdProcess.on('error', data => errDialog.wagerrdError(data));
+            this.wagerrdProcess.on('exit', data => errDialog.wagerrdStopped());
         });
     }
 
@@ -58,35 +52,19 @@ export default class Daemon {
      * @returns {Promise<void>}
      */
     stop () {
-        return new Promise(async (resolve, reject) => {
+        return new Promise(async (resolve) => {
 
-            console.log('Stopping wagerrd....');
+            let running = true;
+            let cliPath = this.getWagerrCliPath();
 
-            let isRunning = this.isWagerrdRunning();
+            // Call wagerr cli to stop the wagerr daemon.
+            let wagerrcliProcess = spawn(cliPath, ['stop']);
 
-            // If wagerrd running then kill it.
-            if (isRunning) {
-                let platform = os.platform();
-
-                // Kill the wagerrd child process on windows OS.
-                if (platform === 'win32') {
-                    try {
-                        execSync(`taskkill /pid ${this.wagerrdProcess.pid} /t /f`)
-                    }
-                    catch (error) {
-                        reject(error.message);
-                        console.error(error.message)
-                    }
-                }
-                // Kill the wagerrd process on Mac and Linux OS.
-                else {
-                    this.wagerrdProcess.kill();
-                }
-            }
+            wagerrcliProcess.stdout.on('data', data => console.log(`Daemon: ${data}`));
 
             // Wait while the wagerrd exits as this can varying in time.
-            while (isRunning){
-                isRunning = await this.isWagerrdRunning();
+            while (running){
+                running = await this.isWagerrdRunning();
             }
 
             resolve();
@@ -101,80 +79,88 @@ export default class Daemon {
     async downloadWagerrDaemon () {
         return new Promise((resolve, reject) => {
 
-            const daemonURLTemplate = packageJSON.wagerrSettings.daemonUrlTemplate;
-            const daemonVersion     = packageJSON.wagerrSettings.daemonVersion;
-            let daemonFileName      = packageJSON.wagerrSettings.daemonFileName;
-            const daemonDir         = packageJSON.wagerrSettings.daemonDir;
-            let daemonOriginalName  = packageJSON.wagerrSettings.daemonOriginalName;
+            // First show the wagerr daemon download window so we can show progress to user.
+            this.showDownloadDameonWindow();
 
-            let buildingPlatform = os.platform();
+            // Check the users platform so we can download the right wagerr daemon and wagerr-cli.
+            let platform = os.platform();
 
-            let daemonPlatform = constants.OSX_64;
-            let daemonExt      = constants.TAR_EXT;
+            let daemonPlatform = '';
+            let daemonExt      = '';
+            let receivedBytes  = 0;
+            let totalBytes     = 0;
 
             // Mac
-            if (buildingPlatform === constants.MAC) {
+            if (platform === constants.MAC) {
                 daemonPlatform = constants.OSX_64;
                 daemonExt      = constants.TAR_EXT;
             }
-
             // Linux
-            if (buildingPlatform === constants.LINUX) {
+            if (platform === constants.LINUX) {
                 daemonPlatform = constants.LINUX_X86_64;
                 daemonExt      = constants.TAR_EXT;
             }
-
             // Windows
-            if (buildingPlatform === constants.WIN_32) {
-                daemonPlatform     = constants.WIN_64;
-                daemonExt          = constants.ZIP_EXT;
-                daemonFileName     = daemonFileName + constants.EXE_EXT;
-                daemonOriginalName = daemonOriginalName + constants.EXE_EXT;
+            if (platform === constants.WIN_32) {
+                daemonPlatform = constants.WIN_64;
+                daemonExt      = constants.ZIP_EXT;
             }
 
-            // Create the URL used to download the Wagerr daemon.
+            // Create the URL used to download the Wagerr daemon and cli.
+            const daemonURLTemplate = packageJSON.wagerrSettings.daemonUrlTemplate;
+            const daemonVersion     = packageJSON.wagerrSettings.daemonVersion;
+
             const daemonURL = daemonURLTemplate
                 .replace(/DAEMONVER/g, daemonVersion)
                 .replace(/OSNAME/g, daemonPlatform)
                 .replace(/OSEXT/g, daemonExt);
-            const tmpZipPath = path.join('dist/daemon.' + daemonExt);
+
+            const tmpZipPath = app.getPath('userData') + '/daemon.' + daemonExt;
 
             console.log('\x1b[32m' + daemonURL, '\nDownloading daemon...\x1b[32m');
 
-            // Send get request to download.
-            axios.get(daemonURL, {
-                responseType: 'arraybuffer',
-                headers: {
-                    'Content-Type': 'application/zip'
-                }
-            })
-            .then(
-                result => new Promise((resolve, reject) => {
-                    fsPath.writeFile(tmpZipPath, result.data, error => {
-                        if (error) {
-                            return reject(error);
-                        }
+            // Send GET request to download the wagerr daemon and cli.
+            let req = request({
+                method: 'GET',
+                uri: daemonURL
+            });
 
-                        return resolve();
-                    });
-                })
-            )
-            .then(() => {
-                return decompress(tmpZipPath, path.join(__static,'/daemon/'), {
+            // Write data to disk.
+            let out = fs.createWriteStream(tmpZipPath);
+            req.pipe(out);
+
+            // Get the total download size in bytes.
+            req.on('response', function (data) {
+                totalBytes = parseInt(data.headers['content-length']);
+            });
+
+            // Update the download status by sending the percentage to the download render window.
+            req.on('data', function (chunk) {
+                receivedBytes += chunk.length;
+                let percentage = Math.round((receivedBytes * 100) / totalBytes);
+
+                this.downloadWin.webContents.send('download-percentage', percentage);
+            }.bind(this));
+
+            // When download is finished, unpack the tar file to extract the wagerr daemon and wagerr-cli.
+            req.on('end', function () {
+                decompress(tmpZipPath, app.getPath('userData'), {
                     filter: file => {
-                        return file.path === daemonFileName;
+                        return file.path === blockchain.daemonName || file.path === blockchain.cliName;
                     },
                     strip: 2
                 })
-            })
-            .then(() => {
-                resolve(true);
-            })
-            .catch(error => {
-                console.error(`\x1b[31merror\x1b[0m Daemon download failed due to: \x1b[35m${error}\x1b[0m`);
-                reject(error)
-            })
-        })
+                .then(() => {
+                    console.log('\x1b[32m Wagerr daemon and cli downloaded sucessfully...\x1b[32m');
+                    this.downloadWin.close();
+                    resolve();
+                })
+                .catch(error => {
+                    console.error(`\x1b[31m error \x1b[0m Wagerr daemon and cli download failed due to: \x1b[35m${error}\x1b[0m`);
+                    reject(error);
+                });
+            }.bind(this))
+        });
     }
 
     /**
@@ -183,7 +169,7 @@ export default class Daemon {
      * @returns {boolean}
      */
     wagerrdExists () {
-        return fs.existsSync(path.join(__static,'daemon/wagerrd')) || fs.existsSync(path.join(__static,'/daemon/wagerrd.exe'));
+        return fs.existsSync(app.getPath('userData') + `/${blockchain.daemonName}${os.platform() === 'win32' ? '.exe' : ''}`);
     }
 
     /**
@@ -201,15 +187,6 @@ export default class Daemon {
         else {
             return processList.length > 0;
         }
-
-        //processList.forEach(function (process) {
-        //    if (process.name === `${blockchain.daemonName}`) {
-        //        console.log("Wagerrd running...");
-        //        return true;
-        //    }
-        //});
-
-        //return false;
     }
 
     /**
@@ -218,9 +195,16 @@ export default class Daemon {
      * @returns string
      */
     getWagerrdPath () {
-        //return process.env.WAGERR_DAEMON || path.join(__static, `daemon/${blockchain.daemonName}${os.platform() === 'win32' ? '.exe' : ''}`)
+        return process.env.WAGERR_DAEMON || app.getPath('userData') + `/${blockchain.daemonName}${os.platform() === 'win32' ? '.exe' : ''}`
+    }
 
-        return appRoot + '/daemon/wagerrd'
+    /**
+     * Returns the wagerr-cli file path.
+     *
+     * @returns string
+     */
+    getWagerrCliPath () {
+        return process.env.WAGERR_DAEMON || app.getPath('userData') + '/' + `${blockchain.cliName}${os.platform() === 'win32' ? '.exe' : ''}`
     }
 
     /**
@@ -236,6 +220,38 @@ export default class Daemon {
         }
 
         return wagerrdArgs;
+    }
+
+    /**
+     * Creates the browser window to show the download status of the wagerr daemon.
+     */
+    showDownloadDameonWindow () {
+        // Create the browser window.
+        this.downloadWin = new BrowserWindow({
+            backgroundColor: '#2B2C2D',
+            height: 270,
+            width: 500,
+            minHeight: 270,
+            minWidth: 500,
+            show: false,
+            icon:  path.join(__dirname, '../renderer/assets/images/icons/png/256.png'),
+        });
+
+        // Emitted when the window is closed.
+        this.downloadWin.on('closed', () => {
+            this.downloadWin = null
+        });
+
+        this.downloadWin.webContents.closeDevTools();
+
+        this.downloadWin.loadFile(path.join(__static,'/html/download_daemon.html'));
+
+        // Once download status window ready then show it.
+        this.downloadWin.once('ready-to-show', () => {
+            this.downloadWin.show();
+            this.downloadWin.focus();
+        });
+
     }
 
 }
