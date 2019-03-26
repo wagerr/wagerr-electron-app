@@ -240,7 +240,7 @@
 
           </li>
 
-          <li @click="filterEvents('MMA')">
+          <li @click="filterEvents('Mixed Martial Arts')">
 
               <div class="parent">
 
