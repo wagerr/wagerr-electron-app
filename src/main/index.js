@@ -115,7 +115,7 @@ async function init (args) {
          daemon.launch(args);
     }
     else{
-        // Show popup warning the users a wagerrd instance is allreaday running
+        // Show popup warning the users a wagerrd instance is all ready running.
         errors.deamonRunningError()
     }
 
