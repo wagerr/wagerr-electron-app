@@ -6,6 +6,7 @@ let testnet       = 0;
 let rpcUser       = 'wagerr';
 let rpcPass       = 'bethehouse';
 let daemonName    = 'wagerrd';
+let cliName       = 'wagerr-cli';
 let mnoCollateral = 25000;
 let rpcPort       = 8332;
 let minTxFee      = 0.00010000;
@@ -121,6 +122,7 @@ export {
     rpcUser,
     rpcPass,
     daemonName,
+    cliName,
     readWagerrConf,
     getWagerrTestnetDataPath,
     getWagerrDataPath,
