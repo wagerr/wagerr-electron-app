@@ -1,11 +1,3 @@
-/**
- * Contains all the methods to store users bet slip state and add/remove bets from the bet slip.
- *
- * @author CryptoKnight <cryptoknight1988@gmail.com>
- * @module BetSlip
- * @package Wagerr HTML5 Wallet
- */
-
 const state = {
 
   betSlip: []
