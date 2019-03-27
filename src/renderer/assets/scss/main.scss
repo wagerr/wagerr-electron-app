@@ -1,5 +1,6 @@
 // Import scss files so we can use here...
-@import 'variables.scss';
+@import 'variables';
+@import 'fonts';
 
 html{
 
@@ -471,7 +472,3 @@ a.wallet-action {
     left: 15px;
     top: 15px;
 }
-
-
-
-

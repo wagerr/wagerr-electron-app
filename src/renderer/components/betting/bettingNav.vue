@@ -39,6 +39,5 @@
 <style lang="scss" scoped>
 
     @import "../../assets/scss/_variables.scss";
-    @import "../../assets/scss/_fonts.scss";
 
 </style>

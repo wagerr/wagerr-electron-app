@@ -241,7 +241,6 @@
 <style lang="scss" scoped>
 
     @import "../assets/scss/_variables.scss";
-    @import "../assets/scss/_fonts.scss";
 
     .top-nav > .router-link-active{
         background-color: $wagerr_red;

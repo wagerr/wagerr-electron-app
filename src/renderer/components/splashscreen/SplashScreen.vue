@@ -272,14 +272,12 @@
 <style scoped lang="scss">
 
     @import "../../assets/scss/_variables.scss";
-    @import "../../assets/scss/_fonts.scss";
 
     .splash{
         padding-top: 10%;
         margin: auto;
         width: 50%;
         color: white;
-        font-family: 'Raleway', cursive;
     }
 
     .splash-loading-container{
