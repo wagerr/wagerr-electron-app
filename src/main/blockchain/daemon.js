@@ -152,7 +152,7 @@ export default class Daemon {
                 })
                 .then(() => {
                     console.log('\x1b[32m Wagerr daemon and cli downloaded sucessfully...\x1b[32m');
-                    this.downloadWin.destroy();
+                    this.downloadWin.hide();
                     resolve();
                 })
                 .catch(error => {
