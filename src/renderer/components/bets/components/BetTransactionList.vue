@@ -87,9 +87,9 @@
             outcomeToText: function (outcome) {
                 switch(outcome) {
                     case 1:
-                        return 'Money Line Win';
+                        return 'Money Line Home';
                     case 2:
-                        return 'Money Line Lose';
+                        return 'Money Line Away';
                     case 3:
                         return 'Money Line Draw';
                     case 4:
