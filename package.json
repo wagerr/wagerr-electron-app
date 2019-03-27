@@ -1,6 +1,6 @@
 {
   "name": "wagerr-wallet",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "WagerrDev <cryptoknight1988@gmail.com>",
   "description": "Wagerr Electron Wallet which enables betting on the Wagerr blockchain.",
   "license": "MIT",
