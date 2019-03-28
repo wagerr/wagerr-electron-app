@@ -3,8 +3,8 @@ import PropertiesReader from 'properties-reader';
 
 // Blockchain variables.
 let testnet       = 0;
-let rpcUser       = 'wagerr';
-let rpcPass       = 'bethehouse';
+let rpcUser       = uuidv4();
+let rpcPass       = uuidv4();
 let daemonName    = 'wagerrd';
 let cliName       = 'wagerr-cli';
 let mnoCollateral = 25000;
@@ -26,6 +26,20 @@ const environment = Object.assign({
     isProduction: () => environment.current === environment.PRODUCTION,
     isMainnet:    () => environment.NETWORK === 'mainnet'
 }, process.env);
+
+// If the user has not specified a rpcuser and rpcpassword in their wagerr.conf
+// then generate random RFC4122 version 4 compliant UUIDs for them. Be aware
+// that UUID uniqueness relies heavily on the underlying random number generator
+// (RNG). This function uses Math.random() for brevity, however
+// Math.random() is not guaranteed to be a high-quality RNG.
+//
+// https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
+function uuidv4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
 
 /**
  * Check if the wagerr.conf file exists on the users system. If so then read the contents into state variables.
