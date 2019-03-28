@@ -21,6 +21,8 @@
 
                     <th class="col s1 m1 l1 hide-on-med-and-down">Date</th>
 
+                    <th class="col s1 m1 l1 hide-on-small-only">Transaction ID</th>
+
                     <th class="col s1 m1 l1 hide-on-small-only">Type</th>
 
                     <!--<th class="col s3s m3 l3 hide-on-med-and-down show-on-large">Blockhash</th>-->
@@ -71,6 +73,22 @@
 
                     <td class="col s1s m1 l1 hide-on-small-only" :class="{ 'confirmation-conflicted' : tx.confirmations === -1 }">
 
+                    <a v-clipboard="tx.transactionid" @click="copiedAlert()" class="transaction-list-link tooltipped" data-position="bottom" data-tooltip="Copy">
+
+                        <i class="far fa-copy"></i>
+
+                    </a>
+
+                    <a @click="blockExplorerUrl(tx.transactionid)" class="transaction-list-link tooltipped" data-position="bottom" data-tooltip="Open in block explorer">
+
+                        <i class="fas fa-link"></i>
+
+                    </a>
+
+                    </td>
+
+                    <td class="col s1s m1 l1 hide-on-small-only" :class="{ 'confirmation-conflicted' : tx.confirmations === -1 }">
+
                         {{tx.type}}
 
                     </td>
@@ -102,6 +120,7 @@
 <script>
 
     import Vuex from 'vuex';
+    import constants from '../../../main/constants/constants';
 
     export default {
         name: 'TransactionList',
@@ -118,7 +137,14 @@
         methods: {
             ...Vuex.mapActions([
                 ''
-            ])
+            ]),
+
+            blockExplorerUrl (txId) {
+                let shell       = require('electron').shell;
+                let explorerUrl = this.getNetworkType === 'Testnet' ? constants.TESTNET_EXP_URL : constants.MAINNET_EXP_URL;
+
+                shell.openExternal(explorerUrl + '/#/tx/' + txId);
+            }
         }
     }
 
@@ -163,4 +189,15 @@
         color: orangered;
     }
 
+    .transaction-list-link{
+        color: $dark_grey;
+        cursor: pointer;
+        font-size: 1.5em;
+        padding: 17px;
+    }
+
+    .transaction-list-link:hover{
+        color: $wagerr_dark_red;
+        cursor: pointer;
+    }
 </style>
