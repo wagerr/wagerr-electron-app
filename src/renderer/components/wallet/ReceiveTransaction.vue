@@ -36,7 +36,7 @@
 
                     <div class="circle-icon">
 
-                        <span class="inner-circle">
+                        <span class="inner-circle tooltipped" data-position="bottom" data-tooltip="Copy">
 
                             <a v-clipboard="accountAddress" @click="copiedAlert()" class="circle-icon-link">
 
@@ -50,7 +50,7 @@
 
                     <div class="circle-icon">
 
-                        <span class="inner-circle">
+                        <span class="inner-circle tooltipped" data-position="bottom" data-tooltip="Print">
 
                             <a class="circle-icon-link">
 
@@ -64,7 +64,7 @@
 
                     <div class="circle-icon">
 
-                        <span class="inner-circle">
+                        <span class="inner-circle tooltipped" data-position="bottom" data-tooltip="Email">
 
                             <a class="circle-icon-link" :href="'mailto:wagerr@example.com?Subject=Wagerr Wallet Address&Body=My Wagerr address is: ' + accountAddress" target="_top">
 
@@ -78,7 +78,7 @@
 
                     <div class="circle-icon">
 
-                        <span class="inner-circle">
+                        <span class="inner-circle tooltipped" data-position="bottom" data-tooltip="Open in block explorer">
 
                             <a class="circle-icon-link" @click="blockExplorerUrl">
 
