@@ -110,11 +110,16 @@
             // Calculate the potential winnings of a bet.
             calcPotentialWinnings: function (event, odds, index) {
 
+                odds = odds / 10000;
+                let betFeePercent = 0.06;
                 let betStake = event.target.value;
-                let winnings = odds * betStake;
+                let grossWinnings = odds * betStake;
+                let grossProfit = grossWinnings - betStake;
+                let betFee = grossProfit * betFeePercent;
+                let netWinnings = grossWinnings - betFee;
 
                 // Set the potential winnings on the UI.
-                document.getElementById(index).innerText = ((winnings - ((winnings - betStake * 10000) * 60 / 1000)) / 10000) + (this.getNetworkType === "Testnet"? ' tWGR' : ' WGR');
+                document.getElementById(index).innerText = netWinnings.toFixed(8) + (this.getNetworkType === "Testnet"? ' tWGR' : ' WGR');
             },
 
             // Place a bet on a given event and sent the tx to the Wagerr blockchain.
