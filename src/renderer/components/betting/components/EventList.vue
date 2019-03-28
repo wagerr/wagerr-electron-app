@@ -10,11 +10,18 @@
 
                 <li v-for="( event ) in eventsList" :key="event.event_id" class="card">
 
+                    <div class="event-tournament">
+
+                        <span>{{ event.tournament }}</span>
+                        <span class="pull-right">{{ Number(event.starting) | moment('timezone', getTimezone, 'LLL') }}</span>
+
+                    </div>
+
                     <div class="event-details">
 
                         <div class="col s12 m4">
 
-                            <div>{{ Number(event.starting) | moment('timezone', getTimezone, 'LLL') }}</div>
+                            <span></span>
 
                         </div>
 
@@ -292,14 +299,28 @@
         float: left;
     }
 
-    .event-details div{
-        font-size: 12px;
-        color: white;
-        padding: 0px 5px 0px 5px;
-        background-color: #414141;
+    .event-tournament {
+        background-color: $dark_grey;
+        border-bottom-width: 1px;
+        border-bottom-color: $light_grey;
+        border-bottom-style: solid;
+        color: #eeeeee;
+        font-weight: bold;
+        padding: 5px;
     }
 
-    .event-details span{
+    .event-details {
+        margin-right: -0.75px;
+    }
+
+    .event-details div {
+        background-color: $dark_grey;
+        color: $white;
+        font-size: 12px;
+        padding: 0px 5px 0px 5px;
+    }
+
+    .event-details span {
         margin-right: 5%;
     }
 
