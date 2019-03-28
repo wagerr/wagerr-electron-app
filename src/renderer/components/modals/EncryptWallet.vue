@@ -99,7 +99,7 @@
             encryptWallet: function () {
                 return new Promise((resolve, reject) => {
                     // Send RPC request to encrypt the users wallet with the provided password.
-                    wagerrRPC.client.encryptWallet(this.password, this.confirmPassword)
+                    wagerrRPC.client.encryptWallet(this.password)
                         .then(function (resp) {
                             // If successful response.
                             if (resp.error === 'null') {
