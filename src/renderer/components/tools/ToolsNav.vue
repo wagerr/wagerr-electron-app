@@ -4,19 +4,19 @@
 
         <ul class="row">
 
-            <router-link class="col s4"  tag="li" to="tools/">
+            <router-link class="col s4"  tag="li" to="/tools/info">
 
                 <button class="btn waves-effect red darken-4 waves-light">Info</button>
 
             </router-link>
 
-            <router-link class="col s4" tag="li" to="/peers">
+            <router-link class="col s4" tag="li" to="/tools/peers">
 
                 <button class="btn waves-effect red darken-4 waves-light">Peers</button>
 
             </router-link>
 
-            <router-link class="col s4" tag="li" to="/wallet_repair">
+            <router-link class="col s4" tag="li" to="/tools/wallet_repair">
 
                 <button class="btn waves-effect red darken-4 waves-light">Wallet Repair</button>
 

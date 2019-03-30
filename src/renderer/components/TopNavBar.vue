@@ -19,13 +19,13 @@
 
             </router-link>
 
-            <router-link tag="li" to="/betting">
+            <router-link tag="li" to="/betting/peerless">
 
                 <i class="icon-dice"></i>
 
             </router-link>
 
-            <router-link tag="li" to="/tools">
+            <router-link tag="li" to="/tools/info">
 
                 <i class="icon-wrench"></i>
 

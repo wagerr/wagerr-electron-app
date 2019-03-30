@@ -17,48 +17,48 @@ import H2H from '@/components/betting/H2H';
 import ChainGames from '@/components/betting/ChainGames';
 
 // Inject the router into the app.
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
     mode: 'history',
     routes: [
         { path: '/', component: Wallet },
         {
-            path: '/betting',
+            path: '/betting/',
             component: Betting,
             children: [
                 {
-                    path: '',
+                    path: 'peerless',
                     component: Peerless
                 },
                 {
-                    path: '/h2h',
+                    path: 'h2h',
                     component: H2H
                 },
                 {
-                    path: '/chain_games',
+                    path: 'chain_games',
                     component: ChainGames
                 }
             ]
         },
         { path: '/bets', component: Bets },
-        { path: '/tools',
+        { path: '/tools/',
             component: Tools,
             children: [
                 {
-                    path: '',
+                    path: 'info',
                     component: Information
                 },
                 {
-                    path: '/network',
+                    path: 'network',
                     component: Network
                 },
                 {
-                    path: '/peers',
+                    path: 'peers',
                     component: Peers
                 },
                 {
-                    path: '/wallet_repair',
+                    path: 'wallet_repair',
                     component: WalletRepair
                 }
             ]
