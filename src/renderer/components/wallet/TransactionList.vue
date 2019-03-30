@@ -55,7 +55,6 @@
 
                         <div class="timer-loader"></div>
 
-
                     </td>
 
                     <td v-else class="confirmations confirmation-success">

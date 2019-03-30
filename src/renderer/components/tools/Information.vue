@@ -54,7 +54,13 @@
 
                     <h5>Block Count</h5>
 
-                    <div class="number">{{ getBlocks }}</div>
+                    <div class="number">
+
+                        {{ getBlocks }}
+
+                        <i :class="[ getChainSyncStatus ? 'far fa-check-circle' : 'fas fa-sync-alt', 'tooltipped' ] " data-position="bottom" data-tooltip="Open in block explorer"></i>
+
+                    </div>
 
                 </div>
 
@@ -196,7 +202,8 @@
                 'getTxCount',
                 'walletVersion',
                 'getStakingStatus',
-                'getMsyncStatus'
+                'getMsyncStatus',
+                'getChainSyncStatus'
             ])
         },
 
@@ -206,7 +213,8 @@
                 'walletInfo',
                 'updateInfo',
                 'updateStakingStatus',
-                'updateNumMasternodes'
+                'updateNumMasternodes',
+                'updateChainSyncStatus'
             ]),
         },
 
@@ -217,12 +225,15 @@
             this.updateInfo();
             this.updateStakingStatus();
             this.updateNumMasternodes();
+            this.updateChainSyncStatus();
 
             this.timeout = setInterval(function () {
                 this.walletInfo();
                 this.updateInfo();
                 this.updateStakingStatus();
                 this.updateNumMasternodes();
+                this.updateChainSyncStatus();
+
 
                 if (this.blockCount !== this.getBlocks) {
                     this.blockCount = this.getBlocks;
@@ -280,6 +291,21 @@
     div .date{
         padding-top: 10px;
         font-size: 1.5em;
+    }
+
+    .fa-check-circle{
+        color: $success-green;
+        font-size: 20px;
+        margin-top: -10px;
+        top: -5px;
+        position: relative;
+    }
+
+    .fa-sync-alt{
+        color: $wagerr_dark_red;
+        font-size: 20px;
+        top: -5px;
+        position: relative;
     }
 
 </style>
