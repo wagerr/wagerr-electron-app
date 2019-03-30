@@ -223,10 +223,10 @@ export default class Daemon {
         // Create the browser window.
         this.downloadWin = new BrowserWindow({
             backgroundColor: '#2B2C2D',
-            height: 270,
-            width: 500,
-            minHeight: 270,
-            minWidth: 500,
+            height: 400,
+            width: 700,
+            minHeight: 400,
+            minWidth: 700,
             show: false,
             icon:  path.join(__dirname, '../renderer/assets/images/icons/png/256.png'),
         });
@@ -245,7 +245,5 @@ export default class Daemon {
             this.downloadWin.show();
             this.downloadWin.focus();
         });
-
     }
-
 }
