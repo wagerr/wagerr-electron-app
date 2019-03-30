@@ -1,4 +1,5 @@
 import networkRPC from '@/services/api/network_rpc';
+import masternodeRPC from '@/services/api/masternode_rpc';
 
 const state = function () {
 
@@ -13,6 +14,7 @@ const state = function () {
         networkVersion: '',
         stakingStatus: false,
         msyncStatus: false,
+        chainSyncStatus: false,
         peerInfo: {},
         bannedInfo: {}
     }
@@ -55,6 +57,10 @@ const getters = {
 
     getMsyncStatus: (state) => {
         return state.msyncStatus;
+    },
+
+    getChainSyncStatus: (state) => {
+        return state.chainSyncStatus;
     },
 
     getPeerInfo: (state) => {
@@ -136,6 +142,19 @@ const actions = {
             })
     },
 
+    updateChainSyncStatus ({commit}) {
+        masternodeRPC.getMNSyncStatus()
+            .then(function (resp) {
+                console.log(resp.IsBlockchainSynced);
+
+                commit('setChainSynced', resp.IsBlockchainSynced);
+
+            })
+            .catch(function (err) {
+                console.error(err);
+            })
+    }
+
 };
 
 const mutations = {
@@ -182,6 +201,10 @@ const mutations = {
 
     setBannedInfo (state, banned) {
         state.bannedInfo = banned;
+    },
+
+    setChainSynced (state, synced) {
+        state.chainSyncStatus = synced;
     }
 
 };
