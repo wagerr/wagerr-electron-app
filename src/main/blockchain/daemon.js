@@ -115,7 +115,7 @@ export default class Daemon {
                 .replace(/OSNAME/g, daemonPlatform)
                 .replace(/OSEXT/g, daemonExt);
 
-            const tmpZipPath = app.getPath('userData') + '/daemon.' + daemonExt;
+            const tmpZipPath = path.join(app.getPath('userData'), 'daemon.' + daemonExt);
 
             console.log('\x1b[32m' + daemonURL, '\nDownloading daemon...\x1b[32m');
 
@@ -146,7 +146,8 @@ export default class Daemon {
             req.on('end', function () {
                 decompress(tmpZipPath, app.getPath('userData'), {
                     filter: file => {
-                        return file.path === blockchain.daemonName || file.path === blockchain.cliName;
+                        return file.path === `${blockchain.daemonName}${os.platform() === 'win32' ? '.exe' : ''}` ||
+                               file.path === `${blockchain.cliName}${os.platform() === 'win32' ? '.exe' : ''}`;
                     },
                     strip: 2
                 })
@@ -169,7 +170,7 @@ export default class Daemon {
      * @returns {boolean}
      */
     wagerrdExists () {
-        return fs.existsSync(app.getPath('userData') + `/${blockchain.daemonName}${os.platform() === 'win32' ? '.exe' : ''}`);
+        return fs.existsSync(path.join(app.getPath('userData'), `${blockchain.daemonName}${os.platform() === 'win32' ? '.exe' : ''}`));
     }
 
     /**
@@ -188,7 +189,7 @@ export default class Daemon {
      * @returns string
      */
     getWagerrdPath () {
-        return process.env.WAGERR_DAEMON || app.getPath('userData') + `/${blockchain.daemonName}${os.platform() === 'win32' ? '.exe' : ''}`
+        return path.join(app.getPath('userData'), `${blockchain.daemonName}${os.platform() === 'win32' ? '.exe' : ''}`);
     }
 
     /**
@@ -197,7 +198,7 @@ export default class Daemon {
      * @returns string
      */
     getWagerrCliPath () {
-        return process.env.WAGERR_DAEMON || app.getPath('userData') + '/' + `${blockchain.cliName}${os.platform() === 'win32' ? '.exe' : ''}`
+        return path.join(app.getPath('userData'), `${blockchain.cliName}${os.platform() === 'win32' ? '.exe' : ''}`);
     }
 
     /**
