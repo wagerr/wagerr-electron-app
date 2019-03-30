@@ -97,7 +97,7 @@ export default class Daemon {
             }
             // Linux
             if (platform === constants.LINUX) {
-                daemonPlatform = constants.LINUX_X86_64;
+                daemonPlatform = os.arch() === 'x64' ? constants.LINUX_X86_64 : constants.LINUX_i686;
                 daemonExt      = constants.TAR_EXT;
             }
             // Windows
