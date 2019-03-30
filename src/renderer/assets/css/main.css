@@ -1,0 +1,270 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i);
+@import url(../css/icons.css);
+body { padding: 0; font-family: 'Open Sans', sans-serif; }
+
+.wrapper { background-color: #dadada; }
+
+.wrapper .nav { height: 90px; }
+
+/* Header */
+header { color: #fff; width: 100%; position: fixed; top: 0px; left: 0px; z-index: 999; height: 90px; background-image: url(../images/bg-header.png); background-position: center center; background-repeat: no-repeat; background-size: cover; background-color: #B40101; }
+
+header .wagerr-logo { height: 50px; background-image: url(../images/logo-header.svg); background-position: center center; background-repeat: no-repeat; background-size: contain; float: left; margin: 20px 0 0 0; width: 200px; filter: drop-shadow(0 3px 1px rgba(0, 0, 0, 0.2)); }
+
+header .wagerr-balance { margin: 28px 28px 0 0; }
+
+header .wagerr-balance #wagerr-total-balance { background-color: rgba(0, 0, 0, 0.4); display: inline-block; padding: 10px 15px; font-weight: 600; color: #fff; font-size: 16px; }
+
+header .wagerr-balance i { margin-left: 10px; cursor: pointer; font-weight: bold; }
+
+header ul { margin: 0px; padding: 0px; }
+
+header ul li { display: block; float: left; list-style: none; font-size: 28px; padding: 13px 20px 10px 20px; cursor: pointer; text-align: center; height: 90px; position: relative; width: 125px; }
+
+header ul li:hover { background-color: rgba(0, 0, 0, 0.2); }
+
+header ul li.router-link-active { background-color: rgba(0, 0, 0, 0.4); }
+
+header ul li i { cursor: pointer; font-size: 26px; }
+
+header ul li i:before { cursor: pointer; }
+
+header ul li h6 { font-size: 12px; margin: 5px 0 0; }
+
+header ul li .title { display: block; text-align: center; text-transform: uppercase; color: #fff; font-size: 12px; padding-top: 5px; }
+
+header ul li .dropdown-content { position: absolute; top: 90px !important; left: 0 !important; }
+
+header ul li .dropdown-content li { display: block; float: left; list-style: none; font-size: 28px; padding: 15px 20px 10px 20px; cursor: pointer; min-height: auto; height: auto; }
+
+header ul li .dropdown-content li a { text-align: left; font-size: 13px; padding: 8px 16px; }
+
+header ul li .dropdown-content li a:hover { background-color: rgba(0, 0, 0, 0.4); }
+
+header ul li .dropdown-content li a i { margin: 0 8px 0 0 !important; color: #B40101; font-weight: 600; }
+
+#betting .betting-sidebar-container { padding-top: 0px; font-size: 0; background-image: url(../images/bg-sidebar.png); background-position: left bottom; background-repeat: no-repeat; background-size: cover; width: 200px; height: calc(100% - 90px); position: fixed; box-sizing: border-box; margin: -10px 0 0 -10px; }
+
+#betting .betting-sidebar-container .sidebar-branding { background-image: url(../images/logo-sidenav-footer.svg); background-position: center bottom; background-repeat: no-repeat; background-size: contain; width: 80%; margin: 0 10%; height: 100px; position: absolute; bottom: 10px; }
+
+#betting .betting-sidebar-container nav { width: 200px; background: transparent; position: relative; top: auto; left: auto; height: auto; padding-top: 0px; box-shadow: none; }
+
+#betting .betting-sidebar-container .betting-types { padding-top: 20px; }
+
+#betting .betting-sidebar-container .betting-types ul { width: calc(100%-27px); margin-left: 27px; }
+
+#betting .betting-sidebar-container .betting-types ul li { border-top: none; border-left: 3px solid transparent; padding: 0; margin: 0; display: block; width: 100%; }
+
+#betting .betting-sidebar-container .betting-types ul li a { font-size: 14px; font-weight: 600; padding: 4px 0 4px 20px; color: #fff; text-transform: none; display: block; }
+
+#betting .betting-sidebar-container .betting-types ul li a:hover { background-color: #B40101; }
+
+#betting .betting-sidebar-container ul.side-nav h5 { padding-top: 10px; }
+
+#betting .betting-sidebar-container ul.side-nav > li { border-top: none; border-left: 3px solid transparent; }
+
+#betting .betting-sidebar-container ul.side-nav > li a { font-size: 15px; font-weight: 600; padding: 6px 0; }
+
+#betting .betting-sidebar-container ul.side-nav > li a i { font-weight: 600; width: 44px; padding: 0; margin: 0; display: inline-block; text-align: center; height: auto; color: #777777; font-size: 18px; }
+
+#betting .betting-sidebar-container ul.side-nav > li a i.icon-chevron-down { font-size: 14px; padding-top: 3px; display: none; }
+
+#betting .betting-sidebar-container ul.side-nav > li a i.icon-chevron-down:before { font-weight: 700; }
+
+#betting .betting-sidebar-container ul.side-nav > li a span { font-size: 14px; font-weight: 600; letter-spacing: 0.5px; padding: 0; margin: 0; }
+
+#betting .betting-sidebar-container ul.side-nav > li:hover, #betting .betting-sidebar-container ul.side-nav > li.open, #betting .betting-sidebar-container ul.side-nav > li.on { background-color: rgba(0, 0, 0, 0.4); border-left: 3px solid #DD0000; cursor: pointer; }
+
+#betting .betting-sidebar-container ul.side-nav > li:hover i, #betting .betting-sidebar-container ul.side-nav > li.open i, #betting .betting-sidebar-container ul.side-nav > li.on i { color: #DD0000; }
+
+#betting .betting-sidebar-container ul.side-nav > li.open a { padding-bottom: 6px; }
+
+#betting .betting-sidebar-container ul.side-nav > li .bet-dropdown { display: block; padding-left: 50px; padding-bottom: 5px; }
+
+#betting .betting-sidebar-container ul.side-nav > li .bet-dropdown li { float: none; padding: 0; line-height: 12px; }
+
+#betting .betting-sidebar-container ul.side-nav > li .bet-dropdown li span { font-size: 13px; font-weight: 600; color: #777777; }
+
+#betting .betting-sidebar-container ul.side-nav > li .bet-dropdown li:hover span { color: #DD0000; }
+
+#betting .betting-sidebar-container h5 { font-size: 11px; font-weight: 700; color: #DD0000; text-transform: uppercase; padding-left: 50px; letter-spacing: 1px; }
+
+#betting .betting-main { margin-left: 200px; position: relative; }
+
+#betting .betting-main .betting-nav { background: #fff; margin: -10px -10px 0 -10px; width: calc(100% + 20px); }
+
+span { font-weight: bold; font-size: 1.25rem; }
+
+.dropdown-trigger { margin-top: 3px; }
+
+.dropdown-content { width: max-content !important; height: auto !important; }
+
+#settings-dropdown li { padding: 0px; }
+
+.second-nav li { list-style: none; display: block; }
+
+.second-nav ul li button { background-color: #B40101; border: none; color: white; font-weight: normal; text-transform: uppercase; cursor: pointer; width: 100%; height: 50px; font-size: 18px; }
+
+.router-link { color: #860000; }
+
+.btn:active { background-color: #2b2c2d; }
+
+a.wallet-action { width: 120px; }
+
+.second-nav ul li button:hover { background-color: #860000; }
+
+.second-nav ul li button:active { background-color: #2b2c2d; }
+
+.second-nav ul li button:visited { background-color: #2b2c2d; }
+
+.fade-enter-active, .fade-leave-active { transition-duration: 0.3s; transition-property: opacity; transition-timing-function: ease; }
+
+.inset-top { width: 65%; margin-left: auto; margin-right: auto; }
+
+.inset-top div { background-color: #1D1D1E; height: 18px; -moz-border-radius: 10px; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px; }
+
+.shadow { -moz-box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.12); -webkit-box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.12); box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.12); }
+
+.bg-gradient { background: -webkit-linear-gradient(to left bottom, #2b2c2d, #191919); /* For Safari 5.1 to 6.0 */ background: -o-linear-gradient(to left bottom, #2b2c2d, #191919); /* For Opera 11.1 to 12.0 */ background: -moz-linear-gradient(to left bottom, #2b2c2d, #191919); /* For Firefox 3.6 to 15 */ background: linear-gradient(to left bottom, #2b2c2d, #191919); /* Standard syntax */ }
+
+.inner-circle { display: inline-block; /* add this */ width: 65px; height: 65px; border-radius: 50%; border-style: solid; border-width: 3px; border-color: #860000; background-color: rgba(0, 0, 0, 0); }
+
+.inner-circle:hover { border-color: #B40101; }
+
+.circle-icon { float: left; width: 63px; margin: 18px; }
+
+.circle-icon:hover { cursor: pointer; transform: scale(1.05); }
+
+.circle-icon-link { font-size: 1.5em; color: #B40101; }
+
+.circle-icon-link i.far { font-size: 1.2em; border-radius: 60px; padding: 17px; margin-top: -2px; color: grey; }
+
+.circle-icon-link i.fas { font-size: 1.2em; border-radius: 60px; padding: 17px; color: grey; }
+
+.circle-icon-link i.far:hover, .circle-icon-link i.fas:hover { color: white; }
+
+/** Main table styles **/
+.main-table { border-collapse: separate; border: solid black 1px; border-radius: 6px; -moz-border-radius: 6px; }
+
+.main-table thead { color: #B40101; background-color: #2b2c2d; }
+
+.main-table td, .main-table th { padding: 15px; border-radius: 0; }
+
+.main-table tr:nth-child(odd) { background-color: #eee; }
+
+.main-table th { font-size: 1.2em; color: #B40101; background-color: #2b2c2d; border-top: none; }
+
+.main-table td:first-child, .main-table th:first-child { border-left: none; }
+
+/** End main table **/
+.fade-enter, .fade-leave-active { opacity: 0; }
+
+.text-center { text-align: center; }
+
+.text-right { text-align: right; }
+
+.text-left { text-align: left; }
+
+.pull-right { float: right; }
+
+.pull-left { float: left; }
+
+.clear { clear: both; }
+
+.fade-enter-active, .fade-leave-active { transition-duration: 0.3s; transition-property: opacity; transition-timing-function: ease; }
+
+.fade-enter, .fade-leave-active { opacity: 0; }
+
+.side-nav li { width: 100%; }
+
+.side-nav li div i { padding-top: 16px; font-size: 23px; }
+
+.side-nav li .parent a { padding: 0px; }
+
+.modal-open { overflow-y: auto; }
+
+.team-font { font-size: 1.2em; color: #2b2c2d; }
+
+.toast-error { color: #B40101; background-color: #f2dede; border-color: #ebccd1; }
+
+.toast-error > .toast-bold { font-weight: bold; color: #a94442; }
+
+.toast-error > .toast-text { color: #a94442; }
+
+.toast-error > .toast-action span { color: #a94442; }
+
+.toast__bold-font { font-weight: bold; }
+
+.form-error { color: #B40101; }
+
+.wagerr-red { color: #B40101; }
+
+.wagerr-white { color: #fff; }
+
+.wagerr-red-bg { background-color: #B40101; }
+
+.wagerr-red-bg:hover { background-color: #B40101; }
+
+.modal-content { padding: 0; padding-left: 20px; padding-right: 20px; }
+
+.modal .modal-header { color: #B40101; }
+
+.modal .modal-header, .modal .modal-text { padding-left: 10px; padding-right: 10px; }
+
+.modal > form > .modal-footer { padding-left: 35px; padding-right: 35px; }
+
+.modal-content { color: white; }
+
+.dropdown-content { background-color: #2b2c2d; }
+
+.dropdown-content li a { color: white; }
+
+.dropdown-content li a i { color: #B40101; font-size: 1.3em; }
+
+.dropdown-content li:hover { background-color: rgba(0, 0, 0, 0.1); }
+
+.tabs .indicator { border-bottom: 1px solid #B40101; background-color: transparent; }
+
+.input-field > .active { color: #B40101 !important; }
+
+.input-field .prefix { font-size: 20px !important; margin-top: 10px !important; color: #860000 !important; }
+
+.input-field input { color: #fff; }
+
+.input-field input:focus { color: #fff; }
+
+.input-field .prefix { font-size: 20px; margin-top: 10px; color: #860000; }
+
+.input-field label { color: white; font-size: 1.1em; font-weight: bold; }
+
+.input-field input:not([type]):focus:not([readonly]), .input-field input[type=text]:not(.browser-default):focus:not([readonly]), .input-field input[type=password]:not(.browser-default):focus:not([readonly]), .input-field input[type=email]:not(.browser-default):focus:not([readonly]), .input-field input[type=url]:not(.browser-default):focus:not([readonly]), .input-field input[type=time]:not(.browser-default):focus:not([readonly]), .input-field input[type=date]:not(.browser-default):focus:not([readonly]), .input-field input[type=datetime]:not(.browser-default):focus:not([readonly]), .input-field input[type=datetime-local]:not(.browser-default):focus:not([readonly]), .input-field input[type=tel]:not(.browser-default):focus:not([readonly]), .input-field input[type=number]:not(.browser-default):focus:not([readonly]), .input-field input[type=search]:not(.browser-default):focus:not([readonly]), .input-field textarea.materialize-textarea:focus:not([readonly]) { color: white; border-bottom: 1px solid #B40101; -webkit-box-shadow: 0 1px 0 0 #B40101; box-shadow: 0 1px 0 0 #B40101; }
+
+.input-field .prefix { font-size: 20px; margin-top: 10px; color: #860000; }
+
+/* Time loader animation */
+@-moz-keyframes timer-loader { 0% { -moz-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  100% { -moz-transform: rotate(360deg);
+    transform: rotate(360deg); } }
+
+@-webkit-keyframes timer-loader { 0% { -webkit-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg);
+    transform: rotate(360deg); } }
+
+@keyframes timer-loader { 0% { -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg); }
+  100% { -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg); } }
+
+.timer-loader:not(:required) { padding: 0; margin: -10px; transform: scale(0.6); border: 6px solid orangered; -moz-border-radius: 24px; -webkit-border-radius: 24px; border-radius: 24px; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; display: inline-block; overflow: hidden; position: relative; text-indent: -9999px; width: 48px; height: 48px; }
+
+.timer-loader:not(:required)::before { -moz-animation: timer-loader 1250ms infinite linear; -webkit-animation: timer-loader 1250ms infinite linear; animation: timer-loader 1250ms infinite linear; -moz-transform-origin: 3px 3px; -ms-transform-origin: 3px 3px; -webkit-transform-origin: 3px 3px; transform-origin: 3px 3px; background: orangered; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; content: ''; display: block; position: absolute; width: 6px; height: 19.2px; left: 15px; top: 15px; }
+
+.timer-loader:not(:required)::after { -moz-animation: timer-loader 15000ms infinite linear; -webkit-animation: timer-loader 15000ms infinite linear; animation: timer-loader 15000ms infinite linear; -moz-transform-origin: 3px 3px; -ms-transform-origin: 3px 3px; -webkit-transform-origin: 3px 3px; transform-origin: 3px 3px; background: orangered; -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px; content: ''; display: block; position: absolute; width: 6px; height: 16px; left: 15px; top: 15px; }
+
+/*# sourceMappingURL=main.css.map */

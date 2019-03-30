@@ -3,7 +3,7 @@
   <nav>
 
       <ul class="side-nav">
-
+	  	  <h5>Sort By Sport</h5>
           <li @click="filterEvents()">
 
               <div class="parent">
@@ -36,7 +36,7 @@
 
               </div>
 
-              <!--<ul>
+              <!--<ul class="bet-dropdown">
 
                   <li class="open-demo-dialog"><span>NFL</span></li>
 
@@ -62,7 +62,7 @@
 
               </div>
 
-              <!--<ul>
+              <!--<ul class="bet-dropdown">
 
                   <li class="open-demo-dialog"><span>NBA</span></li>
 
@@ -90,7 +90,7 @@
 
               </div>
 
-              <ul>
+              <ul class="bet-dropdown">
 
                   <li class="open-demo-dialog"><span>MLB</span></li>
 
@@ -118,7 +118,7 @@
 
               </div>
 
-              <!--<ul>
+              <!--<ul class="bet-dropdown">
 
                   <li class="open-demo-dialog"><span>NHL</span></li>
 
@@ -146,7 +146,7 @@
 
               </div>
 
-              <ul>
+              <ul class="bet-dropdown">
 
                   <li class="open-demo-dialog"><span>PGA</span></li>
 
@@ -174,7 +174,7 @@
 
               </div>
 
-              <ul>
+              <ul class="bet-dropdown">
 
                   <li class="open-demo-dialog"><span>ATP</span></li>
 
@@ -204,7 +204,7 @@
 
               </div>
 
-              <ul>
+              <ul class="bet-dropdown">
 
                   <li class="open-demo-dialog"><span>CS:GO</span></li>
 

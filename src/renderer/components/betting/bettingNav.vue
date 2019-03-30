@@ -1,24 +1,24 @@
 <template>
 
-    <div class="second-nav">
-
+    <div class="second-nav betting-types">
+		<h5>Betting Types</h5>
         <ul class="row">
 
             <router-link class="col s4" tag="li" to="/betting/peerless">
 
-                <button class="btn waves-effect red darken-4 waves-light">PEERLESS</button>
+                <a>Peerless</a>
 
             </router-link>
 
             <router-link class="col s4" tag="li" to="/betting/chain_games">
 
-                <button class="btn waves-effect red darken-4 waves-light">CHAIN GAMES</button>
+                <a>Chain Games</a>
 
             </router-link>
 
             <router-link class="col s4" tag="li" to="/betting/h2h">
 
-                <button class="btn waves-effect red darken-4 waves-light">HEAD TO HEAD</button>
+                <a>Head to Head</a>
 
             </router-link>
 
@@ -35,9 +35,3 @@
     }
 
 </script>
-
-<style lang="scss" scoped>
-
-    @import "../../assets/scss/_variables.scss";
-
-</style>

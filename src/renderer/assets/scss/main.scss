@@ -1,9 +1,9 @@
 // Import scss files so we can use here...
-@import 'variables';
-@import 'fonts';
+@import 'fonts.scss';
+@import '../css/icons.css';
+@import 'variables.scss';
 
 html{
-
 }
 
 body {
@@ -12,12 +12,310 @@ body {
 }
 
 #app{
-
 }
 
 .wrapper{
-    background-color: #fff;
+    background-color: $light_grey;
+    .nav {
+	    height:90px;
+    }
 }
+
+/* Header */
+
+	header {
+        color:#fff;
+        width:100%;
+        position:fixed;
+        top:0px;
+        left:0px;
+        z-index:999;
+        height:90px;
+        background-image:url(../images/bg-header.png);
+	    background-position:center center;
+	    background-repeat:no-repeat;
+	    background-size:cover;
+        background-color: $wagerr_red;
+        
+        .wagerr-logo {
+	        height:50px;
+	        background-image:url(../images/logo-header.svg);
+	        background-position:center center;
+	        background-repeat:no-repeat;
+	        background-size:contain;
+	        float:left;
+	        margin:20px 0 0 0;
+	        width:200px;
+	        filter:drop-shadow(0 3px 1px rgba(0,0,0,.2));
+	    }
+	    
+	    .wagerr-balance {
+	        margin:28px 28px 0 0;
+	        
+	        #wagerr-total-balance {
+			    background-color: $halfblack;
+			    display:inline-block;
+			    padding:10px 15px;
+				font-weight:600;
+				color: $white;
+				font-size:16px;
+		    }
+	        i {
+		        margin-left:10px;
+		        cursor:pointer;
+		        font-weight:bold;
+		    }
+	    }
+	    
+	    ul {
+	        margin:0px;
+	        padding:0px;
+	        
+	        li {
+		        display:block;
+		        float:left;
+		        list-style:none;
+		        font-size:28px;
+		        padding:13px 20px 10px 20px;
+		        cursor:pointer;
+		        text-align:center;
+		        height:90px;
+		        position:relative;
+		        width:125px;
+			    &:hover {
+				    background-color: $quarterblack;
+			    }
+		        &.router-link-active{
+			        background-color: $halfblack;
+			    }
+		        i {
+			        cursor:pointer;
+			        font-size:26px;
+			        &:before {
+				        cursor:pointer;
+			        }
+			    }
+			    h6 {
+				    font-size:12px;
+				    margin:5px 0 0;
+			    }
+			    .title {
+			        display:block;
+			        text-align:center;
+			        text-transform:uppercase;
+			        color:#fff;
+			        font-size:12px;
+			        padding-top:5px;
+			    }
+			    .dropdown-content {
+				    position:absolute;
+				    top:90px !important;
+				    left:0 !important;
+				    li {
+				        display:block;
+				        float:left;
+				        list-style:none;
+				        font-size:28px;
+				        padding:15px 20px 10px 20px;
+				        cursor:pointer;
+				        min-height:auto;
+				        height:auto;
+				        a {
+					        text-align:left;
+				        	font-size:13px;
+				        	padding:8px 16px;
+				        	&:hover {
+					        	background-color:$halfblack;
+				        	}
+				        	i {
+					        	margin:0 8px 0 0 !important;
+					        	color:$wagerr_red;
+					        	font-weight:600;
+				        	}
+				        }
+				    }
+			    }
+		    }
+	    }
+    }
+    
+    #betting {
+	    .betting-sidebar-container {
+		    padding-top:0px;
+		    font-size:0;
+		    background-image:url(../images/bg-sidebar.png);
+	        background-position:left bottom;
+	        background-repeat:no-repeat;
+	        background-size:cover;
+	        width:200px;
+	        height:calc(100% - 90px);
+	        position:fixed;
+	        box-sizing:border-box;
+	        margin:-10px 0 0 -10px;
+	        .sidebar-branding {
+		    	background-image:url(../images/logo-sidenav-footer.svg);
+		    	background-position:center bottom;
+				background-repeat:no-repeat;
+				background-size:contain;
+				width:80%;
+				margin:0 10%;
+				height:100px;
+				position:absolute;
+				bottom:10px;
+			}
+	        nav {
+		         width:200px;
+		         background:transparent;
+		         position:relative;
+		         top:auto;
+		         left:auto;
+		         height:auto;
+		         padding-top:0px;
+		         box-shadow:none;
+	        }
+	        .betting-types {
+	        	padding-top:20px;
+	        	ul {
+	        		width:calc(100%-27px);
+	        		margin-left:27px;
+			    	li {
+				        border-top:none;
+				        border-left:3px solid transparent;
+				        padding:0;
+				        margin:0;
+				        display:block;
+				        width:100%;
+				        a {
+					        font-size:14px;
+							font-weight:600;
+							padding:4px 0 4px 20px;
+							color:$white;
+							text-transform:none;
+							display:block;
+							&:hover {
+								background-color:$wagerr_red;
+							}
+						}
+					}
+				}
+	        }
+	        ul.side-nav {
+	        	h5 {
+		        	padding-top:10px;
+	        	}
+		        > li {
+			        border-top:none;
+			        border-left:3px solid transparent;
+			        a {
+				        font-size:15px;
+						font-weight:600;
+						padding:6px 0;
+						i {
+							font-weight:600;
+							width:44px;
+							padding:0;
+							margin:0;
+							display:inline-block;
+							text-align:center;
+							height:auto;
+							color:$grey;
+							font-size:18px;
+							&.icon-chevron-down {
+								font-size:14px;
+								padding-top:3px;
+								display:none;
+								&:before {
+									font-weight:700;
+								}
+							}
+						}
+						span {
+							font-size:14px;
+							font-weight:600;
+							letter-spacing:0.5px;
+							padding:0;
+							margin:0;
+						}
+			        }
+			        &:hover, &.open, &.on {
+				        background-color:$halfblack;
+				        border-left:3px solid $brightred;
+				        cursor:pointer;
+				        i {
+					        color:$brightred;
+				        }
+			        }
+			        &.open {
+				        a {
+					        padding-bottom:6px;
+				        }
+			        
+			        }
+			        .bet-dropdown {
+				        display:block;
+				        padding-left:50px;
+				        padding-bottom:5px;
+				        li {
+					        float:none;
+					        padding:0;
+					        line-height:12px;
+					        span {
+					        	font-size:13px;
+					        	font-weight:600;
+					        	color:$grey;
+					        }
+					        &:hover {
+						        span {
+						        	color:$brightred;
+						        }
+					        }
+				        }
+			        }
+		        }
+	        }
+			h5 {
+				font-size:11px;
+				font-weight:700;
+				color:$brightred;
+				text-transform:uppercase;
+				padding-left:50px;
+				letter-spacing:1px;
+			}
+	    }
+	    .betting-main {
+		    margin-left:200px;
+		    position:relative;
+		    
+		    .betting-nav {
+			    background:$white;
+			    margin:-10px -10px 0 -10px;
+			    width:calc(100% + 20px);
+		    }
+	    }
+	    
+    }
+
+
+
+    span {
+        font-weight: bold;
+        font-size: 1.25rem;
+    }
+
+    .dropdown-trigger{
+        margin-top: 3px;
+    }
+
+    .dropdown-content{
+        width: max-content !important;
+        height:auto !important;
+    }
+
+    #settings-dropdown li{
+        padding: 0px;
+    }
+
+
 
 .second-nav li {
     list-style: none;
@@ -472,3 +770,7 @@ a.wallet-action {
     left: 15px;
     top: 15px;
 }
+
+
+
+

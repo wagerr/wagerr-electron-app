@@ -10,33 +10,38 @@
             <router-link tag="li" to="/" exact>
 
                 <i class="icon-home"></i>
+                <h6>Wallet Home</h6>
 
             </router-link>
 
             <router-link tag="li" to="/bets">
 
                 <i class="icon-wallet"></i>
+                <h6>Bet History</h6>
 
             </router-link>
 
             <router-link tag="li" to="/betting/peerless">
 
                 <i class="icon-dice"></i>
+                <h6>Open Betting</h6>
 
             </router-link>
 
             <router-link tag="li" to="/tools/info">
 
                 <i class="icon-wrench"></i>
+                <h6>Tools &amp; Info</h6>
 
             </router-link>
 
             <li>
 
                 <!-- Dropdown Trigger -->
-                <div class="icon-cog dropdown-trigger" data-target="settings-dropdown">
+                <div class="dropdown-trigger" data-target="settings-dropdown">
 
-                    <i class=""></i>
+                    <i class="icon-cog"></i>
+                    <h6>Wallet Settings</h6>
 
                 </div>
 
@@ -237,91 +242,3 @@
     }
 
 </script>
-
-<style lang="scss" scoped>
-
-    @import "../assets/scss/_variables.scss";
-
-    .top-nav > .router-link-active{
-        background-color: $wagerr_red;
-    }
-
-    .wagerr-balance{
-        color: $wagerr_red;
-    }
-
-    span {
-        font-weight: bold;
-        font-size: 1.25rem;
-    }
-
-    .dropdown-trigger{
-        margin-top: 3px;
-    }
-
-    .dropdown-content{
-        width: max-content !important;
-        height:auto !important;
-    }
-
-    #settings-dropdown li{
-        padding: 0px;
-    }
-
-    header {
-        color:#fff;
-        width:100%;
-        background-color: $dark_grey;
-        position:fixed;
-        top:0px;
-        left:0px;
-        z-index:999;
-    }
-
-    header .wagerr-logo {
-        height:29px;
-        background:url(../assets/images/wagerr-logo.png) center no-repeat;
-        float:left;
-        margin:18px 0 0 0;
-        width:165px;
-    }
-
-    header .wagerr-balance {
-        margin:22px 22px 0 0;
-        font-size:12px;
-    }
-
-    header .wagerr-balance i {
-        margin-left:10px;
-        cursor:pointer;
-        font-weight:bold;
-    }
-
-    header ul {
-        margin:0px;
-        padding:0px;
-    }
-
-    header ul li {
-        display:block;
-        float:left;
-        list-style:none;
-        font-size:28px;
-        padding:15px 20px 10px 20px;
-        cursor:pointer;
-    }
-
-    header ul li i::before, header ul li i {
-        cursor:pointer;
-    }
-
-    header ul li .title {
-        display:block;
-        text-align:center;
-        text-transform:uppercase;
-        color:#fff;
-        font-size:12px;
-        padding-top:5px;
-    }
-
-</style>
