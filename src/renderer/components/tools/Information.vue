@@ -58,7 +58,7 @@
 
                         {{ getBlocks }}
 
-                        <i :class="[ getChainSyncStatus ? 'far fa-check-circle' : 'fas fa-sync-alt', 'tooltipped' ] " data-position="bottom" data-tooltip="Open in block explorer"></i>
+                        <i :class="[ getChainSyncStatus ? 'far fa-check-circle' : 'fas fa-sync-alt'] "></i>
 
                     </div>
 
@@ -157,7 +157,11 @@
 
                     <h5>Staking Status</h5>
 
-                    <div class="words">{{ getStakingStatus }}</div>
+                    <div class="words">
+
+                        <i :class="[ getStakingStatus ? 'far fa-check-circle words' : 'fas fa-sync-alt words'] "></i>
+
+                    </div>
 
                 </div>
 
@@ -169,7 +173,11 @@
 
                     <h5>MN Sync Status</h5>
 
-                    <div class="words">{{ getMsyncStatus }}</div>
+                    <div class="words">
+
+                        <i :class="[ getMsyncStatus ? 'far fa-check-circle' : 'fas fa-sync-alt'] "></i>
+
+                    </div>
 
                 </div>
 
@@ -295,16 +303,15 @@
 
     .fa-check-circle{
         color: $success-green;
-        font-size: 20px;
-        margin-top: -10px;
-        top: -5px;
+        font-size: 30px;
+        top: -3px;
         position: relative;
     }
 
     .fa-sync-alt{
         color: $wagerr_dark_red;
-        font-size: 20px;
-        top: -5px;
+        font-size: 30px;
+        top: -3px;
         position: relative;
     }
 
