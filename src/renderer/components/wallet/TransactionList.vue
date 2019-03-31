@@ -19,17 +19,17 @@
 
                     <th></th>
 
-                    <th class="col s1 m1 l1 hide-on-med-and-down">Date</th>
+                    <th class="hide-on-med-and-down">Date</th>
 
-                    <th class="col s1 m1 l1 hide-on-small-only">Transaction ID</th>
+                    <th class="hide-on-small-only">Transaction ID</th>
 
-                    <th class="col s1 m1 l1 hide-on-small-only">Type</th>
+                    <th class="hide-on-small-only">Type</th>
 
-                    <!--<th class="col s3s m3 l3 hide-on-med-and-down show-on-large">Blockhash</th>-->
+                    <!--<th class="hide-on-med-and-down show-on-large">Blockhash</th>-->
 
-                    <th class="col s3s m3 l3">Address</th>
+                    <th class="">Address</th>
 
-                    <th class="col s2 m2 l2">Amount</th>
+                    <th class="">Amount</th>
 
                 </tr>
 
@@ -64,13 +64,13 @@
                     </td>
 
 
-                    <td class="col s2s m2 l2 hide-on-med-and-down" :class="{ 'confirmation-conflicted' : tx.confirmations === -1 }">
+                    <td class="hide-on-med-and-down" :class="{ 'confirmation-conflicted' : tx.confirmations === -1 }">
 
                         {{ Number(tx.time) | moment('timezone', getTimezone, 'LLL') }}
 
                     </td>
 
-                    <td class="col s1s m1 l1 hide-on-small-only" :class="{ 'confirmation-conflicted' : tx.confirmations === -1 }">
+                    <td class="hide-on-small-only" :class="{ 'confirmation-conflicted' : tx.confirmations === -1 }">
 
                     <a v-clipboard="tx.transactionid" @click="copiedAlert()" class="transaction-list-link tooltipped" data-position="bottom" data-tooltip="Copy">
 
@@ -86,21 +86,21 @@
 
                     </td>
 
-                    <td class="col s1s m1 l1 hide-on-small-only" :class="{ 'confirmation-conflicted' : tx.confirmations === -1 }">
+                    <td class="hide-on-small-only" :class="{ 'confirmation-conflicted' : tx.confirmations === -1 }">
 
                         {{tx.type}}
 
                     </td>
 
-                    <!--<td class="col s3s m3 l3 hide-on-med-and-down show-on-large">{{tx.blockhash}}</td>-->
+                    <!--<td class="hide-on-med-and-down show-on-large">{{tx.blockhash}}</td>-->
 
-                    <td class="col s3s m3 l3" :class="{ 'confirmation-conflicted' : tx.confirmations === -1 }">
+                    <td class="" :class="{ 'confirmation-conflicted' : tx.confirmations === -1 }">
 
                         {{ tx.details[0] ? tx.details[0].address : ""}}
 
                     </td>
 
-                    <td class="col s2 m2 l2" :class="{ 'confirmation-conflicted' : tx.confirmations === -1 }">
+                    <td class="" :class="{ 'confirmation-conflicted' : tx.confirmations === -1 }">
 
                         {{ tx.amount}} {{ getNetworkType === "Testnet" ? 'tWGR' : 'WGR' }}
 

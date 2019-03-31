@@ -7,6 +7,8 @@ body { padding: 0; font-family: 'Open Sans', sans-serif; }
 
 .wrapper .nav { height: 90px; }
 
+.content { padding: 20px; min-height: calc(100vh - 90px); }
+
 .but { color: #fff; display: block; background: #B40101; text-align: center; line-height: 24px; font-size: 18px; line-height: 24px; padding: 8px 20px; border: none; border-radius: 4px; cursor: pointer; font-family: 'Montserrat'; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
 
 .but:hover, .but:focus { background: #860000; }
@@ -14,6 +16,10 @@ body { padding: 0; font-family: 'Open Sans', sans-serif; }
 .btn { color: #fff; background: #B40101; font-family: 'Montserrat'; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; transition: none; }
 
 .btn:hover, .btn:focus { background: #860000; box-shadow: inherit; }
+
+.btn-large { color: #fff; background: #B40101; font-family: 'Montserrat'; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; transition: none; }
+
+.btn-large:hover, .btn-large:focus { background: #860000 !important; box-shadow: inherit; }
 
 /* Header */
 header { color: #fff; width: 100%; position: fixed; top: 0px; left: 0px; z-index: 999; height: 90px; background-image: url(../images/bg-header.png); background-position: center center; background-repeat: no-repeat; background-size: cover; background-color: #B40101; }
@@ -52,7 +58,7 @@ header ul li .dropdown-content li a:hover { background-color: rgba(0, 0, 0, 0.4)
 
 header ul li .dropdown-content li a i { margin: 0 8px 0 0 !important; color: #B40101; font-weight: 600; }
 
-#betting .betting-sidebar-container { padding-top: 0px; font-size: 0; background-image: url(../images/bg-sidebar.png); background-position: left bottom; background-repeat: no-repeat; background-size: cover; width: 200px; height: calc(100% - 90px); position: fixed; box-sizing: border-box; margin: -10px 0 0 -10px; }
+#betting .betting-sidebar-container { padding-top: 0px; font-size: 0; background-image: url(../images/bg-vector-black-d50.png); background-position: left bottom; background-repeat: no-repeat; background-size: cover; width: 200px; height: calc(100% - 90px); position: fixed; box-sizing: border-box; margin: -10px 0 0 -10px; }
 
 #betting .betting-sidebar-container .sidebar-branding { background-image: url(../images/logo-sidenav-footer.svg); background-position: center bottom; background-repeat: no-repeat; background-size: contain; width: 80%; margin: 0 10%; height: 100px; position: absolute; bottom: 10px; }
 
@@ -82,7 +88,7 @@ header ul li .dropdown-content li a i { margin: 0 8px 0 0 !important; color: #B4
 
 #betting .betting-sidebar-container ul.side-nav > li a span { font-size: 14px; font-weight: 600; letter-spacing: 0.5px; padding: 0; margin: 0; }
 
-#betting .betting-sidebar-container ul.side-nav > li:hover, #betting .betting-sidebar-container ul.side-nav > li.open, #betting .betting-sidebar-container ul.side-nav > li.on { background-color: rgba(0, 0, 0, 0.4); border-left: 3px solid #DD0000; cursor: pointer; }
+#betting .betting-sidebar-container ul.side-nav > li:hover, #betting .betting-sidebar-container ul.side-nav > li.open, #betting .betting-sidebar-container ul.side-nav > li.on { background-color: #000000; border-left: 3px solid #DD0000; cursor: pointer; }
 
 #betting .betting-sidebar-container ul.side-nav > li:hover i, #betting .betting-sidebar-container ul.side-nav > li.open i, #betting .betting-sidebar-container ul.side-nav > li.on i { color: #DD0000; }
 
@@ -116,7 +122,7 @@ header ul li .dropdown-content li a i { margin: 0 8px 0 0 !important; color: #B4
 
 #events .events-list .card .event-details .event-headers { background-color: #860000; margin: 0; padding: 0; }
 
-#events .events-list .card .event-details .event-headers .event-header { background-color: transparent; background-color: #860000; font-family: 'Montserrat'; font-size: 11px; line-height: 20px; padding: 4px 0; font-weight: 600; height: 28px; }
+#events .events-list .card .event-details .event-headers .event-header { background-color: transparent; background-color: #860000; font-family: 'Montserrat'; font-size: 11px; line-height: 20px; padding: 4px 0; font-weight: 600; height: 28px; margin-bottom: 0; }
 
 #events .events-list .card .event-details .event-headers .event-header div { background-color: transparent; }
 
@@ -129,6 +135,8 @@ header ul li .dropdown-content li a i { margin: 0 8px 0 0 !important; color: #B4
 #events .events-list .card .event-pair .event-teams .teams .team-name { font-size: 16px; line-height: 20px; font-weight: 700; color: #2b2c2d; height: 50px; margin: 0; display: table-cell; vertical-align: middle; width: 100%; line-height: 18px; }
 
 #events .events-list .card .event-pair .event-odds { margin: 10px 0; padding: 0; }
+
+#events .events-list .card .event-pair .event-odds .event-odds-row { margin: 0; }
 
 #events .events-list .card .event-pair .event-odds .event-odd { margin: 0; }
 
@@ -192,7 +200,7 @@ header ul li .dropdown-content li a i { margin: 0 8px 0 0 !important; color: #B4
 
 .bet-slip-div #betting-slip .bet-list ul li.card .bet-details .selection .winner { display: block; text-align: center; float: none; font-size: 18px; }
 
-.bet-slip-div #betting-slip .bet-list ul li.card .bet-details .selection .odds { display: inline-block; text-align: center; float: none; width: 60%; background: #eee; margin: 0 20%; padding: 4px 0; border-radius: 4px; letter-spacing: 1px; }
+.bet-slip-div #betting-slip .bet-list ul li.card .bet-details .selection .odds { display: inline-block; text-align: center; float: none; width: 60%; background: #eee; margin: 5px 20% 0; padding: 4px 0; border-radius: 4px; letter-spacing: 1px; }
 
 .bet-slip-div #betting-slip .bet-list ul li.card .bet-details .bet-stake-container { color: #2b2c2d; padding: 0px; display: flex; justify-content: center; }
 
@@ -213,6 +221,42 @@ header ul li .dropdown-content li a i { margin: 0 8px 0 0 !important; color: #B4
 .bet-slip-div #betting-slip .bet-list ul li.card .bet-details .bet-returns { color: #2b2c2d; padding: 5px 10px; }
 
 .bet-slip-div #betting-slip .bet-list ul li.card .bet-details .bet-returns span { color: #2b2c2d; font-size: 12px; font-family: "Open Sans"; font-weight: 700; }
+
+#wallet .wallet-container .wallet-left .wallet-balance { width: 100%; color: #B40101; margin-left: auto; margin-right: auto; border-radius: 4px; padding: 40px; background-image: url(../images/bg-vector-black-d40.png); background-position: center bottom; background-repeat: no-repeat; background-size: cover; }
+
+#wallet .wallet-container .wallet-left .wallet-balance h1 { margin-top: 0px; margin-bottom: 10px; font-family: "Montserrat"; font-weight: 700; font-size: 24px; color: #B40101; letter-spacing: 2px; text-align: center; text-transform: uppercase; }
+
+#wallet .wallet-container .wallet-left .wallet-balance h1 span { display: block; width: 60%; margin: 0 auto 10px; height: 100px; background-image: url(../images/wgrWordsWhite.svg); background-position: center bottom; background-repeat: no-repeat; background-size: contain; }
+
+#wallet .wallet-container .wallet-left .wallet-balance .dashboard-balance { padding-top: 30px; padding-bottom: 10px; }
+
+#wallet .wallet-container .wallet-left .wallet-balance .dashboard-balance div { color: #fff; font-size: 16px; font-weight: 700; line-height: 28px; }
+
+#wallet .wallet-container .wallet-left .wallet-balance .dashboard-balance .total-balance { font-size: 26px; font-weight: 700; color: #fff; padding: 25px 20px; width: 100%; display: block; border-radius: 4px; background: #111; margin-bottom: 30px; line-height: 36px; }
+
+#wallet .wallet-container .wallet-left .wallet-btns { margin-top: 30px; margin-bottom: 20px; }
+
+#wallet .wallet-container .wallet-left .wallet-btns a { margin: 0 0 0 10px; width: 42%; padding-left: 0; padding-right: 0px; }
+
+#wallet .wallet-container .wallet-left .wallet-btns a:first-child { margin: 0; }
+
+#wallet .wallet-container .wallet-right .wagerr-transactions { width: 100%; }
+
+.main-table { width: 100%; border-collapse: collapse; border-radius: 4px; table-layout: auto; overflow: hidden; }
+
+.main-table thead { background: #B40101; border-radius: 0; }
+
+.main-table thead tr { border-radius: 0; }
+
+.main-table thead tr th { color: #fff; text-align: left; font-family: "Open Sans"; font-weight: 700; font-size: 12px; line-height: 18px; padding: 8px 10px; vertical-align: top; border-radius: 0; }
+
+.main-table tbody tr:nth-child(odd) { background-color: #eee; }
+
+.main-table tbody tr td { color: #2b2c2d; text-align: left; font-family: "Open Sans"; font-weight: 600; font-size: 12px; line-height: 18px; padding: 10px !important; vertical-align: top; }
+
+.main-table tbody tr td.confirmations { text-align: center; }
+
+.main-table tbody tr td .transaction-list-link { display: inline-block; padding: 5px; margin-right: 5px; }
 
 .bet-stake { color: white; }
 
@@ -243,8 +287,6 @@ header ul li .dropdown-content li a i { margin: 0 8px 0 0 !important; color: #B4
 .router-link { color: #860000; }
 
 .btn:active { background-color: #2b2c2d; }
-
-a.wallet-action { width: 120px; }
 
 .second-nav ul li button:hover { background-color: #860000; }
 
@@ -278,20 +320,6 @@ a.wallet-action { width: 120px; }
 
 .circle-icon-link i.far:hover, .circle-icon-link i.fas:hover { color: white; }
 
-/** Main table styles **/
-.main-table { border-collapse: separate; border: solid black 1px; border-radius: 6px; -moz-border-radius: 6px; }
-
-.main-table thead { color: #B40101; background-color: #2b2c2d; }
-
-.main-table td, .main-table th { padding: 15px; border-radius: 0; }
-
-.main-table tr:nth-child(odd) { background-color: #eee; }
-
-.main-table th { font-size: 1.2em; color: #B40101; background-color: #2b2c2d; border-top: none; }
-
-.main-table td:first-child, .main-table th:first-child { border-left: none; }
-
-/** End main table **/
 .fade-enter, .fade-leave-active { opacity: 0; }
 
 .text-center { text-align: center; }

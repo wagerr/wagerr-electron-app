@@ -29,12 +29,3 @@
     }
 
 </script>
-
-<style lang="scss" scoped>
-
-    .bet-slip-div{
-        margin-top: 5px;
-        height: 100%;
-    }
-
-</style>

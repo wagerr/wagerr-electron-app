@@ -353,10 +353,6 @@
         margin-left: 0%;
     }
 
-    .card .row{
-        margin-bottom: 0px;
-    }
-
     .event-teams{
         margin-top: 10px;
     }

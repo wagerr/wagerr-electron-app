@@ -20,6 +20,10 @@ body {
 	    height:90px;
     }
 }
+.content{
+    padding: 20px;
+    min-height: calc(100vh - 90px);
+}
 
 .but {
 	color:$white;
@@ -51,6 +55,19 @@ body {
 	transition:none;
 	&:hover, &:focus {
 	    background:$wagerr_dark_red;
+	    box-shadow: inherit;
+	}
+}
+.btn-large {
+	color:$white;
+	background:$wagerr_red;
+	font-family: 'Montserrat';
+	font-weight:700;
+	letter-spacing:1px;
+	text-transform:uppercase;
+	transition:none;
+	&:hover, &:focus {
+	    background:$wagerr_dark_red !important;
 	    box-shadow: inherit;
 	}
 }
@@ -177,7 +194,7 @@ body {
 	    .betting-sidebar-container {
 		    padding-top:0px;
 		    font-size:0;
-		    background-image:url(../images/bg-sidebar.png);
+		    background-image:url(../images/bg-vector-black-d50.png);
 	        background-position:left bottom;
 	        background-repeat:no-repeat;
 	        background-size:cover;
@@ -272,7 +289,7 @@ body {
 						}
 			        }
 			        &:hover, &.open, &.on {
-				        background-color:$halfblack;
+				        background-color:$black;
 				        border-left:3px solid $brightred;
 				        cursor:pointer;
 				        i {
@@ -379,6 +396,7 @@ body {
 						    padding:4px 0;
 							font-weight:600;
 							height:28px;
+							margin-bottom:0;
 					    	div {
 						    	background-color:transparent;
 					    	}
@@ -411,6 +429,9 @@ body {
 				    .event-odds {
 				    	margin:10px 0;
 				    	padding:0;
+				    	.event-odds-row {
+					    	margin:0;
+				    	}
 					    .event-odd {
 						    margin:0;
 					    }
@@ -634,7 +655,7 @@ body {
 								    float:none;
 								    width:60%;
 								    background:#eee;
-								    margin:0 20%;
+								    margin:5px 20% 0;
 								    padding:4px 0;
 								    border-radius:4px;
 								    letter-spacing:1px;
@@ -708,10 +729,151 @@ body {
 	    }
     }
     
+    #wallet {
+	    .wallet-container {
+		    .wallet-left {
+			    .wallet-balance{
+			        width: 100%;
+			        color: $wagerr_red;
+			        margin-left: auto;
+			        margin-right: auto;
+			        border-radius:4px;
+			        padding:40px;
+			        background-image:url(../images/bg-vector-black-d40.png);
+					        background-position:center bottom;
+							background-repeat:no-repeat;
+							background-size:cover;
+			        h1{
+				        margin-top: 0px;
+				        margin-bottom: 10px;
+				        font-family:"Montserrat";
+				        font-weight:700;
+				        font-size:24px;
+						color: $wagerr_red;
+						letter-spacing:2px;
+						text-align:center;
+						text-transform:uppercase;
+				        span {
+					        display:block;
+					        width:60%;
+					        margin:0 auto 10px;
+					        height:100px;
+					        background-image:url(../images/wgrWordsWhite.svg);
+					        background-position:center bottom;
+							background-repeat:no-repeat;
+							background-size:contain;
+				        }
+				    }
+				    .dashboard-balance{
+				        padding-top: 30px;
+				        padding-bottom: 10px;
+				        div{
+					        color: $white;
+					        font-size: 16px;
+					        font-weight:700;
+					        line-height:28px;
+					    }
+				        .total-balance {
+					        font-size: 26px;
+					        font-weight:700;
+					        color: $white;
+					        padding: 25px 20px;
+					        width:100%;
+					        display:block;
+					        border-radius:4px;
+					        background:#111;
+					        margin-bottom:30px;
+					        line-height:36px;
+					    }
+				    }
+			    }
+			    .wallet-btns{
+			        margin-top: 30px;
+			        margin-bottom: 20px;
+			        a {
+				        margin:0 0 0 10px;
+				        width:42%;
+				        padding-left:0;
+				        padding-right:0px;
+				        &:first-child {
+					        margin:0;
+				        }
+			        }
+			    }
+		    }
+		    .wallet-right {
+			    .wagerr-transactions {
+				    width: 100%;
+				    table {
+					    th {
+						    
+					    }
+				    }
+			    }
+		    }
+	    }
+    }
+    
+    .main-table {
+    	width:100%;
+    	border-collapse: collapse;
+    	border-radius:4px;
+    	table-layout:auto;
+    	overflow: hidden;
+    	thead {
+    		background:$wagerr_red;
+    		border-radius:0;
+    		tr {
+    			border-radius:0;
+	    		th {
+				    color:$white;
+				    text-align:left;
+				    font-family:"Open Sans";
+				    font-weight:700;
+				    font-size:12px;
+				    line-height:18px;
+				    padding: 8px 10px;
+				    vertical-align:top;
+				    border-radius:0;
+			    }
+    		}
+    	}
+	    tbody {
+		    tr {
+			    
+			    &:nth-child(odd) {
+				    background-color: #eee;
+				}
+			    td {
+				    
+				    color:$dark_grey;
+				    text-align:left;
+				    font-family:"Open Sans";
+				    font-weight:600;
+				    font-size:12px;
+				    line-height:18px;
+				    padding: 10px !important;
+				    vertical-align:top;
+				    &.confirmations {
+					    text-align:center;
+				    }
+				    .transaction-list-link {
+					    display:inline-block;
+					    padding:5px;
+					    margin-right:5px;
+				    }
+			    }
+		    }
+		}
+    }
+    
+    
+   
     
     
     
     
+
     
     
     .bet-stake{
@@ -798,9 +960,6 @@ body {
     background-color: $dark_grey;
 }
 
-a.wallet-action {
-    width: 120px;
-}
 
 .second-nav ul li button:hover {
     background-color: $wagerr_dark_red;
@@ -898,39 +1057,7 @@ a.wallet-action {
     color: white;
 }
 
-/** Main table styles **/
-.main-table {
-    border-collapse: separate;
-    border: solid black 1px;
-    border-radius: 6px;
-    -moz-border-radius: 6px;
-}
 
-.main-table thead {
-    color: $wagerr_red;
-    background-color: $dark_grey;
-}
-
-.main-table  td, .main-table th {
-    padding: 15px;
-    border-radius: 0;
-}
-
-.main-table tr:nth-child(odd) {
-    background-color: #eee;
-}
-
-.main-table th {
-    font-size: 1.2em;
-    color: $wagerr_red;
-    background-color: $dark_grey;
-    border-top: none;
-}
-
-.main-table  td:first-child, .main-table th:first-child {
-   border-left: none;
-}
-/** End main table **/
 
 .fade-enter,
 .fade-leave-active {
