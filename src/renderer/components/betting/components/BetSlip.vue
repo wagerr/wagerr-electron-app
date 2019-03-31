@@ -2,21 +2,22 @@
 
     <div id="betting-slip">
 
-        <h5>Bet slip</h5>
+        <h4 v-if="betSlip.length > 0">Bet slip<button class="btn pull-right waves-effect waves-light" @click="clearBetSlip">Clear Slip</button></h4>
+        <h4 v-else>Bet slip</h4>
 
         <div class="bet-list" v-if="betSlip.length > 0">
-
+<!--
             <div class="bet-slip-options">
 
-                <button class="btn pull-right waves-effect waves-light" @click="clearBetSlip">Clear Slip</button>
+                <button class="btn pull-right" @click="clearBetSlip">Clear Slip</button>
 
                 <div class="clearfix"></div>
 
             </div>
-
+-->
             <ul>
 
-                <li v-for="( bet, index ) in betSlip" :key="bet.betId" class="card bg-gradient">
+                <li v-for="( bet, index ) in betSlip" :key="bet.betId" class="card">
 
                     <div class="bet-details">
 
@@ -24,14 +25,14 @@
 
                         <a class="clear-bet pull-right" @click="removeBetFromSlip( bet.betId )">
 
-                            <i class="icon-delete"></i>
+                            <i>&times;</i>
 
                         </a>
 
                         <div class="clearfix"></div>
 
                         <div class="selection">
-
+							<h6>Your Pick:</h6>
                             <span class="winner">{{ bet.winner }}</span>
 
                             <span class="odds pull-right">{{ bet.odds / 10000 }}</span>
@@ -39,14 +40,15 @@
                         </div>
 
                         <div class="input-field bet-stake-container">
+							<div class="stake-input">
+								<!--<label :for="bet.betId">Enter Bet Stake</label>-->
+								<input :id="bet.betId" class="bet-stake validate" name="Bet Id" type="text" maxlength="10" v-on:input="calcPotentialWinnings( $event, bet.odds, index)" placeholder="Enter Bet Stake">
+								<span class="helper-text" data-error="Invalid Stake" data-success=""></span>
+							</div>
+							<div class="stake-button">
+                            	<button class="pull-right btn" @click="placeBet( bet.betId )">Bet</button>
 
-                            <input :id="bet.betId" class="bet-stake validate" name="Bet Id" type="text" maxlength="10" v-on:input="calcPotentialWinnings( $event, bet.odds, index)">
-
-                            <button class="pull-right btn-floating pulse waves-effect waves-light" @click="placeBet( bet.betId )">Bet</button>
-
-                            <label :for="bet.betId">Bet Stake</label>
-
-                            <span class="helper-text" data-error="Invalid Stake" data-success=""></span>
+                            </div>
 
                         </div>
 
@@ -177,95 +179,3 @@
     }
 
 </script>
-
-<style lang="scss" scoped>
-
-    @import "../../../assets/scss/_variables.scss";
-
-    .bet-stake{
-        color: white;
-    }
-
-    .sticky {
-        position: fixed;
-        overflow-y: scroll;
-        top: 65px;
-        width: 21%;
-        height: 100%;
-        -webkit-animation: stick-bet-slip 1s ; /* Safari 4.0 - 8.0 */
-        animation: stick-bet-slip 1s ;
-    }
-
-    @keyframes stick-bet-slip {
-        from {top: 0px;}
-        to {top: 65px;}
-    }
-
-    .bet-list{
-        padding: 10px;
-        background-color: #414141;
-    }
-
-    .bet-details{
-        padding: 2%;
-    }
-
-    .bet-list .card{
-        background-color: $light_grey;
-    }
-
-    .bet-slip-options button{
-        background-color: $wagerr_red;
-    }
-
-    .bet-slip-pair{
-        width: 90%;
-        float: left;
-    }
-
-    .bet-slip-pair{
-        font-size: .8em;
-        color: white;
-    }
-
-    .bet-returns span{
-        font-size: .9em;
-        color: white;
-    }
-
-    .selection{
-        margin-top: 5px;
-        font-size: 1em;
-        color: white;
-    }
-
-    .bet-stake-container button{
-        margin-top: 10px;
-    }
-
-    .bet-stake-container .bet-stake{
-        width: 80%;
-        font-size: 1.3em;
-    }
-
-    .bet-stake-container button{
-        background-color: $wagerr_red;
-    }
-
-    .clear-bet .icon-delete{
-        font-weight: bold;
-        color: $wagerr_red;
-        font-size: 20px;
-    }
-
-    .clear-bet > .icon-delete:hover{
-        color: white;
-        cursor: pointer;
-    }
-
-    .empty-slip-message{
-        padding: 10px;
-        color: white;
-    }
-
-</style>

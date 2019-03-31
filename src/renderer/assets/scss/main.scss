@@ -21,6 +21,40 @@ body {
     }
 }
 
+.but {
+	color:$white;
+	display:block;
+	background:$wagerr_red;
+	text-align:center;
+	line-height:24px;
+	font-size:18px;
+	line-height:24px;
+	padding:8px 20px;
+	border:none;
+	border-radius:4px;
+	cursor:pointer;
+	font-family: 'Montserrat';
+	font-weight:600;
+	letter-spacing:1px;
+	text-transform:uppercase;
+	&:hover, &:focus {
+	    background:$wagerr_dark_red;
+	}
+}
+.btn {
+	color:$white;
+	background:$wagerr_red;
+	font-family: 'Montserrat';
+	font-weight:600;
+	letter-spacing:1px;
+	text-transform:uppercase;
+	transition:none;
+	&:hover, &:focus {
+	    background:$wagerr_dark_red;
+	    box-shadow: inherit;
+	}
+}
+
 /* Header */
 
 	header {
@@ -50,7 +84,7 @@ body {
 	    }
 	    
 	    .wagerr-balance {
-	        margin:28px 28px 0 0;
+	        margin:25px 25px 0 0;
 	        
 	        #wagerr-total-balance {
 			    background-color: $halfblack;
@@ -294,13 +328,435 @@ body {
 	    }
 	    
     }
-
-
-
-    span {
-        font-weight: bold;
-        font-size: 1.25rem;
+    
+    #events {
+	    h4 {
+		    font-weight:700;
+		    font-family:'Montserrat';
+		    font-size:28px;
+		    color:$dark_grey;
+		    margin-bottom:25px;
+		    line-height:30px;
+	    }
+	    .events-list {
+		    .card {
+		    	border:none;
+		    	border-radius:4px;
+		    	box-shadow:0 0px 12px 0px rgba(0,0,0,0.2);
+		    	margin-bottom:20px;
+		    	overflow:hidden;
+			    .event-tournament {
+				    background:$wagerr_red;
+				    color:$white;
+				    border:none;
+					font-family:'Montserrat';
+					font-weight:700;
+					padding:10px 0 8px;
+					font-size:14px;
+					line-height:20px;
+					.sport {
+						padding-left:10px;
+					}
+					.date {
+						padding-right:10px;
+					}
+			    }
+			    .event-details {
+				   > div:first-child {
+					   background-color:$wagerr_dark_red;
+					   height:28px;
+				   }
+				    .event-headers {
+					    background-color:$wagerr_dark_red;
+					    margin:0;
+				    	padding:0;
+					    .event-header {
+					    	background-color:transparent;
+					    	background-color:$wagerr_dark_red;
+						    font-family:'Montserrat';
+						    font-size:11px;
+						    line-height:20px;
+						    padding:4px 0;
+							font-weight:600;
+							height:28px;
+					    	div {
+						    	background-color:transparent;
+					    	}
+						}
+				    }
+			    }
+			    .event-pair {
+			    	margin:0;
+				    .event-teams {
+				    	margin:10px 0;
+					    .teams {
+							height:50px;
+							margin:0;
+							display:table-row;
+							width:100%;
+							.team-name {
+								font-size:16px;
+								line-height:20px;
+								font-weight:700;
+								color:$dark_grey;
+								height:50px;
+								margin:0;
+								display:table-cell;
+								vertical-align:middle;
+								width:100%;
+								line-height:18px;
+							}
+						}
+				    }
+				    .event-odds {
+				    	margin:10px 0;
+				    	padding:0;
+					    .event-odd {
+						    margin:0;
+					    }
+				    }
+					.odds {
+						margin:0;
+						.odd {
+							height:50px;
+							margin:0;
+							display:inline-block;
+							vertical-align:middle;
+							width:100%;
+						}
+						.ml {
+							height:50px;
+							margin:0;
+							display:inline-block;
+							vertical-align:middle;
+							width:100%;
+						}
+						.spread {
+							height:50px;
+							margin:0;
+							display:inline-block;
+							vertical-align:middle;
+							width:100%;
+						}
+						.total {
+							height:50px;
+							margin:0;
+							display:inline-block;
+							vertical-align:middle;
+							width:100%;
+						}
+						> div {
+							button {
+								margin-top:5px;
+								height:40px;
+								border:4px;
+								background-color:#e9e9e9;
+								position:relative;
+								box-shadow:0 2px 4px 0 rgba(0,0,0,.2);
+								border:1px solid #bebebe;
+								color:#555;
+								font-weight:700;
+								letter-spacing:0.5px;
+								font-family:'Montserrat';
+								font-size:14px;
+								&:hover {
+									color:$white;
+									border:1px solid $wagerr_dark_red;
+									background:$brightred;
+									&:before {
+										opacity:0.3;
+									}
+									&:after {
+										opacity:0.3;
+									}
+								}
+								&:before {
+									content:'';
+									background-image:url(../images/bumps.svg);
+									background-position: center center;
+									background-repeat: no-repeat;
+									width:14px;
+									height:26px;
+									position:absolute;
+									left:3px;
+									top:7px;
+									opacity:0.1;
+								}
+								&:after {
+									content:'';
+									background-image:url(../images/bumps.svg);
+									background-position: center center;
+									background-repeat: no-repeat;
+									width:14px;
+									height:26px;
+									position:absolute;
+									right:3px;
+									top:7px;
+									opacity:0.1;
+								}
+								&[disabled=disabled] {
+									box-shadow:none;
+									background-color:#f3f3f3 !important;
+									border:none;
+									&:before {
+										opacity:0;
+									}
+									&:after {
+										opacity:0;
+									}
+								}
+								
+							}
+						}
+					}
+			    }
+		    }
+	    }
     }
+    .bet-slip-div {
+	    margin-top:25px;
+	    #betting-slip {
+	    	background:$white;
+	    	position: fixed;
+			overflow-y: scroll;
+			top: 110px;
+			width: 20%;
+			height: calc(100vh - 130px);
+		    h4 {
+				margin-bottom:0px;
+			    margin-top:0;
+			    line-height:30px;
+			    background:$dark_grey;
+			    color:$white;
+			    border:none;
+				font-family:'Montserrat';
+				font-weight:700;
+				padding:10px 10px 8px;
+				font-size:15px;
+				line-height:20px;
+				text-transform:uppercase;
+				border-radius:4px 4px 0 0;
+				letter-spacing:1px;
+				position:relative;
+				button {
+					background:$wagerr_red;
+					color:$white;
+					height:24px;
+					line-height:24px;
+					position:absolute;
+					top:7px;
+					right:10px;
+					font-size:11px;
+					font-family:"Montserrat";
+					font-weight:700;
+					padding:0 10px;
+					&:hover {
+						background:$wagerr_dark_red;
+					}
+				}
+		    }
+
+		    .bet-list {
+			    background:$white;
+			    padding:10px;
+			    ul {
+				    margin:0;
+				    padding:0;
+				    li.card {
+					    background:transparent;
+					    color:$dark_grey;
+						padding:0 0 10px;
+						box-shadow:none;
+						border-bottom:2px solid $light_grey;
+						margin:0 0 15px;
+						.bet-details {
+							padding:0;
+							position:relative;
+							.bet-slip-pair {
+						    	color:$dark_grey;
+						    	background:$light_grey;
+							    font-family:"Montserrat";
+								font-weight:700;
+								text-align:left;
+								padding:6px 40px 6px 10px;
+								width:100%;
+								font-size:12px;
+								line-height:18px;
+						    }
+						    .clear-bet {
+							    color:$white;
+							    position:absolute;
+							    top:0;
+							    right:0;
+							    width:30px;
+							    height:30px;
+							    display:block;
+							    background:$wagerr_red;
+							    text-align:center;
+							    line-height:30px;
+							    &:hover {
+								    background:$wagerr_dark_red
+							    }
+							    i {
+								    font-weight:700;
+								    cursor: pointer;
+								    font-size:24px;
+								    
+								    
+							    }
+						    }
+						    .selection {
+							    color:$dark_grey;
+							    font-weight:700;
+							    padding:10px 10px 10px;
+							    font-size:14px;
+							    font-family:"Montserrat";
+							    color:$wagerr_red;
+							    h6 {
+								    color:#aaa;
+								    font-size:9px;
+								    text-align:center;
+								    width:100%;
+								    text-transform:uppercase;
+								    letter-spacing:1px;
+								    font-family:"Open Sans";
+								    font-weight:600;
+							    }
+							    .winner {
+								    display:block;
+								    text-align:center;
+								    float:none;
+								    font-size:18px;
+							    }
+							    .odds {
+								    display:inline-block;
+								    text-align:center;
+								    float:none;
+								    width:60%;
+								    background:#eee;
+								    margin:0 20%;
+								    padding:4px 0;
+								    border-radius:4px;
+								    letter-spacing:1px;
+							    }
+						    }
+						    .bet-stake-container {
+							    color:$dark_grey;
+							    padding:0px;
+							    display:flex;
+							    justify-content: center;
+							    .stake-input {
+							    	width:130px;
+							    	position:relative;
+							    	margin-right:10px;
+								    label {
+									    left:0px;
+									    top:0px;
+									    position:absolute;
+									    color:$dark_grey;
+									    font-size:14px;
+										font-family:"Open Sans";
+										font-weight:600;
+										text-align:center;
+										width:100%;
+								    }
+								    input {
+									    border-bottom:1px solid $grey;
+									    color:$dark_grey;
+									    font-family:"Open Sans";
+									    font-size:18px;
+									    font-weight:700;
+									    text-align:center;
+									    width:130px;
+									    background:#eee;
+									    margin-bottom:0;
+									    height:34px;
+									    &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+										  font-size:14px;
+										}
+										&::-moz-placeholder { /* Firefox 19+ */
+										  font-size:14px;
+										}
+										&:-ms-input-placeholder { /* IE 10+ */
+										  font-size:14px;
+										}
+										&:-moz-placeholder { /* Firefox 18- */
+										  font-size:14px;
+										}
+								    }
+								}
+								.stake-button {
+									
+								}
+						    }
+						    .bet-returns {
+							    color:$dark_grey;
+							    padding:5px 10px;
+							    span {
+								    color:$dark_grey;
+									font-size:12px;
+									font-family:"Open Sans";
+									font-weight:700;
+							    }
+						    }
+						}
+					    
+				    }
+			    }
+		    }
+
+	    }
+    }
+    
+    
+    
+    
+    
+    
+    
+    .bet-stake{
+        color: white;
+    }
+
+
+    .bet-details{
+        padding: 2%;
+    }
+
+    .bet-slip-options button{
+        background-color: $wagerr_red;
+    }
+
+    .bet-returns span{
+        font-size: .9em;
+        color: white;
+    }
+
+    .selection{
+        margin-top: 5px;
+        font-size: 1em;
+        color: white;
+    }
+
+    .clear-bet .icon-delete{
+        font-weight: bold;
+        color: $wagerr_red;
+        font-size: 20px;
+    }
+
+    .clear-bet > .icon-delete:hover{
+        color: white;
+        cursor: pointer;
+    }
+
+    .empty-slip-message{
+        padding: 10px;
+        color: white;
+    }
+
+
+
+   
 
     .dropdown-trigger{
         margin-top: 3px;
