@@ -4,21 +4,7 @@
 
         <div class="row text-center">
 
-            <div class="col s12 splash-image">
-
-                <img :src="logoUrl"/>
-
-            </div>
-
-            <div class="col s12">
-
-                <h1>
-
-                    <span class="wagerr-white">WAGER</span><span class="wagerr-red">R</span>
-
-                </h1>
-
-            </div>
+            <div class="col s12 splash-image"></div>
 
             <div class="col s12">
 
@@ -240,7 +226,7 @@
 
         data () {
             return {
-                logoUrl: path.join( __static, '/images/wagerr_logo_red.png')
+                
             }
         },
 
@@ -268,75 +254,3 @@
     }
 
 </script>
-
-<style scoped lang="scss">
-
-    @import "../../assets/scss/_variables.scss";
-
-    .splash{
-        padding-top: 10%;
-        margin: auto;
-        width: 50%;
-        color: white;
-    }
-
-    .splash-loading-container{
-        margin-top: 30px;
-    }
-
-    .row{
-        margin: auto;  /* Magic! */
-    }
-
-    h1{
-        color: $wagerr_red;
-        font-weight: 100;
-        font-stretch: normal;
-        font-size: 4em;
-    }
-
-    .slider{
-        width: 100%;
-        height: 4px;
-        margin-top: -30px
-    }
-
-    .line{
-        position: absolute;
-        background: $wagerr_red;
-        width: 100%;
-        height: 4px;
-    }
-
-    .break{
-        position:absolute;
-        background: #222;
-        width: 6px;
-        height: 4px;
-    }
-
-    .dot1{ -webkit-animation: loading 4s infinite; animation: loading 4s infinite;}
-    .dot2{ -webkit-animation: loading 4s 0.5s infinite; animation: loading 4s 0.5s infinite; }
-    .dot3{ -webkit-animation: loading 4s 1s infinite; animation: loading 4s 1s infinite; }
-
-    @-webkit-keyframes loading {
-        from { left: 0; }
-        to { left: 100%; }
-    }
-
-    @keyframes loading {
-        from { left: 0; }
-        to { left: 100%; }
-    }
-
-    .splash-wallet-repair div a{
-        color: $wagerr_red;
-        font-weight: bold;
-        font-size: 1.1em;
-    }
-
-    .splash-wallet-repair div a:hover{
-        text-decoration: underline;
-    }
-
-</style>

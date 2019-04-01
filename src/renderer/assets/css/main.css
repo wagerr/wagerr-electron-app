@@ -266,6 +266,36 @@ header ul li .dropdown-content li a i { margin: 0 8px 0 0 !important; color: #B4
 
 #bets h4 { font-weight: 700; font-family: 'Montserrat'; font-size: 28px; color: #2b2c2d; margin-bottom: 25px; line-height: 30px; }
 
+.splash { padding-top: 5%; margin: auto; width: 50%; color: white; }
+
+.splash .splash-image { background-image: url(../images/wgrsecondaryWhite.svg); background-position: center bottom; background-repeat: no-repeat; background-size: contain; width: 100%; height: 300px; margin-bottom: 5%; }
+
+.splash .splash-loading-container { margin-top: 30px; }
+
+.splash .slider { width: 100%; height: 4px; margin-top: -30px; }
+
+.splash .line { position: absolute; background: #B40101; width: 100%; height: 4px; }
+
+.splash .break { position: absolute; background: #222; width: 6px; height: 4px; }
+
+.splash .dot1 { -webkit-animation: loading 4s infinite; animation: loading 4s infinite; }
+
+.splash .dot2 { -webkit-animation: loading 4s 0.5s infinite; animation: loading 4s 0.5s infinite; }
+
+.splash .dot3 { -webkit-animation: loading 4s 1s infinite; animation: loading 4s 1s infinite; }
+
+@-webkit-keyframes loading { from { left: 0; }
+  to { left: 100%; } }
+
+@keyframes loading { from { left: 0; }
+  to { left: 100%; } }
+
+.splash .splash-wallet-repair { margin-top: 20px; }
+
+.splash .splash-wallet-repair div a { color: #B40101; font-weight: bold; font-size: 18px; line-height: 32px; }
+
+.splash .splash-wallet-repair div a:hover { text-decoration: underline; }
+
 .transaction-link { color: #2b2c2d; cursor: pointer; }
 
 .transaction-link:hover { color: #860000; cursor: pointer; }

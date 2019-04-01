@@ -904,6 +904,75 @@ body {
 	    }
    }
    
+   .splash{
+        padding-top: 5%;
+        margin: auto;
+        width: 50%;
+        color: white;
+	   .splash-image {
+		    background-image:url(../images/wgrsecondaryWhite.svg);
+			background-position:center bottom;
+			background-repeat:no-repeat;
+			background-size:contain;
+			width:100%;
+			height:300px;
+			margin-bottom:5%;
+	   }
+	   .splash-loading-container{
+	        margin-top: 30px;
+	    }
+	
+	
+	    .slider{
+	        width: 100%;
+	        height: 4px;
+	        margin-top: -30px
+	    }
+	
+	    .line{
+	        position: absolute;
+	        background: $wagerr_red;
+	        width: 100%;
+	        height: 4px;
+	    }
+	
+	    .break{
+	        position:absolute;
+	        background: #222;
+	        width: 6px;
+	        height: 4px;
+	    }
+	
+	    .dot1{ -webkit-animation: loading 4s infinite; animation: loading 4s infinite;}
+	    .dot2{ -webkit-animation: loading 4s 0.5s infinite; animation: loading 4s 0.5s infinite; }
+	    .dot3{ -webkit-animation: loading 4s 1s infinite; animation: loading 4s 1s infinite; }
+	
+	    @-webkit-keyframes loading {
+	        from { left: 0; }
+	        to { left: 100%; }
+	    }
+	
+	    @keyframes loading {
+	        from { left: 0; }
+	        to { left: 100%; }
+	    }
+	
+	    .splash-wallet-repair {
+	    	margin-top:20px;
+	    	div {
+	    		a{
+				color: $wagerr_red;
+				font-weight: bold;
+				font-size: 18px;
+				line-height:32px;
+					&:hover {
+					text-decoration: underline;
+					}
+				}
+			}
+	    }
+    }
+   
    
    
    
