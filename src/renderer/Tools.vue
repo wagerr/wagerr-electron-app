@@ -3,22 +3,26 @@
     <div id="tools" class="content">
 
         <div class="row">
-
-            <div class="col s12">
-
-                <tools-nav></tools-nav>
-
+		
+			<div class="tools-sidebar">
+            	<div class="tools-sidebar-container">
+            		<div class="sidebar-branding"></div>
+					<tools-nav></tools-nav>
+				</div>
             </div>
-
-            <div class="col s12">
-
-                <transition name="fade" mode="out-in">
-
-                    <router-view></router-view>
-
-                </transition>
-
-            </div>
+ 
+            <div class="tools-main">
+		
+				<div class="col s12">
+	
+	                <transition name="fade" mode="out-in">
+	
+	                    <router-view></router-view>
+	
+	                </transition>
+	
+	            </div>
+	        </div>
 
         </div>
 
@@ -36,12 +40,3 @@
     }
 
 </script>
-
-<style scoped>
-
-  .content{
-      min-height: 650px;
-      padding: 10px;
-  }
-
-</style>

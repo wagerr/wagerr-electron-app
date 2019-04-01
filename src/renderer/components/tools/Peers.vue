@@ -2,7 +2,7 @@
 
     <div id="peers" class="settings-sub-section">
 
-        <h3 class="text-center">Peers</h3>
+        <h4>Peers</h4>
 
         <table class="col-12 col-sm-12 col-md-12 col-lg-8 main-table card z-depth-2">
 

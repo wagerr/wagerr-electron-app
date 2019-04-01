@@ -1,186 +1,116 @@
 <template>
 
     <div id="information">
-
+		<h4>Wagerr Wallet &amp; Network Info</h4>
         <div class="row text-center">
 
-            <h4>Wallet Info</h4>
+            <div class="col s6">
+	            <div class="info-block table-container">
+	            	<table class="main-table card z-depth-2">
+						<thead>
+							<tr>
+								<th colspan="2">Wallet Info</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="info-row">
+								<th>Version</th>
+								<td class="number">{{ walletVersion }}</td>
+							</tr>
+							<tr class="info-row">
+								<th>Transactions</th>
+								<td class="number">{{ getTxCount }}</td>
+							</tr>
+							<tr class="info-row">
+								<th>DataDir</th>
+								<td class="datadir">{{ dataDir }}</td>
+							</tr>
 
-            <div class="col s4">
+						</tbody>
+					</table>
+				</div>
+            </div>
+            <div class="col s6">
+	            <div class="info-block table-container">
+	            	<table class="main-table card z-depth-2">
+						<thead>
+							<tr>
+								<th colspan="2">Blockchain Info</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="info-row">
+								<th>Block Count</th>
+								<td class="number">{{ getBlocks }} <i :class="[ getChainSyncStatus ? 'far fa-check-circle' : 'fas fa-sync-alt', 'tooltipped' ] " data-position="bottom" data-tooltip="Open in block explorer"></i></td>
+							</tr>
+							<tr class="info-row">
+								<th>Last Block</th>
+								<td class="date">{{ this.lastBlockTime }}</td>
+							</tr>
+							<tr class="info-row">
+								<th>Money Supply</th>
+								<td class="number">{{ Number((getMoneySupply).toFixed(2)) }}</td>
+							</tr>
 
-                <div class="bg-gradient card z-depth-2">
-
-                    <h5>Version</h5>
-
-                    <div class="number">{{ walletVersion }}</div>
-
-                </div>
-
+						</tbody>
+					</table>
+				</div>
             </div>
 
-            <div class="col s4">
-
-                <div class="bg-gradient card z-depth-2">
-
-                    <h5>Transactions</h5>
-
-                    <div class="number">{{ getTxCount }}</div>
-
-                </div>
-
-            </div>
-
-            <div class="col s4">
-
-                <div class="bg-gradient card z-depth-2">
-
-                    <h5>DataDir</h5>
-
-                    <div class="datadir">{{ dataDir }}</div>
-
-                </div>
-
-            </div>
-
-        </div>
+		</div>
 
         <div class="row text-center">
+        	<div class="col s6">
+	            <div class="info-block table-container">
+	            	<table class="main-table card z-depth-2">
+						<thead>
+							<tr>
+								<th colspan="2">Network Info</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="info-row">
+								<th>Network</th>
+								<td class="words">{{ getNetworkType }}</td>
+							</tr>
+							<tr class="info-row">
+								<th>Peers</th>
+								<td class="number">{{ getNumConnections }}</td>
+							</tr>
+							<tr class="info-row">
+								<th>Protocol Version</th>
+								<td class="number">{{ getProtocolVersion }}</td>
+							</tr>
 
-            <h4>Blockchain Info</h4>
-
-            <div class="col s4">
-
-                <div class="bg-gradient card z-depth-2">
-
-                    <h5>Block Count</h5>
-
-                    <div class="number">
-
-                        {{ getBlocks }}
-
-                        <i :class="[ getChainSyncStatus ? 'far fa-check-circle' : 'fas fa-sync-alt'] "></i>
-
-                    </div>
-
-                </div>
-
+						</tbody>
+					</table>
+				</div>
             </div>
+            <div class="col s6">
+	            <div class="info-block table-container">
+	            	<table class="main-table card z-depth-2">
+						<thead>
+							<tr>
+								<th colspan="2">MasterNode Info</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="info-row">
+								<th>Masternodes</th>
+								<td class="number">{{ getNumMasternodes }}</td>
+							</tr>
+							<tr class="info-row">
+								<th>Staking Status</th>
+								<td class="words">{{ getStakingStatus }}</td>
+							</tr>
+							<tr class="info-row">
+								<th>MN Sync Status</th>
+								<td class="words">{{ getMsyncStatus }}</td>
+							</tr>
 
-            <div class="col s4">
-
-                <div class="bg-gradient card z-depth-2">
-
-                    <h5>Last Block</h5>
-
-                    <div class="date">{{ this.lastBlockTime }}</div>
-
-                </div>
-
-            </div>
-
-            <div class="col s4">
-
-                <div class="bg-gradient card z-depth-2">
-
-                    <h5>Money Supply</h5>
-
-                    <div class="number">{{ Number((getMoneySupply).toFixed(2)) }}</div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="row text-center">
-
-            <h4>Network Info</h4>
-
-            <div class="col s4">
-
-                <div class="bg-gradient card z-depth-2">
-
-                    <h5>Network</h5>
-
-                    <div class="words">{{ getNetworkType }}</div>
-
-                </div>
-
-            </div>
-
-            <div class="col s4">
-
-                <div class="bg-gradient card z-depth-2">
-
-                    <h5>Peers</h5>
-
-                    <div class="number">{{ getNumConnections }}</div>
-
-                </div>
-
-            </div>
-
-            <div class="col s4">
-
-                <div class="bg-gradient card z-depth-2">
-
-                    <h5>Protocol Version</h5>
-
-                    <div class="number">{{ getProtocolVersion }}</div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="row text-center">
-
-            <h4>MasterNode Info</h4>
-
-            <div class="col s4 text-center">
-
-                <div class="bg-gradient card z-depth-2">
-
-                    <h5>Masternodes</h5>
-
-                    <div class="number">{{ getNumMasternodes }}</div>
-
-                </div>
-
-            </div>
-
-            <div class="col s4 text-center">
-
-                <div class="bg-gradient card z-depth-2">
-
-                    <h5>Staking Status</h5>
-
-                    <div class="words">
-
-                        <i :class="[ getStakingStatus ? 'far fa-check-circle words' : 'fas fa-sync-alt words'] "></i>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="col s4 text-center">
-
-                <div class="bg-gradient card z-depth-2">
-
-                    <h5>MN Sync Status</h5>
-
-                    <div class="words">
-
-                        <i :class="[ getMsyncStatus ? 'far fa-check-circle' : 'fas fa-sync-alt'] "></i>
-
-                    </div>
-
-                </div>
-
+						</tbody>
+					</table>
+				</div>
             </div>
 
         </div>
@@ -265,54 +195,3 @@
 
     }
 </script>
-
-<style lang="scss" scoped>
-
-    @import "../../assets/scss/_variables.scss";
-
-    .s4 h5 {
-        padding: 30px 30px 0px 30px;
-        font-size: 2em;
-        color: $wagerr_red;
-    }
-
-    .card div {
-        height: 80px;
-        color: $white;
-        padding: 0px 30px 30px 30px;
-        word-wrap: break-word;
-    }
-
-    .number{
-        font-size: 2.5em;
-    }
-
-    .words{
-        font-size: 2em;
-    }
-
-    .datadir{
-        margin-top: 10px;
-        font-size: 1.2em;
-    }
-
-    div .date{
-        padding-top: 10px;
-        font-size: 1.5em;
-    }
-
-    .fa-check-circle{
-        color: $success-green;
-        font-size: 30px;
-        top: -3px;
-        position: relative;
-    }
-
-    .fa-sync-alt{
-        color: $wagerr_dark_red;
-        font-size: 30px;
-        top: -3px;
-        position: relative;
-    }
-
-</style>

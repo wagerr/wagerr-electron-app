@@ -3,11 +3,17 @@
 @import url(../css/icons.css);
 body { padding: 0; font-family: 'Open Sans', sans-serif; }
 
+#app { height: 100vh; }
+
+.fade-enter-active, .fade-leave-active { transition-duration: 0.3s; transition-property: opacity; transition-timing-function: ease; }
+
+.fade-enter, .fade-leave-active { opacity: 0; }
+
 .wrapper { background-color: #dadada; }
 
 .wrapper .nav { height: 90px; }
 
-.content { padding: 10px; min-height: calc(100vh - 90px); margin-bottom: 0; }
+.content { padding: 20px 10px; min-height: calc(100vh - 90px); margin-bottom: 0; }
 
 .but { color: #fff; display: block; background: #B40101; text-align: center; line-height: 24px; font-size: 18px; line-height: 24px; padding: 8px 20px; border: none; border-radius: 4px; cursor: pointer; font-family: 'Montserrat'; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
 
@@ -22,6 +28,8 @@ body { padding: 0; font-family: 'Open Sans', sans-serif; }
 .btn-large:hover, .btn-large:focus { background: #860000 !important; box-shadow: inherit; }
 
 h4 { font-weight: 700; font-family: 'Montserrat'; font-size: 28px; color: #2b2c2d; margin-bottom: 25px; line-height: 30px; }
+
+h4 + p { margin-top: -10px; font-size: 14px; line-height: 20px; margin-bottom: 20px; }
 
 /* Header */
 header { color: #fff; width: 100%; position: fixed; top: 0px; left: 0px; z-index: 999; height: 90px; background-image: url(../images/bg-header.png); background-position: center center; background-repeat: no-repeat; background-size: cover; background-color: #B40101; }
@@ -60,7 +68,7 @@ header ul li .dropdown-content li a:hover { background-color: rgba(0, 0, 0, 0.4)
 
 header ul li .dropdown-content li a i { margin: 0 8px 0 0 !important; color: #B40101; font-weight: 600; }
 
-#betting .betting-sidebar-container { padding-top: 0px; font-size: 0; background-image: url(../images/bg-vector-black-d50.png); background-position: left bottom; background-repeat: no-repeat; background-size: cover; width: 200px; height: calc(100% - 90px); position: fixed; box-sizing: border-box; margin: -10px 0 0 -10px; }
+#betting .betting-sidebar-container { padding-top: 0px; font-size: 0; background-image: url(../images/bg-vector-black-d50.png); background-position: left bottom; background-repeat: no-repeat; background-size: cover; width: 200px; height: calc(100% - 90px); position: fixed; box-sizing: border-box; margin: -20px 0 0 -10px; }
 
 #betting .betting-sidebar-container .sidebar-branding { background-image: url(../images/logo-sidenav-footer.svg); background-position: center bottom; background-repeat: no-repeat; background-size: contain; width: 80%; margin: 0 10%; height: 100px; position: absolute; bottom: 10px; }
 
@@ -337,6 +345,42 @@ header ul li .dropdown-content li a i { margin: 0 8px 0 0 !important; color: #B4
 #chain-games .chain-container .chain-left .chain-btns a:first-child { margin: 0; }
 
 #chain-games .chain-container .chain-right .chain-transactions { width: 100%; }
+
+#tools .tools-sidebar-container { padding-top: 0px; font-size: 0; background-image: url(../images/bg-vector-black-d50.png); background-position: left bottom; background-repeat: no-repeat; background-size: cover; width: 200px; height: calc(100% - 90px); position: fixed; box-sizing: border-box; margin: -20px 0 0 -10px; }
+
+#tools .tools-sidebar-container .sidebar-branding { background-image: url(../images/logo-sidenav-footer.svg); background-position: center bottom; background-repeat: no-repeat; background-size: contain; width: 80%; margin: 0 10%; height: 100px; position: absolute; bottom: 10px; }
+
+#tools .tools-sidebar-container nav { width: 200px; background: transparent; position: relative; top: auto; left: auto; height: auto; padding-top: 0px; box-shadow: none; }
+
+#tools .tools-sidebar-container .tools-types { padding-top: 20px; }
+
+#tools .tools-sidebar-container .tools-types ul { width: calc(100%-27px); margin-left: 27px; }
+
+#tools .tools-sidebar-container .tools-types ul li { border-top: none; border-left: 3px solid transparent; padding: 0; margin: 0; display: block; width: 100%; }
+
+#tools .tools-sidebar-container .tools-types ul li a { font-size: 14px; font-weight: 600; padding: 4px 0 4px 20px; color: #fff; text-transform: none; display: block; }
+
+#tools .tools-sidebar-container .tools-types ul li a:hover { background-color: #B40101; }
+
+#tools .tools-sidebar-container h5 { font-size: 11px; font-weight: 700; color: #DD0000; text-transform: uppercase; padding-left: 50px; letter-spacing: 1px; }
+
+#tools .tools-main { margin-left: 200px; position: relative; }
+
+#tools .tools-main .tools-nav { background: #fff; margin: -10px -10px 0 -10px; width: calc(100% + 20px); }
+
+#information .info-block table thead th { text-align: center; font-size: 18px; }
+
+#information .info-block table tbody th { padding: 10px 15px; font-size: 16px; line-height: 20px; vertical-align: top; }
+
+#information .info-block table tbody td { padding: 10px 15px !important; font-size: 14px; line-height: 20px; text-align: right; vertical-align: top; }
+
+#wallet-repair button { width: 250px; }
+
+#wallet-repair li { font-size: 14px; display: flex; margin-bottom: 2px; }
+
+#wallet-repair li .command { width: 140px; display: inline-block; margin-right: 20px; margin-left: 20px; vertical-align: middle; }
+
+#wallet-repair li .desc { display: inline-block; }
 
 .transaction-link { color: #2b2c2d; cursor: pointer; }
 

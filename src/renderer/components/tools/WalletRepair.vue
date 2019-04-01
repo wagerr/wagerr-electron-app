@@ -2,9 +2,9 @@
 
     <div id="wallet-repair" class="settings-sub-section">
 
-        <h3 class="text-center">Wallet Repair Options</h3>
+        <h4>Wallet Repair Options</h4>
 
-        <p class="text-center">The buttons below will restart the Wagerr wallet with some command line options. Please ensure you back up your wallet.dat before proceeding.</p>
+        <p>The buttons below will restart the Wagerr wallet with some command line options. Please ensure you back up your wallet.dat before proceeding.</p>
 
         <ul class="collection">
 
@@ -12,7 +12,7 @@
 
                 <button class="waves-effect waves-light red darken-4 btn" @click="salvageWallet">Salvage Wallet</button>
 
-                <span>-salvagewallet</span> Attempt to recover private keys from corrupt wallet.dat file.
+                <span class="command">-salvagewallet</span> <span class="desc">Attempt to recover private keys from corrupt wallet.dat file.</span>
 
             </li>
 
@@ -20,7 +20,7 @@
 
                 <button class="waves-effect waves-light red darken-4 btn" @click="rescanBlockchain">Rescan Blockchain Files</button>
 
-                <span>-rescan</span> Rescan the block chain for missing transactions.
+                <span class="command">-rescan</span> <span class="desc">Rescan the block chain for missing transactions.</span>
 
             </li>
 
@@ -28,7 +28,7 @@
 
                 <button class="waves-effect waves-light red darken-4 btn" @click="recoverTxes1">Recover Transactions 1</button>
 
-                <span>-zapwallettxes=1</span> Recover transactions from block chain, keep meta-data e.g. Account Owner.
+                <span class="command">-zapwallettxes=1</span> <span class="desc">Recover transactions from block chain, keep meta-data e.g. Account Owner.</span>
 
             </li>
 
@@ -36,7 +36,7 @@
 
                 <button class="waves-effect waves-light red darken-4 btn" @click="recoverTxes2">Recover Transactions 2</button>
 
-                <span>-zapwallettxes=2</span> Recover transactions from block chain, drop meta-data.
+                <span class="command">-zapwallettxes=2</span> <span class="desc">Recover transactions from block chain, drop meta-data.</span>
 
             </li>
 
@@ -44,7 +44,7 @@
 
                 <button class="waves-effect waves-light red darken-4 btn" @click="upgradeWallet">Upgrade Wallet Format</button>
 
-                <span>-upgradewallet</span> Upgrade wallet to latest format on startup.
+                <span class="command">-upgradewallet</span> <span class="desc">Upgrade wallet to latest format on startup.</span>
 
             </li>
 
@@ -52,7 +52,7 @@
 
                 <button class="waves-effect waves-light  red darken-4 btn" @click="reindexBlockchain">Rebuild Index</button>
 
-                <span>-reindex</span> Rebuild block chain index from current blk000??.dat files.
+                <span class="command">-reindex</span> <span class="desc">Rebuild block chain index from current blk000??.dat files.</span>
 
             </li>
 
@@ -60,7 +60,7 @@
 
                 <button class="waves-effect waves-light red darken-4 btn" @click="resyncBlockchain">Delete Block Chain Folders</button>
 
-                <span>-resync</span> Delete all local block chain so wallet synchronises from scratch.
+                <span class="command">-resync</span> <span class="desc">Delete all local block chain so wallet synchronises from scratch.</span>
 
             </li>
 
@@ -114,18 +114,3 @@
     }
 
 </script>
-
-<style scoped>
-
-    button{
-        width: 250px;
-    }
-
-    li span{
-        width: 140px;
-        display: inline-block;
-        margin-right: 20px;
-        margin-left: 20px;
-    }
-
-</style>

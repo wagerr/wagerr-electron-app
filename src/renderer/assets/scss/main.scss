@@ -12,6 +12,19 @@ body {
 }
 
 #app{
+    height: 100vh;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition-duration: 0.3s;
+    transition-property: opacity;
+    transition-timing-function: ease;
+}
+
+.fade-enter,
+.fade-leave-active {
+    opacity: 0
 }
 
 .wrapper{
@@ -21,7 +34,7 @@ body {
     }
 }
 .content{
-    padding: 10px;
+    padding: 20px 10px;
     min-height: calc(100vh - 90px);
     margin-bottom:0;
 }
@@ -80,6 +93,12 @@ h4 {
     color:$dark_grey;
     margin-bottom:25px;
     line-height:30px;
+    &+p {
+	    margin-top:-10px;
+	    font-size:14px;
+	    line-height:20px;
+	    margin-bottom:20px;
+    }
 }
 
 /* Header */
@@ -97,7 +116,7 @@ h4 {
 	    background-repeat:no-repeat;
 	    background-size:cover;
         background-color: $wagerr_red;
-        
+
         .wagerr-logo {
 	        height:50px;
 	        background-image:url(../images/logo-header.svg);
@@ -109,10 +128,10 @@ h4 {
 	        width:200px;
 	        filter:drop-shadow(0 3px 1px rgba(0,0,0,.2));
 	    }
-	    
+
 	    .wagerr-balance {
 	        margin:25px 35px 0 0;
-	        
+
 	        #wagerr-total-balance {
 			    background-color: $halfblack;
 			    display:inline-block;
@@ -127,11 +146,11 @@ h4 {
 		        font-weight:bold;
 		    }
 	    }
-	    
+
 	    ul {
 	        margin:0px;
 	        padding:0px;
-	        
+
 	        li {
 		        display:block;
 		        float:left;
@@ -199,7 +218,7 @@ h4 {
 		    }
 	    }
     }
-    
+
     #betting {
 	    .betting-sidebar-container {
 		    padding-top:0px;
@@ -212,7 +231,7 @@ h4 {
 	        height:calc(100% - 90px);
 	        position:fixed;
 	        box-sizing:border-box;
-	        margin:-10px 0 0 -10px;
+	        margin:-20px 0 0 -10px;
 	        .sidebar-branding {
 		    	background-image:url(../images/logo-sidenav-footer.svg);
 		    	background-position:center bottom;
@@ -310,7 +329,7 @@ h4 {
 				        a {
 					        padding-bottom:6px;
 				        }
-			        
+
 			        }
 			        .bet-dropdown {
 				        display:block;
@@ -346,16 +365,16 @@ h4 {
 	    .betting-main {
 		    margin-left:200px;
 		    position:relative;
-		    
+
 		    .betting-nav {
 			    background:$white;
 			    margin:-10px -10px 0 -10px;
 			    width:calc(100% + 20px);
 		    }
 	    }
-	    
+
     }
-    
+
     #events {
 	    h4 {
 		    font-weight:700;
@@ -536,7 +555,7 @@ h4 {
 										opacity:0;
 									}
 								}
-								
+
 							}
 						}
 					}
@@ -636,8 +655,8 @@ h4 {
 								    font-weight:700;
 								    cursor: pointer;
 								    font-size:24px;
-								    
-								    
+
+
 							    }
 						    }
 						    .selection {
@@ -762,14 +781,14 @@ h4 {
 							    }
 						    }
 						}
-					    
+
 				    }
 			    }
 		    }
 
 	    }
     }
-    
+
     #wallet {
 	    .wallet-container {
 		    .wallet-left {
@@ -788,7 +807,7 @@ h4 {
 			        background-position:center bottom;
 					background-repeat:no-repeat;
 					background-size:cover;
-					
+
 			        h1{
 				        margin-top: 0px;
 				        margin-bottom: 10px;
@@ -852,14 +871,14 @@ h4 {
 				    width: 100%;
 				    table {
 					    th {
-						    
+
 					    }
 				    }
 			    }
 		    }
 	    }
     }
-    
+
     .main-table {
     	width:100%;
     	border-collapse: collapse;
@@ -886,12 +905,12 @@ h4 {
     	}
 	    tbody {
 		    tr {
-			    
+
 			    &:nth-child(odd) {
 				    background-color: #eee;
 				}
 			    td {
-				    
+
 				    color:$dark_grey;
 				    text-align:left;
 				    font-family:"Open Sans";
@@ -912,7 +931,7 @@ h4 {
 		    }
 		}
     }
-    
+
 
     .no-transactions {
 	    width:100%;
@@ -933,7 +952,7 @@ h4 {
 			}
 		}
 	}
-    
+
     #bets {
 	    h4 {
 		    font-weight:700;
@@ -944,7 +963,7 @@ h4 {
 		    line-height:30px;
 	    }
    }
-   
+
    .splash{
         padding-top: 4%;
         margin: auto;
@@ -970,42 +989,42 @@ h4 {
 	   .splash-loading-container{
 	        margin-top: 30px;
 	    }
-	
-	
+
+
 	    .slider{
 	        width: 100%;
 	        height: 4px;
 	        margin-top: -30px
 	    }
-	
+
 	    .line{
 	        position: absolute;
 	        background: $wagerr_red;
 	        width: 100%;
 	        height: 4px;
 	    }
-	
+
 	    .break{
 	        position:absolute;
 	        background: #222;
 	        width: 6px;
 	        height: 4px;
 	    }
-	
+
 	    .dot1{ -webkit-animation: loading 4s infinite; animation: loading 4s infinite;}
 	    .dot2{ -webkit-animation: loading 4s 0.5s infinite; animation: loading 4s 0.5s infinite; }
 	    .dot3{ -webkit-animation: loading 4s 1s infinite; animation: loading 4s 1s infinite; }
-	
+
 	    @-webkit-keyframes loading {
 	        from { left: 0; }
 	        to { left: 100%; }
 	    }
-	
+
 	    @keyframes loading {
 	        from { left: 0; }
 	        to { left: 100%; }
 	    }
-	
+
 	    .splash-wallet-repair {
 	    	margin-top:20px;
 	    	div {
@@ -1021,8 +1040,8 @@ h4 {
 			}
 	    }
     }
-   
-   
+
+
 	#chain-games {
 	    .chain-container {
 		    .chain-left {
@@ -1113,7 +1132,7 @@ h4 {
 						font-weight:600;
 			        	font-size:16px;
 			        	letter-spacing:1px;
-						color: $white; 
+						color: $white;
 						padding:0;
 			        }
 			    }
@@ -1136,21 +1155,166 @@ h4 {
 				    width: 100%;
 				    table {
 					    th {
-						    
+
 					    }
 				    }
 			    }
 		    }
 	    }
     }
-   
-   
-   
-   
-   
-   
-    
-   
+
+
+	#tools {
+	    .tools-sidebar-container {
+		    padding-top:0px;
+		    font-size:0;
+		    background-image:url(../images/bg-vector-black-d50.png);
+	        background-position:left bottom;
+	        background-repeat:no-repeat;
+	        background-size:cover;
+	        width:200px;
+	        height:calc(100% - 90px);
+	        position:fixed;
+	        box-sizing:border-box;
+	        margin:-20px 0 0 -10px;
+	        .sidebar-branding {
+		    	background-image:url(../images/logo-sidenav-footer.svg);
+		    	background-position:center bottom;
+				background-repeat:no-repeat;
+				background-size:contain;
+				width:80%;
+				margin:0 10%;
+				height:100px;
+				position:absolute;
+				bottom:10px;
+			}
+	        nav {
+		         width:200px;
+		         background:transparent;
+		         position:relative;
+		         top:auto;
+		         left:auto;
+		         height:auto;
+		         padding-top:0px;
+		         box-shadow:none;
+	        }
+	        .tools-types {
+	        	padding-top:20px;
+	        	ul {
+	        		width:calc(100%-27px);
+	        		margin-left:27px;
+			    	li {
+				        border-top:none;
+				        border-left:3px solid transparent;
+				        padding:0;
+				        margin:0;
+				        display:block;
+				        width:100%;
+				        a {
+					        font-size:14px;
+							font-weight:600;
+							padding:4px 0 4px 20px;
+							color:$white;
+							text-transform:none;
+							display:block;
+							&:hover {
+								background-color:$wagerr_red;
+							}
+						}
+					}
+				}
+	        }
+			h5 {
+				font-size:11px;
+				font-weight:700;
+				color:$brightred;
+				text-transform:uppercase;
+				padding-left:50px;
+				letter-spacing:1px;
+			}
+	    }
+	    .tools-main {
+		    margin-left:200px;
+		    position:relative;
+
+		    .tools-nav {
+			    background:$white;
+			    margin:-10px -10px 0 -10px;
+			    width:calc(100% + 20px);
+		    }
+	    }
+
+    }
+
+    #information {
+	    .info-block {
+		    table {
+			    thead {
+				    th {
+					    text-align:center;
+					    font-size:18px;
+				    }
+			    }
+			    tbody {
+				    th {
+					    padding:10px 15px;
+					    font-size:16px;
+					    line-height:20px;
+					    vertical-align:top;
+				    }
+				    td {
+					    padding:10px 15px !important;
+					    font-size:14px;
+					    line-height:20px;
+					    text-align:right;
+					    vertical-align:top;
+				    }
+			    }
+		    }
+        }
+
+        .fa-check-circle{
+            color: $success-green;
+            font-size: 20px;
+            margin-top: -10px;
+            top: -5px;
+            position: relative;
+        }
+        .fa-sync-alt{
+            color: $wagerr_dark_red;
+            font-size: 20px;
+            top: -5px;
+            position: relative;
+        }
+    }
+
+    #wallet-repair {
+	    button{
+	        width: 250px;
+	    }
+
+	    li {
+	    	font-size:14px;
+	    	display:flex;
+	    	margin-bottom:2px;
+	    	.command{
+	        	width: 140px;
+				display: inline-block;
+				margin-right: 20px;
+				margin-left: 20px;
+				vertical-align:middle;
+			}
+			.desc {
+				display:inline-block;
+			}
+	    }
+    }
+
+
+
+
+
+
    .transaction-link{
         color: $dark_grey;
         cursor: pointer;
@@ -1160,11 +1324,11 @@ h4 {
         color: $wagerr_dark_red;
         cursor: pointer;
     }
-    
-    
 
-    
-    
+
+
+
+
     .bet-stake{
         color: white;
     }
@@ -1207,7 +1371,7 @@ h4 {
 
 
 
-   
+
 
     .dropdown-trigger{
         margin-top: 3px;
@@ -1693,6 +1857,3 @@ h4 {
         color: $wagerr_dark_red;
         cursor: pointer;
     }
-
-
-

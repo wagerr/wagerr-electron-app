@@ -46,27 +46,3 @@
     }
 
 </script>
-
-<style lang="scss" scoped>
-
-    #app{
-        height: 100vh;
-    }
-
-    .nav{
-        height: 65px;
-    }
-
-    .fade-enter-active,
-    .fade-leave-active {
-        transition-duration: 0.3s;
-        transition-property: opacity;
-        transition-timing-function: ease;
-    }
-
-    .fade-enter,
-    .fade-leave-active {
-        opacity: 0
-    }
-
-</style>
