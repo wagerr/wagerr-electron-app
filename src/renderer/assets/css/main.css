@@ -170,9 +170,11 @@ header ul li .dropdown-content li a i { margin: 0 8px 0 0 !important; color: #B4
 
 .bet-slip-div { margin-top: 25px; }
 
-.bet-slip-div #betting-slip { background: #fff; position: fixed; overflow-y: scroll; top: 110px; width: 20%; height: calc(100vh - 130px); }
+.bet-slip-div #betting-slip { background: #fff; position: fixed; top: 120px; width: calc(25% - 3.5rem); height: calc(100vh - 120px); right: 0; }
 
-.bet-slip-div #betting-slip h4 { margin-bottom: 0px; margin-top: 0; line-height: 30px; background: #2b2c2d; color: #fff; border: none; font-family: 'Montserrat'; font-weight: 700; padding: 10px 10px 8px; font-size: 15px; line-height: 20px; text-transform: uppercase; border-radius: 4px 4px 0 0; letter-spacing: 1px; position: relative; }
+.bet-slip-div #betting-slip .bet-list-scroll { height: calc(100% - 25px); overflow-y: scroll; }
+
+.bet-slip-div #betting-slip h4 { margin-bottom: 0px; margin-top: 0; line-height: 30px; background: #2b2c2d; color: #fff; border: none; font-family: 'Montserrat'; font-weight: 700; padding: 10px 10px 8px; font-size: 15px; line-height: 20px; text-transform: uppercase; /*border-radius:4px 4px 0 0;*/ letter-spacing: 1px; position: relative; }
 
 .bet-slip-div #betting-slip h4 button { background: #B40101; color: #fff; height: 24px; line-height: 24px; position: absolute; top: 7px; right: 10px; font-size: 11px; font-family: "Montserrat"; font-weight: 700; padding: 0 10px; }
 
@@ -182,13 +184,13 @@ header ul li .dropdown-content li a i { margin: 0 8px 0 0 !important; color: #B4
 
 .bet-slip-div #betting-slip .bet-list ul { margin: 0; padding: 0; }
 
-.bet-slip-div #betting-slip .bet-list ul li.card { background: transparent; color: #2b2c2d; padding: 0 0 10px; box-shadow: none; border-bottom: 2px solid #dadada; margin: 0 0 15px; }
+.bet-slip-div #betting-slip .bet-list ul li.card { background: transparent; color: #2b2c2d; padding: 0 0 10px; box-shadow: none; border: 2px solid #B40101; margin: 0 0 15px; }
 
 .bet-slip-div #betting-slip .bet-list ul li.card .bet-details { padding: 0; position: relative; }
 
-.bet-slip-div #betting-slip .bet-list ul li.card .bet-details .bet-slip-pair { color: #2b2c2d; background: #dadada; font-family: "Montserrat"; font-weight: 700; text-align: left; padding: 6px 40px 6px 10px; width: 100%; font-size: 12px; line-height: 18px; }
+.bet-slip-div #betting-slip .bet-list ul li.card .bet-details .bet-slip-pair { color: #fff; background: #B40101; font-family: "Montserrat"; font-weight: 700; text-align: left; padding: 6px 40px 6px 10px; width: 100%; font-size: 12px; line-height: 16px; }
 
-.bet-slip-div #betting-slip .bet-list ul li.card .bet-details .clear-bet { color: #fff; position: absolute; top: 0; right: 0; width: 30px; height: 30px; display: block; background: #B40101; text-align: center; line-height: 30px; }
+.bet-slip-div #betting-slip .bet-list ul li.card .bet-details .clear-bet { color: #fff; position: absolute; top: -2px; right: -2px; width: 30px; height: 30px; display: block; background: #B40101; text-align: center; line-height: 30px; }
 
 .bet-slip-div #betting-slip .bet-list ul li.card .bet-details .clear-bet:hover { background: #860000; }
 
@@ -200,27 +202,31 @@ header ul li .dropdown-content li a i { margin: 0 8px 0 0 !important; color: #B4
 
 .bet-slip-div #betting-slip .bet-list ul li.card .bet-details .selection .winner { display: block; text-align: center; float: none; font-size: 18px; }
 
-.bet-slip-div #betting-slip .bet-list ul li.card .bet-details .selection .odds { display: inline-block; text-align: center; float: none; width: 60%; background: #eee; margin: 5px 20% 0; padding: 4px 0; border-radius: 4px; letter-spacing: 1px; }
+.bet-slip-div #betting-slip .bet-list ul li.card .bet-details .selection .odds { display: inline-block; text-align: center; float: none; width: 60%; background: #eee; margin: 5px 20% 0; padding: 4px 0; border-radius: 4px; letter-spacing: 1px; color: #2b2c2d; }
 
-.bet-slip-div #betting-slip .bet-list ul li.card .bet-details .bet-stake-container { color: #2b2c2d; padding: 0px; display: flex; justify-content: center; }
+.bet-slip-div #betting-slip .bet-list ul li.card .bet-details .bet-stake-container { color: #2b2c2d; padding: 0px; display: flex; justify-content: center; margin-bottom: 0; }
 
-.bet-slip-div #betting-slip .bet-list ul li.card .bet-details .bet-stake-container .stake-input { width: 130px; position: relative; margin-right: 10px; }
+.bet-slip-div #betting-slip .bet-list ul li.card .bet-details .bet-stake-container .stake-input { width: 120px; position: relative; margin-right: 0px; }
 
 .bet-slip-div #betting-slip .bet-list ul li.card .bet-details .bet-stake-container .stake-input label { left: 0px; top: 0px; position: absolute; color: #2b2c2d; font-size: 14px; font-family: "Open Sans"; font-weight: 600; text-align: center; width: 100%; }
 
-.bet-slip-div #betting-slip .bet-list ul li.card .bet-details .bet-stake-container .stake-input input { border-bottom: 1px solid #777777; color: #2b2c2d; font-family: "Open Sans"; font-size: 18px; font-weight: 700; text-align: center; width: 130px; background: #eee; margin-bottom: 0; height: 34px; }
+.bet-slip-div #betting-slip .bet-list ul li.card .bet-details .bet-stake-container .stake-input input { color: #2b2c2d; font-family: "Open Sans"; font-size: 18px; font-weight: 700; text-align: center; width: 120px; background: #eee; margin-bottom: 0; height: 33px; box-shadow: 0 1px 0 0 #777777; }
 
-.bet-slip-div #betting-slip .bet-list ul li.card .bet-details .bet-stake-container .stake-input input::-webkit-input-placeholder { /* Chrome/Opera/Safari */ font-size: 14px; }
+.bet-slip-div #betting-slip .bet-list ul li.card .bet-details .bet-stake-container .stake-input input::-webkit-input-placeholder { /* Chrome/Opera/Safari */ font-size: 13px; font-weight: 600; }
 
-.bet-slip-div #betting-slip .bet-list ul li.card .bet-details .bet-stake-container .stake-input input::-moz-placeholder { /* Firefox 19+ */ font-size: 14px; }
+.bet-slip-div #betting-slip .bet-list ul li.card .bet-details .bet-stake-container .stake-input input::-moz-placeholder { /* Firefox 19+ */ font-size: 13px; font-weight: 600; }
 
-.bet-slip-div #betting-slip .bet-list ul li.card .bet-details .bet-stake-container .stake-input input:-ms-input-placeholder { /* IE 10+ */ font-size: 14px; }
+.bet-slip-div #betting-slip .bet-list ul li.card .bet-details .bet-stake-container .stake-input input:-ms-input-placeholder { /* IE 10+ */ font-size: 13px; font-weight: 600; }
 
-.bet-slip-div #betting-slip .bet-list ul li.card .bet-details .bet-stake-container .stake-input input:-moz-placeholder { /* Firefox 18- */ font-size: 14px; }
+.bet-slip-div #betting-slip .bet-list ul li.card .bet-details .bet-stake-container .stake-input input:-moz-placeholder { /* Firefox 18- */ font-size: 13px; font-weight: 600; }
+
+.bet-slip-div #betting-slip .bet-list ul li.card .bet-details .bet-stake-container .stake-button button { border-radius: 0px; height: 35px; line-height: 35px; box-shadow: none; padding-top: 2px; font-weight: 700; }
 
 .bet-slip-div #betting-slip .bet-list ul li.card .bet-details .bet-returns { color: #2b2c2d; padding: 5px 10px; }
 
-.bet-slip-div #betting-slip .bet-list ul li.card .bet-details .bet-returns span { color: #2b2c2d; font-size: 12px; font-family: "Open Sans"; font-weight: 700; }
+.bet-slip-div #betting-slip .bet-list ul li.card .bet-details .bet-returns .potential-returns-headline { float: none; text-align: center; display: block; color: #2b2c2d; font-size: 13px; font-family: "Open Sans"; font-weight: 800; margin-bottom: 2px; }
+
+.bet-slip-div #betting-slip .bet-list ul li.card .bet-details .bet-returns .potential-returns { float: none; text-align: center; display: block; color: #B40101; font-size: 12px; font-family: "Open Sans"; font-weight: 700; letter-spacing: 0.5px; }
 
 #wallet .wallet-container .wallet-left { position: -webkit-sticky; position: sticky; top: 110px; }
 

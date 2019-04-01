@@ -540,10 +540,14 @@ body {
 	    #betting-slip {
 	    	background:$white;
 	    	position: fixed;
-			overflow-y: scroll;
-			top: 110px;
-			width: 20%;
-			height: calc(100vh - 130px);
+			top: 120px;
+		    width: calc(25% - 3.5rem);
+		    height: calc(100vh - 120px);
+		    right: 0;
+		    .bet-list-scroll {
+			    height:calc(100% - 25px);
+			    overflow-y:scroll;
+		    }
 		    h4 {
 				margin-bottom:0px;
 			    margin-top:0;
@@ -557,7 +561,7 @@ body {
 				font-size:15px;
 				line-height:20px;
 				text-transform:uppercase;
-				border-radius:4px 4px 0 0;
+				/*border-radius:4px 4px 0 0;*/
 				letter-spacing:1px;
 				position:relative;
 				button {
@@ -589,27 +593,27 @@ body {
 					    color:$dark_grey;
 						padding:0 0 10px;
 						box-shadow:none;
-						border-bottom:2px solid $light_grey;
+						border:2px solid $wagerr_red;
 						margin:0 0 15px;
 						.bet-details {
 							padding:0;
 							position:relative;
 							.bet-slip-pair {
-						    	color:$dark_grey;
-						    	background:$light_grey;
+						    	color:$white;
+						    	background:$wagerr_red;
 							    font-family:"Montserrat";
 								font-weight:700;
 								text-align:left;
 								padding:6px 40px 6px 10px;
 								width:100%;
 								font-size:12px;
-								line-height:18px;
+								line-height:16px;
 						    }
 						    .clear-bet {
 							    color:$white;
 							    position:absolute;
-							    top:0;
-							    right:0;
+							    top:-2px;
+							    right:-2px;
 							    width:30px;
 							    height:30px;
 							    display:block;
@@ -660,6 +664,7 @@ body {
 								    padding:4px 0;
 								    border-radius:4px;
 								    letter-spacing:1px;
+								    color:$dark_grey;
 							    }
 						    }
 						    .bet-stake-container {
@@ -667,10 +672,11 @@ body {
 							    padding:0px;
 							    display:flex;
 							    justify-content: center;
+							    margin-bottom:0;
 							    .stake-input {
-							    	width:130px;
+							    	width:120px;
 							    	position:relative;
-							    	margin-right:10px;
+							    	margin-right:0px;
 								    label {
 									    left:0px;
 									    top:0px;
@@ -683,42 +689,67 @@ body {
 										width:100%;
 								    }
 								    input {
-									    border-bottom:1px solid $grey;
 									    color:$dark_grey;
 									    font-family:"Open Sans";
 									    font-size:18px;
 									    font-weight:700;
 									    text-align:center;
-									    width:130px;
+									    width:120px;
 									    background:#eee;
 									    margin-bottom:0;
-									    height:34px;
+									    height:33px;
+									    box-shadow:0 1px 0 0 $grey;
 									    &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-										  font-size:14px;
+										  font-size:13px;
+										  font-weight:600;
 										}
 										&::-moz-placeholder { /* Firefox 19+ */
-										  font-size:14px;
+										  font-size:13px;
+										  font-weight:600;
 										}
 										&:-ms-input-placeholder { /* IE 10+ */
-										  font-size:14px;
+										  font-size:13px;
+										  font-weight:600;
 										}
 										&:-moz-placeholder { /* Firefox 18- */
-										  font-size:14px;
+										  font-size:13px;
+										  font-weight:600;
 										}
 								    }
 								}
 								.stake-button {
-									
+									button {
+										border-radius:0px;
+										height:35px;
+										line-height:35px;
+										box-shadow:none;
+										padding-top:2px;
+										font-weight:700;
+									}
 								}
 						    }
 						    .bet-returns {
 							    color:$dark_grey;
 							    padding:5px 10px;
-							    span {
+							    .potential-returns-headline {
+								    float:none;
+								    text-align:center;
+								    display:block;
 								    color:$dark_grey;
+									font-size:13px;
+									font-family:"Open Sans";
+									font-weight:800;
+									margin-bottom:2px;
+							    }
+							    .potential-returns {
+								    float:none;
+								    text-align:center;
+								    display:block;
+								    color:$wagerr_red;
 									font-size:12px;
 									font-family:"Open Sans";
 									font-weight:700;
+									letter-spacing:0.5px;
 							    }
 						    }
 						}

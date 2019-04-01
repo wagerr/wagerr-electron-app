@@ -5,16 +5,9 @@
         <h4 v-if="betSlip.length > 0">Bet slip<button class="btn pull-right waves-effect waves-light" @click="clearBetSlip">Clear Slip</button></h4>
         <h4 v-else>Bet slip</h4>
 
+		<div class="bet-list-scroll">
         <div class="bet-list" v-if="betSlip.length > 0">
-<!--
-            <div class="bet-slip-options">
 
-                <button class="btn pull-right" @click="clearBetSlip">Clear Slip</button>
-
-                <div class="clearfix"></div>
-
-            </div>
--->
             <ul>
 
                 <li v-for="( bet, index ) in betSlip" :key="bet.betId" class="card">
@@ -54,7 +47,7 @@
 
                         <div class="bet-returns">
 
-                            <span class="pull-left">Winnings:</span>
+                            <span class="pull-left potential-returns-headline">Winnings:</span>
 
                             <span :id="index" class="potential-returns pull-right">0 {{ getNetworkType === "Testnet"? 'tWGR' : 'WGR' }}</span>
 
@@ -80,6 +73,7 @@
 
             </div>
 
+        </div>
         </div>
 
     </div>
