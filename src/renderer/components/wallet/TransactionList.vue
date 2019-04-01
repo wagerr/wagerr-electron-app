@@ -1,11 +1,9 @@
 <template>
 
     <!-- Transaction List -->
-    <div v-if="wgrTransactionRecords.length === 0" class="no-transactions text-center">
+    <div v-if="wgrTransactionRecords.length === 0" class="no-transactions z-depth-2 text-center">
 
-        <p>Wallet has no Wagerr transactions to list...</p>
-
-        <i class="far fa-list-alt"></i>
+        <p>Currently, your wallet has no Wagerr transactions to list...</p>
 
     </div>
 
