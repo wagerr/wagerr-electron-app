@@ -203,11 +203,9 @@
 
         </div>
 
-        <div v-else class="text-center no-events">
+        <div v-else class="text-center no-events no-transactions">
 
-            <p>No events available for betting!</p>
-
-            <i class="far fa-calendar-times"></i>
+            <p>Currently, there are no events available for betting for this sport.</p>
 
         </div>
 

@@ -100,6 +100,9 @@ h4 {
 	    margin-bottom:20px;
     }
 }
+table.z-depth-2, .no-transactions {
+	box-shadow:0 0px 12px 0px rgba(0,0,0,0.2);
+}
 
 /* Header */
 
@@ -126,11 +129,11 @@ h4 {
 	        float:left;
 	        margin:20px 0 0 0;
 	        width:200px;
-	        filter:drop-shadow(0 3px 1px rgba(0,0,0,.2));
+	        filter:drop-shadow(0 2px 3px rgba(0,0,0,.3));
 	    }
 
 	    .wagerr-balance {
-	        margin:25px 35px 0 0;
+	        margin:25px 25px 0 0;
 
 	        #wagerr-total-balance {
 			    background-color: $halfblack;
@@ -139,6 +142,7 @@ h4 {
 				font-weight:600;
 				color: $white;
 				font-size:16px;
+				letter-spacing:0.3px;
 		    }
 	        i {
 		        margin-left:10px;
@@ -273,6 +277,11 @@ h4 {
 							text-transform:none;
 							display:block;
 							&:hover {
+								background-color:$wagerr_red;
+							}
+						}
+						&.router-link-active {
+							a {
 								background-color:$wagerr_red;
 							}
 						}
@@ -833,10 +842,11 @@ h4 {
 				        padding-top: 30px;
 				        padding-bottom: 10px;
 				        div{
-					        color: $white;
+					        color: $light_grey;
 					        font-size: 16px;
-					        font-weight:700;
+					        font-weight:500;
 					        line-height:28px;
+					        letter-spacing:1px;
 					    }
 				        .total-balance {
 					        font-size: 26px;
@@ -849,6 +859,13 @@ h4 {
 					        background:#111;
 					        margin-bottom:30px;
 					        line-height:36px;
+					        letter-spacing:0.5px;
+					        @media screen and (max-width: 1450px) {
+								font-size:22px;
+								font-weight:600;
+								padding:15px 10px;
+								letter-spacing:0.25px;
+							}
 					    }
 				    }
 			    }
@@ -1061,6 +1078,9 @@ h4 {
 					background-repeat:no-repeat;
 					background-size:cover;
 					position:relative;
+						@media screen and (max-width: 1450px) {
+							padding:25px;
+						}
 					.chain-info {
 						position:absolute;
 						top:20px;
@@ -1081,6 +1101,10 @@ h4 {
 						letter-spacing:2px;
 						text-align:center;
 						text-transform:uppercase;
+						@media screen and (max-width: 1450px) {
+							font-size:20px;
+							margin-bottom:10px;
+						}
 				        span {
 					        display:block;
 					        width:60%;
@@ -1107,6 +1131,9 @@ h4 {
 				        background:#111;
 				        margin:20px 0;
 				        overflow:hidden;
+						@media screen and (max-width: 1450px) {
+							padding:20px 5px;
+						}
 					    .stats{
 					        padding-top: 10px;
 					        padding-bottom: 10px;
@@ -1115,12 +1142,18 @@ h4 {
 								font-weight:700;
 					        	font-size:14px;
 								color: $wagerr_red;
+								@media screen and (max-width: 1450px) {
+									font-size:12px;
+								}
 					        }
 					        .cg-info{
 						        color: $white;
 						        font-size: 32px;
 						        font-weight:600;
 						        line-height:28px;
+								@media screen and (max-width: 1450px) {
+									font-size:26px;
+								}
 						    }
 						    &:not(:last-child) {
 						        border-right: 2px solid #222;
@@ -1134,6 +1167,9 @@ h4 {
 			        	letter-spacing:1px;
 						color: $white;
 						padding:0;
+						@media screen and (max-width: 1450px) {
+							font-size:14px;
+						}
 			        }
 			    }
 			    .chain-btns{

@@ -31,14 +31,16 @@ h4 { font-weight: 700; font-family: 'Montserrat'; font-size: 28px; color: #2b2c2
 
 h4 + p { margin-top: -10px; font-size: 14px; line-height: 20px; margin-bottom: 20px; }
 
+table.z-depth-2, .no-transactions { box-shadow: 0 0px 12px 0px rgba(0, 0, 0, 0.2); }
+
 /* Header */
 header { color: #fff; width: 100%; position: fixed; top: 0px; left: 0px; z-index: 999; height: 90px; background-image: url(../images/bg-header.png); background-position: center center; background-repeat: no-repeat; background-size: cover; background-color: #B40101; }
 
-header .wagerr-logo { height: 50px; background-image: url(../images/logo-header.svg); background-position: center center; background-repeat: no-repeat; background-size: contain; float: left; margin: 20px 0 0 0; width: 200px; filter: drop-shadow(0 3px 1px rgba(0, 0, 0, 0.2)); }
+header .wagerr-logo { height: 50px; background-image: url(../images/logo-header.svg); background-position: center center; background-repeat: no-repeat; background-size: contain; float: left; margin: 20px 0 0 0; width: 200px; filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3)); }
 
-header .wagerr-balance { margin: 25px 35px 0 0; }
+header .wagerr-balance { margin: 25px 25px 0 0; }
 
-header .wagerr-balance #wagerr-total-balance { background-color: rgba(0, 0, 0, 0.4); display: inline-block; padding: 10px 15px; font-weight: 600; color: #fff; font-size: 16px; }
+header .wagerr-balance #wagerr-total-balance { background-color: rgba(0, 0, 0, 0.4); display: inline-block; padding: 10px 15px; font-weight: 600; color: #fff; font-size: 16px; letter-spacing: 0.3px; }
 
 header .wagerr-balance i { margin-left: 10px; cursor: pointer; font-weight: bold; }
 
@@ -83,6 +85,8 @@ header ul li .dropdown-content li a i { margin: 0 8px 0 0 !important; color: #B4
 #betting .betting-sidebar-container .betting-types ul li a { font-size: 14px; font-weight: 600; padding: 4px 0 4px 20px; color: #fff; text-transform: none; display: block; }
 
 #betting .betting-sidebar-container .betting-types ul li a:hover { background-color: #B40101; }
+
+#betting .betting-sidebar-container .betting-types ul li.router-link-active a { background-color: #B40101; }
 
 #betting .betting-sidebar-container ul.side-nav h5 { padding-top: 10px; }
 
@@ -248,9 +252,11 @@ header ul li .dropdown-content li a i { margin: 0 8px 0 0 !important; color: #B4
 
 #wallet .wallet-container .wallet-left .wallet-balance .dashboard-balance { padding-top: 30px; padding-bottom: 10px; }
 
-#wallet .wallet-container .wallet-left .wallet-balance .dashboard-balance div { color: #fff; font-size: 16px; font-weight: 700; line-height: 28px; }
+#wallet .wallet-container .wallet-left .wallet-balance .dashboard-balance div { color: #dadada; font-size: 16px; font-weight: 500; line-height: 28px; letter-spacing: 1px; }
 
-#wallet .wallet-container .wallet-left .wallet-balance .dashboard-balance .total-balance { font-size: 26px; font-weight: 700; color: #fff; padding: 25px 20px; width: 100%; display: block; border-radius: 4px; background: #111; margin-bottom: 30px; line-height: 36px; }
+#wallet .wallet-container .wallet-left .wallet-balance .dashboard-balance .total-balance { font-size: 26px; font-weight: 700; color: #fff; padding: 25px 20px; width: 100%; display: block; border-radius: 4px; background: #111; margin-bottom: 30px; line-height: 36px; letter-spacing: 0.5px; }
+
+@media screen and (max-width: 1450px) { #wallet .wallet-container .wallet-left .wallet-balance .dashboard-balance .total-balance { font-size: 22px; font-weight: 600; padding: 15px 10px; letter-spacing: 0.25px; } }
 
 #wallet .wallet-container .wallet-left .wallet-btns { margin-top: 30px; margin-bottom: 20px; }
 
@@ -318,9 +324,13 @@ header ul li .dropdown-content li a i { margin: 0 8px 0 0 !important; color: #B4
 
 #chain-games .chain-container .chain-left .cg-lotto-info { width: 100%; color: #B40101; margin-left: auto; margin-right: auto; margin-bottom: 0; border-radius: 4px; padding: 40px; background-image: url(../images/bg-vector-black-d40.png); background-position: center bottom; background-repeat: no-repeat; background-size: cover; position: relative; }
 
+@media screen and (max-width: 1450px) { #chain-games .chain-container .chain-left .cg-lotto-info { padding: 25px; } }
+
 #chain-games .chain-container .chain-left .cg-lotto-info .chain-info { position: absolute; top: 20px; right: 20px; margin: 0; font-size: 24px; color: #B40101; cursor: pointer; font-weight: 500; }
 
 #chain-games .chain-container .chain-left .cg-lotto-info h2 { margin-top: 0px; margin-bottom: 20px; font-family: "Montserrat"; font-weight: 700; font-size: 24px; color: #B40101; letter-spacing: 2px; text-align: center; text-transform: uppercase; }
+
+@media screen and (max-width: 1450px) { #chain-games .chain-container .chain-left .cg-lotto-info h2 { font-size: 20px; margin-bottom: 10px; } }
 
 #chain-games .chain-container .chain-left .cg-lotto-info h2 span { display: block; width: 60%; margin: 0 auto 10px; height: 70px; background-image: url(../images/wgrWordsWhite.svg); background-position: center bottom; background-repeat: no-repeat; background-size: contain; }
 
@@ -328,15 +338,23 @@ header ul li .dropdown-content li a i { margin: 0 8px 0 0 !important; color: #B4
 
 #chain-games .chain-container .chain-left .cg-lotto-info .all-stats { padding: 25px 20px; width: 100%; display: block; border-radius: 4px; background: #111; margin: 20px 0; overflow: hidden; }
 
+@media screen and (max-width: 1450px) { #chain-games .chain-container .chain-left .cg-lotto-info .all-stats { padding: 20px 5px; } }
+
 #chain-games .chain-container .chain-left .cg-lotto-info .all-stats .stats { padding-top: 10px; padding-bottom: 10px; }
 
 #chain-games .chain-container .chain-left .cg-lotto-info .all-stats .stats h6 { font-family: "Montserrat"; font-weight: 700; font-size: 14px; color: #B40101; }
 
+@media screen and (max-width: 1450px) { #chain-games .chain-container .chain-left .cg-lotto-info .all-stats .stats h6 { font-size: 12px; } }
+
 #chain-games .chain-container .chain-left .cg-lotto-info .all-stats .stats .cg-info { color: #fff; font-size: 32px; font-weight: 600; line-height: 28px; }
+
+@media screen and (max-width: 1450px) { #chain-games .chain-container .chain-left .cg-lotto-info .all-stats .stats .cg-info { font-size: 26px; } }
 
 #chain-games .chain-container .chain-left .cg-lotto-info .all-stats .stats:not(:last-child) { border-right: 2px solid #222; }
 
 #chain-games .chain-container .chain-left .cg-lotto-info .cg-dates { font-family: "Montserrat"; font-weight: 600; font-size: 16px; letter-spacing: 1px; color: #fff; padding: 0; }
+
+@media screen and (max-width: 1450px) { #chain-games .chain-container .chain-left .cg-lotto-info .cg-dates { font-size: 14px; } }
 
 #chain-games .chain-container .chain-left .chain-btns { margin-top: 50px; margin-bottom: 10px; }
 
