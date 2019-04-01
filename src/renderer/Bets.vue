@@ -1,10 +1,10 @@
 <template>
 
-    <div id="bets" class="content">
+    <div id="bets" class="content row">
 
-        <div class="">
+        <div class="col s12">
 
-            <h5>Bet Transaction History</h5>
+            <h4>Bet Transaction History</h4>
 
             <bet-transaction-list></bet-transaction-list>
 
@@ -25,11 +25,3 @@
 
 </script>
 
-<style lang="scss" scoped>
-
-    .content{
-        padding: 20px;
-        min-height: 650px;
-    }
-
-</style>

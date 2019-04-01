@@ -1,13 +1,11 @@
 <template>
 
     <!-- Peerless bet List -->
-    <div v-if="plBetTransactionList.length === 0" class="no-transactions text-center">
+    <div v-if="plBetTransactionList.length === 0" class="no-transactions z-depth-2 text-center">
 
         <p>Looks like a new wallet, no betting transactions to list!</p>
 
         <p>Jump to the <router-link class="router-link" tag="a" to="/betting">betting tab</router-link> and start placing bets.</p>
-
-        <i class="fas fa-dice"></i>
 
     </div>
 
@@ -19,13 +17,13 @@
 
                 <tr>
 
-                    <th class="col s1 m1 l1 hide-on-med-and-down">Transaction ID</th>
+                    <th class="hide-on-med-and-down">Transaction ID</th>
 
-                    <th class="col s1 m1 l1 hide-on-small-only">Event ID</th>
+                    <th class="hide-on-small-only">Event ID</th>
 
-                    <th class="col s3s m3 l3 hide-on-med-and-down show-on-large">Bet Outcome</th>
+                    <th class="hide-on-med-and-down show-on-large">Bet Outcome</th>
 
-                    <th class="col s2 m2 l2">WGR Amount</th>
+                    <th class="">WGR Amount</th>
 
                 </tr>
 
@@ -35,7 +33,7 @@
 
                 <tr v-for="tx in plBetTransactionList" :key="tx.id">
 
-                    <td class="col s1s m1 l1 hide-on-small-only">
+                    <td class="hide-on-small-only">
 
                         <a @click="blockExplorerUrl(tx['tx-id'])" class="transaction-link">
 
@@ -45,11 +43,11 @@
 
                     </td>
 
-                    <td class="col s1s m1 l1 hide-on-small-only" >{{ tx['event-id'] }}</td>
+                    <td class="hide-on-small-only" >{{ tx['event-id'] }}</td>
 
-                    <td class="col s3s m3 l3 hide-on-med-and-down show-on-large">{{ outcomeToText( tx['team-to-win'] ) }}</td>
+                    <td class="hide-on-med-and-down show-on-large">{{ outcomeToText( tx['team-to-win'] ) }}</td>
 
-                    <td class="col s2 m2 l2 ">{{ tx.amount }} {{ getNetworkType === "Testnet" ? 'tWGR' : 'WGR' }} </td>
+                    <td class="">{{ tx.amount }} {{ getNetworkType === "Testnet" ? 'tWGR' : 'WGR' }} </td>
 
                 </tr>
 
@@ -134,31 +132,3 @@
 
 </script>
 
-<style lang="scss" scoped>
-
-    @import "../../../assets/scss/_variables.scss";
-
-    .no-transactions{
-        margin-top: 10%;
-    }
-
-    .no-transactions p{
-        font-size: 1.5em;
-    }
-
-    .no-transactions .fa-dice{
-        color: $wagerr_dark_red;
-        font-size: 10em;
-    }
-
-    .transaction-link{
-        color: $dark_grey;
-        cursor: pointer;
-    }
-
-    .transaction-link:hover{
-        color: $wagerr_dark_red;
-        cursor: pointer;
-    }
-
-</style>

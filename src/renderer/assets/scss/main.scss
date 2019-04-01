@@ -23,6 +23,7 @@ body {
 .content{
     padding: 20px;
     min-height: calc(100vh - 90px);
+    margin-bottom:0;
 }
 
 .but {
@@ -870,25 +871,58 @@ body {
 		    }
 		}
     }
-    .wagerr-transactions {
-	    .no-transactions {
-		    width:100%;
-			background:$white;
-    		border-radius:4px;
-    		text-align: center;
-    		display:block;
-    		padding:20px 0px;
-    		border-top:34px solid $wagerr_red;
-    		margin-top:8px;
-    		font-size:12px;
-    		font-weight:600;
+    
+
+    .no-transactions {
+	    width:100%;
+		background:$white;
+		border-radius:4px;
+		text-align: center;
+		display:block;
+		padding:20px 0px;
+		border-top:34px solid $wagerr_red;
+		margin-top:8px;
+		font-size:12px;
+		font-weight:600;
+		p {
+			a {
+				&:hover {
+					text-decoration:underline;
+				}
+			}
+		}
+	}
+    
+    #bets {
+	    h4 {
+		    font-weight:700;
+		    font-family:'Montserrat';
+		    font-size:28px;
+		    color:$dark_grey;
+		    margin-bottom:25px;
+		    line-height:30px;
 	    }
-    }
-    
-    
+   }
+   
+   
+   
+   
+   
+   
+   
+   
    
     
-    
+   
+   .transaction-link{
+        color: $dark_grey;
+        cursor: pointer;
+    }
+
+    .transaction-link:hover{
+        color: $wagerr_dark_red;
+        cursor: pointer;
+    }
     
     
 
