@@ -41,16 +41,3 @@
     }
 
 </script>
-
-<style lang="scss" scoped>
-
-    .content{
-        padding: 10px;
-        min-height: 650px;
-    }
-
-    .betting-main{
-        margin-left: 160px;
-    }
-
-</style>

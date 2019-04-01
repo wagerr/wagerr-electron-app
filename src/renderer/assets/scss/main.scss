@@ -21,7 +21,7 @@ body {
     }
 }
 .content{
-    padding: 20px;
+    padding: 10px;
     min-height: calc(100vh - 90px);
     margin-bottom:0;
 }
@@ -71,6 +71,15 @@ body {
 	    background:$wagerr_dark_red !important;
 	    box-shadow: inherit;
 	}
+}
+
+h4 {
+    font-weight:700;
+    font-family:'Montserrat';
+    font-size:28px;
+    color:$dark_grey;
+    margin-bottom:25px;
+    line-height:30px;
 }
 
 /* Header */
@@ -1014,7 +1023,126 @@ body {
     }
    
    
-   
+	#chain-games {
+	    .chain-container {
+		    .chain-left {
+		    	position: -webkit-sticky;
+				position: sticky;
+				top: 110px;
+			    .cg-lotto-info {
+			        width: 100%;
+			        color: $wagerr_red;
+			        margin-left: auto;
+			        margin-right: auto;
+			        margin-bottom:0;
+			        border-radius:4px;
+			        padding:40px;
+			        background-image:url(../images/bg-vector-black-d40.png);
+			        background-position:center bottom;
+					background-repeat:no-repeat;
+					background-size:cover;
+					position:relative;
+					.chain-info {
+						position:absolute;
+						top:20px;
+						right:20px;
+						margin:0;
+						font-size:24px;
+				        color: $wagerr_red;
+				        cursor: pointer;
+				        font-weight:500;
+					}
+			        h2{
+				        margin-top: 0px;
+				        margin-bottom: 20px;
+				        font-family:"Montserrat";
+				        font-weight:700;
+				        font-size:24px;
+						color: $wagerr_red;
+						letter-spacing:2px;
+						text-align:center;
+						text-transform:uppercase;
+				        span {
+					        display:block;
+					        width:60%;
+					        margin:0 auto 10px;
+					        height:70px;
+					        background-image:url(../images/wgrWordsWhite.svg);
+					        background-position:center bottom;
+							background-repeat:no-repeat;
+							background-size:contain;
+				        }
+				    }
+				    .cg-jackpot {
+					    font-size:50px;
+					    font-weight:700px;
+				        font-family:"Montserrat";
+					    color: white;
+					    letter-spacing:1px;
+				    }
+				    .all-stats {
+					    padding: 25px 20px;
+				        width:100%;
+				        display:block;
+				        border-radius:4px;
+				        background:#111;
+				        margin:20px 0;
+				        overflow:hidden;
+					    .stats{
+					        padding-top: 10px;
+					        padding-bottom: 10px;
+					        h6 {
+						        font-family:"Montserrat";
+								font-weight:700;
+					        	font-size:14px;
+								color: $wagerr_red;
+					        }
+					        .cg-info{
+						        color: $white;
+						        font-size: 32px;
+						        font-weight:600;
+						        line-height:28px;
+						    }
+						    &:not(:last-child) {
+						        border-right: 2px solid #222;
+						    }
+					    }
+				    }
+			        .cg-dates {
+				        font-family:"Montserrat";
+						font-weight:600;
+			        	font-size:16px;
+			        	letter-spacing:1px;
+						color: $white; 
+						padding:0;
+			        }
+			    }
+			    .chain-btns{
+			        margin-top: 50px;
+			        margin-bottom: 10px;
+			        a {
+				        margin:0 0 0 10px;
+				        width:42%;
+				        padding-left:0;
+				        padding-right:0px;
+				        &:first-child {
+					        margin:0;
+				        }
+			        }
+			    }
+		    }
+		    .chain-right {
+			    .chain-transactions {
+				    width: 100%;
+				    table {
+					    th {
+						    
+					    }
+				    }
+			    }
+		    }
+	    }
+    }
    
    
    

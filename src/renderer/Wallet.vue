@@ -44,7 +44,7 @@
 		
 		        
 		    </div>
-	    	<div class="wallet-left col s8">
+	    	<div class="wallet-right col s8">
 		
 		        <!-- Include the send & receive modals -->
 		        <send-transaction></send-transaction>

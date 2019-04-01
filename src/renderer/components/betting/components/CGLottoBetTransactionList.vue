@@ -2,9 +2,7 @@
 
     <div v-if="cgBetList.length === 0" class="no-transactions text-center">
 
-        <p>No Chain Games transactions to list, buy a ticket above to enter the lotto.</p>
-
-        <i class="far fa-list-alt"></i>
+        <p>No Chain Games transactions to list. Buy a ticket to enter the lotto.</p>
 
     </div>
 
@@ -105,33 +103,3 @@
     }
 
 </script>
-
-<style lang="scss" scoped>
-
-    @import "../../../assets/scss/_variables.scss";
-
-    .main-table  td, .main-table th {
-        padding: 15px;
-        border-radius: 0;
-    }
-
-    .no-transactions p{
-        font-size: 1.5em;
-    }
-
-    .no-transactions .fa-list-alt{
-        color: $wagerr_dark_red;
-        font-size: 10em;
-    }
-
-    .transaction-link{
-        color: $dark_grey;
-        cursor: pointer;
-    }
-
-    .transaction-link:hover{
-        color: $wagerr_dark_red;
-        cursor: pointer;
-    }
-
-</style>

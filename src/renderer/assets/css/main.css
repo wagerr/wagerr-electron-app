@@ -7,7 +7,7 @@ body { padding: 0; font-family: 'Open Sans', sans-serif; }
 
 .wrapper .nav { height: 90px; }
 
-.content { padding: 20px; min-height: calc(100vh - 90px); margin-bottom: 0; }
+.content { padding: 10px; min-height: calc(100vh - 90px); margin-bottom: 0; }
 
 .but { color: #fff; display: block; background: #B40101; text-align: center; line-height: 24px; font-size: 18px; line-height: 24px; padding: 8px 20px; border: none; border-radius: 4px; cursor: pointer; font-family: 'Montserrat'; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
 
@@ -20,6 +20,8 @@ body { padding: 0; font-family: 'Open Sans', sans-serif; }
 .btn-large { color: #fff; background: #B40101; font-family: 'Montserrat'; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; transition: none; }
 
 .btn-large:hover, .btn-large:focus { background: #860000 !important; box-shadow: inherit; }
+
+h4 { font-weight: 700; font-family: 'Montserrat'; font-size: 28px; color: #2b2c2d; margin-bottom: 25px; line-height: 30px; }
 
 /* Header */
 header { color: #fff; width: 100%; position: fixed; top: 0px; left: 0px; z-index: 999; height: 90px; background-image: url(../images/bg-header.png); background-position: center center; background-repeat: no-repeat; background-size: cover; background-color: #B40101; }
@@ -303,6 +305,38 @@ header ul li .dropdown-content li a i { margin: 0 8px 0 0 !important; color: #B4
 .splash .splash-wallet-repair div a { color: #B40101; font-weight: bold; font-size: 18px; line-height: 32px; }
 
 .splash .splash-wallet-repair div a:hover { text-decoration: underline; }
+
+#chain-games .chain-container .chain-left { position: -webkit-sticky; position: sticky; top: 110px; }
+
+#chain-games .chain-container .chain-left .cg-lotto-info { width: 100%; color: #B40101; margin-left: auto; margin-right: auto; margin-bottom: 0; border-radius: 4px; padding: 40px; background-image: url(../images/bg-vector-black-d40.png); background-position: center bottom; background-repeat: no-repeat; background-size: cover; position: relative; }
+
+#chain-games .chain-container .chain-left .cg-lotto-info .chain-info { position: absolute; top: 20px; right: 20px; margin: 0; font-size: 24px; color: #B40101; cursor: pointer; font-weight: 500; }
+
+#chain-games .chain-container .chain-left .cg-lotto-info h2 { margin-top: 0px; margin-bottom: 20px; font-family: "Montserrat"; font-weight: 700; font-size: 24px; color: #B40101; letter-spacing: 2px; text-align: center; text-transform: uppercase; }
+
+#chain-games .chain-container .chain-left .cg-lotto-info h2 span { display: block; width: 60%; margin: 0 auto 10px; height: 70px; background-image: url(../images/wgrWordsWhite.svg); background-position: center bottom; background-repeat: no-repeat; background-size: contain; }
+
+#chain-games .chain-container .chain-left .cg-lotto-info .cg-jackpot { font-size: 50px; font-weight: 700px; font-family: "Montserrat"; color: white; letter-spacing: 1px; }
+
+#chain-games .chain-container .chain-left .cg-lotto-info .all-stats { padding: 25px 20px; width: 100%; display: block; border-radius: 4px; background: #111; margin: 20px 0; overflow: hidden; }
+
+#chain-games .chain-container .chain-left .cg-lotto-info .all-stats .stats { padding-top: 10px; padding-bottom: 10px; }
+
+#chain-games .chain-container .chain-left .cg-lotto-info .all-stats .stats h6 { font-family: "Montserrat"; font-weight: 700; font-size: 14px; color: #B40101; }
+
+#chain-games .chain-container .chain-left .cg-lotto-info .all-stats .stats .cg-info { color: #fff; font-size: 32px; font-weight: 600; line-height: 28px; }
+
+#chain-games .chain-container .chain-left .cg-lotto-info .all-stats .stats:not(:last-child) { border-right: 2px solid #222; }
+
+#chain-games .chain-container .chain-left .cg-lotto-info .cg-dates { font-family: "Montserrat"; font-weight: 600; font-size: 16px; letter-spacing: 1px; color: #fff; padding: 0; }
+
+#chain-games .chain-container .chain-left .chain-btns { margin-top: 50px; margin-bottom: 10px; }
+
+#chain-games .chain-container .chain-left .chain-btns a { margin: 0 0 0 10px; width: 42%; padding-left: 0; padding-right: 0px; }
+
+#chain-games .chain-container .chain-left .chain-btns a:first-child { margin: 0; }
+
+#chain-games .chain-container .chain-right .chain-transactions { width: 100%; }
 
 .transaction-link { color: #2b2c2d; cursor: pointer; }
 
