@@ -1557,9 +1557,9 @@ table.z-depth-2, .no-transactions {
 }
 
 .circle-icon{
-    float: left;
-    width: 63px;
+    display: inline-block;
     margin: 18px;
+    width: 63px;
 }
 
 .circle-icon:hover{

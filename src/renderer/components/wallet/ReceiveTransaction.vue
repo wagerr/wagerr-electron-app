@@ -32,7 +32,7 @@
 
                 </div>
 
-                <div class="options">
+                <div class="options text-center">
 
                     <div class="circle-icon">
 
@@ -41,20 +41,6 @@
                             <a v-clipboard="accountAddress" @click="copiedAlert()" class="circle-icon-link">
 
                                 <i class="far fa-copy"></i>
-
-                            </a>
-
-                        </span>
-
-                    </div>
-
-                    <div class="circle-icon">
-
-                        <span class="inner-circle tooltipped" data-position="bottom" data-tooltip="Print">
-
-                            <a class="circle-icon-link">
-
-                                <i class="fas fa-print"></i>
 
                             </a>
 
