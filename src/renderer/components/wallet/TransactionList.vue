@@ -114,9 +114,21 @@
 
                     </td>
 
-                    <td class="" :class="{ 'confirmation-conflicted' : tx.confirmations === -1 }">
+                    <td v-if="tx.debit < 0" class="" :class="{ 'confirmation-conflicted' : tx.confirmations === -1 }">
 
-                        {{ tx.amount}} {{ getNetworkType === "Testnet" ? 'tWGR' : 'WGR' }}
+                        {{ tx.debit }} {{ getNetworkType === "Testnet" ? 'tWGR' : 'WGR' }}
+
+                    </td>
+
+                    <td v-else-if="tx.credit > 0" class="" :class="{ 'confirmation-conflicted' : tx.confirmations === -1 }">
+
+                        {{ tx.credit }} {{ getNetworkType === "Testnet" ? 'tWGR' : 'WGR' }}
+
+                    </td>
+
+                    <td v-else class="" :class="{ 'confirmation-conflicted' : tx.confirmations === -1 }">
+
+                        <small>Error: Could not determine amount.</small>
 
                     </td>
 
