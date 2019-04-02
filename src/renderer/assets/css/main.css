@@ -46,21 +46,35 @@ header .wagerr-balance i { margin-left: 10px; cursor: pointer; font-weight: bold
 
 header ul { margin: 0px; padding: 0px; }
 
-header ul li { display: block; float: left; list-style: none; font-size: 28px; padding: 12px 20px 10px 20px; cursor: pointer; text-align: center; height: 90px; position: relative; width: 125px; }
+header ul li { display: block; float: left; list-style: none; font-size: 28px; padding: 0; cursor: pointer; text-align: center; height: 90px; position: relative; width: 110px; }
 
 header ul li:hover { background-color: rgba(0, 0, 0, 0.2); }
 
+header ul li:hover i { filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.3)); }
+
+header ul li:hover h6 { text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); }
+
 header ul li.router-link-active { background-color: rgba(0, 0, 0, 0.4); }
 
-header ul li i { cursor: pointer; font-size: 26px; }
+header ul li i { cursor: pointer; font-size: 0; margin: 20px 0 0; width: 100%; height: 30px; display: block; background-position: center center; background-repeat: no-repeat; background-size: contain; }
 
-header ul li i:before { cursor: pointer; }
+header ul li i.navico-wallet { background-image: url(../images/navico-wallet.svg); height: 31px; margin-top: 22px; }
 
-header ul li h6 { font-size: 12px; margin: 5px 0 0; }
+header ul li i.navico-history { background-image: url(../images/navico-history.svg); height: 32px; margin-top: 21px; }
+
+header ul li i.navico-betting { background-image: url(../images/navico-betting.svg); height: 27px; margin-top: 23px; }
+
+header ul li i.navico-dice { background-image: url(../images/navico-dice.svg); height: 24px; margin-top: 25px; }
+
+header ul li i.navico-wrench { background-image: url(../images/navico-wrench.svg); height: 28px; margin-top: 22px; }
+
+header ul li i.navico-gear { background-image: url(../images/navico-gear.svg); height: 26px; margin-top: 24px; }
+
+header ul li h6 { font-size: 12px; margin: 0; position: absolute; top: 58px; display: block; text-align: center; width: 100%; letter-spacing: 0.5px; }
 
 header ul li .title { display: block; text-align: center; text-transform: uppercase; color: #fff; font-size: 12px; padding-top: 5px; }
 
-header ul li .dropdown-content { position: absolute; top: 90px !important; left: 0 !important; }
+header ul li .dropdown-content { position: absolute; top: 90px !important; left: 0 !important; width: max-content !important; height: auto !important; }
 
 header ul li .dropdown-content li { display: block; float: left; list-style: none; font-size: 28px; padding: 15px 20px 10px 20px; cursor: pointer; min-height: auto; height: auto; }
 
@@ -70,7 +84,11 @@ header ul li .dropdown-content li a:hover { background-color: rgba(0, 0, 0, 0.4)
 
 header ul li .dropdown-content li a i { margin: 0 8px 0 0 !important; color: #B40101; font-weight: 600; }
 
-#betting .betting-sidebar-container { padding-top: 0px; font-size: 0; background-image: url(../images/bg-vector-black-d50.png); background-position: left bottom; background-repeat: no-repeat; background-size: cover; width: 200px; height: calc(100% - 90px); position: fixed; box-sizing: border-box; margin: -20px 0 0 -10px; }
+header ul li .dropdown-trigger { margin-top: 0; width: 100%; height: 100%; padding: 0; position: absolute; }
+
+header ul li #settings-dropdown li { padding: 0px; }
+
+#betting .betting-sidebar-container { padding-top: 23px; font-size: 0; background-image: url(../images/bg-vector-black-d50.png); background-position: left bottom; background-repeat: no-repeat; background-size: cover; width: 200px; height: calc(100% - 90px); position: fixed; box-sizing: border-box; margin: -20px 0 0 -10px; }
 
 #betting .betting-sidebar-container .sidebar-branding { background-image: url(../images/logo-sidenav-footer.svg); background-position: center bottom; background-repeat: no-repeat; background-size: contain; width: 80%; margin: 0 10%; height: 100px; position: absolute; bottom: 10px; }
 
@@ -419,12 +437,6 @@ header ul li .dropdown-content li a i { margin: 0 8px 0 0 !important; color: #B4
 .clear-bet > .icon-delete:hover { color: white; cursor: pointer; }
 
 .empty-slip-message { padding: 10px; color: white; }
-
-.dropdown-trigger { margin-top: 3px; }
-
-.dropdown-content { width: max-content !important; height: auto !important; }
-
-#settings-dropdown li { padding: 0px; }
 
 .second-nav li { list-style: none; display: block; }
 

@@ -9,28 +9,35 @@
 
             <router-link tag="li" to="/" exact>
 
-                <i class="icon-home"></i>
+                <i class="navico-wallet"></i>
                 <h6>Wallet Home</h6>
 
             </router-link>
 
             <router-link tag="li" to="/bets">
 
-                <i class="icon-wallet"></i>
+                <i class="navico-history"></i>
                 <h6>Bet History</h6>
 
             </router-link>
 
             <router-link tag="li" to="/betting/peerless">
 
-                <i class="icon-dice"></i>
-                <h6>Open Betting</h6>
+                <i class="navico-betting"></i>
+                <h6>Betting</h6>
+
+            </router-link>
+            
+            <router-link tag="li" to="/chain_games">
+
+                <i class="navico-dice"></i>
+                <h6>Chain Games</h6>
 
             </router-link>
 
             <router-link tag="li" to="/tools/info">
 
-                <i class="icon-wrench"></i>
+                <i class="navico-wrench"></i>
                 <h6>Tools &amp; Info</h6>
 
             </router-link>
@@ -40,8 +47,8 @@
                 <!-- Dropdown Trigger -->
                 <div class="dropdown-trigger" data-target="settings-dropdown">
 
-                    <i class="icon-cog"></i>
-                    <h6>Wallet Settings</h6>
+                    <i class="navico-gear"></i>
+                    <h6>Settings</h6>
 
                 </div>
 

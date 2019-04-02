@@ -160,28 +160,71 @@ table.z-depth-2, .no-transactions {
 		        float:left;
 		        list-style:none;
 		        font-size:28px;
-		        padding:12px 20px 10px 20px;
+		        padding:0;
 		        cursor:pointer;
 		        text-align:center;
 		        height:90px;
 		        position:relative;
-		        width:125px;
+		        width:110px;
 			    &:hover {
 				    background-color: $quarterblack;
+				    i {filter:drop-shadow(0 1px 4px rgba(0,0,0,.3));}
+				    h6 {text-shadow: 0 1px 3px rgba(0,0,0,.3);}
 			    }
 		        &.router-link-active{
 			        background-color: $halfblack;
 			    }
 		        i {
 			        cursor:pointer;
-			        font-size:26px;
-			        &:before {
-				        cursor:pointer;
+			        font-size:0;
+			        margin:20px 0 0;
+			        width:100%;
+			        height:30px;
+			        display:block;
+					background-position:center center;
+					background-repeat:no-repeat;
+					background-size:contain;
+			        &.navico-wallet {
+				        background-image:url(../images/navico-wallet.svg);
+				        height:31px;
+				        margin-top:22px;
+			        }
+			        &.navico-history {
+				        background-image:url(../images/navico-history.svg);
+				        height:32px;
+				        margin-top:21px;
+			        }
+			        &.navico-betting {
+				        background-image:url(../images/navico-betting.svg);
+				        height:27px;
+				        margin-top:23px;
+			        }
+			        &.navico-dice {
+				        background-image:url(../images/navico-dice.svg);
+				        height:24px;
+				        margin-top:25px;
+			        }
+			        &.navico-wrench {
+				        background-image:url(../images/navico-wrench.svg);
+				        height:28px;
+				        margin-top:22px;
+			        }
+			        &.navico-gear {
+				        background-image:url(../images/navico-gear.svg);
+				        height:26px;
+				        margin-top:24px;
 			        }
 			    }
 			    h6 {
 				    font-size:12px;
-				    margin:5px 0 0;
+				    margin:0;
+				    position:absolute;
+				    top:58px;
+				    display:block;
+				    text-align:center;
+				    width:100%;
+				    letter-spacing:0.5px;
+				    
 			    }
 			    .title {
 			        display:block;
@@ -195,6 +238,8 @@ table.z-depth-2, .no-transactions {
 				    position:absolute;
 				    top:90px !important;
 				    left:0 !important;
+				    width: max-content !important;
+			        height:auto !important;
 				    li {
 				        display:block;
 				        float:left;
@@ -219,13 +264,24 @@ table.z-depth-2, .no-transactions {
 				        }
 				    }
 			    }
+			    .dropdown-trigger{
+			        margin-top: 0;
+					width: 100%;
+			    	height: 100%;
+			    	padding: 0;
+			    	position: absolute;
+			    }
+			
+			    #settings-dropdown li{
+			        padding: 0px;
+			    }
 		    }
 	    }
     }
 
     #betting {
 	    .betting-sidebar-container {
-		    padding-top:0px;
+		    padding-top:23px;
 		    font-size:0;
 		    background-image:url(../images/bg-vector-black-d50.png);
 	        background-position:left bottom;
@@ -1409,18 +1465,7 @@ table.z-depth-2, .no-transactions {
 
 
 
-    .dropdown-trigger{
-        margin-top: 3px;
-    }
-
-    .dropdown-content{
-        width: max-content !important;
-        height:auto !important;
-    }
-
-    #settings-dropdown li{
-        padding: 0px;
-    }
+    
 
 
 
