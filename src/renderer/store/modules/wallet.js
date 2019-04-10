@@ -2,6 +2,8 @@ import wagerrRPC from '@/services/api/wagerrRPC';
 import walletRPC from '@/services/api/wallet_rpc';
 import * as blockchain from '../../../main/blockchain/blockchain';
 
+const packageJSON = require('../../../../package.json');
+
 const state = function () {
 
     return {
@@ -13,7 +15,7 @@ const state = function () {
         unlocked: false,
         synced: false,
         initWalletText: 'Initialising Wagerr Wallet...',
-        walletVersion: "v1.0.0",
+        walletVersion: "v" + packageJSON.version,
         txCount: 0,
         dataDir: blockchain.getWagerrDataPath()
     }
