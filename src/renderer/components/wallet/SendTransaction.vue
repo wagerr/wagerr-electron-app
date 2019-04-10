@@ -46,15 +46,25 @@
 
                     </div>
 
-                    <div class="input-field col s12">
+                    <div class="input-field col s10">
 
                         <i class="fas fa-money-bill prefix"></i>
 
-                        <input v-model="amount" v-validate="'required'" id="amount" name="amount" type="number">
+                        <input v-model="amount" v-validate="'required|decimal:8|min_value:0'" id="amount" name="amount" type="text">
 
                         <label for="amount">Amount</label>
 
-                        <span v-if="errors.has('amount')" class="form-error">{{ errors.first('amount') }}</span>
+                        <div v-if="errors.has('amount')" class="form-error amount-margin">{{ errors.first('amount') }}</div>
+
+                    </div>
+
+                    <div class="input-field col s2">
+
+                        <input v-model="txFee" v-validate="'required|decimal:5|min_value:0'" id="fee" name="fee" type="text">
+
+                        <label for="fee" class="active">TX Fee</label>
+
+                        <div v-if="errors.has('fee')" class="form-error">{{ errors.first('fee') }}</div>
 
                     </div>
 
@@ -126,18 +136,17 @@ export default {
 
                         if (UTXOAmount > that.amount) {
                             utxos = JSON.stringify(utxos);
-                            break
+                            break;
                         }
                     }
 
                     // Ensure we have enough Wagerr to cover the TX.
                     if (UTXOAmount < that.amount) {
                         M.toast({ html: '<span class="toast__bold-font">Error &nbsp;</span> Not enough WGR to send transaction.', classes: 'wagerr-red-bg' });
-                        return
+                        return;
                     }
 
-                    let txFee = 0.0001
-                    let json = '{"' + that.sendAddress + '":' + that.amount + ', "' + that.accountAddress + '":' + (UTXOAmount - txFee - that.amount) + '}';
+                    let json = '{"' + that.sendAddress + '":' + that.amount + ', "' + that.accountAddress + '":' + (UTXOAmount - that.txFee - that.amount) + '}';
 
                     // Create the raw send transaction.
                     wagerrRPC.client.createRawTransaction(utxos, json)
@@ -193,6 +202,7 @@ export default {
             sendAddress: '',
             label: '',
             amount: '',
+            txFee: 0.001,
             showModal: false
         }
     },
@@ -227,7 +237,7 @@ export default {
         color: white;
     }
 
-    .input-field span{
+    .input-field span, .amount-margin{
         margin-left: 45px;
     }
 
