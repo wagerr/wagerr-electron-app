@@ -14,8 +14,12 @@
 						</thead>
 						<tbody>
 							<tr class="info-row">
-								<th>Version</th>
+								<th>Wallet Version</th>
 								<td class="number">{{ walletVersion }}</td>
+							</tr>
+							<tr class="info-row">
+								<th>Daemon Version</th>
+								<td class="number">{{ daemonVersion }}</td>
 							</tr>
 							<tr class="info-row">
 								<th>Transactions</th>
@@ -129,6 +133,7 @@
 
         computed: {
             ...Vuex.mapGetters([
+                'daemonVersion',
                 'dataDir',
                 'getNetworkType',
                 'getNetworkVersion',

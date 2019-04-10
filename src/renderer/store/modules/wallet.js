@@ -16,6 +16,7 @@ const state = function () {
         synced: false,
         initWalletText: 'Initialising Wagerr Wallet...',
         walletVersion: "v" + packageJSON.version,
+        daemonVersion: "v" + packageJSON.wagerrSettings.daemonVersion,
         txCount: 0,
         dataDir: blockchain.getWagerrDataPath()
     }
@@ -60,6 +61,10 @@ const getters = {
         return state.walletVersion;
     },
 
+    daemonVersion: (state) => {
+        return state.daemonVersion;
+    },
+
     getTxCount: (state) => {
         return state.txCount;
     },
@@ -67,8 +72,6 @@ const getters = {
     dataDir: (state) => {
         return state.dataDir;
     }
-
-    // Add other wallet getter functions here...
 
 };
 

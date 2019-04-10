@@ -224,7 +224,7 @@ table.z-depth-2, .no-transactions {
 				    text-align:center;
 				    width:100%;
 				    letter-spacing:0.5px;
-				    
+
 			    }
 			    .title {
 			        display:block;
@@ -271,7 +271,7 @@ table.z-depth-2, .no-transactions {
 			    	padding: 0;
 			    	position: absolute;
 			    }
-			
+
 			    #settings-dropdown li{
 			        padding: 0px;
 			    }
@@ -1360,7 +1360,10 @@ table.z-depth-2, .no-transactions {
 					    line-height:20px;
 					    text-align:right;
 					    vertical-align:top;
-				    }
+                    }
+                    .datadir {
+                        font-size: 0.5rem;
+                    }
 			    }
 		    }
         }
@@ -1465,7 +1468,7 @@ table.z-depth-2, .no-transactions {
 
 
 
-    
+
 
 
 
