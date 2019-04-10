@@ -58,7 +58,7 @@ export default class Daemon {
             let cliPath = this.getWagerrCliPath();
 
             // Call wagerr cli to stop the wagerr daemon.
-            let wagerrcliProcess = spawn(cliPath, ['stop']);
+            let wagerrcliProcess = spawn(cliPath, [`-rpcuser=${blockchain.rpcUser}`, `-rpcpassword=${blockchain.rpcPass}`, 'stop']);
 
             wagerrcliProcess.stdout.on('data', data => console.log(`Daemon: ${data}`));
 
