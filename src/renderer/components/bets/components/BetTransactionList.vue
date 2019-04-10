@@ -25,6 +25,8 @@
 
                     <th class="">WGR Amount</th>
 
+                    <th class="">Result</th>
+
                 </tr>
 
             </thead>
@@ -48,6 +50,8 @@
                     <td class="hide-on-med-and-down show-on-large">{{ outcomeToText( tx['team-to-win'] ) }}</td>
 
                     <td class="">{{ tx.amount }} {{ getNetworkType === "Testnet" ? 'tWGR' : 'WGR' }} </td>
+
+                    <td class="hide-on-small-only" >{{ tx['result'] }}</td>
 
                 </tr>
 
