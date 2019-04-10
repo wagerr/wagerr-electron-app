@@ -5,8 +5,8 @@
         <div class="row text-center">
 
             <div class="col s12 splash-image"></div>
-            
-            <div class="col s12 version">HTML5 Wallet v0.85</div>
+
+            <div class="col s12 version">HTML5 Wallet {{ walletVersion }}</div>
 
             <div class="col s12">
 
@@ -90,6 +90,7 @@
                 'walletLoaded',
                 'walletSynced',
                 'walletUnlocked',
+                'walletVersion',
             ]),
         },
 
@@ -228,7 +229,7 @@
 
         data () {
             return {
-                
+
             }
         },
 
