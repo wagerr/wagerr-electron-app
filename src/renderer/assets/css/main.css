@@ -406,9 +406,15 @@ header ul li #settings-dropdown li { padding: 0px; }
 
 #information .info-block table thead th { text-align: center; font-size: 18px; }
 
-#information .info-block table tbody th { padding: 10px 15px; font-size: 16px; line-height: 20px; vertical-align: top; }
+#information .info-block table tbody th { padding: 10px 15px; font-size: 15px; line-height: 20px; vertical-align: top; white-space: nowrap; }
 
 #information .info-block table tbody td { padding: 10px 15px !important; font-size: 14px; line-height: 20px; text-align: right; vertical-align: top; }
+
+#information .info-block table tbody .datadir { font-size: 12px; line-height: 15px; }
+
+#information .fa-check-circle { color: #4BB543; font-size: 20px; margin-top: -10px; top: 2px; position: relative; padding-left: 2px; }
+
+#information .fa-sync-alt { color: #860000; font-size: 20px; top: -5px; position: relative; }
 
 #wallet-repair button { width: 250px; }
 
@@ -466,7 +472,7 @@ header ul li #settings-dropdown li { padding: 0px; }
 
 .inner-circle:hover { border-color: #B40101; }
 
-.circle-icon { float: left; width: 63px; margin: 18px; }
+.circle-icon { display: inline-block; margin: 18px; width: 63px; }
 
 .circle-icon:hover { cursor: pointer; transform: scale(1.05); }
 

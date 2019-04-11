@@ -1349,9 +1349,10 @@ table.z-depth-2, .no-transactions {
 			    tbody {
 				    th {
 					    padding:10px 15px;
-					    font-size:16px;
+					    font-size:15px;
 					    line-height:20px;
 					    vertical-align:top;
+					    white-space:nowrap;
 				    }
 				    td {
 					    padding:10px 15px !important;
@@ -1361,7 +1362,8 @@ table.z-depth-2, .no-transactions {
 					    vertical-align:top;
                     }
                     .datadir {
-                        font-size: 0.6rem;
+                        font-size: 12px;
+                        line-height:15px;
                     }
 			    }
 		    }
@@ -1370,6 +1372,10 @@ table.z-depth-2, .no-transactions {
         .fa-check-circle{
             color: $success-green;
             font-size: 20px;
+            margin-top: -10px;
+            top: 2px;
+            position: relative;
+            padding-left:2px;
         }
         .fa-sync-alt{
             color: $wagerr_dark_red;
