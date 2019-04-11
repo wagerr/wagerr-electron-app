@@ -124,8 +124,8 @@
         margin-left: 45px;
     }
 
-    .options{
-        width: 190px;
+    .modal-content .options{
+        width: 210px;
         margin-left: auto;
         margin-right: auto;
     }

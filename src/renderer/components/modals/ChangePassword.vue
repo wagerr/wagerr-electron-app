@@ -157,8 +157,8 @@
         max-height: 80%;
     }
 
-    .options{
-        width: 188px;
+    .modal-content .options{
+        width: 200px;
         margin-left: auto;
         margin-right: auto;
         padding-top: 10px;

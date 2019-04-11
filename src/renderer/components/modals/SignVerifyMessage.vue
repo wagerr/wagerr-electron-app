@@ -322,14 +322,14 @@ export default {
         margin-left: -15px;
     }
 
-    .options{
-        width: 240px;
+    .modal-content .options{
+        width: 260px;
         margin-left: auto;
         margin-right: auto;
     }
 
-    .options-verify{
-        width: 260px;
+    .modal-content .options-verify{
+        width:275px;
         margin-left: auto;
         margin-right: auto;
     }

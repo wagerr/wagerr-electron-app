@@ -316,7 +316,7 @@ table.z-depth-2, .no-transactions {
 	        .betting-types {
 	        	padding-top:20px;
 	        	ul {
-	        		width:calc(100%-27px);
+	        		width:calc(100% - 27px);
 	        		margin-left:27px;
 			    	li {
 				        border-top:none;
@@ -1114,7 +1114,6 @@ table.z-depth-2, .no-transactions {
 	    }
     }
 
-
 	#chain-games {
 	    .chain-container {
 		    .chain-left {
@@ -1174,7 +1173,7 @@ table.z-depth-2, .no-transactions {
 				    }
 				    .cg-jackpot {
 					    font-size:50px;
-					    font-weight:700px;
+					    font-weight: 700;
 				        font-family:"Montserrat";
 					    color: white;
 					    letter-spacing:1px;
@@ -1255,7 +1254,6 @@ table.z-depth-2, .no-transactions {
 	    }
     }
 
-
 	#tools {
 	    .tools-sidebar-container {
 		    padding-top:0px;
@@ -1293,7 +1291,7 @@ table.z-depth-2, .no-transactions {
 	        .tools-types {
 	        	padding-top:20px;
 	        	ul {
-	        		width:calc(100%-27px);
+	        		width:calc(100% - 27px);
 	        		margin-left:27px;
 			    	li {
 				        border-top:none;
@@ -1405,11 +1403,6 @@ table.z-depth-2, .no-transactions {
 	    }
     }
 
-
-
-
-
-
    .transaction-link{
         color: $dark_grey;
         cursor: pointer;
@@ -1420,14 +1413,9 @@ table.z-depth-2, .no-transactions {
         cursor: pointer;
     }
 
-
-
-
-
     .bet-stake{
         color: white;
     }
-
 
     .bet-details{
         padding: 2%;
@@ -1463,14 +1451,6 @@ table.z-depth-2, .no-transactions {
         padding: 10px;
         color: white;
     }
-
-
-
-
-
-
-
-
 
 .second-nav li {
     list-style: none;
@@ -1654,6 +1634,10 @@ table.z-depth-2, .no-transactions {
     overflow-y: auto
 }
 
+.modal-header h4{
+	color: $wagerr_red;
+}
+
 .team-font{
     font-size: 1.2em;
     color: $dark_grey;
@@ -1745,6 +1729,7 @@ table.z-depth-2, .no-transactions {
 }
 
 .tabs .indicator{
+	width: 100%;
     border-bottom: 1px solid $wagerr_red;
     background-color: transparent;
 }
