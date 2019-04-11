@@ -2,17 +2,11 @@
 
     <!-- Receive Transaction Modal -->
 
-    <div id="receive-tx-modal" class="modal bg-gradient">
+    <div id="receive-tx-modal" class="modal">
 
         <div class="modal-content">
 
             <div class="row">
-
-                <div class="inset-top">
-
-                    <div class="shadow"></div>
-
-                </div>
 
                 <div class="modal-text">
 
@@ -134,48 +128,3 @@
     }
 
 </script>
-
-<style lang="scss" scoped>
-
-    @import '../../assets/scss/_variables';
-
-    .modal{
-        overflow-y: inherit;
-    }
-
-    .modal .modal-content{
-        padding: 0;
-    }
-
-    .modal-text{
-        margin-top: 30px;
-    }
-
-    .modal-footer{
-        background-color: $dark_grey;
-    }
-
-    .barcode{
-        width: 170px;
-        padding: 10px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .address-label{
-        color: white;
-        font-size: 1.1em;
-        line-height: 20px;
-    }
-
-    .address{
-        color: $wagerr_red;
-    }
-
-    .options{
-        width: 397px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-</style>

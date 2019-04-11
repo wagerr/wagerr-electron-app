@@ -1457,13 +1457,36 @@ table.z-depth-2, .no-transactions {
 				    font-family:'Montserrat';
 			    }
 		    }
-		    
+		    .barcode{
+		        width: 170px;
+		        padding: 10px;
+		        margin-left: auto;
+		        margin-right: auto;
+		    }
+
+		    .address-label{
+		        color: $wagerr_red;
+		        font-size: 18px;
+		        line-height: 24px;
+				font-weight:700px;
+				font-family:'Montserrat';
+				margin-top:-5px;
+		    }
+
+		    .address{
+		        color: $white;
+		        padding:20px;
+		        background:#111;
+		        font-size:24px;
+		    }
+
 	        .options{
-		        width: 150px;
+		        width: 100%;
 		        height: auto;
 		        margin-left: auto;
 		        margin-right: auto;
 		        margin-bottom: 20px;
+		        text-align:center;
 		        button{
 			        width: 150px;
 			        background-color: $wagerr_red;
@@ -1602,49 +1625,57 @@ table.z-depth-2, .no-transactions {
     height: 65px;
     border-radius: 50%;
     border-style: solid;
-    border-width: 3px;
+    border-width: 0px;
     border-color: $wagerr_dark_red;
-    background-color: rgba(0, 0, 0, 0);
-}
+    background-color: $wagerr_dark_red;
+    color:$white;
+    &:hover {
+	    border-color: $white;
+	    background-color: $wagerr_red;
+    }
+    i.far {
+	    color:$white;
+	    font-size: 1.2em;
+		border-radius: 60px;
+		padding: 17px;
+		margin-top: -2px;
+    }
 
-.inner-circle:hover{
-    border-color: $wagerr_red;
 }
 
 .circle-icon{
     display: inline-block;
     margin: 18px;
     width: 63px;
+    &:hover{
+	    cursor: pointer;
+	    transform: scale(1.05);
+	}
 }
-
-.circle-icon:hover{
-    cursor: pointer;
-    transform: scale(1.05);
-}
-
 .circle-icon-link{
     font-size: 1.5em;
     color: $wagerr_red;
+    i.far{
+	    font-size: 1.2em;
+	    border-radius: 60px;
+	    padding: 17px;
+	    margin-top: 0px;
+	    color: $white;
+	    &:hover {
+		    color: $white;
+	    }
+	}
+	i.fas{
+	    font-size: 1.2em;
+	    border-radius: 60px;
+	    padding: 17px;
+	    color: $white;
+	    &:hover {
+		    color: $white;
+	    }
+	}
 }
 
-.circle-icon-link i.far{
-    font-size: 1.2em;
-    border-radius: 60px;
-    padding: 17px;
-    margin-top: -2px;
-    color: grey;
-}
-
-.circle-icon-link i.fas{
-    font-size: 1.2em;
-    border-radius: 60px;
-    padding: 17px;
-    color: grey;
-}
-
-.circle-icon-link i.far:hover, .circle-icon-link i.fas:hover{
-    color: white;
-}
 
 
 

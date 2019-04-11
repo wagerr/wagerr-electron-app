@@ -446,7 +446,13 @@ header ul li #settings-dropdown li { padding: 0px; }
 
 .modal .modal-content .modal-text .modal-font { font-size: 18px; line-height: 24px; font-weight: 700px; font-family: 'Montserrat'; }
 
-.modal .modal-content .options { width: 150px; height: auto; margin-left: auto; margin-right: auto; margin-bottom: 20px; }
+.modal .modal-content .barcode { width: 170px; padding: 10px; margin-left: auto; margin-right: auto; }
+
+.modal .modal-content .address-label { color: #B40101; font-size: 18px; line-height: 24px; font-weight: 700px; font-family: 'Montserrat'; margin-top: -5px; }
+
+.modal .modal-content .address { color: #fff; padding: 20px; background: #111; font-size: 24px; }
+
+.modal .modal-content .options { width: 100%; height: auto; margin-left: auto; margin-right: auto; margin-bottom: 20px; text-align: center; }
 
 .modal .modal-content .options button { width: 150px; background-color: #B40101; }
 
@@ -496,9 +502,11 @@ header ul li #settings-dropdown li { padding: 0px; }
 
 .bg-gradient { background: -webkit-linear-gradient(to left bottom, #2b2c2d, #191919); /* For Safari 5.1 to 6.0 */ background: -o-linear-gradient(to left bottom, #2b2c2d, #191919); /* For Opera 11.1 to 12.0 */ background: -moz-linear-gradient(to left bottom, #2b2c2d, #191919); /* For Firefox 3.6 to 15 */ background: linear-gradient(to left bottom, #2b2c2d, #191919); /* Standard syntax */ }
 
-.inner-circle { display: inline-block; /* add this */ width: 65px; height: 65px; border-radius: 50%; border-style: solid; border-width: 3px; border-color: #860000; background-color: rgba(0, 0, 0, 0); }
+.inner-circle { display: inline-block; /* add this */ width: 65px; height: 65px; border-radius: 50%; border-style: solid; border-width: 0px; border-color: #860000; background-color: #860000; color: #fff; }
 
-.inner-circle:hover { border-color: #B40101; }
+.inner-circle:hover { border-color: #fff; background-color: #B40101; }
+
+.inner-circle i.far { color: #fff; font-size: 1.2em; border-radius: 60px; padding: 17px; margin-top: -2px; }
 
 .circle-icon { display: inline-block; margin: 18px; width: 63px; }
 
@@ -506,11 +514,13 @@ header ul li #settings-dropdown li { padding: 0px; }
 
 .circle-icon-link { font-size: 1.5em; color: #B40101; }
 
-.circle-icon-link i.far { font-size: 1.2em; border-radius: 60px; padding: 17px; margin-top: -2px; color: grey; }
+.circle-icon-link i.far { font-size: 1.2em; border-radius: 60px; padding: 17px; margin-top: 0px; color: #fff; }
 
-.circle-icon-link i.fas { font-size: 1.2em; border-radius: 60px; padding: 17px; color: grey; }
+.circle-icon-link i.far:hover { color: #fff; }
 
-.circle-icon-link i.far:hover, .circle-icon-link i.fas:hover { color: white; }
+.circle-icon-link i.fas { font-size: 1.2em; border-radius: 60px; padding: 17px; color: #fff; }
+
+.circle-icon-link i.fas:hover { color: #fff; }
 
 .fade-enter, .fade-leave-active { opacity: 0; }
 
