@@ -39,25 +39,41 @@
 
                     <td v-if="tx.confirmations === -1" class="confirmations confirmation-conflicted">
 
-                        <i class="far fa-times-circle"></i>
+                        <a class="tooltipped" data-position="bottom" :data-tooltip="tx.confirmations + ' confirmations'">
+
+                            <i class="far fa-times-circle"></i>
+
+                        </a>
 
                     </td>
 
                     <td v-else-if="tx.confirmations === 0" class="confirmations confirmation-pending">
 
-                        <i class="far fa-question-circle"></i>
+                        <a class="tooltipped" data-position="bottom" :data-tooltip="tx.confirmations + ' confirmations'">
+
+                            <i class="far fa-question-circle"></i>
+
+                        </a>
 
                     </td>
 
                     <td v-else-if="tx.confirmations > 0 && tx.confirmations < 6" class="confirmations">
 
-                        <div class="timer-loader"></div>
+                        <a class="tooltipped" data-position="bottom" :data-tooltip="tx.confirmations + ' confirmations'">
+
+                            <div class="timer-loader"></div>
+
+                        </a>
 
                     </td>
 
                     <td v-else class="confirmations confirmation-success">
 
-                        <i class="far fa-check-circle"></i>
+                        <a class="tooltipped" data-position="bottom" :data-tooltip="tx.confirmations + 'confirmations'">
+
+                            <i class="far fa-check-circle"></i>
+
+                        </a>
 
                     </td>
 
@@ -70,17 +86,17 @@
 
                     <td class="hide-on-small-only" :class="{ 'confirmation-conflicted' : tx.confirmations === -1 }">
 
-                    <a v-clipboard="tx.transactionid" @click="copiedAlert()" class="transaction-list-link tooltipped" data-position="bottom" data-tooltip="Copy">
+                        <a v-clipboard="tx.transactionid" @click="copiedAlert()" class="transaction-list-link tooltipped" data-position="bottom" data-tooltip="Copy">
 
-                        <i class="far fa-copy"></i>
+                            <i class="far fa-copy"></i>
 
-                    </a>
+                        </a>
 
-                    <a @click="blockExplorerUrl(tx.transactionid)" class="transaction-list-link tooltipped" data-position="bottom" data-tooltip="Open in block explorer">
+                        <a @click="blockExplorerUrl(tx.transactionid)" class="transaction-list-link tooltipped" data-position="bottom" data-tooltip="Open in block explorer">
 
-                        <i class="fas fa-link"></i>
+                            <i class="fas fa-link"></i>
 
-                    </a>
+                        </a>
 
                     </td>
 
@@ -174,15 +190,15 @@
         font-size: 2.1em;
     }
 
-    .confirmation-conflicted{
+    .confirmation-conflicted .tooltipped{
         color: $wagerr_red
     }
 
-    .confirmation-success{
+    .confirmation-success .tooltipped{
         color: green;
     }
 
-    .confirmation-pending{
+    .confirmation-pending .tooltipped{
         color: orangered;
     }
 
