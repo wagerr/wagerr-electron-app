@@ -2,19 +2,13 @@
 
     <!-- Send Transaction Modal -->
 
-    <div id="send-tx-modal" class="modal bg-gradient">
+    <div id="send-tx-modal" class="modal">
 
         <form @submit.prevent="handleSubmit">
 
             <div class="modal-content">
 
                 <div class="row">
-
-                    <div class="inset-top">
-
-                        <div class="shadow"></div>
-
-                    </div>
 
                     <div class="modal-text text-center">
 
@@ -72,7 +66,7 @@
 
                 <div class="options">
 
-                    <button class="send btn waves-effect waves-light z-depth-2">Send</button>
+                    <button class="send waves-effect waves-red wallet-action btn-large modal-trigger wagerr-red-bg z-depth-2">Send</button>
 
                 </div>
 
@@ -217,45 +211,3 @@ export default {
 }
 
 </script>
-
-<style lang="scss" scoped>
-
-    @import '../../assets/scss/_variables';
-
-    .modal{
-        overflow-y: inherit;
-    }
-
-    .modal-content{
-        padding: 0;
-        padding-left: 20px;
-        padding-right: 20px;
-    }
-
-    .modal-font{
-        font-size: 1.3em;
-        color: white;
-    }
-
-    .input-field span, .amount-margin{
-        margin-left: 45px;
-    }
-
-    .options{
-        width: 150px;
-        height: 40px;
-        margin-left: auto;
-        margin-right: auto;
-        margin-bottom: 20px;
-    }
-
-    .options button{
-        width: 150px;
-        background-color: $wagerr_red;
-    }
-
-    .options button:active{
-        width: 150px;
-    }
-
-</style>
