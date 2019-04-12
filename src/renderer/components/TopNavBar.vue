@@ -28,7 +28,7 @@
 
             </router-link>
             
-            <router-link tag="li" to="/chain_games">
+            <router-link tag="li" to="/betting/chain_games">
 
                 <i class="navico-dice"></i>
                 <h6>Chain Games</h6>
