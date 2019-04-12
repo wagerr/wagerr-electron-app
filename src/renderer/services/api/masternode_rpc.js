@@ -19,8 +19,6 @@ export default {
         return new Promise((resolve, reject) => {
             wagerrRPC.client.mnSync('status')
                 .then(function (resp) {
-                    console.log(resp)
-
                     resolve(resp.result);
                 })
                 .catch(function (err) {

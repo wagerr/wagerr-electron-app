@@ -145,10 +145,7 @@ const actions = {
     updateChainSyncStatus ({commit}) {
         masternodeRPC.getMNSyncStatus()
             .then(function (resp) {
-                console.log(resp.IsBlockchainSynced);
-
                 commit('setChainSynced', resp.IsBlockchainSynced);
-
             })
             .catch(function (err) {
                 console.error(err);
