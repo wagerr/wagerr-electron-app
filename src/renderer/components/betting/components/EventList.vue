@@ -2,8 +2,6 @@
 
     <div id="events">
 
-        <h4>Events</h4>
-
         <div v-if="eventsList.length > 0">
 
             <ul class="events-list">
