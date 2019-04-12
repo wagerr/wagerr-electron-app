@@ -69,7 +69,7 @@
 
                     <td v-else class="confirmations confirmation-success">
 
-                        <a class="tooltipped" data-position="bottom" :data-tooltip="tx.confirmations + 'confirmations'">
+                        <a class="tooltipped" data-position="bottom" :data-tooltip="tx.confirmations + ' confirmations'">
 
                             <i class="far fa-check-circle"></i>
 
