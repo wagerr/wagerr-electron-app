@@ -413,4 +413,8 @@
         margin-bottom: 29%;
     }
 
+	.no-transactions{
+		margin-top: 10px;
+	}
+
 </style>
