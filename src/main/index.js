@@ -1,13 +1,14 @@
 'use strict';
 
-// Import required modules.
 // import isDev from 'electron-is-dev';
+let path = require('path');
+
+import menus from './menu/menus';
+import errors from './alerts/errors';
 const {ipcMain} = require('electron');
 import Daemon from  './blockchain/daemon';
 import * as blockchain from './blockchain/blockchain';
 import {app, BrowserWindow, dialog, Menu} from 'electron';
-
-let path = require('path');
 
 // Main app URL.
 const winURL = process.env.NODE_ENV === 'development' ? `http://localhost:9080` : `file://${__dirname}/index.html`;
@@ -17,8 +18,8 @@ if (process.env.NODE_ENV !== 'development') {
     global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
 
-let mainWindow;
 let daemon;
+let mainWindow;
 
 /**
  * Render the main window for the Wagerr wallet.
@@ -43,102 +44,18 @@ function createMainWindow () {
         // }
     });
 
-    mainWindow.webContents.closeDevTools();
+    //mainWindow.webContents.closeDevTools();
 
     // Load the main browser window with the Wagerr vue application.
     mainWindow.loadURL(winURL);
+
+    // Add the main application menu to the UI.
+    menus.initMainMenu();
 
     // Reset the main window on close.
     mainWindow.on('closed', async () => {
         mainWindow = null;
     });
-
-    const template = [
-        {
-            label: 'Edit',
-            submenu: [
-                { role: 'undo' },
-                { role: 'redo' },
-                { type: 'separator' },
-                { role: 'cut' },
-                { role: 'copy' },
-                { role: 'paste' },
-                { role: 'pasteandmatchstyle' },
-                { role: 'delete' },
-                { role: 'selectall' }
-            ]
-        },
-        {
-            label: 'View',
-            submenu: [
-                { role: 'reload' },
-                { role: 'forcereload' },
-                { role: 'toggledevtools' },
-                { type: 'separator' },
-                { role: 'resetzoom' },
-                { role: 'zoomin' },
-                { role: 'zoomout' },
-                { type: 'separator' },
-                { role: 'togglefullscreen' }
-            ]
-        },
-        {
-            role: 'window',
-            submenu: [
-                { role: 'minimize' },
-                { role: 'close' }
-            ]
-        },
-        {
-            role: 'help',
-            submenu: [
-                {
-                    label: 'Learn More',
-                    click () { require('electron').shell.openExternal('https://www.wagerr.com') }
-                }
-            ]
-        }
-    ];
-
-    if (process.platform === 'darwin') {
-        template.unshift({
-            label: app.getName(),
-            submenu: [
-                { role: 'about' },
-                { type: 'separator' },
-                { role: 'services' },
-                { type: 'separator' },
-                { role: 'hide' },
-                { role: 'hideothers' },
-                { role: 'unhide' },
-                { type: 'separator' },
-                { role: 'quit' }
-            ]
-        });
-
-        // Edit menu
-        template[1].submenu.push(
-            { type: 'separator' },
-            {
-                label: 'Speech',
-                submenu: [
-                    { role: 'startspeaking' },
-                    { role: 'stopspeaking' }
-                ]
-            }
-        );
-
-        // Window menu
-        template[3].submenu = [
-            { role: 'close' },
-            { role: 'minimize' },
-            { role: 'zoom' },
-            { type: 'separator' },
-            { role: 'front' }
-        ]
-    }
-
-    Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 
     // Show a popup dialog if the main window is unresponsive.
     mainWindow.on('unresponsive', () => {
@@ -260,6 +177,7 @@ app.on('activate',async () => {
         await createMainWindow();
     }
 });
+
 
 
 // TODO - Move code to more appropriate location or new file.
@@ -426,7 +344,7 @@ ipcMain.on('resync-blockchain', (event, arg) => {
     }
 });
 
-// handles the render process of resyncing the blockchain.
+// Handles the render process of resyncing the blockchain.
 ipcMain.on('restart-wagerrd', (event, arg) => {
     let cancel = dialog.showMessageBox({
         type: 'question',
@@ -447,6 +365,18 @@ ipcMain.on('restart-wagerrd', (event, arg) => {
             init(arg)
         }, 5000);
     }
+});
+
+// Send the RPC username to the render process.
+ipcMain.on('rpc-username', (event) => {
+    console.log(blockchain.rpcUser);
+    event.returnValue = blockchain.rpcUser
+});
+
+// Send the RPC password to the render process.
+ipcMain.on('rpc-password', (event) => {
+    console.log(blockchain.rpcPass);
+    event.returnValue = blockchain.rpcPass
 });
 
 // Show error dialog informing user that the wallet could not connect to wagerr network.

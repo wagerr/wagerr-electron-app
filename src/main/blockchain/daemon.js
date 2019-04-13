@@ -38,7 +38,7 @@ export default class Daemon {
             }
         });
 
-        this.wagerrdProcess = spawn(wagerrdPath, wagerrdArgs);
+        this.wagerrdProcess = spawn(wagerrdPath, wagerrdArgs, { shell:true });
         this.wagerrdProcess.stdout.on('data', data => console.log(`Daemon: ${data}`));
         this.wagerrdProcess.stderr.on('data', data => console.error(`Daemon: ${data}`));
         this.wagerrdProcess.on('error', data => console.log(`Daemon: ${data}`));
@@ -68,7 +68,7 @@ export default class Daemon {
     }
 
     /**
-     * Download the correct Wagerr Daemon version for a users enviornment.
+     * Download the correct Wagerr Daemon version for a users environment.
      *
      * @returns {Promise}
      */
@@ -193,7 +193,7 @@ export default class Daemon {
      */
     getWagerrdArgs (args) {
         // Required args.
-        let wagerrdArgs = [`-rpcuser=${blockchain.rpcUser}`, `-rpcpassword=${blockchain.rpcPass}`, `-rpcbind=127.0.0.1`, `-server=1`];
+        let wagerrdArgs = [`-rpcuser=${blockchain.rpcUser}`, `-rpcpassword=${blockchain.rpcPass}`, `-rpcbind=127.0.0.1`, `-rpcport=8332` ,`-server=1`, `-testnet=1` ];
 
         // Add Supplied args if any.
         if (args) {

@@ -1,10 +1,10 @@
-import path from 'path'
-import PropertiesReader from 'properties-reader'
+import path from 'path';
+import PropertiesReader from 'properties-reader';
 
 // Blockchain variables.
 let testnet       = 0;
-let rpcUser       = 'defaultuser';
-let rpcPass       = 'defaultpassword';
+let rpcUser       = 'wagerr';
+let rpcPass       = 'bethehouse';
 let daemonName    = 'wagerrd';
 let mnoCollateral = 25000;
 let rpcPort       = 8332;
