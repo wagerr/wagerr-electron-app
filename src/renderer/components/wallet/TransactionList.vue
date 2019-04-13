@@ -19,7 +19,7 @@
 
                     <th class="hide-on-med-and-down">Date</th>
 
-                    <th class="hide-on-small-only">Transaction ID</th>
+                    <th class="hide-on-small-only">Trans<span>action</span> ID</th>
 
                     <th class="hide-on-small-only">Type</th>
 

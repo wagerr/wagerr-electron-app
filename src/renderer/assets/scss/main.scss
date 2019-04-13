@@ -133,8 +133,8 @@ table.z-depth-2, .no-transactions {
 	    }
 
 	    .wagerr-balance {
-	        margin:25px 25px 0 0;
-
+	        margin:17px 25px 0 0;
+			
 	        #wagerr-total-balance {
 			    background-color: $halfblack;
 			    display:inline-block;
@@ -143,6 +143,15 @@ table.z-depth-2, .no-transactions {
 				color: $white;
 				font-size:16px;
 				letter-spacing:0.3px;
+				h6 {
+					color: $wagerr_red;
+					font-size:11px;
+					text-align:center;
+					letter-spacing:0.3px;
+					margin-top:2px;
+					margin-bottom:0;
+					font-weight:600;
+				}
 		    }
 	        i {
 		        margin-left:10px;
@@ -971,9 +980,14 @@ table.z-depth-2, .no-transactions {
 				    font-weight:700;
 				    font-size:12px;
 				    line-height:18px;
-				    padding: 8px 10px;
+				    padding: 8px;
 				    vertical-align:top;
 				    border-radius:0;
+				    @media screen and (max-width: 1280px) {
+				    	span {
+					    	display:none;
+				    	}
+				    }
 			    }
     		}
     	}
@@ -991,7 +1005,7 @@ table.z-depth-2, .no-transactions {
 				    font-weight:600;
 				    font-size:12px;
 				    line-height:18px;
-				    padding: 10px !important;
+				    padding: 8px !important;
 				    vertical-align:top;
 				    &.confirmations {
 					    text-align:center;
@@ -999,7 +1013,6 @@ table.z-depth-2, .no-transactions {
 				    .transaction-list-link {
 					    display:inline-block;
 					    padding:5px;
-					    margin-right:5px;
 				    }
 			    }
 		    }

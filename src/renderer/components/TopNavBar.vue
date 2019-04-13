@@ -177,8 +177,8 @@
         </ul>
 
         <div class="pull-right wagerr-balance">
-
-            <span id="wagerr-total-balance">{{ walletLoaded ? balance : 'Loading...' }} {{ getNetworkType === "Testnet" ? 'tWGR' : 'WGR' }}</span>
+			<span id="wagerr-total-balance">{{ walletLoaded ? balance : 'Loading...' }} <span class="currency">{{ getNetworkType === "Testnet" ? 'tWGR' : 'WGR' }}</span><h6>Currently Available</h6></span>
+            
 
         </div>
 
