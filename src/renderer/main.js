@@ -8,10 +8,7 @@ import moment from 'moment-timezone';
 import VeeValidate from 'vee-validate';
 import VueClipboards from 'vue-clipboards';
 
-// Import some inherited css styles and icons.
-import './assets/css/icons.css';
-
-// Import some global scss styles
+// Import global styles
 import './assets/scss/main.scss';
 
 // Config options.
