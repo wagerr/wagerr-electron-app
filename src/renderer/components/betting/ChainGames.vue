@@ -23,7 +23,53 @@
 		
 		            </div>
 		
-		            <div v-else class="cg-jackpot text-center">{{ potSize }}</div>
+		            <div v-else class="cg-jackpot text-center">{{ potSize }} {{ getNetworkType === "Testnet" ? 'tWGR' : 'WGR' }}</div>
+
+		            <div class="all-stats">
+
+		                <div class="col s4 text-center stats">
+
+		                    <h6>Potential Winnings</h6>
+
+		                    <div v-if="loadingCGEvent">
+
+		                        <spinner></spinner>
+
+		                    </div>
+
+		                    <div v-else class="cg-info">{{ getCGWinnings(potSize, 'bet') }} {{ getNetworkType === "Testnet" ? 'tWGR' : 'WGR' }}</div>
+
+		                </div>
+
+		                <div class="col s4 text-center  stats">
+
+		                    <h6>Masternode Reward</h6>
+
+		                    <div v-if="loadingCGEvent">
+
+		                        <spinner></spinner>
+
+		                    </div>
+
+		                    <div v-else class="cg-info">{{ getCGWinnings(potSize, 'masternode') }} {{ getNetworkType === "Testnet" ? 'tWGR' : 'WGR' }}</div>
+
+		                </div>
+
+		                <div class="col s4 text-center stats">
+
+		                    <h6>Burn</h6>
+
+		                    <div v-if="loadingCGEvent">
+
+		                        <spinner></spinner>
+
+		                    </div>
+
+		                    <div v-else class="cg-info">{{ getCGWinnings(potSize, 'burn') }} {{ getNetworkType === "Testnet" ? 'tWGR' : 'WGR' }}</div>
+
+		                </div>
+
+		            </div>
 		
 		            <div class="all-stats">
 		
@@ -73,7 +119,7 @@
 		
 		            <div class="cg-dates text-center clearfix">
 		
-		                {{ gameStartTime | moment("MMM Do YYYY") }} - {{ gameEndTime | moment("MMM Do YYYY")}}
+		                {{ gameStartTime | moment("MMM Do YYYY hh:mm A") }} - {{ gameEndTime | moment("MMM Do YYYY hh:mm A")}}
 		
 		            </div>
 		            
@@ -120,6 +166,7 @@
                 'noOfEntrants',
                 'entryFee',
                 'gameID',
+                'getNetworkType',
                 'potSize',
                 'gameStartBlock',
                 'gameStartTime',
@@ -156,6 +203,19 @@
                         M.toast({html: err, classes: 'wagerr-red-bg'});
                         console.error(err);
                     })
+                },
+            getCGWinnings(potAmount, rewardType) {
+                let winningPercent = 0.80;
+                let masternodePercent = 0.02;
+                let burnPercent = 0.18;
+                switch(rewardType) {
+                    case 'bet':
+                        return potAmount * winningPercent;
+                    case 'masternode':
+                        return potAmount * masternodePercent;
+                    case 'burn':
+                        return potAmount * burnPercent;
+                }
             }
         },
 
