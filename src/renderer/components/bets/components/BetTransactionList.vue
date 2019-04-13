@@ -49,7 +49,7 @@
 
                     <td class="col s3s m3 l3 hide-on-med-and-down show-on-large">{{ outcomeToText( tx['team-to-win'] ) }}</td>
 
-                    <td class="col s2 m2 l2 ">{{ tx.amount }}</td>
+                    <td class="col s2 m2 l2 ">{{ tx.amount }} {{ getNetworkType === "Testnet" ? 'tWGR' : 'WGR' }} </td>
 
                 </tr>
 

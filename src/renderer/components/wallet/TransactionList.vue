@@ -85,7 +85,7 @@
 
                     <td class="col s2 m2 l2" :class="{ 'confirmation-conflicted' : tx.confirmations === -1 }">
 
-                        {{ tx.amount}}
+                        {{ tx.amount}} {{ getNetworkType === "Testnet" ? 'tWGR' : 'WGR' }}
 
                     </td>
 
@@ -110,7 +110,8 @@
             ...Vuex.mapGetters([
                 'getTimezone',
                 'wgrTransactionList',
-                'wgrTransactionRecords'
+                'wgrTransactionRecords',
+                'getNetworkType'
             ])
         },
 

@@ -166,7 +166,7 @@
 
         <div class="pull-right wagerr-balance">
 
-            <span id="wagerr-total-balance">{{walletLoaded ? balance : 'Loading...'}} WGR </span>
+            <span id="wagerr-total-balance">{{ walletLoaded ? balance : 'Loading...' }} {{ getNetworkType === "Testnet" ? 'tWGR' : 'WGR' }}</span>
 
         </div>
 
@@ -193,7 +193,8 @@
             ...Vuex.mapGetters([
                 'balance',
                 'walletLoaded',
-                'walletUnlocked'
+                'walletUnlocked',
+                'getNetworkType'
             ])
         },
 

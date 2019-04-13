@@ -54,7 +54,7 @@
 
                             <span class="pull-left">Potential returns:</span>
 
-                            <span :id="index" class="potential-returns pull-right">0 WGR</span>
+                            <span :id="index" class="potential-returns pull-right">0 {{ getNetworkType === "Testnet"? 'tWGR' : 'WGR' }}</span>
 
                             <div class="clear"></div>
 
@@ -95,7 +95,8 @@
         computed: {
             ...Vuex.mapGetters([
                 'betSlip',
-                'getNumBets'
+                'getNumBets',
+                'getNetworkType'
             ])
         },
 

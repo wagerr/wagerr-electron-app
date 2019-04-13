@@ -14,22 +14,22 @@
 
             <div class="dashboard-balance row">
 
-                <div class="col s12 text-center total-balance">{{ walletLoaded ? balance : 'Loading...' }}</div>
+                <div class="col s12 text-center total-balance">{{ walletLoaded ? balance : 'Loading...' }} {{ getNetworkType === "Testnet" ? 'tWGR' : 'WGR' }}</div>
 
 
                 <div class="col s6 right-align">Pending: </div>
 
-                <div class="col s6">{{ walletLoaded ? pending : 'Loading...' }}</div>
+                <div class="col s6">{{ walletLoaded ? pending : 'Loading...' }} {{ getNetworkType === "Testnet" ? 'tWGR' : 'WGR' }}</div>
 
 
                 <div class="col s6 right-align">Immature:</div>
 
-                <div class="col s6">{{ walletLoaded ? immature : 'Loading...' }}</div>
+                <div class="col s6">{{ walletLoaded ? immature : 'Loading...' }} {{ getNetworkType === "Testnet" ? 'tWGR' : 'WGR' }}</div>
 
 
-                <div class="label col s6 right-align">zWGR:</div>
+                <div class="label col s6 right-align">Zerocoin:</div>
 
-                <div class="col s6">{{ walletLoaded ? zerocoin : 'Loading...' }}</div>
+                <div class="col s6">{{ walletLoaded ? zerocoin : 'Loading...' }} zWGR</div>
 
             </div>
 
@@ -79,7 +79,8 @@
                 'zerocoin',
                 'walletLoaded',
                 'accountAddress',
-                'wgrTransactionList'
+                'wgrTransactionList',
+                'getNetworkType'
             ])
         },
 
