@@ -1115,28 +1115,33 @@ table.z-depth-2, .no-transactions {
 	    }
     }
 
+	body.lotto {
+		#betting {
+			.betting-sidebar {
+				display:none;
+			}
+			.betting-main {
+				margin-left:0;
+			}
+		}
+	}
+
 	#chain-games {
 	    .chain-container {
-		    .chain-left {
-		    	position: -webkit-sticky;
-				position: sticky;
-				top: 110px;
+				padding-top:0;
 			    .cg-lotto-info {
 			        width: 100%;
 			        color: $wagerr_red;
 			        margin-left: auto;
 			        margin-right: auto;
-			        margin-bottom:0;
+			        margin-bottom:40px;
 			        border-radius:4px;
-			        padding:40px;
-			        background-image:url(../images/bg-vector-black-d40.png);
+			        padding:40px 40px 25px;
+			        background-image:url(../images/bg-vector-black-d40-horz.png);
 			        background-position:center bottom;
 					background-repeat:no-repeat;
 					background-size:cover;
 					position:relative;
-						@media screen and (max-width: 1450px) {
-							padding:25px;
-						}
 					.chain-info {
 						position:absolute;
 						top:20px;
@@ -1149,88 +1154,100 @@ table.z-depth-2, .no-transactions {
 					}
 			        h2{
 				        margin-top: 0px;
-				        margin-bottom: 20px;
+				        margin-bottom: 40px;
 				        font-family:"Montserrat";
 				        font-weight:700;
-				        font-size:24px;
+				        font-size:20px;
 						color: $wagerr_red;
 						letter-spacing:2px;
 						text-align:center;
 						text-transform:uppercase;
-						@media screen and (max-width: 1450px) {
-							font-size:20px;
-							margin-bottom:10px;
-						}
 				        span {
 					        display:block;
-					        width:60%;
+					        width:70%;
 					        margin:0 auto 10px;
-					        height:70px;
+					        height:80px;
 					        background-image:url(../images/wgrWordsWhite.svg);
 					        background-position:center bottom;
 							background-repeat:no-repeat;
 							background-size:contain;
 				        }
 				    }
+			        .cg-dates {
+				        font-weight:600;
+			        	font-size:14px;
+						color: $white;
+						padding:0;
+						letter-spacing:1px;
+						h6 {
+							font-size:14px;
+							color:$grey;
+							letter-spacing:1px;
+							font-weight:600;
+						}
+			        }
+
 				    .cg-jackpot {
 					    font-size:45px;
 					    font-weight:700;
 				        font-family:"Montserrat";
 					    color: white;
 					    letter-spacing:1px;
+					    text-align:center;
+					    h3 {
+						    color:$wagerr_red;
+						    font-weight:700;
+						    font-size:15px;
+						    margin:0;
+					    }
+					    .currency {
+						    font-size:18px;
+						    display:inline-block;
+					    }
 				    }
 				    .all-stats {
-					    padding: 25px 20px;
+					    padding: 20px 10px;
 				        width:100%;
 				        display:block;
 				        border-radius:4px;
 				        background:#111;
 				        margin:20px 0;
 				        overflow:hidden;
-						@media screen and (max-width: 1450px) {
-							padding:20px 5px;
-						}
 					    .stats{
-					        padding-top: 10px;
-					        padding-bottom: 10px;
+
 					        h6 {
 						        font-family:"Montserrat";
 								font-weight:700;
 					        	font-size:14px;
 								color: $wagerr_red;
-								@media screen and (max-width: 1450px) {
-									font-size:12px;
-								}
+								margin-top:5px;
+								margin-bottom:10px;
 					        }
 					        .cg-info{
 						        color: $white;
-						        font-size: 32px;
+						        font-size: 28px;
 						        font-weight:600;
 						        line-height:28px;
-								@media screen and (max-width: 1450px) {
-									font-size:26px;
-								}
+							    .currency {
+								    font-size:13px;
+								    display:block;
+								    color:$grey;
+							    }
 						    }
 						    &:not(:last-child) {
 						        border-right: 2px solid #222;
 						    }
 					    }
+					    &.bottom-row {
+						    .stats {
+							    padding-bottom:5px;
+						    }
+					    }
 				    }
-			        .cg-dates {
-				        font-family:"Montserrat";
-						font-weight:600;
-			        	font-size:16px;
-			        	letter-spacing:1px;
-						color: $white;
-						padding:0;
-						@media screen and (max-width: 1450px) {
-							font-size:14px;
-						}
-			        }
 			    }
 			    .chain-btns{
-			        margin-top: 50px;
-			        margin-bottom: 10px;
+			        margin-top: 40px;
+			        margin-bottom: 0px;
 			        a {
 				        margin:0 0 0 10px;
 				        width:42%;
@@ -1241,17 +1258,7 @@ table.z-depth-2, .no-transactions {
 				        }
 			        }
 			    }
-		    }
-		    .chain-right {
-			    .chain-transactions {
-				    width: 100%;
-				    table {
-					    th {
 
-					    }
-				    }
-			    }
-		    }
 	    }
     }
 
@@ -1404,8 +1411,8 @@ table.z-depth-2, .no-transactions {
 			}
 	    }
     }
-    
-    
+
+
     .modal-overlay {
 	    background:$white;
 	    opacity:0.8 !important;
