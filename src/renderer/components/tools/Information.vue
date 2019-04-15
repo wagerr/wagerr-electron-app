@@ -213,7 +213,7 @@
 
 								<td class="words">
 
-									<i :class="[ getStakingStatus ? 'far fa-check-circle' : 'fas fa-sync-alt']"></i>
+									<i :class="[ getStakingStatus ? 'far fa-check-circle' : 'far fa-times-circle']"></i>
 
 								</td>
 
@@ -225,7 +225,7 @@
 
 								<td class="words">
 
-									<i :class="[ getMsyncStatus ? 'far fa-check-circle' : 'fas fa-sync-alt']"></i>
+									<i :class="[ getMsyncStatus ? 'far fa-check-circle' : 'far fa-times-circle']"></i>
 
 								</td>
 
