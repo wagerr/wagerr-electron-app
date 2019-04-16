@@ -23,24 +23,8 @@ export default new Router({
     mode: 'history',
     routes: [
         { path: '/', component: Wallet },
-        {
-            path: '/betting/',
-            component: Betting,
-            children: [
-                {
-                    path: 'peerless',
-                    component: Peerless
-                },
-                {
-                    path: 'h2h',
-                    component: H2H
-                },
-                {
-                    path: 'chain_games',
-                    component: ChainGames
-                }
-            ]
-        },
+        { path: '/betting', component: Betting },
+        { path: '/chain_games', component: ChainGames },
         { path: '/bets', component: Bets },
         { path: '/tools/',
             component: Tools,

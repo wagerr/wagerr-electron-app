@@ -21,14 +21,14 @@
 
             </router-link>
 
-            <router-link tag="li" to="/betting/peerless">
+            <router-link tag="li" to="/betting">
 
                 <i class="navico-betting"></i>
                 <h6>Betting</h6>
 
             </router-link>
             
-            <router-link tag="li" to="/betting/chain_games">
+            <router-link tag="li" to="/chain_games">
 
                 <i class="navico-dice"></i>
                 <h6>Chain Games</h6>

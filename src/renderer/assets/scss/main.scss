@@ -1128,18 +1128,8 @@ table.z-depth-2, .no-transactions {
 	    }
     }
 
-	body.lotto {
-		#betting {
-			.betting-sidebar {
-				display:none;
-			}
-			.betting-main {
-				margin-left:0;
-			}
-		}
-	}
-
 	#chain-games {
+		padding: 20px 10px 0px 10px;
 	    .chain-container {
 				padding-top:0;
 			    .cg-lotto-info {
