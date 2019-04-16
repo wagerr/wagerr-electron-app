@@ -115,7 +115,7 @@ export default class Daemon {
                 .replace(/OSNAME/g, daemonPlatform)
                 .replace(/OSEXT/g, daemonExt);
 
-            const tmpZipPath = path.join(app.getPath('userData'), 'daemon.' + daemonExt);
+            const tmpZipPath = path.join(app.getPath('userData'), 'daemon_' + daemonVersion + '.' + daemonExt);
 
             console.log('\x1b[32m' + daemonURL, '\nDownloading daemon...\x1b[32m');
 
@@ -170,7 +170,34 @@ export default class Daemon {
      * @returns {boolean}
      */
     wagerrdExists () {
-        return fs.existsSync(path.join(app.getPath('userData'), `${blockchain.daemonName}${os.platform() === 'win32' ? '.exe' : ''}`));
+        let platform   = os.platform();
+        let version    = packageJSON.wagerrSettings.daemonVersion;
+        let daemonExt  = platform === constants.WIN_32 ? constants.ZIP_EXT : constants.TAR_EXT;
+        let daemonPath = path.join(app.getPath('userData'), 'daemon_' + version + '.' + daemonExt);
+
+        return fs.existsSync(daemonPath);
+    }
+
+    /**
+     * Remove the previously downloaded archive containing the wagerrd and wagerr-cli.
+     *
+     * @returns {*}
+     */
+    async removePreviousVersion () {
+        try {
+            let platform   = os.platform();
+            let version    = packageJSON.wagerrSettings.previousVersion;
+            let daemonExt  = platform === constants.WIN_32 ? constants.ZIP_EXT : constants.TAR_EXT;
+            let daemonPath = path.join(app.getPath('userData'), 'daemon_' + version + '.' + daemonExt);
+
+            if (fs.existsSync(daemonPath)) {
+                return fs.unlink(daemonPath);
+            }
+        }
+        catch (e) {
+            console.error(e);
+            return false;
+        }
     }
 
     /**

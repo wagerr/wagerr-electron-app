@@ -98,6 +98,7 @@ async function init (args) {
 
     if (!daemonExists) {
         await daemon.downloadWagerrDaemon();
+        await daemon.removePreviousVersion();
     }
 
     // Check if the wagerr.conf file exists. If not use default values.
