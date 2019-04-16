@@ -40,9 +40,7 @@ const getters = {
 const actions = {
 
     getAccountAddress ({commit}) {
-        let rand = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
-
-        wagerrRPC.client.getAccountAddress(rand)
+        wagerrRPC.client.getNewAddress()
             .then(function (resp) {
                 commit('setAccountAddress', resp.result);
             })
