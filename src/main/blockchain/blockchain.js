@@ -8,7 +8,7 @@ let rpcPass       = uuidv4();
 let daemonName    = 'wagerrd';
 let cliName       = 'wagerr-cli';
 let mnoCollateral = 25000;
-let rpcPort       = 8332;
+let rpcPort       = 55003 ;
 let minTxFee      = 0.00010000;
 let dustLimit     = 0.00005460;
 
@@ -53,12 +53,20 @@ function readWagerrConf(){
 
         testnet = walletProperties.get('testnet');
 
+        if (testnet) {
+            rpcPort = 55005;
+        }
+
         if (walletProperties.get('rpcuser')) {
             rpcUser = walletProperties.get('rpcuser');
         }
 
         if (walletProperties.get('rpcpassword')) {
             rpcPass = walletProperties.get('rpcpassword');
+        }
+
+        if (walletProperties.get('rpcport')) {
+            rpcPort = walletProperties.get('rpcport');
         }
 
         return true;
@@ -135,6 +143,7 @@ export {
     testnet,
     rpcUser,
     rpcPass,
+    rpcPort,
     daemonName,
     cliName,
     readWagerrConf,
