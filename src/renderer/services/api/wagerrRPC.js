@@ -1,6 +1,6 @@
 import * as WagerrdRPC from 'wagerrd-rpc';
 import PropertiesReader from "properties-reader";
-import {getWagerrdPath, testnet} from "../../../main/blockchain/blockchain";
+import {getWagerrConfPath} from "../../../main/blockchain/blockchain";
 const { ipcRenderer } = require('electron');
 
 // Get rpc credentials from the main process. These values are read from the wagerr.conf file in the main
@@ -9,12 +9,23 @@ const { ipcRenderer } = require('electron');
 let rpcUser = ipcRenderer.sendSync('rpc-username');
 let rpcPass = ipcRenderer.sendSync('rpc-password');
 
+// Check if testnet=1 in wagerr.conf
+const walletProperties = PropertiesReader(getWagerrConfPath());
+let testnet = walletProperties.get('testnet');
+
+// Assign RPC port number according to defaults or grab from wagerr.conf
+let rpcPort = (testnet) ? '55005' : '55003';
+
+if (walletProperties.get('rpcport')) {
+    rpcPort = walletProperties.get('rpcport');
+}
+
 export default {
   client: new WagerrdRPC({
     protocol: 'http',
     user: rpcUser,
     pass: rpcPass,
     host: '127.0.0.1',
-    port: '8332'
+    port: rpcPort
   })
 }
