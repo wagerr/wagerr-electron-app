@@ -45,6 +45,23 @@
               </ul>-->
 
           </li>
+          <li @click="filterEvents('Baseball')">
+
+              <div class="parent">
+
+                  <a>
+
+                      <i class="icon-baseball"></i>
+
+                      <span>Baseball</span>
+
+                      <i class="icon-chevron-down pull-right"></i>
+
+                  </a>
+
+              </div>
+
+          </li>
 
           <li @click="filterEvents('Basketball')">
 
