@@ -26,28 +26,28 @@
 						<div class="row event-header">
 
 	                        <div class="col s12 m4 text-center">
-	
+
 	                            <div>Money Line</div>
-	
+
 	                        </div>
-	
+
 	                        <div class="col s12 m4 text-center">
-	
+
 	                            <div>Spread</div>
-	
+
 	                        </div>
-	
-	
+
+
 	                        <div class="col s12 m4 text-center">
-	
+
 	                            <div>Total</div>
-	
+
 	                        </div>
 	                    </div>
 	                    </div>
 
                     </div>
-					
+
                     <div class="event-pair row">
 
                         <div class="col s12 m4 event-teams">
@@ -61,135 +61,135 @@
                         </div>
 						<div class="col s12 m8 event-odds">
 						<div class="row event-odds-row">
-						
-							
+
+
 	                        <!-- Show Money line odds if market is open for current event. -->
 	                        <div v-if="isEventMLOddsSet(event)" class="col s12 m4 odds">
 								<div class="odd">
 		                            <button v-if="event.odds[0].mlHome !== 0" class="waves-effect waves-light btn" @click="createBet(event.event_id, 1, event.teams.home, event.odds[0].mlHome)">
-		
+
 		                                {{ event.odds[0].mlHome / oddsDivisor }}
-		
+
 		                            </button>
-		
+
 		                            <button v-else class="waves-effect waves-light btn" disabled>N/A</button>
-	
+
 	                            </div>
 								<div class="odd">
 		                            <button v-if="event.odds[0].mlAway !== 0" class="waves-effect waves-light btn" @click="createBet(event.event_id, 2, event.teams.away, event.odds[0].mlAway)">
-		
+
 		                                {{ event.odds[0].mlAway / oddsDivisor }}
-		
+
 		                            </button>
-		
+
 		                            <button v-else class="waves-effect waves-light btn" disabled>N/A</button>
-	
+
 	                            </div>
 								<div class="odd">
-	
+
 		                            <button v-if="event.odds[0].mlDraw !== 0" class="waves-effect waves-light btn" @click="createBet(event.event_id, 3, 'Draw', event.odds[0].mlDraw)">
-		
+
 		                                {{ event.odds[0].mlDraw / oddsDivisor }}
-		
+
 		                            </button>
-		
+
 		                            <button v-else class="waves-effect waves-light btn" disabled>N/A</button>
 								</div>
-	
+
 	                        </div>
-	
+
 	                        <!-- Show money line market closed -->
 	                        <div v-else class="col s12 m4 odds">
 								<div class="ml">
 	                            	<button class="waves-effect waves-light btn" disabled>N/A</button>
-	
+
 	                            </div>
 	                            <div class="ml">
-	
+
 	                            	<button class="waves-effect waves-light btn" disabled>N/A</button>
 								</div>
-	
+
 	                        </div>
-	
+
 	                        <!-- Show Spread odds if market is open for current event. -->
 	                        <div v-if="isEventSpreadsOddsSet(event)" class="col s12 m4 odds">
 								<div class="spread">
 		                            <button class="waves-effect waves-light btn" @click="createBet(event.event_id, 4, event.teams.home, event.odds[1].spreadHome)">
-		
-		                                <span class="pull-left">{{ event.odds[0].mlHome > event.odds[0].mlAway ? 'O' : 'U' }}{{ event.odds[1].spreadPoints / 10 }}</span>
-		
+
+		                                <span class="pull-left">{{ event.odds[0].mlHome > event.odds[0].mlAway ? '+' : '-' }}{{ event.odds[1].spreadPoints / 10 }}</span>
+
 		                                <span class="pull-right">{{ event.odds[1].spreadHome / oddsDivisor }}</span>
-		
+
 		                            </button>
-	
+
 	                            </div>
 	                            <div class="spread">
-		
+
 		                            <button class="waves-effect waves-light btn" @click="createBet(event.event_id, 5, event.teams.away, event.odds[1].spreadAway)">
-		
-		                                <span class="pull-left">{{ event.odds[0].mlAway > event.odds[0].mlHome ? 'O' : 'U' }}{{ event.odds[1].spreadPoints / 10 }}</span>
-		
+
+		                                <span class="pull-left">{{ event.odds[0].mlAway > event.odds[0].mlHome ? '+' : '-' }}{{ event.odds[1].spreadPoints / 10 }}</span>
+
 		                                <span class="pull-right">{{ event.odds[1].spreadAway / oddsDivisor }}</span>
-		
+
 		                            </button>
-	                            
+
 	                            </div>
-	
+
 	                        </div>
-	
+
 	                        <!-- Show Spread market closed -->
 	                        <div v-else class="col s12 m4 odds">
 								<div class="spread">
 	                            	<button class="waves-effect waves-light btn" disabled>N/A</button>
-	
+
 	                            </div>
 	                            <div class="spread">
-	
+
 	                            	<button class="waves-effect waves-light btn" disabled>N/A</button>
-	                            	
+
 	                            </div>
-	
+
 	                        </div>
-	
+
 	                        <!-- Show Totals odds if market is open for current event. -->
 	                        <div v-if="isEventTotalsOddsSet(event)" class="col s12 m4 odds">
 								<div class="total">
 		                            <button class="waves-effect waves-light btn" @click="createBet(event.event_id, 6, event.teams.home, event.odds[2].totalsOver)">
-		
+
 		                                <span class="pull-left">O{{ event.odds[2].totalsPoints / 10}}</span>
-		
+
 		                                <span class="pull-right">{{ event.odds[2].totalsOver / oddsDivisor }}</span>
-		
+
 		                            </button>
-	
+
 	                            </div>
 	                            <div class="total">
-	
+
 		                            <button class="waves-effect waves-light btn" @click="createBet(event.event_id, 7, event.teams.home, event.odds[2].totalsUnder)">
-		
+
 		                                <span class="pull-left">U{{ event.odds[2].totalsPoints / 10 }}</span>
-		
+
 		                                <span class="pull-right">{{ event.odds[2].totalsUnder / oddsDivisor }}</span>
-		
+
 		                            </button>
 		                        </div>
-	
+
 	                        </div>
-	
+
 	                        <!-- Show Totals market closed -->
 	                        <div v-else class="col s12 m4 odds">
 								<div class="total">
 	                            	<button class="waves-effect waves-light btn" disabled>N/A</button>
-	
+
 	                            </div>
 	                            <div class="total">
-	
+
 	                            	<button class="waves-effect waves-light btn" disabled>N/A</button>
-	                            	
+
 	                            </div>
-	
+
 	                        </div>
-	                        
+
 	                    </div>
 	                    </div><!-- event-odds ends -->
 
