@@ -6,6 +6,7 @@
     "name": "Wagerr Limited"
   },
   "license": "MIT",
+  "private": true,
   "main": "./dist/electron/main.js",
   "homepage": "https://www.wagerr.com/",
   "engines": {
