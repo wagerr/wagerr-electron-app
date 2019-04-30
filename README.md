@@ -1,5 +1,5 @@
-Wagerr Electron Wallet
-======================
+Wagerr Electron App
+===================
 
 A modern cross-platform GUI for Wagerr built with [Electron](https://electronjs.org/) & [Vue.js](https://vuejs.org/).
 
@@ -34,13 +34,13 @@ If installed correctly you will see the current version your are running for Nod
 **Get the source**
 
 ```
-git clone https://github.com/wagerr/wagerr-electron-wallet.git
+git clone https://github.com/wagerr/wagerr-electron-app.git
 ```
 
 Change directory into the newly cloned repository:
 
 ```
-cd wagerr-electron-wallet
+cd wagerr-electron-app
 ```
 
 **Install dependencies**

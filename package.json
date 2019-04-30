@@ -1,8 +1,8 @@
 {
-  "name": "wagerr-wallet",
+  "name": "wagerr-electron-app",
   "version": "1.0.1",
   "author": "WagerrDev <cryptoknight1988@gmail.com>",
-  "description": "Wagerr Electron Wallet which enables betting on the Wagerr blockchain.",
+  "description": "Wagerr Electron App is a cross-platform GUI for Wagerr enabling betting on the blockchain.",
   "license": "MIT",
   "main": "./dist/electron/main.js",
   "homepage": "https://www.wagerr.com/",
@@ -23,8 +23,8 @@
     "dist": "electron-builder"
   },
   "build": {
-    "appId": "com.wagerr.wallet",
-    "productName": "WagerrWallet",
+    "productName": "WagerrElectronApp",
+    "appId": "com.wagerr.electron.app",
     "directories": {
       "output": "build"
     },
@@ -34,7 +34,7 @@
       "package.json"
     ],
     "dmg": {
-      "title": "Wagerr Wallet",
+      "title": "Wagerr Electron App",
       "background": "build/splash.png",
       "iconTextSize": 16,
       "contents": [
@@ -72,8 +72,8 @@
       "packageCategory": "utils",
       "icon": "build/icons/icon.icns",
       "maintainer": "WagerrDev <cryptoknight1988@gmail.com>",
-      "synopsis": "Wagerr Electron Wallet",
-      "executableName": "WagerrWallet",
+      "executableName": "WagerrElectronApp",
+      "synopsis": "Wagerr Electron App",
       "target": [
         {
           "target": "deb",
