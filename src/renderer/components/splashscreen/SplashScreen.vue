@@ -6,7 +6,7 @@
 
             <div class="col s12 splash-image"></div>
 
-            <div class="col s12 version">HTML5 Wallet {{ walletVersion }}</div>
+            <div class="col s12 version">Wagerr Electron App {{ walletVersion }}</div>
 
             <div class="col s12">
 

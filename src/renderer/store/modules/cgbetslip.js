@@ -5,7 +5,7 @@ import moment from 'moment'
  * Contains all the methods to store users bet slip state and add/remove bets from the bet slip.
  *
  * @module BetSlip
- * @package Wagerr HTML5 Wallet
+ * @package Wagerr Electron App
  */
 const state = function () {
 
