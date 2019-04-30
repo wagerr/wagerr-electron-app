@@ -121,7 +121,7 @@
             // Place a bet on a given event and sent the tx to the Wagerr blockchain.
             placeBet: function (betId) {
                 let betInfo   = this.betSlip.find(item => item.betId === betId);
-                let betAmount = parseInt(document.getElementById(betId).value);
+                let betAmount = parseFloat(document.getElementById(betId).value);
                 let evetnId   = parseInt(betInfo.eventDetails.event_id);
                 let self = this;
 
