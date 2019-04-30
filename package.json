@@ -53,8 +53,7 @@
             "ia32"
           ]
         }
-      ],
-      "icon": "build/icons/icon.ico"
+      ]
     },
     "linux": {
       "category": "Utils",
