@@ -30,19 +30,17 @@
       "package.json"
     ],
     "dmg": {
-      "title": "Wagerr Electron App",
-      "iconTextSize": 16,
+      "title": "Wagerr Electron App ${version}",
       "contents": [
         {
-          "x": 363,
+          "x": 90,
+          "y": 180
+        },
+        {
+          "x": 390,
           "y": 180,
           "type": "link",
           "path": "/Applications"
-        },
-        {
-          "x": 90,
-          "y": 180,
-          "type": "file"
         }
       ]
     },
