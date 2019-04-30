@@ -24,9 +24,6 @@
   "build": {
     "productName": "WagerrElectronApp",
     "appId": "com.wagerr.electron.app",
-    "directories": {
-      "output": "build"
-    },
     "files": [
       "dist/electron",
       "node_modules/",
@@ -77,6 +74,9 @@
           ]
         }
       ]
+    },
+    "directories": {
+        "output": "release"
     }
   },
   "dependencies": {
