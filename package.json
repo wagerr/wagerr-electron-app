@@ -6,13 +6,9 @@
     "name": "Wagerr Limited"
   },
   "license": "MIT",
+  "homepage": "https://www.wagerr.com/",
   "private": true,
   "main": "./dist/electron/main.js",
-  "homepage": "https://www.wagerr.com/",
-  "engines": {
-    "node": ">=8.12.0",
-    "npm": ">=6.4.0"
-  },
   "scripts": {
     "build": "node .electron-vue/build.js && electron-builder",
     "build:dir": "node .electron-vue/build.js && electron-builder --dir",
