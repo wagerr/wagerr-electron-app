@@ -50,10 +50,6 @@
         }
       ]
     },
-    "mac": {
-      "target": "dmg",
-      "icon": "build/icons/icon.icns"
-    },
     "win": {
       "target": [
         {
