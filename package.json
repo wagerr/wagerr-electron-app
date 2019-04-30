@@ -1,8 +1,10 @@
 {
   "name": "wagerr-electron-app",
   "version": "1.0.1",
-  "author": "WagerrDev <cryptoknight1988@gmail.com>",
   "description": "Wagerr Electron App is a cross-platform GUI for Wagerr enabling betting on the blockchain.",
+  "author": {
+    "name": "Wagerr Limited"
+  },
   "license": "MIT",
   "main": "./dist/electron/main.js",
   "homepage": "https://www.wagerr.com/",
@@ -71,8 +73,8 @@
       "category": "Utils",
       "packageCategory": "utils",
       "icon": "build/icons/icon.icns",
-      "maintainer": "WagerrDev <cryptoknight1988@gmail.com>",
       "executableName": "WagerrElectronApp",
+      "maintainer": "Wagerr Limited",
       "synopsis": "Wagerr Electron App",
       "target": [
         {
