@@ -34,7 +34,6 @@
     ],
     "dmg": {
       "title": "Wagerr Electron App",
-      "background": "build/splash.png",
       "iconTextSize": 16,
       "contents": [
         {
