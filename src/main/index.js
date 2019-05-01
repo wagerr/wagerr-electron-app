@@ -9,6 +9,7 @@ import {app, BrowserWindow, dialog} from 'electron';
 
 // import isDev from 'electron-is-dev';
 let path = require('path');
+const ProgressBar = require('electron-progressbar');
 
 // Main app URL.
 const winURL = process.env.NODE_ENV === 'development' ? `http://localhost:9080` : `file://${__dirname}/index.html`;
@@ -22,6 +23,9 @@ if (process.env.NODE_ENV !== 'development') {
 let daemon;
 let mainWindow;
 global.restarting = false;
+
+let closeWindowFlag = false;
+let closeProgressBar = null;
 
 /**
  * Render the main window for the Wagerr wallet.
@@ -47,6 +51,33 @@ function createMainWindow () {
 
     // Add the main application menu to the UI.
     menus.initMainMenu();
+
+    // Close the window action
+    mainWindow.on('close', async (event) => {
+        if (closeWindowFlag === false && process.platform !== 'darwin') {
+            // Prevent the default close action before daemon is completely stopped.
+            closeWindowFlag = true;
+            event.preventDefault();
+
+            // Make the progress bar to show the status of close actions
+            closeProgressBar = new ProgressBar({
+                text: 'Closing the Window...',
+                detail: 'Stopping Wagerr Daemon...',
+                closeOnComplete: true
+            });
+            closeProgressBar._window.webContents.closeDevTools();
+            
+            // Stop the daemon and close the app completely.
+            if (daemon && !global.restarting ) {
+                await daemon.stop();
+                closeProgressBar.detail = 'Wagger Daemon Stopped...';
+                setTimeout(() => {
+                    closeProgressBar.close();
+                    app.quit();
+                }, 1000);
+            }
+        }
+    });
 
     // Reset the main window on close.
     mainWindow.on('closed', async () => {
@@ -143,14 +174,6 @@ app.on('will-quit', async () => {
 
 app.on('window-all-closed', async () => {
     console.log('\x1b[32mwindow-all-closed\x1b[0m');
-
-    if (process.platform !== 'darwin') {
-
-        if (daemon && !global.restarting ) {
-            await daemon.stop();
-            app.quit();
-        }
-    }
 });
 
 app.on('activate', async () => {
