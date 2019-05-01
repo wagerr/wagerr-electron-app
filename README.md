@@ -43,13 +43,19 @@ Change directory into the newly cloned repository:
 cd wagerr-electron-app
 ```
 
+**Wagerr binaries**
+
+Make a `bin` directory in the root of the repo and place `wagerrd` and
+`wagerr-cli` binaries in this directory.
+
 **Install dependencies**
 
 ```
 npm install
 ```
 
-**Run the application**
+Run the application
+-------------------
 
 Run in development mode:
 
@@ -57,13 +63,13 @@ Run in development mode:
 npm run dev
 ```
 
-To build:
+To build (don't forget to have the Wagerr binaries available in the `bin` dir):
 
 ```
 npm run build
 ```
 
-After running the build command the executable will be located in the /build
+After running the build command the executable will be located in the `release`
 folder.
 
 Built With

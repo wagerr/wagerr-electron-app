@@ -1,3 +1,6 @@
+# Wagerr binaries
+bin
+
 # Dependency directory
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
 node_modules
@@ -6,13 +9,12 @@ node_modules
 .DS_Store
 
 # App packaged
-release
 dist
+release
 
 build/*
 !build/icons
 thumbs.db
 !.gitkeep
-static/daemon/*
 .idea
 npm-debug.log.*

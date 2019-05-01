@@ -15,7 +15,6 @@ const packageJSON = require('../../../package.json');
 export default class Daemon {
 
     wagerrdProcess;
-    downloadWin;
 
     constructor () {
 
@@ -25,11 +24,11 @@ export default class Daemon {
      * Launch the wagerrd process with the given list of command line args.
      */
     launch (args) {
-        let wagerrdPath = this.getWagerrdPath();
+        let wagerrdPath = this.getExecutablePath('wagerrd');
         let wagerrdArgs = this.getWagerrdArgs(args);
 
-        console.log('\x1b[32m Launching daemon:' + wagerrdPath + '\x1b[32m');
-        console.log('\x1b[32m Following args used:' + wagerrdArgs + '\x1b[32m');
+        console.log('\x1b[32m Launching daemon: ' + wagerrdPath + '\x1b[32m');
+        console.log('\x1b[32m Following args used: ' + wagerrdArgs + '\x1b[32m');
 
         // Change file permissions so we can run the wagerrd.
         fs.chmod(wagerrdPath, '0777', (err) => {
@@ -55,7 +54,7 @@ export default class Daemon {
         return new Promise(async (resolve) => {
 
             let running = true;
-            let cliPath = this.getWagerrCliPath();
+            let cliPath = this.getExecutablePath('wagerr-cli');
 
             // Call wagerr cli to stop the wagerr daemon.
             let wagerrcliProcess = spawn(cliPath, [`-rpcuser=${blockchain.rpcUser}`, `-rpcpassword=${blockchain.rpcPass}`, `-rpcport=${blockchain.rpcPort}`, 'stop']);
@@ -72,132 +71,17 @@ export default class Daemon {
     }
 
     /**
-     * Download the correct Wagerr Daemon version for a users environment.
+     * Returns a Wagerr executable file path.
      *
-     * @returns {Promise}
+     * @returns string
      */
-    async downloadWagerrDaemon () {
-        return new Promise((resolve, reject) => {
+    getExecutablePath(name) {
+        let binPath = process.env.NODE_ENV === "development"
+            ? path.join(__dirname, "..", "..", "..", "bin")
+            : path.join(process.resourcesPath, "bin");
+        let execName = os.platform() !== "win32" ? name : name + ".exe";
 
-            // First show the wagerr daemon download window so we can show progress to user.
-            this.showDownloadDameonWindow();
-
-            // Check the users platform so we can download the right wagerr daemon and wagerr-cli.
-            let platform = os.platform();
-
-            let daemonPlatform = '';
-            let daemonExt      = '';
-            let receivedBytes  = 0;
-            let totalBytes     = 0;
-
-            // Mac
-            if (platform === constants.MAC) {
-                daemonPlatform = constants.OSX_64;
-                daemonExt      = constants.TAR_EXT;
-            }
-            // Linux
-            if (platform === constants.LINUX) {
-                daemonPlatform = os.arch() === 'x64' ? constants.LINUX_X86_64 : constants.LINUX_i686;
-                daemonExt      = constants.TAR_EXT;
-            }
-            // Windows
-            if (platform === constants.WIN_32) {
-                daemonPlatform = constants.WIN_64;
-                daemonExt      = constants.ZIP_EXT;
-            }
-
-            // Create the URL used to download the Wagerr daemon and cli.
-            const daemonURLTemplate = packageJSON.wagerrSettings.daemonUrlTemplate;
-            const daemonVersion     = packageJSON.wagerrSettings.daemonVersion;
-
-            const daemonURL = daemonURLTemplate
-                .replace(/DAEMONVER/g, daemonVersion)
-                .replace(/OSNAME/g, daemonPlatform)
-                .replace(/OSEXT/g, daemonExt);
-
-            const tmpZipPath = path.join(app.getPath('userData'), 'daemon_' + daemonVersion + '.' + daemonExt);
-
-            console.log('\x1b[32m' + daemonURL, '\nDownloading daemon...\x1b[32m');
-
-            // Send GET request to download the wagerr daemon and cli.
-            let req = request({
-                method: 'GET',
-                uri: daemonURL
-            });
-
-            // Write data to disk.
-            let out = fs.createWriteStream(tmpZipPath);
-            req.pipe(out);
-
-            // Get the total download size in bytes.
-            req.on('response', function (data) {
-                totalBytes = parseInt(data.headers['content-length']);
-            });
-
-            // Update the download status by sending the percentage to the download render window.
-            req.on('data', function (chunk) {
-                receivedBytes += chunk.length;
-                let percentage = Math.round((receivedBytes * 100) / totalBytes);
-
-                this.downloadWin.webContents.send('download-percentage', percentage);
-            }.bind(this));
-
-            // When download is finished, unpack the tar file to extract the wagerr daemon and wagerr-cli.
-            req.on('end', function () {
-                decompress(tmpZipPath, app.getPath('userData'), {
-                    filter: file => {
-                        return file.path === `${blockchain.daemonName}${os.platform() === 'win32' ? '.exe' : ''}` ||
-                               file.path === `${blockchain.cliName}${os.platform() === 'win32' ? '.exe' : ''}`;
-                    },
-                    strip: 2
-                })
-                .then(() => {
-                    console.log('\x1b[32m Wagerr daemon and cli downloaded sucessfully...\x1b[32m');
-                    this.downloadWin.hide();
-                    resolve();
-                })
-                .catch(error => {
-                    console.error(`\x1b[31m error \x1b[0m Wagerr daemon and cli download failed due to: \x1b[35m${error}\x1b[0m`);
-                    reject(error);
-                });
-            }.bind(this))
-        });
-    }
-
-    /**
-     * Checks if the wagerrd executable exists in the correct location.
-     *
-     * @returns {boolean}
-     */
-    wagerrdExists () {
-        let platform   = os.platform();
-        let version    = packageJSON.wagerrSettings.daemonVersion;
-        let daemonExt  = platform === constants.WIN_32 ? constants.ZIP_EXT : constants.TAR_EXT;
-        let daemonPath = path.join(app.getPath('userData'), 'daemon_' + version + '.' + daemonExt);
-
-        return fs.existsSync(daemonPath);
-    }
-
-    /**
-     * Remove the previously downloaded archive containing the wagerrd and wagerr-cli.
-     *
-     * @returns {*}
-     */
-    async removePreviousVersion () {
-        try {
-            let platform   = os.platform();
-            let version    = packageJSON.wagerrSettings.previousVersion;
-            let daemonExt  = platform === constants.WIN_32 ? constants.ZIP_EXT : constants.TAR_EXT;
-            let daemonPath = path.join(app.getPath('userData'), 'daemon_' + version + '.' + daemonExt);
-
-            if (fs.existsSync(daemonPath)) {
-                return fs.unlink(daemonPath);
-            }
-        }
-        catch (e) {
-            console.error(e);
-            return false;
-        }
+        return path.join(binPath, execName);
     }
 
     /**
@@ -208,24 +92,6 @@ export default class Daemon {
         let processList = await findProcess('name', `${blockchain.daemonName}`);
 
         return processList.length > 0;
-    }
-
-    /**
-     * Returns the wagerrd file path.
-     *
-     * @returns string
-     */
-    getWagerrdPath () {
-        return path.join(app.getPath('userData'), `${blockchain.daemonName}${os.platform() === 'win32' ? '.exe' : ''}`);
-    }
-
-    /**
-     * Returns the wagerr-cli file path.
-     *
-     * @returns string
-     */
-    getWagerrCliPath () {
-        return path.join(app.getPath('userData'), `${blockchain.cliName}${os.platform() === 'win32' ? '.exe' : ''}`);
     }
 
     /**
@@ -241,36 +107,5 @@ export default class Daemon {
         }
 
         return wagerrdArgs;
-    }
-
-    /**
-     * Creates the browser window to show the download status of the wagerr daemon.
-     */
-    showDownloadDameonWindow () {
-        // Create the browser window.
-        this.downloadWin = new BrowserWindow({
-            backgroundColor: '#2B2C2D',
-            height: 400,
-            width: 700,
-            minHeight: 400,
-            minWidth: 700,
-            show: false,
-            icon:  path.join(__dirname, '../renderer/assets/images/icons/png/256.png'),
-        });
-
-        // Emitted when the window is closed.
-        this.downloadWin.on('closed', () => {
-            this.downloadWin = null
-        });
-
-        this.downloadWin.webContents.closeDevTools();
-
-        this.downloadWin.loadFile(path.join(__static,'/html/download_daemon.html'));
-
-        // Once download status window ready then show it.
-        this.downloadWin.once('ready-to-show', () => {
-            this.downloadWin.show();
-            this.downloadWin.focus();
-        });
     }
 }

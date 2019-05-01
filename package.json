@@ -15,7 +15,6 @@
     "build:clean": "cross-env BUILD_TARGET=clean node .electron-vue/build.js",
     "build:web": "cross-env BUILD_TARGET=web node .electron-vue/build.js",
     "dev": "node .electron-vue/dev-runner.js",
-    "download-daemon": "node ./src/main/download-wagerr-daemon.js",
     "pack": "npm run pack:main && npm run pack:renderer",
     "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.main.config.js",
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
@@ -28,6 +27,12 @@
       "dist/electron",
       "node_modules/",
       "package.json"
+    ],
+    "extraResources": [
+        {
+            "from": "bin",
+            "to": "bin"
+        }
     ],
     "dmg": {
       "title": "Wagerr Electron App ${version}",
@@ -140,9 +145,6 @@
     "webpack-merge": "^4.2.1"
   },
   "wagerrSettings": {
-    "previousVersion": "3.0.0",
-    "daemonVersion": "3.0.1",
-    "daemonUrlTemplate": "https://github.com/Wagerr-TestNet/wagerr/releases/download/vDAEMONVER/wagerr-3.0.99-OSNAME.OSEXT",
-    "daemonDir": "static/daemon"
+    "daemonVersion": "3.0.1"
   }
 }

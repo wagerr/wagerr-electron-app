@@ -6,6 +6,7 @@ const {ipcMain} = require('electron');
 import Daemon from  './blockchain/daemon';
 import * as blockchain from './blockchain/blockchain';
 import {app, BrowserWindow, dialog} from 'electron';
+import fs from 'fs';
 
 // import isDev from 'electron-is-dev';
 let path = require('path');
@@ -124,12 +125,13 @@ async function init (args) {
     console.log('\x1b[32mInitialising Wagerr Wallet...\x1b[0m');
     daemon = new Daemon();
 
-    // Check if the wagerrd binary exists. If not download it.
-    let daemonExists = daemon.wagerrdExists();
+    // Check if the wagerrd binary exists.
+    let wagerrExe = daemon.getExecutablePath('wagerrd');
+    let wagerrcliExe = daemon.getExecutablePath('wagerr-cli');
 
-    if (!daemonExists) {
-        await daemon.downloadWagerrDaemon();
-        await daemon.removePreviousVersion();
+    if (!fs.existsSync(wagerrExe) || !fs.existsSync(wagerrcliExe)) {
+        console.error('\x1b[32mThe wagerrd and wagerr-cli binaries do not exist. Please download and place in the bin\ directory.\x1b[0m');
+        process.exit(1);
     }
 
     // Check if the wagerr.conf file exists. If not use default values.
