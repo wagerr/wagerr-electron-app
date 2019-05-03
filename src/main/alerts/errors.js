@@ -22,13 +22,13 @@ function noPeersConnectionError () {
 }
 
 function wagerrdStopped () {
-    dialog.showMessageBox( BrowserWindow.getFocusedWindow(),{
-        type: 'error',
-        title: 'Wagerr daemon stopped!',
-        buttons: ['Confirm'],
-        message: 'Wagerr daemon stopped!',
-        detail: 'Wallet will now exit.'
-    });
+    // dialog.showMessageBox( BrowserWindow.getFocusedWindow(),{
+    //     type: 'error',
+    //     title: 'Wagerr daemon stopped!',
+    //     buttons: ['Confirm'],
+    //     message: 'Wagerr daemon stopped!',
+    //     detail: 'Wallet will now exit.'
+    // });
 }
 
 function wagerrdError (err) {
