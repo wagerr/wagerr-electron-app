@@ -1,85 +1,96 @@
 Wagerr Electron App
 ===================
 
-A modern cross-platform GUI for Wagerr built with [Electron](https://electronjs.org/) & [Vue.js](https://vuejs.org/).
+A modern cross-platform GUI for Wagerr built with
+[Electron](https://electronjs.org/) & [Vue.js](https://vuejs.org/).
 
 Prerequisites
 -------------
 
-Make sure you back up your Wagerr wallet.dat before running this wallet.
+Make sure you back up your Wagerr `wallet.dat` before developing on this app.
 
-You need the following prerequisites to be able to build and develop the
-project on your local machine.
+You need the following prerequisites to be able to build and develop the project
+on your local machine.
 
-**NodeJS + NPM**
+- Node.js
+- npm
 
-Install the latest version of NodeJS and NPM for your OS using the link below:
+Install
+-------
 
-```
-https://nodejs.org
-```
+Clone the repo:
 
-Once installed test it by opening a terminal on your local computer and enter the following command:
-
-```
-node -v
-```
-
-```
-npm -v
-```
-
-If installed correctly you will see the current version your are running for NodeJS and NPM.
-
-**Get the source**
-
-```
+```sh
 git clone https://github.com/wagerr/wagerr-electron-app.git
 ```
 
-Change directory into the newly cloned repository:
+Change directory into the cloned repository:
 
-```
+```sh
 cd wagerr-electron-app
 ```
 
-**Wagerr binaries**
+Install dependencies with npm:
 
-Make a `bin` directory in the root of the repo and place `wagerrd` and
-`wagerr-cli` binaries in this directory.
-
-**Install dependencies**
-
-```
+```sh
 npm install
 ```
 
-Run the application
--------------------
+Place `wagerrd` and `wagerr-cli` binaries in a `bin` directory in the the root
+of your repo:
+
+```sh
+mkdir bin
+
+# Fetch the applicable release from https://github.com/wagerr/wagerr/releases
+# for your OS and architecture and unzip the `wagerrd` and `wagerr-cli` binaries
+# into the `bin` folder.
+```
+
+Development
+-----------
 
 Run in development mode:
 
-```
+```sh
 npm run dev
 ```
 
-To build (don't forget to have the Wagerr binaries available in the `bin` dir):
+Package for Distribution
+------------------------
 
+To package the app for distribution (don't forget to copy the `wagerrd` and
+`wagerr-cli` binaries into the `bin` folder before packaging the app):
+
+```sh
+npm run package
 ```
-npm run build
+
+After running the package command the executable will be located in the
+`release` folder.
+
+Code Signing
+------------
+
+To code sign the packaged app you must set the following environment variables
+before running `npm run package`.
+
+macOS:
+
+```sh
+# macOS - Name of certificate to retrieve from Keychain
+export CSC_NAME='Wagerr Limited'
 ```
 
-After running the build command the executable will be located in the `release`
-folder.
+Windows:
 
-Built With
-----------
+```sh
+# Windows (PowerShell) - Path to *.pfx certificate relative to root of project
+$env:CSC_LINK='build\WagerrLimited.pfx'
 
-- [Node.js](https://nodejs.org/)
-
-- [Electron](https://electronjs.org/)
-
-- [Vue.js](https://vuejs.org/)
+# Optional - The password to decrypt the certificate given in CSC_LINK
+$env:CSC_KEY_PASSWORD='Password123!'
+```
 
 Contributing
 ------------
