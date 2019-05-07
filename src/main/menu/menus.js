@@ -1,96 +1,92 @@
-const { app, Menu } = require('electron');
+const { app, Menu } = require("electron");
 
-function initMainMenu () {
-
+function initMainMenu() {
     const template = [
         {
-            label: 'Edit',
+            label: "Edit",
             submenu: [
-                { role: 'undo' },
-                { role: 'redo' },
-                { type: 'separator' },
-                { role: 'cut' },
-                { role: 'copy' },
-                { role: 'paste' },
-                { role: 'pasteandmatchstyle' },
-                { role: 'delete' },
-                { role: 'selectall' }
+                { role: "undo" },
+                { role: "redo" },
+                { type: "separator" },
+                { role: "cut" },
+                { role: "copy" },
+                { role: "paste" },
+                { role: "pasteandmatchstyle" },
+                { role: "delete" },
+                { role: "selectall" }
             ]
         },
         {
-            label: 'View',
+            label: "View",
             submenu: [
-                { role: 'reload' },
-                { role: 'forcereload' },
-                { role: 'toggledevtools' },
-                { type: 'separator' },
-                { role: 'resetzoom' },
-                { role: 'zoomin' },
-                { role: 'zoomout' },
-                { type: 'separator' },
-                { role: 'togglefullscreen' }
+                { role: "reload" },
+                { role: "forcereload" },
+                { role: "toggledevtools" },
+                { type: "separator" },
+                { role: "resetzoom" },
+                { role: "zoomin" },
+                { role: "zoomout" },
+                { type: "separator" },
+                { role: "togglefullscreen" }
             ]
         },
         {
-            role: 'window',
-            submenu: [
-                { role: 'minimize' },
-                { role: 'close' }
-            ]
+            role: "window",
+            submenu: [{ role: "minimize" }, { role: "close" }]
         },
         {
-            role: 'help',
+            role: "help",
             submenu: [
                 {
-                    label: 'Learn More',
-                    click () { require('electron').shell.openExternal('https://www.wagerr.com') }
+                    label: "Learn More",
+                    click() {
+                        require("electron").shell.openExternal(
+                            "https://www.wagerr.com"
+                        );
+                    }
                 }
             ]
         }
     ];
 
-    if (process.platform === 'darwin') {
+    if (process.platform === "darwin") {
         template.unshift({
             label: app.getName(),
             submenu: [
-                { role: 'about' },
-                { type: 'separator' },
-                { role: 'services' },
-                { type: 'separator' },
-                { role: 'hide' },
-                { role: 'hideothers' },
-                { role: 'unhide' },
-                { type: 'separator' },
-                { role: 'quit' }
+                { role: "about" },
+                { type: "separator" },
+                { role: "services" },
+                { type: "separator" },
+                { role: "hide" },
+                { role: "hideothers" },
+                { role: "unhide" },
+                { type: "separator" },
+                { role: "quit" }
             ]
         });
 
         // Edit menu
         template[1].submenu.push(
-            { type: 'separator' },
+            { type: "separator" },
             {
-                label: 'Speech',
-                submenu: [
-                    { role: 'startspeaking' },
-                    { role: 'stopspeaking' }
-                ]
+                label: "Speech",
+                submenu: [{ role: "startspeaking" }, { role: "stopspeaking" }]
             }
         );
 
         // Window menu
         template[3].submenu = [
-            { role: 'close' },
-            { role: 'minimize' },
-            { role: 'zoom' },
-            { type: 'separator' },
-            { role: 'front' }
-        ]
+            { role: "close" },
+            { role: "minimize" },
+            { role: "zoom" },
+            { type: "separator" },
+            { role: "front" }
+        ];
     }
 
     Menu.setApplicationMenu(Menu.buildFromTemplate(template));
-
 }
 
 export default {
     initMainMenu
-}
+};

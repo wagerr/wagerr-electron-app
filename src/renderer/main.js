@@ -1,15 +1,19 @@
 // Vue Components and external libraries.
-import Vue from 'vue';
-import App from './App';
-import store from './store/index';
-import VueMoment from 'vue-moment';
-import router from './router/index';
-import moment from 'moment-timezone';
-import VeeValidate from 'vee-validate';
-import VueClipboards from 'vue-clipboards';
+import Vue from "vue";
+import App from "./App";
+import store from "./store/index";
+import VueMoment from "vue-moment";
+import router from "./router/index";
+import moment from "moment-timezone";
+import VeeValidate from "vee-validate";
+import VueClipboards from "vue-clipboards";
 
+import ElementUI from "element-ui";
+import "element-ui/lib/theme-chalk/index.css";
+
+Vue.use(ElementUI);
 // Import global styles
-import './assets/scss/main.scss';
+import "./assets/scss/main.scss";
 
 // Config options.
 Vue.config.productionTip = false;
@@ -24,13 +28,13 @@ Vue.use(VueClipboards);
 Vue.use(VeeValidate);
 
 if (!process.env.IS_WEB) {
-    Vue.use(require('vue-electron'));
+    Vue.use(require("vue-electron"));
 }
 
 /* eslint-disable no-new */
 new Vue({
-    components: {App},
+    components: { App },
     router,
     store,
-    template: '<App/>'
-}).$mount('#app');
+    template: "<App/>"
+}).$mount("#app");

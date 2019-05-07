@@ -1,42 +1,46 @@
-const { ipcRenderer } = require('electron');
+const { ipcRenderer } = require("electron");
 
-function salvageWallet () {
-    ipcRenderer.send('salvage-wallet', '-salvagewallet');
+async function runCommand(cmd) {
+    const res = await ipcRenderer.sendSync("runCommand", cmd);
+    return res;
+}
+function salvageWallet() {
+    ipcRenderer.send("salvage-wallet", "-salvagewallet");
 }
 
-function rescanBlockchain () {
-    ipcRenderer.send('rescan-blockchain', '-rescan');
+function rescanBlockchain() {
+    ipcRenderer.send("rescan-blockchain", "-rescan");
 }
 
-function recoverTxes1 () {
-    ipcRenderer.send('recover-tx-1', '-zapwallettxes=1');
+function recoverTxes1() {
+    ipcRenderer.send("recover-tx-1", "-zapwallettxes=1");
 }
 
-function recoverTxes2 () {
-    ipcRenderer.send('recover-tx-2', '-zapwallettxes=2');
+function recoverTxes2() {
+    ipcRenderer.send("recover-tx-2", "-zapwallettxes=2");
 }
 
-function upgradeWallet () {
-    ipcRenderer.send('upgrade-wallet', '-upgradewallet');
+function upgradeWallet() {
+    ipcRenderer.send("upgrade-wallet", "-upgradewallet");
 }
 
-function reindexBlockchain () {
-    ipcRenderer.send('reindex-blockchain', '-reindex');
+function reindexBlockchain() {
+    ipcRenderer.send("reindex-blockchain", "-reindex");
 }
 
-function resyncBlockchain () {
-    ipcRenderer.send('resync-blockchain', '-resync');
+function resyncBlockchain() {
+    ipcRenderer.send("resync-blockchain", "-resync");
 }
 
-function restartWallet () {
-    ipcRenderer.send('restart-wagerrd');
+function restartWallet() {
+    ipcRenderer.send("restart-wagerrd");
 }
 
-function noPeers () {
-    ipcRenderer.send('no-peers');
+function noPeers() {
+    ipcRenderer.send("no-peers");
 }
 
-export default{
+export default {
     salvageWallet,
     rescanBlockchain,
     recoverTxes1,
@@ -45,5 +49,6 @@ export default{
     reindexBlockchain,
     resyncBlockchain,
     restartWallet,
-    noPeers
-}
+    noPeers,
+    runCommand
+};
