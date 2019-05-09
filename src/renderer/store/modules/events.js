@@ -1,46 +1,49 @@
-import wagerrRPC from '@/services/api/wagerrRPC';
-import moment from 'moment';
+import wagerrRPC from "@/services/api/wagerrRPC";
+import moment from "moment";
 
-const state = function () {
-
+const state = function() {
     return {
-        eventsFilter:  '',
+        eventsFilter: "",
         eventsList: {}
-    }
-
+    };
 };
 
 const getters = {
-
-    eventsFilter: (state) => {
+    getEventsFilter: state => {
         return state.eventsFilter;
     },
 
-    eventsList: (state) => {
+    eventsList: state => {
         return state.eventsList;
     }
-
 };
 
 const actions = {
-
-    eventsFilter ({commit, state}, eventsFilter) {
-        commit('setEventsFilter', eventsFilter);
+    updateEventsFilter({ commit, state }, filter) {
+        commit("setEventsFilter", filter);
     },
 
     // Todo - marty: remove code duplication!
-    listEvents ({commit, state}, filter) {
+    listEvents({ commit, state }, filter) {
         return new Promise((resolve, reject) => {
             if (filter) {
-                wagerrRPC.client.listEvents(filter)
-                    .then(function (resp) {
+                wagerrRPC.client
+                    .listEvents(filter)
+                    .then(function(resp) {
                         // Filter events that are expired (15 mins before event start time)
                         let filteredList = [];
-                        let numEvents    = resp.result.length;
+                        let numEvents = resp.result.length;
 
                         for (let i = 0; i < numEvents; i++) {
                             // Prevent events that are starting in less than 12 mins and events starting outside the two weeks listed.
-                            if (resp.result[i].starting - (12 * 60) > moment().unix() && resp.result[i].starting < moment().add(13, 'days').unix() ) {
+                            if (
+                                resp.result[i].starting - 12 * 60 >
+                                    moment().unix() &&
+                                resp.result[i].starting <
+                                    moment()
+                                        .add(13, "days")
+                                        .unix()
+                            ) {
                                 filteredList.push(resp.result[i]);
                             }
                         }
@@ -50,25 +53,32 @@ const actions = {
                             return x.starting - y.starting;
                         });
 
-                        commit('setEventsList', filteredList);
+                        commit("setEventsList", filteredList);
                         resolve();
                     })
-                    .catch(function (err) {
+                    .catch(function(err) {
                         // TODO Handle `err` properly.
                         console.error(err);
                         reject(err);
-                    })
-            }
-            else {
-                wagerrRPC.client.listEvents()
-                    .then(function (resp) {
+                    });
+            } else {
+                wagerrRPC.client
+                    .listEvents()
+                    .then(function(resp) {
                         // Filter events that are expired (15 mins before event start time)
                         let filteredList = [];
-                        let numEvents    = resp.result.length;
+                        let numEvents = resp.result.length;
 
                         for (let i = 0; i < numEvents; i++) {
                             // Prevent events that are starting in less than 12 mins and events starting outside the two weeks listed.
-                            if (resp.result[i].starting - (12 * 60) > moment().unix() && resp.result[i].starting < moment().add(13, 'days').unix() ) {
+                            if (
+                                resp.result[i].starting - 12 * 60 >
+                                    moment().unix() &&
+                                resp.result[i].starting <
+                                    moment()
+                                        .add(13, "days")
+                                        .unix()
+                            ) {
                                 filteredList.push(resp.result[i]);
                             }
                         }
@@ -78,30 +88,27 @@ const actions = {
                             return x.starting - y.starting;
                         });
 
-                        commit('setEventsList', filteredList);
+                        commit("setEventsList", filteredList);
                         resolve();
                     })
-                    .catch(function (err) {
+                    .catch(function(err) {
                         // TODO Handle `err` properly.
                         console.error(err);
                         reject(err);
-                    })
+                    });
             }
-       });
+        });
     }
-
 };
 
 const mutations = {
-
-    setEventsFilter (state, filter) {
+    setEventsFilter(state, filter) {
         state.eventsFilter = filter;
     },
 
-    setEventsList (state, eventsList) {
+    setEventsList(state, eventsList) {
         state.eventsList = eventsList;
     }
-
 };
 
 export default {
@@ -109,4 +116,4 @@ export default {
     getters,
     actions,
     mutations
-}
+};

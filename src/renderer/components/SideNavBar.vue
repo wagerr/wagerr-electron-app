@@ -1,85 +1,63 @@
 <template>
-
   <nav>
+    <ul class="side-nav">
+      <h5>Sort By Sport</h5>
+      <li
+        @click="filterEvents()"
+        v-bind:class="{on:getEventsFilter==='' || getEventsFilter === undefined}"
+      >
+        <div class="parent">
+          <a>
+            <i class="icon-calendar-check"></i>
 
-      <ul class="side-nav">
-	  	  <h5>Sort By Sport</h5>
-          <li @click="filterEvents()">
+            <span>All Events</span>
+          </a>
+        </div>
+      </li>
 
-              <div class="parent">
+      <li @click="filterEvents('Football')" v-bind:class="{on:getEventsFilter==='Football'}">
+        <div class="parent">
+          <a active="true">
+            <i class="icon-football"></i>
 
-                  <a>
+            <span>Football</span>
 
-                      <i class="icon-calendar-check"></i>
+            <i class="icon-chevron-down pull-right"></i>
+          </a>
+        </div>
 
-                      <span>All Events</span>
-
-                  </a>
-
-              </div>
-
-          </li>
-
-          <li @click="filterEvents('Football')">
-
-              <div class="parent">
-
-                  <a>
-
-                      <i class="icon-football"></i>
-
-                      <span>Football</span>
-
-                      <i class="icon-chevron-down pull-right"></i>
-
-                  </a>
-
-              </div>
-
-              <!--<ul class="bet-dropdown">
+        <!--<ul class="bet-dropdown">
 
                   <li class="open-demo-dialog"><span>NFL</span></li>
 
                   <li class="open-demo-dialog"><span>NCAA</span></li>
 
-              </ul>-->
+        </ul>-->
+      </li>
+      <li @click="filterEvents('Baseball')" v-bind:class="{on:getEventsFilter==='Baseball'}">
+        <div class="parent">
+          <a>
+            <i class="icon-baseball"></i>
 
-          </li>
-          <li @click="filterEvents('Baseball')">
+            <span>Baseball</span>
 
-              <div class="parent">
+            <i class="icon-chevron-down pull-right"></i>
+          </a>
+        </div>
+      </li>
 
-                  <a>
+      <li @click="filterEvents('Basketball')" v-bind:class="{on:getEventsFilter==='Basketball'}">
+        <div class="parent">
+          <a>
+            <i class="icon-basketball"></i>
 
-                      <i class="icon-baseball"></i>
+            <span>Basketball</span>
 
-                      <span>Baseball</span>
+            <i class="icon-chevron-down pull-right"></i>
+          </a>
+        </div>
 
-                      <i class="icon-chevron-down pull-right"></i>
-
-                  </a>
-
-              </div>
-
-          </li>
-
-          <li @click="filterEvents('Basketball')">
-
-              <div class="parent">
-
-                  <a>
-
-                      <i class="icon-basketball"></i>
-
-                      <span>Basketball</span>
-
-                      <i class="icon-chevron-down pull-right"></i>
-
-                  </a>
-
-              </div>
-
-              <!--<ul class="bet-dropdown">
+        <!--<ul class="bet-dropdown">
 
                   <li class="open-demo-dialog"><span>NBA</span></li>
 
@@ -87,11 +65,10 @@
 
                   <li class="open-demo-dialog"><span>Eurobasket</span></li>
 
-              </ul>-->
+        </ul>-->
+      </li>
 
-          </li>
-
-          <!--<li>
+      <!--<li>
 
               <div class="parent">
 
@@ -117,25 +94,20 @@
 
               </ul>
 
-          </li>-->
+      </li>-->
 
-          <li @click="filterEvents('Hockey')">
+      <li @click="filterEvents('Hockey')" v-bind:class="{on:getEventsFilter==='Hockey'}">
+        <div class="parent">
+          <a>
+            <i class="icon-hockey"></i>
 
-              <div class="parent">
+            <span>Hockey</span>
 
-                  <a>
+            <i class="icon-chevron-down pull-right"></i>
+          </a>
+        </div>
 
-                      <i class="icon-hockey"></i>
-
-                      <span>Hockey</span>
-
-                      <i class="icon-chevron-down pull-right"></i>
-
-                  </a>
-
-              </div>
-
-              <!--<ul class="bet-dropdown">
+        <!--<ul class="bet-dropdown">
 
                   <li class="open-demo-dialog"><span>NHL</span></li>
 
@@ -143,11 +115,10 @@
 
                   <li class="open-demo-dialog"><span>AHL</span></li>
 
-              </ul>-->
+        </ul>-->
+      </li>
 
-          </li>
-
-          <!--<li>
+      <!--<li>
 
               <div class="parent">
 
@@ -173,9 +144,9 @@
 
               </ul>
 
-          </li>-->
+      </li>-->
 
-          <!--<li @click="filterEvents('Tennis')">
+      <!--<li @click="filterEvents('Tennis')">
 
               <div class="parent">
 
@@ -203,9 +174,9 @@
 
               </ul>
 
-          </li>-->
+      </li>-->
 
-          <!--<li>
+      <!--<li>
 
               <div class="parent">
 
@@ -237,221 +208,177 @@
 
               </ul>
 
-          </li>-->
+      </li>-->
 
-          <li @click="filterEvents('Soccer')">
+      <li @click="filterEvents('Soccer')" v-bind:class="{on:getEventsFilter==='Soccer'}">
+        <div class="parent">
+          <a>
+            <i class="icon-soccer"></i>
 
-              <div class="parent">
+            <span>Soccer</span>
 
-                  <a>
+            <i class="icon-chevron-down pull-right"></i>
+          </a>
+        </div>
+      </li>
 
-                      <i class="icon-soccer"></i>
+      <li
+        @click="filterEvents('Mixed Martial Arts')"
+        v-bind:class="{on:getEventsFilter==='Mixed Martial Arts'}"
+      >
+        <div class="parent">
+          <a>
+            <i class="icon-bench-press"></i>
 
-                      <span>Soccer</span>
+            <span>MMA</span>
 
-                      <i class="icon-chevron-down pull-right"></i>
+            <i class="icon-chevron-down pull-right"></i>
+          </a>
+        </div>
+      </li>
 
-                  </a>
+      <li
+        @click="filterEvents('Aussie Rules')"
+        v-bind:class="{on:getEventsFilter==='Aussie Rules'}"
+      >
+        <div class="parent">
+          <a>
+            <i class="icon-football"></i>
 
-              </div>
+            <span>Aussie Rules</span>
 
-          </li>
+            <i class="icon-chevron-down pull-right"></i>
+          </a>
+        </div>
+      </li>
 
-          <li @click="filterEvents('Mixed Martial Arts')">
+      <li @click="filterEvents('Cricket')" v-bind:class="{on:getEventsFilter==='Cricket'}">
+        <div class="parent">
+          <a>
+            <i class="icon-baseball"></i>
 
-              <div class="parent">
+            <span>Cricket</span>
 
-                  <a>
+            <i class="icon-chevron-down pull-right"></i>
+          </a>
+        </div>
+      </li>
 
-                      <i class="icon-bench-press"></i>
+      <li @click="filterEvents('Rugby Union')" v-bind:class="{on:getEventsFilter==='Rugby Union'}">
+        <div class="parent">
+          <a>
+            <i class="icon-football"></i>
 
-                      <span>MMA</span>
+            <span>Rugby Union</span>
 
-                      <i class="icon-chevron-down pull-right"></i>
+            <i class="icon-chevron-down pull-right"></i>
+          </a>
+        </div>
+      </li>
 
-                  </a>
+      <li
+        @click="filterEvents('Rugby League')"
+        v-bind:class="{on:getEventsFilter==='Rugby League'}"
+      >
+        <div class="parent">
+          <a>
+            <i class="icon-football"></i>
 
-              </div>
+            <span>Rugby League</span>
 
-          </li>
-
-          <li @click="filterEvents('Aussie Rules')">
-
-              <div class="parent">
-
-                  <a>
-
-                      <i class="icon-football"></i>
-
-                      <span>Aussie Rules</span>
-
-                      <i class="icon-chevron-down pull-right"></i>
-
-                  </a>
-
-              </div>
-
-          </li>
-
-          <li @click="filterEvents('Cricket')">
-
-              <div class="parent">
-
-                  <a>
-
-                      <i class="icon-baseball"></i>
-
-                      <span>Cricket</span>
-
-                      <i class="icon-chevron-down pull-right"></i>
-
-                  </a>
-
-              </div>
-
-          </li>
-
-          <li @click="filterEvents('Rugby Union')">
-
-              <div class="parent">
-
-                  <a>
-
-                      <i class="icon-football"></i>
-
-                      <span>Rugby Union</span>
-
-                      <i class="icon-chevron-down pull-right"></i>
-
-                  </a>
-
-              </div>
-
-          </li>
-
-          <li @click="filterEvents('Rugby League')">
-
-              <div class="parent">
-
-                  <a>
-
-                      <i class="icon-football"></i>
-
-                      <span>Rugby League</span>
-
-                      <i class="icon-chevron-down pull-right"></i>
-
-                  </a>
-
-              </div>
-
-          </li>
-
-      </ul>
-
+            <i class="icon-chevron-down pull-right"></i>
+          </a>
+        </div>
+      </li>
+    </ul>
   </nav>
-
 </template>
 
 <script>
+import Vuex from "vuex";
 
-    import Vuex from 'vuex'
-
-    export default {
-        name: 'SideNavBar',
-
-        methods: {
-            ...Vuex.mapActions([
-                'eventsFilter',
-                'listEvents'
-            ]),
-
-            filterEvents: async function (eventFilter) {
-                await this.$store.dispatch('eventsFilter', eventFilter);
-                await this.listEvents(eventFilter);
-            }
-        }
+export default {
+  name: "SideNavBar",
+  computed: {
+    ...Vuex.mapGetters(["getEventsFilter"])
+  },
+  methods: {
+    ...Vuex.mapActions(["updateEventsFilter", "listEvents"]),
+    filterEvents: async function(eventFilter) {
+      await this.updateEventsFilter(eventFilter);
+      // await this.$store.dispatch("eventsFilter", eventFilter);
+      await this.listEvents(eventFilter);
     }
-
+  }
+};
 </script>
 
 <style lang="scss" scoped>
+@import "../assets/scss/_variables.scss";
 
-    @import "../assets/scss/_variables.scss";
+.side-nav {
+  margin-top: 7px;
+}
+nav {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 160px;
+  height: 100%;
+  background-color: $dark_grey;
+  padding-top: 60px;
+  z-index: 1;
+}
 
-    .side-nav{
-        margin-top: 7px;
-    }
+nav ul {
+  margin: 0px;
+  padding: 0px;
+}
 
-    nav {
-        position:fixed;
-        top:0px;
-        left:0px;
-        width: 160px;
-        height:100%;
-        background-color: $dark_grey;
-        padding-top:60px;
-        z-index:1;
-    }
+nav ul li {
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+  color: #fff;
+  font-size: 12px;
+  line-height: 18px;
+  border-top: solid 1px #414141;
+  display: block;
+  cursor: pointer;
+}
 
-    nav ul {
-        margin:0px;
-        padding:0px;
-    }
+nav ul li span {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 10px 0px;
+  cursor: pointer;
+}
 
-    nav ul li {
-        margin:0px;
-        padding:0px;
-        list-style:none;
-        color:#fff;
-        font-size:12px;
-        line-height:18px;
-        border-top:solid 1px #414141;
-        display:block;
-        cursor:pointer;
-    }
+nav ul li i {
+  color: $wagerr_red;
+  font-size: 20px;
+  vertical-align: middle;
+  width: 30px;
+  display: inline-block;
+  margin-left: 10px;
+}
 
-    nav ul li.selected {
-        background-color:#363738;
-    }
+nav ul li i.pull-right {
+  font-size: 13px;
+  color: #686869;
+  display: none;
+}
 
-    nav ul li:hover {
-        color: $wagerr_red;
-    }
+nav ul li.selected i.pull-right {
+  display: block;
+}
 
-    nav ul li span {
-        display:inline-block;
-        vertical-align:middle;
-        padding:10px 0px;
-        cursor:pointer;
-    }
+nav ul li ul {
+  display: none;
+}
 
-    nav ul li i {
-        color: $wagerr_red;
-        font-size:20px;
-        vertical-align:middle;
-        width:30px;
-        display:inline-block;
-        margin-left:10px;
-    }
-
-    nav ul li i.pull-right {
-        font-size:13px;
-        color:#686869;
-        display:none;
-    }
-
-    nav ul li.selected i.pull-right {
-        display:block;
-    }
-
-    nav ul li ul {
-        display:none;
-    }
-
-    nav ul li ul li {
-        display:block;
-        padding-left:40px;
-    }
-
+nav ul li ul li {
+  display: block;
+  padding-left: 40px;
+}
 </style>

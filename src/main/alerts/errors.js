@@ -1,27 +1,30 @@
-const {app, dialog, BrowserWindow} = require('electron');
+const { app, dialog, BrowserWindow } = require("electron");
 
-function deamonRunningError () {
+function deamonRunningError() {
     dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
-        type: 'error',
-        title: 'Wagerr daemon already running!',
-        buttons: ['Confirm'],
-        message: 'Wagerr daemon already running!',
+        type: "error",
+        title: "Wagerr daemon already running!",
+        buttons: ["Confirm"],
+        message: "Wagerr daemon already running!",
         defaultId: 0,
-        detail: 'Detected a running wagerrd process! \n\n Warning: Running this wallet with an already running deamon can cause inconsistent behaviour.'
+        detail:
+            "Detected a running wagerrd process! \n\n Warning: Running this wallet with an already running deamon can cause inconsistent behaviour."
     });
+    app.quit();
 }
 
-function noPeersConnectionError () {
+function noPeersConnectionError() {
     dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
-        type: 'error',
-        title: 'Wagerr Network Error',
-        buttons: ['Confirm'],
-        message: 'Could not connect to the Wagerr network!',
-        detail: 'No peers found. \n\nWarning: Some wallet features may not work without a Wagerr network connection.'
+        type: "error",
+        title: "Wagerr Network Error",
+        buttons: ["Confirm"],
+        message: "Could not connect to the Wagerr network!",
+        detail:
+            "No peers found. \n\nWarning: Some wallet features may not work without a Wagerr network connection."
     });
 }
 
-function wagerrdStopped () {
+function wagerrdStopped() {
     // dialog.showMessageBox( BrowserWindow.getFocusedWindow(),{
     //     type: 'error',
     //     title: 'Wagerr daemon stopped!',
@@ -31,30 +34,33 @@ function wagerrdStopped () {
     // });
 }
 
-function wagerrdError (err) {
-    dialog.showMessageBox( BrowserWindow.getFocusedWindow(),{
-        type: 'error',
-        title: 'Wagerr daemon error!',
-        buttons: ['OK'],
-        message: 'Wagerr Daemon Error!',
+function wagerrdError(err) {
+    dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
+        type: "error",
+        title: "Wagerr daemon error!",
+        buttons: ["OK"],
+        message: "Wagerr Daemon Error!",
         detail: err.toString()
     });
 }
 
-function wagerrdUnresponsive () {
-    dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
-        type: 'warning',
-        buttons: ['Wait', 'Quit'],
-        title: 'Wagerr Unresponsive',
-        defaultId: 1,
-        message: 'WAGERR is not responding. Would you like to quit?',
-        cancelId: 0
-    },
-    buttonIndex => {
-        if (buttonIndex === 1){
-            app.quit();
+function wagerrdUnresponsive() {
+    dialog.showMessageBox(
+        BrowserWindow.getFocusedWindow(),
+        {
+            type: "warning",
+            buttons: ["Wait", "Quit"],
+            title: "Wagerr Unresponsive",
+            defaultId: 1,
+            message: "WAGERR is not responding. Would you like to quit?",
+            cancelId: 0
+        },
+        buttonIndex => {
+            if (buttonIndex === 1) {
+                app.quit();
+            }
         }
-    })
+    );
 }
 
 export default {
@@ -63,7 +69,4 @@ export default {
     wagerrdStopped,
     wagerrdError,
     wagerrdUnresponsive
-}
-
-
-
+};

@@ -22,7 +22,6 @@ export default class Daemon {
      */
     runCommand(cmd) {
         return new Promise(async resolve => {
-            let running = true;
             let cliPath = this.getExecutablePath("wagerr-cli");
             // Call wagerr cli to stop the wagerr daemon.
             let wagerrcliProcess = spawn(cliPath, [
@@ -47,9 +46,6 @@ export default class Daemon {
                 //Here you can get the exit code of the script
             });
             // Wait while the wagerrd exits as this can varying in time.
-            while (running) {
-                running = await this.isWagerrdRunning();
-            }
         });
     }
     launch(args) {
@@ -94,16 +90,14 @@ export default class Daemon {
 
             // Call wagerr cli to stop the wagerr daemon.
             let wagerrcliProcess = spawn(cliPath, [
-                `-rpcuser=${blockchain.rpcUser}`,
-                `-rpcpassword=${blockchain.rpcPass}`,
-                `-rpcport=${blockchain.rpcPort}`,
+                // `-rpcuser=${blockchain.rpcUser}`,
+                // `-rpcpassword=${blockchain.rpcPass}`,
+                // `-rpcport=${blockchain.rpcPort}`,
                 "stop"
             ]);
-
             wagerrcliProcess.stdout.on("data", data =>
                 console.log(`Daemon: ${data}`)
             );
-
             // Wait while the wagerrd exits as this can varying in time.
             while (running) {
                 running = await this.isWagerrdRunning();

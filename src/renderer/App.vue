@@ -7,7 +7,7 @@
         <top-nav-bar></top-nav-bar>
       </div>
 
-      <div v-ifclass="main-content">
+      <div class="main-content">
         <transition name="fade" mode="out-in" v-if="!getConsoleVisibleStatus">
           <router-view></router-view>
         </transition>

@@ -32,25 +32,11 @@ global.restarting = false;
 
 let closeWindowFlag = false;
 let closeProgressBar = null;
-
-const isSecondInstance = app.makeSingleInstance(
-    (commandLine, workingDirectory) => {
-        // Someone tried to run a second instance, we should focus our window.
-        if (mainWindow) {
-            if (mainWindow.isMinimized()) mainWindow.restore();
-            mainWindow.focus();
-        }
-    }
-);
-
-if (isSecondInstance) {
-    app.quit();
-}
-
+let forcelyQuit = false;
 /**
  * Render the main window for the Wagerr wallet.
  */
-function createMainWindow() {
+async function createMainWindow() {
     // Initial window options.
     mainWindow = new BrowserWindow({
         backgroundColor: "#2B2C2D",
@@ -175,6 +161,7 @@ async function init(args) {
         daemon.launch(args);
     } else {
         // Show popup warning the users a wagerrd instance is all ready running.
+        forcelyQuit = true;
         errors.deamonRunningError();
     }
 
@@ -194,7 +181,7 @@ app.on("before-quit", async () => {
 app.on("will-quit", async () => {
     console.log("\x1b[32mwill-quit\x1b[0m");
 
-    if (process.platform === "darwin") {
+    if (process.platform === "darwin" && !forcelyQuit) {
         await daemon.stop();
     }
 });
