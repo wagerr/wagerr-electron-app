@@ -47,7 +47,7 @@
 
                         <div class="bet-returns">
 
-                            <span class="pull-left potential-returns-headline">Winnings:</span>
+                            <span class="pull-left potential-returns-headline">To Return:</span>
 
                             <span :id="index" class="potential-returns pull-right">0 {{ getNetworkType === "Testnet"? 'tWGR' : 'WGR' }}</span>
 
