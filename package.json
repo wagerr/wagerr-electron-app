@@ -95,6 +95,7 @@
         "path": "^0.12.7",
         "properties-reader": "0.0.16",
         "qrcode.vue": "^1.6.1",
+        "typeface-montserrat": "0.0.54",
         "typeface-open-sans": "0.0.54",
         "vee-validate": "^2.2.0",
         "vue": "^2.6.10",
