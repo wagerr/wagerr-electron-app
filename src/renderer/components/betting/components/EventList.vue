@@ -93,7 +93,7 @@
                   <div class="spread">
                     <button
                       class="waves-effect waves-light btn"
-                      @click="createBet(event.event_id, 4, event.teams.home, event.odds[1].spreadHome)"
+                      @click="createBet(event.event_id, 4, event.teams.home, event.odds[1].spreadHome, 'spread', `Handicap ${ event.odds[0].mlHome > event.odds[0].mlAway ? '+' : '-' }${ event.odds[1].spreadPoints / 10 }`, null)"
                     >
                       <span
                         class="pull-left"
@@ -105,7 +105,7 @@
                   <div class="spread">
                     <button
                       class="waves-effect waves-light btn"
-                      @click="createBet(event.event_id, 5, event.teams.away, event.odds[1].spreadAway)"
+                      @click="createBet(event.event_id, 5, event.teams.away, event.odds[1].spreadAway,'spread', `Handicap ${ event.odds[0].mlAway > event.odds[0].mlHome ? '+' : '-' }${ event.odds[1].spreadPoints / 10 }`, null)"
                     >
                       <span
                         class="pull-left"
@@ -131,7 +131,7 @@
                   <div class="total">
                     <button
                       class="waves-effect waves-light btn"
-                      @click="createBet(event.event_id, 6, event.teams.home, event.odds[2].totalsOver)"
+                      @click="createBet(event.event_id, 6, event.teams.home, event.odds[2].totalsOver, 'total', null, `Over${ event.odds[2].totalsPoints / 10}`)"
                     >
                       <span class="pull-left">O{{ event.odds[2].totalsPoints / 10}}</span>
 
@@ -141,7 +141,7 @@
                   <div class="total">
                     <button
                       class="waves-effect waves-light btn"
-                      @click="createBet(event.event_id, 7, event.teams.home, event.odds[2].totalsUnder)"
+                      @click="createBet(event.event_id, 7, event.teams.home, event.odds[2].totalsUnder, 'total', null, `Under${ event.odds[2].totalsPoints / 10}`)"
                     >
                       <span class="pull-left">U{{ event.odds[2].totalsPoints / 10 }}</span>
 
@@ -205,7 +205,16 @@ export default {
     },
 
     // Creates bet data and adds to the betslip.
-    createBet: function(eventId, outcome, winner, odds) {
+    createBet: function(
+      eventId,
+      outcome,
+      winner,
+      odds,
+      betType = null,
+      handicap = null,
+      totalValue = null
+    ) {
+      console.log(this.eventsList);
       let eventDetails = this.eventsList.find(
         item => item.event_id === eventId
       );
@@ -216,9 +225,12 @@ export default {
         outcome: outcome,
         winner: winner,
         odds: odds,
-        eventDetails: eventDetails
+        eventDetails: eventDetails,
+        betType: betType,
+        handicap: handicap,
+        totalValue: totalValue
       };
-
+      console.log("----------Going to create bet placer----------", betData);
       this.addBetToSlip(betData);
     },
 
