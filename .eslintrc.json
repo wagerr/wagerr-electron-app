@@ -1,0 +1,25 @@
+{
+  "extends": [
+    "plugin:vue/recommended",
+    "eslint:recommended",
+    "airbnb-base"
+  ],
+  "plugins": ["import", "promise"],
+  "parserOptions": {
+    "parser": "babel-eslint",
+    "sourceType": "module"
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "rules": {
+    "import/no-unresolved": "error",
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "no-console": "off",
+    "promise/param-names": "error",
+    "promise/always-return": "error",
+    "promise/catch-or-return": "error",
+    "promise/no-native": "off"
+  }
+}
