@@ -5,6 +5,13 @@
     "airbnb-base"
   ],
   "plugins": ["import", "promise"],
+  "settings": {
+    "import/resolver": {
+      "webpack": {
+        "config": ".electron-vue/webpack.renderer.config.js"
+      }
+    }
+  },
   "parserOptions": {
     "parser": "babel-eslint",
     "sourceType": "module"
