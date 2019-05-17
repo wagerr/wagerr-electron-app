@@ -93,15 +93,15 @@
                     case 2:
                         return 'Money Line Away';
                     case 3:
-                        return 'Money Line Draw';
+                        return 'Draw';
                     case 4:
-                        return 'Spread Over Win';
+                        return 'Home to Cover Spread';
                     case 5:
-                        return 'Spread Under Win';
+                        return 'Aqway to Cover Spread';
                     case 6:
-                        return 'Totals Over Win';
+                        return 'Total Over';
                     case 7:
-                        return 'Totals Under Win';
+                        return 'Total Under';
                     default:
                         return outcome;
 
