@@ -1,5 +1,6 @@
-**Note: 
-The Wagerr Electron App is currently experimental and not expected to work with the current Wagerr Core release. An official beta release will be published soon.**
+**Note: The Wagerr Electron App is currently experimental and not expected to
+work with the current Wagerr Core release. An official beta release will be
+published soon.**
 
 Wagerr Electron App
 ===================
@@ -57,6 +58,13 @@ Run in development mode:
 
 ```sh
 npm run dev
+```
+
+Before submitting a patch we highly recommend running the linting and formatting
+scripts:
+
+```sh
+npm run lint-fix && npm run lint-styles-fix
 ```
 
 Package for Distribution
