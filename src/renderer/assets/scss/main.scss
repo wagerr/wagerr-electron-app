@@ -105,7 +105,7 @@ h4 {
 }
 table.z-depth-2,
 .no-transactions {
-  box-shadow: 0 0px 12px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
 }
 
 /* Header */
@@ -114,8 +114,8 @@ header {
   color: #fff;
   width: 100%;
   position: fixed;
-  top: 0px;
-  left: 0px;
+  top: 0;
+  left: 0;
   z-index: 999;
   height: 90px;
   background-image: url(../images/bg-header.png);
@@ -165,8 +165,8 @@ header {
   }
 
   ul {
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
 
     li {
       display: block;
@@ -289,7 +289,7 @@ header {
       }
 
       #settings-dropdown li {
-        padding: 0px;
+        padding: 0;
       }
     }
   }
@@ -326,7 +326,7 @@ header {
       top: auto;
       left: auto;
       height: auto;
-      padding-top: 0px;
+      padding-top: 0;
       box-shadow: none;
     }
     .betting-types {
@@ -385,7 +385,7 @@ header {
               font-size: 14px;
               padding-top: 3px;
               display: none;
-              &:before {
+              &::before {
                 font-weight: 700;
               }
             }
@@ -470,7 +470,7 @@ header {
     .card {
       border: none;
       border-radius: 4px;
-      box-shadow: 0 0px 12px 0px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.2);
       margin-bottom: 20px;
       overflow: hidden;
       .event-tournament {
@@ -595,14 +595,14 @@ header {
                 color: $white;
                 border: 1px solid $wagerr_dark_red;
                 background: $brightred;
-                &:before {
+                &::before {
                   opacity: 0.3;
                 }
-                &:after {
+                &::after {
                   opacity: 0.3;
                 }
               }
-              &:before {
+              &::before {
                 content: '';
                 background-image: url(../images/bumps.svg);
                 background-position: center center;
@@ -614,7 +614,7 @@ header {
                 top: 7px;
                 opacity: 0.1;
               }
-              &:after {
+              &::after {
                 content: '';
                 background-image: url(../images/bumps.svg);
                 background-position: center center;
@@ -630,10 +630,10 @@ header {
                 box-shadow: none;
                 background-color: #f3f3f3 !important;
                 border: none;
-                &:before {
+                &::before {
                   opacity: 0;
                 }
-                &:after {
+                &::after {
                   opacity: 0;
                 }
               }
@@ -658,7 +658,7 @@ header {
       overflow-y: scroll;
     }
     h4 {
-      margin-bottom: 0px;
+      margin-bottom: 0;
       margin-top: 0;
       line-height: 30px;
       background: $dark_grey;
@@ -670,7 +670,8 @@ header {
       font-size: 15px;
       line-height: 20px;
       text-transform: uppercase;
-      /*border-radius:4px 4px 0 0;*/
+
+      /* border-radius:4px 4px 0 0; */
       letter-spacing: 1px;
       position: relative;
       button {
@@ -776,17 +777,17 @@ header {
             }
             .bet-stake-container {
               color: $dark_grey;
-              padding: 0px;
+              padding: 0;
               display: flex;
               justify-content: center;
               margin-bottom: 0;
               .stake-input {
                 width: 120px;
                 position: relative;
-                margin-right: 0px;
+                margin-right: 0;
                 label {
-                  left: 0px;
-                  top: 0px;
+                  left: 0;
+                  top: 0;
                   position: absolute;
                   color: $dark_grey;
                   font-size: 14px;
@@ -830,7 +831,7 @@ header {
               }
               .stake-button {
                 button {
-                  border-radius: 0px;
+                  border-radius: 0;
                   height: 35px;
                   line-height: 35px;
                   box-shadow: none;
@@ -890,7 +891,7 @@ header {
         background-size: cover;
 
         h1 {
-          margin-top: 0px;
+          margin-top: 0;
           margin-bottom: 10px;
           font-family: 'Montserrat';
           font-weight: 700;
@@ -948,7 +949,7 @@ header {
           margin: 0 0 0 10px;
           width: 42%;
           padding-left: 0;
-          padding-right: 0px;
+          padding-right: 0;
           &:first-child {
             margin: 0;
           }
@@ -1028,7 +1029,7 @@ header {
   border-radius: 4px;
   text-align: center;
   display: block;
-  padding: 20px 0px;
+  padding: 20px 0;
   border-top: 34px solid $wagerr_red;
   margin-top: 8px;
   font-size: 12px;
@@ -1147,7 +1148,7 @@ header {
 }
 
 #chain-games {
-  padding: 20px 10px 0px 10px;
+  padding: 20px 10px 0 10px;
   .chain-container {
     padding-top: 0;
     .cg-lotto-info {
@@ -1174,7 +1175,7 @@ header {
         font-weight: 500;
       }
       h2 {
-        margin-top: 0px;
+        margin-top: 0;
         margin-bottom: 40px;
         font-family: 'Montserrat';
         font-weight: 700;
@@ -1267,12 +1268,12 @@ header {
     }
     .chain-btns {
       margin-top: 40px;
-      margin-bottom: 0px;
+      margin-bottom: 0;
       a {
         margin: 0 0 0 10px;
         width: 42%;
         padding-left: 0;
-        padding-right: 0px;
+        padding-right: 0;
         &:first-child {
           margin: 0;
         }
@@ -1283,7 +1284,7 @@ header {
 
 #tools {
   .tools-sidebar-container {
-    padding-top: 0px;
+    padding-top: 0;
     font-size: 0;
     background-image: url(../images/bg-vector-black-d50.png);
     background-position: left bottom;
@@ -1312,7 +1313,7 @@ header {
       top: auto;
       left: auto;
       height: auto;
-      padding-top: 0px;
+      padding-top: 0;
       box-shadow: none;
     }
     .tools-types {
@@ -1643,16 +1644,19 @@ header {
     #2b2c2d,
     #191919
   ); /* For Safari 5.1 to 6.0 */
+
   background: -o-linear-gradient(
     to left bottom,
     #2b2c2d,
     #191919
   ); /* For Opera 11.1 to 12.0 */
+
   background: -moz-linear-gradient(
     to left bottom,
     #2b2c2d,
     #191919
   ); /* For Firefox 3.6 to 15 */
+
   background: linear-gradient(
     to left bottom,
     #2b2c2d,
@@ -1666,7 +1670,7 @@ header {
   height: 65px;
   border-radius: 50%;
   border-style: solid;
-  border-width: 0px;
+  border-width: 0;
   border-color: $wagerr_dark_red;
   background-color: $wagerr_dark_red;
   color: $white;
@@ -1699,7 +1703,7 @@ header {
     font-size: 1.2em;
     border-radius: 60px;
     padding: 17px;
-    margin-top: 0px;
+    margin-top: 0;
     color: $white;
     &:hover {
       color: $white;
@@ -1767,7 +1771,7 @@ header {
 }
 
 .side-nav li .parent a {
-  padding: 0px;
+  padding: 0;
 }
 
 .modal-open {
