@@ -5,20 +5,26 @@
       <button
         class="btn pull-right waves-effect waves-light"
         @click="clearBetSlip"
-      >Clear Slip</button>
+      >
+        Clear Slip
+      </button>
     </h4>
     <h4 v-else>Bet slip</h4>
 
     <div class="bet-list-scroll">
       <div class="bet-list" v-if="betSlip.length > 0">
         <ul>
-          <li v-for="( bet, index ) in betSlip" :key="bet.betId" class="card">
+          <li v-for="(bet, index) in betSlip" :key="bet.betId" class="card">
             <div class="bet-details">
-              <div
-                class="bet-slip-pair"
-              >{{ bet.eventDetails.teams.home }} vs {{ bet.eventDetails.teams.away }}</div>
+              <div class="bet-slip-pair">
+                {{ bet.eventDetails.teams.home }} vs
+                {{ bet.eventDetails.teams.away }}
+              </div>
 
-              <a class="clear-bet pull-right" @click="removeBetFromSlip( bet.betId )">
+              <a
+                class="clear-bet pull-right"
+                @click="removeBetFromSlip(bet.betId)"
+              >
                 <i>&times;</i>
               </a>
 
@@ -26,10 +32,16 @@
 
               <div class="selection">
                 <h6>Your Pick:</h6>
-                <span v-if="bet.betType != 'total'" class="winner">{{ bet.winner }}</span>
+                <span v-if="bet.betType != 'total'" class="winner">{{
+                  bet.winner
+                }}</span>
                 <!-- Inserted Value !-->
-                <span v-if="bet.betType == 'total'" class="odds pull-right">{{ bet.totalValue}}</span>
-                <span v-if="bet.betType == 'spread'" class="odds pull-right">{{ bet.handicap}}</span>
+                <span v-if="bet.betType == 'total'" class="odds pull-right">{{
+                  bet.totalValue
+                }}</span>
+                <span v-if="bet.betType == 'spread'" class="odds pull-right">{{
+                  bet.handicap
+                }}</span>
                 <span class="odds pull-right">{{ bet.odds / 10000 }}</span>
               </div>
 
@@ -42,23 +54,30 @@
                     name="Bet Id"
                     type="text"
                     maxlength="10"
-                    v-on:input="calcPotentialWinnings( $event, bet.odds, index)"
+                    v-on:input="calcPotentialWinnings($event, bet.odds, index)"
                     placeholder="Enter Bet Stake"
-                  >
-                  <span class="helper-text" data-error="Invalid Stake" data-success></span>
+                  />
+                  <span
+                    class="helper-text"
+                    data-error="Invalid Stake"
+                    data-success
+                  ></span>
                 </div>
                 <div class="stake-button">
-                  <button class="pull-right btn" @click="placeBet( bet.betId )">Bet</button>
+                  <button class="pull-right btn" @click="placeBet(bet.betId)">
+                    Bet
+                  </button>
                 </div>
               </div>
 
               <div class="bet-returns">
-                <span class="pull-left potential-returns-headline">Winnings:</span>
+                <span class="pull-left potential-returns-headline"
+                  >Winnings:</span
+                >
 
-                <span
-                  :id="index"
-                  class="potential-returns pull-right"
-                >0 {{ getNetworkType === "Testnet"? 'tWGR' : 'WGR' }}</span>
+                <span :id="index" class="potential-returns pull-right"
+                  >0 {{ getNetworkType === 'Testnet' ? 'tWGR' : 'WGR' }}</span
+                >
 
                 <div class="clear"></div>
               </div>
@@ -79,18 +98,18 @@
 </template>
 
 <script>
-import Vuex from "vuex";
-import wagerrRPC from "@/services/api/wagerrRPC";
+import Vuex from 'vuex';
+import wagerrRPC from '@/services/api/wagerrRPC';
 
 export default {
-  name: "BetSlip",
+  name: 'BetSlip',
 
   computed: {
-    ...Vuex.mapGetters(["betSlip", "getNumBets", "getNetworkType"])
+    ...Vuex.mapGetters(['betSlip', 'getNumBets', 'getNetworkType'])
   },
 
   methods: {
-    ...Vuex.mapActions(["addToBetSlip", "removeBetFromSlip", "clearBetSlip"]),
+    ...Vuex.mapActions(['addToBetSlip', 'removeBetFromSlip', 'clearBetSlip']),
 
     // Calculate the potential winnings of a bet.
     calcPotentialWinnings: function(event, odds, index) {
@@ -105,7 +124,7 @@ export default {
       // Set the potential winnings on the UI.
       document.getElementById(index).innerText =
         netWinnings.toFixed(8) +
-        (this.getNetworkType === "Testnet" ? " tWGR" : " WGR");
+        (this.getNetworkType === 'Testnet' ? ' tWGR' : ' WGR');
     },
 
     // Place a bet on a given event and sent the tx to the Wagerr blockchain.
@@ -119,12 +138,12 @@ export default {
         .placeBet(evetnId, betInfo.outcome, betAmount)
         .then(function(resp) {
           // If bet was successful then display bet TX-ID to the user.
-          if (resp.error !== "null") {
+          if (resp.error !== 'null') {
             M.toast({
               html:
                 '<span class="toast__bold-font">Success &nbsp;</span> your bet has been placed: ' +
                 resp.result,
-              classes: "green"
+              classes: 'green'
             });
 
             self.removeBetFromSlip(betId);
@@ -135,38 +154,38 @@ export default {
               html:
                 '<span class="toast__bold-font">Error &nbsp;</span> ' +
                 resp.result,
-              classes: "wagerr-red-bg"
+              classes: 'wagerr-red-bg'
             });
           }
         })
         .catch(function(err) {
           // TODO Parse the error from the response.
-          M.toast({ html: err, classes: "wagerr-red-bg" });
+          M.toast({ html: err, classes: 'wagerr-red-bg' });
           console.error(err);
         });
     },
 
     handleScroll(event) {
       // Get the bet slip.
-      let navbar = document.getElementById("betting-slip");
+      let navbar = document.getElementById('betting-slip');
 
       // Get the offset position of the navbar.
       let sticky = navbar.offsetTop;
 
       if (window.pageYOffset >= sticky) {
-        navbar.classList.add("sticky");
+        navbar.classList.add('sticky');
       } else {
-        navbar.classList.remove("sticky");
+        navbar.classList.remove('sticky');
       }
     }
   },
 
   created() {
-    window.addEventListener("scroll", this.handleScroll);
+    window.addEventListener('scroll', this.handleScroll);
   },
 
   destroyed() {
-    window.removeEventListener("scroll", this.handleScroll);
+    window.removeEventListener('scroll', this.handleScroll);
   }
 };
 </script>

@@ -1,129 +1,98 @@
 <template>
+  <div id="peers" class="settings-sub-section">
+    <h4>Peers</h4>
 
-    <div id="peers" class="settings-sub-section">
+    <table
+      class="col-12 col-sm-12 col-md-12 col-lg-8 main-table card z-depth-2"
+    >
+      <thead>
+        <tr>
+          <th>Address:Port</th>
 
-        <h4>Peers</h4>
+          <th>Version</th>
 
-        <table class="col-12 col-sm-12 col-md-12 col-lg-8 main-table card z-depth-2">
+          <th>Ping Time</th>
+        </tr>
+      </thead>
 
-            <thead>
+      <tbody>
+        <tr v-for="peer in getPeerInfo" :key="peer.id">
+          <td>{{ peer.addr }}</td>
 
-                <tr>
+          <td>{{ peer.subver }}</td>
 
-                    <th>Address:Port</th>
+          <td>{{ peer.pingtime }}</td>
+        </tr>
+      </tbody>
+    </table>
 
-                    <th>Version</th>
+    <div v-if="getBannedInfo">
+      <h3 class="text-center">Banned</h3>
 
-                     <th>Ping Time</th>
+      <table
+        class="col-12 col-sm-12 col-md-12 col-lg-8 main-table card z-depth-2"
+      >
+        <thead>
+          <tr>
+            <th>Address:Port</th>
 
-                </tr>
+            <th>Version</th>
 
-            </thead>
+            <th>Ping Time</th>
+          </tr>
+        </thead>
 
-            <tbody>
+        <tbody>
+          <tr v-for="peer in getBannedInfo" :key="peer.id">
+            <td>{{ peer.addr }}</td>
 
-                <tr v-for="(peer) in getPeerInfo" :key="peer.id">
+            <td>{{ peer.subver }}</td>
 
-                    <td>{{ peer.addr }}</td>
-
-                    <td>{{ peer.subver }}</td>
-
-                    <td>{{ peer.pingtime }}</td>
-
-                  </tr>
-
-            </tbody>
-
-        </table>
-
-
-        <div v-if="getBannedInfo">
-
-            <h3 class="text-center">Banned</h3>
-
-            <table class="col-12 col-sm-12 col-md-12 col-lg-8 main-table card z-depth-2">
-
-                <thead>
-
-                    <tr>
-
-                        <th>Address:Port</th>
-
-                        <th>Version</th>
-
-                        <th>Ping Time</th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                    <tr v-for="(peer) in getBannedInfo" :key="peer.id">
-
-                        <td>{{ peer.addr }}</td>
-
-                        <td>{{ peer.subver }}</td>
-
-                        <td>{{ peer.pingtime }}</td>
-
-                    </tr>
-
-                </tbody>
-
-            </table>
-
-        </div>
-
+            <td>{{ peer.pingtime }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-
+  </div>
 </template>
 
 <script>
+import Vuex from 'vuex';
 
-    import Vuex from 'vuex';
+export default {
+  name: 'Peers',
 
-    export default {
-        name: 'Peers',
+  computed: {
+    ...Vuex.mapGetters(['getPeerInfo', 'getBannedInfo'])
+  },
 
-        computed: {
-            ...Vuex.mapGetters([
-                'getPeerInfo',
-                'getBannedInfo'
-            ])
-        },
+  methods: {
+    ...Vuex.mapActions(['updatePeerInfo', 'updateBannedInfo'])
+  },
 
-        methods: {
-            ...Vuex.mapActions([
-                'updatePeerInfo',
-                'updateBannedInfo'
-            ])
-        },
+  created() {
+    this.updatePeerInfo();
+    this.updateBannedInfo();
 
-        created () {
-            this.updatePeerInfo();
-            this.updateBannedInfo();
+    this.timeout = setInterval(
+      function() {
+        this.updatePeerInfo();
+        this.updateBannedInfo();
+      }.bind(this),
+      3000
+    );
+  },
 
-            this.timeout = setInterval(function () {
-                this.updatePeerInfo();
-                this.updateBannedInfo();
-            }.bind(this), 3000);
-        },
+  data() {
+    return {
+      timeout: 0
+    };
+  },
 
-        data () {
-            return {
-                timeout: 0
-            }
-        },
-
-        destroyed () {
-            clearInterval(this.timeout);
-        }
-
-    }
-
+  destroyed() {
+    clearInterval(this.timeout);
+  }
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

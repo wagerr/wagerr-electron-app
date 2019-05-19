@@ -22,13 +22,13 @@
 </template>
 
 <script>
-import { getWagerrConfPath } from "../../../main/blockchain/blockchain";
-import { shell } from "electron";
-const fs = require("fs");
-const path = require("path");
+import { getWagerrConfPath } from '../../../main/blockchain/blockchain';
+import { shell } from 'electron';
+const fs = require('fs');
+const path = require('path');
 
 export default {
-  name: "ToolsNav",
+  name: 'ToolsNav',
   data() {
     return {
       confPath: getWagerrConfPath()

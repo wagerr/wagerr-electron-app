@@ -27,17 +27,17 @@
 </template>
 
 <script>
-import Vuex from "vuex";
-import TopNavBar from "@/components/TopNavBar.vue";
-import SplashScreen from "@/components/splashscreen/SplashScreen";
-import DebugInput from "@/components/rpc/DebugInput";
+import Vuex from 'vuex';
+import TopNavBar from '@/components/TopNavBar.vue';
+import SplashScreen from '@/components/splashscreen/SplashScreen';
+import DebugInput from '@/components/rpc/DebugInput';
 
 export default {
-  name: "App",
+  name: 'App',
   components: { SplashScreen, TopNavBar, DebugInput },
 
   computed: {
-    ...Vuex.mapGetters(["walletLoaded", "getConsoleVisibleStatus"])
+    ...Vuex.mapGetters(['walletLoaded', 'getConsoleVisibleStatus'])
   }
 };
 </script>

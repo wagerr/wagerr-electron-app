@@ -2,30 +2,33 @@ import path from 'path';
 import PropertiesReader from 'properties-reader';
 
 // Blockchain variables.
-let testnet       = 0;
-let rpcUser       = uuidv4();
-let rpcPass       = uuidv4();
-let daemonName    = 'wagerrd';
-let cliName       = 'wagerr-cli';
-let mnoCollateral = 25000;
-let rpcPort       = 55003 ;
-let minTxFee      = 0.00010000;
-let dustLimit     = 0.00005460;
+let testnet = 0;
+let rpcUser = uuidv4();
+let rpcPass = uuidv4();
+const daemonName = 'wagerrd';
+const cliName = 'wagerr-cli';
+const mnoCollateral = 25000;
+let rpcPort = 55003;
+const minTxFee = 0.0001;
+const dustLimit = 0.0000546;
 
 // Define some env values.
-const environment = Object.assign({
-    DEVELOPMENT:  'development',
-    TEST:         'test',
-    PRODUCTION:   'production',
-    NETWORK:      process.env.NETWORK,
-    PLATFORM:     process.platform,
-    ENV:          process.env,
-    current:      process.env.NODE_ENV,
-    isDev:        () => environment.current === environment.DEVELOPMENT,
-    isTest:       () => environment.current === environment.TEST,
+const environment = Object.assign(
+  {
+    DEVELOPMENT: 'development',
+    TEST: 'test',
+    PRODUCTION: 'production',
+    NETWORK: process.env.NETWORK,
+    PLATFORM: process.platform,
+    ENV: process.env,
+    current: process.env.NODE_ENV,
+    isDev: () => environment.current === environment.DEVELOPMENT,
+    isTest: () => environment.current === environment.TEST,
     isProduction: () => environment.current === environment.PRODUCTION,
-    isMainnet:    () => environment.NETWORK === 'mainnet'
-}, process.env);
+    isMainnet: () => environment.NETWORK === 'mainnet'
+  },
+  process.env
+);
 
 // If the user has not specified a rpcuser and rpcpassword in their wagerr.conf
 // then generate random RFC4122 version 4 compliant UUIDs for them. Be aware
@@ -35,10 +38,11 @@ const environment = Object.assign({
 //
 // https://stackoverflow.com/questions/105034/create-guid-uuid-in-javascript
 function uuidv4() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-    });
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    const r = (Math.random() * 16) | 0;
+    const v = c == 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
 }
 
 /**
@@ -47,55 +51,60 @@ function uuidv4() {
  *
  * @returns {boolean}
  */
-function readWagerrConf(){
-    try {
-        const walletProperties = PropertiesReader(getWagerrConfPath());
+function readWagerrConf() {
+  try {
+    const walletProperties = PropertiesReader(getWagerrConfPath());
 
-        testnet = walletProperties.get('testnet');
+    testnet = walletProperties.get('testnet');
 
-        if (testnet) {
-            rpcPort = 55005;
-        }
-
-        if (walletProperties.get('rpcuser')) {
-            rpcUser = walletProperties.get('rpcuser');
-        }
-
-        if (walletProperties.get('rpcpassword')) {
-            rpcPass = walletProperties.get('rpcpassword');
-        }
-
-        if (walletProperties.get('rpcport')) {
-            rpcPort = walletProperties.get('rpcport');
-        }
-
-        return true;
+    if (testnet) {
+      rpcPort = 55005;
     }
-    catch (e) {
-        console.error(e);
-        return false;
+
+    if (walletProperties.get('rpcuser')) {
+      rpcUser = walletProperties.get('rpcuser');
     }
+
+    if (walletProperties.get('rpcpassword')) {
+      rpcPass = walletProperties.get('rpcpassword');
+    }
+
+    if (walletProperties.get('rpcport')) {
+      rpcPort = walletProperties.get('rpcport');
+    }
+
+    return true;
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
 }
 
 /**
  * Get the Wagerr testnet data folder path for the users specific OS platform.
  */
-function getWagerrTestnetDataPath () {
-    switch (environment.PLATFORM) {
-        case 'darwin': {
-            return path.join(environment.ENV.HOME, 'Library', 'Application Support', 'WAGERR', 'testnet4');
-        }
-        case 'win32': {
-            return path.join(environment.ENV.APPDATA, 'wagerr', 'testnet4');
-        }
-        case 'linux': {
-            return path.join(environment.ENV.HOME, '.wagerr', 'testnet4');
-        }
-        default: {
-            console.error('Unsupported platform');
-            process.exit(1);
-        }
+function getWagerrTestnetDataPath() {
+  switch (environment.PLATFORM) {
+    case 'darwin': {
+      return path.join(
+        environment.ENV.HOME,
+        'Library',
+        'Application Support',
+        'WAGERR',
+        'testnet4'
+      );
     }
+    case 'win32': {
+      return path.join(environment.ENV.APPDATA, 'wagerr', 'testnet4');
+    }
+    case 'linux': {
+      return path.join(environment.ENV.HOME, '.wagerr', 'testnet4');
+    }
+    default: {
+      console.error('Unsupported platform');
+      process.exit(1);
+    }
+  }
 }
 
 /**
@@ -103,22 +112,27 @@ function getWagerrTestnetDataPath () {
  *
  * @returns {*}
  */
-function getWagerrDataPath () {
-    switch (environment.PLATFORM) {
-        case 'darwin': {
-            return path.join(environment.ENV.HOME, 'Library', 'Application Support', 'WAGERR');
-        }
-        case 'win32': {
-            return path.join(environment.ENV.APPDATA, 'wagerr');
-        }
-        case 'linux': {
-            return path.join(environment.ENV.HOME, '.wagerr');
-        }
-        default: {
-            console.log('Unsupported platform!');
-            process.exit(1)
-        }
+function getWagerrDataPath() {
+  switch (environment.PLATFORM) {
+    case 'darwin': {
+      return path.join(
+        environment.ENV.HOME,
+        'Library',
+        'Application Support',
+        'WAGERR'
+      );
     }
+    case 'win32': {
+      return path.join(environment.ENV.APPDATA, 'wagerr');
+    }
+    case 'linux': {
+      return path.join(environment.ENV.HOME, '.wagerr');
+    }
+    default: {
+      console.log('Unsupported platform!');
+      process.exit(1);
+    }
+  }
 }
 
 /**
@@ -126,8 +140,8 @@ function getWagerrDataPath () {
  *
  * @returns {*}
  */
-function getWagerrConfPath () {
-    return path.join(getWagerrDataPath(), 'wagerr.conf');
+function getWagerrConfPath() {
+  return path.join(getWagerrDataPath(), 'wagerr.conf');
 }
 
 /**
@@ -135,20 +149,23 @@ function getWagerrConfPath () {
  *
  * @returns {*}
  */
-function getCoinMasternodeConfPath () {
-    return path.join(testnet ? getCoinTestDataPath() : getCoinDataPath(), 'masternode.conf');
+function getCoinMasternodeConfPath() {
+  return path.join(
+    testnet ? getCoinTestDataPath() : getCoinDataPath(),
+    'masternode.conf'
+  );
 }
 
 export {
-    testnet,
-    rpcUser,
-    rpcPass,
-    rpcPort,
-    daemonName,
-    cliName,
-    readWagerrConf,
-    getWagerrTestnetDataPath,
-    getWagerrDataPath,
-    getWagerrConfPath,
-    getCoinMasternodeConfPath,
+  testnet,
+  rpcUser,
+  rpcPass,
+  rpcPort,
+  daemonName,
+  cliName,
+  readWagerrConf,
+  getWagerrTestnetDataPath,
+  getWagerrDataPath,
+  getWagerrConfPath,
+  getCoinMasternodeConfPath
 };

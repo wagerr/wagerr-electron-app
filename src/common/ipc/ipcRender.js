@@ -1,54 +1,54 @@
-const { ipcRenderer } = require("electron");
+const { ipcRenderer } = require('electron');
 
 async function runCommand(cmd) {
-    const res = await ipcRenderer.sendSync("runCommand", cmd);
-    return res;
+  const res = await ipcRenderer.sendSync('runCommand', cmd);
+  return res;
 }
 function salvageWallet() {
-    ipcRenderer.send("salvage-wallet", "-salvagewallet");
+  ipcRenderer.send('salvage-wallet', '-salvagewallet');
 }
 
 function rescanBlockchain() {
-    ipcRenderer.send("rescan-blockchain", "-rescan");
+  ipcRenderer.send('rescan-blockchain', '-rescan');
 }
 
 function recoverTxes1() {
-    ipcRenderer.send("recover-tx-1", "-zapwallettxes=1");
+  ipcRenderer.send('recover-tx-1', '-zapwallettxes=1');
 }
 
 function recoverTxes2() {
-    ipcRenderer.send("recover-tx-2", "-zapwallettxes=2");
+  ipcRenderer.send('recover-tx-2', '-zapwallettxes=2');
 }
 
 function upgradeWallet() {
-    ipcRenderer.send("upgrade-wallet", "-upgradewallet");
+  ipcRenderer.send('upgrade-wallet', '-upgradewallet');
 }
 
 function reindexBlockchain() {
-    ipcRenderer.send("reindex-blockchain", "-reindex");
+  ipcRenderer.send('reindex-blockchain', '-reindex');
 }
 
 function resyncBlockchain() {
-    ipcRenderer.send("resync-blockchain", "-resync");
+  ipcRenderer.send('resync-blockchain', '-resync');
 }
 
 function restartWallet() {
-    ipcRenderer.send("restart-wagerrd");
+  ipcRenderer.send('restart-wagerrd');
 }
 
 function noPeers() {
-    ipcRenderer.send("no-peers");
+  ipcRenderer.send('no-peers');
 }
 
 export default {
-    salvageWallet,
-    rescanBlockchain,
-    recoverTxes1,
-    recoverTxes2,
-    upgradeWallet,
-    reindexBlockchain,
-    resyncBlockchain,
-    restartWallet,
-    noPeers,
-    runCommand
+  salvageWallet,
+  rescanBlockchain,
+  recoverTxes1,
+  recoverTxes2,
+  upgradeWallet,
+  reindexBlockchain,
+  resyncBlockchain,
+  restartWallet,
+  noPeers,
+  runCommand
 };

@@ -2,19 +2,27 @@
   <div class="debug-container">
     <div class="debug-toolbar">
       <a @click="clearRecHistoryList">
-        <i class="icon-trash"/>
+        <i class="icon-trash" />
       </a>
       <a @click="updadteConsoleVisible">
-        <i class="icon-cross"/>
+        <i class="icon-cross" />
       </a>
     </div>
 
     <ul class="command-list" ref="historyPanel">
-      <li v-for="(history, index) in getrecHistoryList" class="command-item" :key="index">
-        <div class="time">{{history.date}}</div>
+      <li
+        v-for="(history, index) in getrecHistoryList"
+        class="command-item"
+        :key="index"
+      >
+        <div class="time">{{ history.date }}</div>
         <div class="content">
-          <span v-if="history.command" style="color:white">>{{ history.command }}</span>
-          <span v-if="history.welcomeMessage">{{ history.welcomeMessage }}</span>
+          <span v-if="history.command" style="color:white"
+            >>{{ history.command }}</span
+          >
+          <span v-if="history.welcomeMessage">{{
+            history.welcomeMessage
+          }}</span>
           <span v-if="history.message">{{ history.message }}</span>
           <!--
           <div v-if="history.message && history.message.length > 0">
@@ -24,7 +32,9 @@
             </span>
           </div>
           !-->
-          <span class="text-danger" v-if="history.error">{{ history.error }}</span>
+          <span class="text-danger" v-if="history.error">{{
+            history.error
+          }}</span>
         </div>
       </li>
     </ul>
@@ -44,10 +54,10 @@
 </template>
 
 <script>
-import Vuex from "vuex";
-import moment from "moment";
-import ipcRender from "../../../common/ipc/ipcRender";
-import { commands as commandSuggestions } from "./command";
+import Vuex from 'vuex';
+import moment from 'moment';
+import ipcRender from '../../../common/ipc/ipcRender';
+import { commands as commandSuggestions } from './command';
 // Get rpc credentials from the main process. These values are read from the wagerr.conf file in the main
 // process when the app is initialising. Default values are used if the wagerr.conf does not exist or doesnt
 // have the values set.
@@ -55,29 +65,29 @@ import { commands as commandSuggestions } from "./command";
 // Check if testnet=1 in wagerr.conf
 
 export default {
-  name: "DebugInput",
+  name: 'DebugInput',
   data() {
     return {
-      command: ""
+      command: ''
     };
   },
   computed: {
-    ...Vuex.mapGetters(["getrecHistoryList"])
+    ...Vuex.mapGetters(['getrecHistoryList'])
   },
   created() {
     if (this.getrecHistoryList.length === 0) {
-      this.addCommand("Welcome to WAGERR RPC Console.");
+      this.addCommand('Welcome to WAGERR RPC Console.');
     }
   },
   methods: {
     ...Vuex.mapActions([
-      "updateCommands",
-      "clearRecHistoryList",
-      "updadteConsoleVisible"
+      'updateCommands',
+      'clearRecHistoryList',
+      'updadteConsoleVisible'
     ]),
-    addCommand(cmd, message = "") {
+    addCommand(cmd, message = '') {
       this.updateCommands({
-        date: moment().format("hh:mm:ss"),
+        date: moment().format('hh:mm:ss'),
         command: cmd,
         message: message
       });
@@ -93,18 +103,18 @@ export default {
       cb(results);
     },
     async onRunCommand() {
-      if (this.command === "") return;
+      if (this.command === '') return;
       this.addCommand(this.command);
 
       try {
         const res = await ipcRender.runCommand(this.command);
         console.log(res);
-        this.addCommand("", res);
+        this.addCommand('', res);
       } catch (error) {
         console.log(error);
-        this.addCommand("", error);
+        this.addCommand('', error);
       }
-      this.command = "";
+      this.command = '';
       setTimeout(() => {
         this.$refs.historyPanel.scrollTop = this.$refs.historyPanel.scrollHeight;
         console.log(this.$refs.historyPanel);

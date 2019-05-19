@@ -2,12 +2,12 @@
   <div id="events">
     <div v-if="eventsList.length > 0">
       <ul class="events-list">
-        <li v-for="( event ) in eventsList" :key="event.event_id" class="card">
+        <li v-for="event in eventsList" :key="event.event_id" class="card">
           <div class="event-tournament">
             <span class="sport">{{ event.tournament }}</span>
-            <span
-              class="date pull-right"
-            >{{ Number(event.starting) | moment('timezone', getTimezone, 'LLL') }}</span>
+            <span class="date pull-right">{{
+              Number(event.starting) | moment('timezone', getTimezone, 'LLL')
+            }}</span>
           </div>
 
           <div class="event-details">
@@ -53,65 +53,157 @@
                     <button
                       v-if="event.odds[0].mlHome !== 0"
                       class="waves-effect waves-light btn"
-                      @click="createBet(event.event_id, 1, event.teams.home, event.odds[0].mlHome)"
-                    >{{ event.odds[0].mlHome / oddsDivisor }}</button>
+                      @click="
+                        createBet(
+                          event.event_id,
+                          1,
+                          event.teams.home,
+                          event.odds[0].mlHome
+                        )
+                      "
+                    >
+                      {{ event.odds[0].mlHome / oddsDivisor }}
+                    </button>
 
-                    <button v-else class="waves-effect waves-light btn" disabled>N/A</button>
+                    <button
+                      v-else
+                      class="waves-effect waves-light btn"
+                      disabled
+                    >
+                      N/A
+                    </button>
                   </div>
                   <div class="odd">
                     <button
                       v-if="event.odds[0].mlAway !== 0"
                       class="waves-effect waves-light btn"
-                      @click="createBet(event.event_id, 2, event.teams.away, event.odds[0].mlAway)"
-                    >{{ event.odds[0].mlAway / oddsDivisor }}</button>
+                      @click="
+                        createBet(
+                          event.event_id,
+                          2,
+                          event.teams.away,
+                          event.odds[0].mlAway
+                        )
+                      "
+                    >
+                      {{ event.odds[0].mlAway / oddsDivisor }}
+                    </button>
 
-                    <button v-else class="waves-effect waves-light btn" disabled>N/A</button>
+                    <button
+                      v-else
+                      class="waves-effect waves-light btn"
+                      disabled
+                    >
+                      N/A
+                    </button>
                   </div>
                   <div class="odd">
                     <button
                       v-if="event.odds[0].mlDraw !== 0"
                       class="waves-effect waves-light btn"
-                      @click="createBet(event.event_id, 3, 'Draw', event.odds[0].mlDraw)"
-                    >{{ event.odds[0].mlDraw / oddsDivisor }}</button>
+                      @click="
+                        createBet(
+                          event.event_id,
+                          3,
+                          'Draw',
+                          event.odds[0].mlDraw
+                        )
+                      "
+                    >
+                      {{ event.odds[0].mlDraw / oddsDivisor }}
+                    </button>
 
-                    <button v-else class="waves-effect waves-light btn" disabled>N/A</button>
+                    <button
+                      v-else
+                      class="waves-effect waves-light btn"
+                      disabled
+                    >
+                      N/A
+                    </button>
                   </div>
                 </div>
 
                 <!-- Show money line market closed -->
                 <div v-else class="col s12 m4 odds">
                   <div class="ml">
-                    <button class="waves-effect waves-light btn" disabled>N/A</button>
+                    <button class="waves-effect waves-light btn" disabled>
+                      N/A
+                    </button>
                   </div>
                   <div class="ml">
-                    <button class="waves-effect waves-light btn" disabled>N/A</button>
+                    <button class="waves-effect waves-light btn" disabled>
+                      N/A
+                    </button>
                   </div>
                 </div>
 
                 <!-- Show Spread odds if market is open for current event. -->
-                <div v-if="isEventSpreadsOddsSet(event)" class="col s12 m4 odds">
+                <div
+                  v-if="isEventSpreadsOddsSet(event)"
+                  class="col s12 m4 odds"
+                >
                   <div class="spread">
                     <button
                       class="waves-effect waves-light btn"
-                      @click="createBet(event.event_id, 4, event.teams.home, event.odds[1].spreadHome, 'spread', `Handicap ${ event.odds[0].mlHome > event.odds[0].mlAway ? '+' : '-' }${ event.odds[1].spreadPoints / 10 }`, null)"
+                      @click="
+                        createBet(
+                          event.event_id,
+                          4,
+                          event.teams.home,
+                          event.odds[1].spreadHome,
+                          'spread',
+                          `Handicap ${
+                            event.odds[0].mlHome > event.odds[0].mlAway
+                              ? '+'
+                              : '-'
+                          }${event.odds[1].spreadPoints / 10}`,
+                          null
+                        )
+                      "
                     >
-                      <span
-                        class="pull-left"
-                      >{{ event.odds[0].mlHome > event.odds[0].mlAway ? '+' : '-' }}{{ event.odds[1].spreadPoints / 10 }}</span>
+                      <span class="pull-left"
+                        >{{
+                          event.odds[0].mlHome > event.odds[0].mlAway
+                            ? '+'
+                            : '-'
+                        }}{{ event.odds[1].spreadPoints / 10 }}</span
+                      >
 
-                      <span class="pull-right">{{ event.odds[1].spreadHome / oddsDivisor }}</span>
+                      <span class="pull-right">{{
+                        event.odds[1].spreadHome / oddsDivisor
+                      }}</span>
                     </button>
                   </div>
                   <div class="spread">
                     <button
                       class="waves-effect waves-light btn"
-                      @click="createBet(event.event_id, 5, event.teams.away, event.odds[1].spreadAway,'spread', `Handicap ${ event.odds[0].mlAway > event.odds[0].mlHome ? '+' : '-' }${ event.odds[1].spreadPoints / 10 }`, null)"
+                      @click="
+                        createBet(
+                          event.event_id,
+                          5,
+                          event.teams.away,
+                          event.odds[1].spreadAway,
+                          'spread',
+                          `Handicap ${
+                            event.odds[0].mlAway > event.odds[0].mlHome
+                              ? '+'
+                              : '-'
+                          }${event.odds[1].spreadPoints / 10}`,
+                          null
+                        )
+                      "
                     >
-                      <span
-                        class="pull-left"
-                      >{{ event.odds[0].mlAway > event.odds[0].mlHome ? '+' : '-' }}{{ event.odds[1].spreadPoints / 10 }}</span>
+                      <span class="pull-left"
+                        >{{
+                          event.odds[0].mlAway > event.odds[0].mlHome
+                            ? '+'
+                            : '-'
+                        }}{{ event.odds[1].spreadPoints / 10 }}</span
+                      >
 
-                      <span class="pull-right">{{ event.odds[1].spreadAway / oddsDivisor }}</span>
+                      <span class="pull-right">{{
+                        event.odds[1].spreadAway / oddsDivisor
+                      }}</span>
                     </button>
                   </div>
                 </div>
@@ -119,10 +211,14 @@
                 <!-- Show Spread market closed -->
                 <div v-else class="col s12 m4 odds">
                   <div class="spread">
-                    <button class="waves-effect waves-light btn" disabled>N/A</button>
+                    <button class="waves-effect waves-light btn" disabled>
+                      N/A
+                    </button>
                   </div>
                   <div class="spread">
-                    <button class="waves-effect waves-light btn" disabled>N/A</button>
+                    <button class="waves-effect waves-light btn" disabled>
+                      N/A
+                    </button>
                   </div>
                 </div>
 
@@ -131,21 +227,49 @@
                   <div class="total">
                     <button
                       class="waves-effect waves-light btn"
-                      @click="createBet(event.event_id, 6, event.teams.home, event.odds[2].totalsOver, 'total', null, `Over${ event.odds[2].totalsPoints / 10}`)"
+                      @click="
+                        createBet(
+                          event.event_id,
+                          6,
+                          event.teams.home,
+                          event.odds[2].totalsOver,
+                          'total',
+                          null,
+                          `Over${event.odds[2].totalsPoints / 10}`
+                        )
+                      "
                     >
-                      <span class="pull-left">O{{ event.odds[2].totalsPoints / 10}}</span>
+                      <span class="pull-left"
+                        >O{{ event.odds[2].totalsPoints / 10 }}</span
+                      >
 
-                      <span class="pull-right">{{ event.odds[2].totalsOver / oddsDivisor }}</span>
+                      <span class="pull-right">{{
+                        event.odds[2].totalsOver / oddsDivisor
+                      }}</span>
                     </button>
                   </div>
                   <div class="total">
                     <button
                       class="waves-effect waves-light btn"
-                      @click="createBet(event.event_id, 7, event.teams.home, event.odds[2].totalsUnder, 'total', null, `Under${ event.odds[2].totalsPoints / 10}`)"
+                      @click="
+                        createBet(
+                          event.event_id,
+                          7,
+                          event.teams.home,
+                          event.odds[2].totalsUnder,
+                          'total',
+                          null,
+                          `Under${event.odds[2].totalsPoints / 10}`
+                        )
+                      "
                     >
-                      <span class="pull-left">U{{ event.odds[2].totalsPoints / 10 }}</span>
+                      <span class="pull-left"
+                        >U{{ event.odds[2].totalsPoints / 10 }}</span
+                      >
 
-                      <span class="pull-right">{{ event.odds[2].totalsUnder / oddsDivisor }}</span>
+                      <span class="pull-right">{{
+                        event.odds[2].totalsUnder / oddsDivisor
+                      }}</span>
                     </button>
                   </div>
                 </div>
@@ -153,10 +277,14 @@
                 <!-- Show Totals market closed -->
                 <div v-else class="col s12 m4 odds">
                   <div class="total">
-                    <button class="waves-effect waves-light btn" disabled>N/A</button>
+                    <button class="waves-effect waves-light btn" disabled>
+                      N/A
+                    </button>
                   </div>
                   <div class="total">
-                    <button class="waves-effect waves-light btn" disabled>N/A</button>
+                    <button class="waves-effect waves-light btn" disabled>
+                      N/A
+                    </button>
                   </div>
                 </div>
               </div>
@@ -168,25 +296,27 @@
     </div>
 
     <div v-else class="text-center no-events no-transactions">
-      <p>Currently, there are no events available for betting for this sport.</p>
+      <p>
+        Currently, there are no events available for betting for this sport.
+      </p>
     </div>
   </div>
 </template>
 
 <script>
-import Vuex from "vuex";
-import moment from "moment";
-import constants from "../../../../main/constants/constants";
+import Vuex from 'vuex';
+import moment from 'moment';
+import constants from '../../../../main/constants/constants';
 
 export default {
-  name: "EventList",
+  name: 'EventList',
 
   computed: {
-    ...Vuex.mapGetters(["getEventsFilter", "eventsList", "getTimezone"])
+    ...Vuex.mapGetters(['getEventsFilter', 'eventsList', 'getTimezone'])
   },
 
   methods: {
-    ...Vuex.mapActions(["listEvents", "addBetToSlip", "clearBetSlip"]),
+    ...Vuex.mapActions(['listEvents', 'addBetToSlip', 'clearBetSlip']),
 
     moment: function() {
       return moment();
@@ -230,7 +360,7 @@ export default {
         handicap: handicap,
         totalValue: totalValue
       };
-      console.log("----------Going to create bet placer----------", betData);
+      console.log('----------Going to create bet placer----------', betData);
       this.addBetToSlip(betData);
     },
 
@@ -292,7 +422,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../../assets/scss/_variables.scss";
+@import '../../../assets/scss/_variables.scss';
 
 .events-list li {
   border: 1px solid #414141;

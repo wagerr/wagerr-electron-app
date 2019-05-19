@@ -130,9 +130,9 @@
     <div class="pull-right wagerr-balance">
       <span id="wagerr-total-balance">
         {{ walletLoaded ? balance : 'Loading...' }}
-        <span
-          class="currency"
-        >{{ getNetworkType === "Testnet" ? 'tWGR' : 'WGR' }}</span>
+        <span class="currency">{{
+          getNetworkType === 'Testnet' ? 'tWGR' : 'WGR'
+        }}</span>
         <h6>Currently Available</h6>
       </span>
     </div>
@@ -140,17 +140,17 @@
 </template>
 
 <script>
-import Vuex from "vuex";
-import wagerrRPC from "@/services/api/wagerrRPC";
-import EncryptWallet from "@/components/modals/EncryptWallet.vue";
-import ChangePassword from "@/components/modals/ChangePassword.vue";
-import UnlockWallet from "@/components/modals/UnlockWallet";
-import SignVerifyMessage from "@/components/modals/SignVerifyMessage";
+import Vuex from 'vuex';
+import wagerrRPC from '@/services/api/wagerrRPC';
+import EncryptWallet from '@/components/modals/EncryptWallet.vue';
+import ChangePassword from '@/components/modals/ChangePassword.vue';
+import UnlockWallet from '@/components/modals/UnlockWallet';
+import SignVerifyMessage from '@/components/modals/SignVerifyMessage';
 
-const { remote } = require("electron");
+const { remote } = require('electron');
 
 export default {
-  name: "TopNavBar",
+  name: 'TopNavBar',
   components: {
     EncryptWallet,
     ChangePassword,
@@ -160,22 +160,22 @@ export default {
 
   computed: {
     ...Vuex.mapGetters([
-      "balance",
-      "walletLoaded",
-      "walletUnlocked",
-      "getNetworkType"
+      'balance',
+      'walletLoaded',
+      'walletUnlocked',
+      'getNetworkType'
     ])
   },
 
   methods: {
-    ...Vuex.mapActions(["lockWallet", "updadteConsoleVisible"]),
+    ...Vuex.mapActions(['lockWallet', 'updadteConsoleVisible']),
 
     backupWallet: function() {
       let folderPath = remote.dialog.showOpenDialog({
-        title: "Backup Wallet.dat file.",
-        buttonLabel: "Select Folder",
-        properties: ["openDirectory"],
-        buttons: ["Confirm", "Cancel"],
+        title: 'Backup Wallet.dat file.',
+        buttonLabel: 'Select Folder',
+        properties: ['openDirectory'],
+        buttons: ['Confirm', 'Cancel'],
         cancelId: 1,
         defaultId: 0
       });
@@ -191,11 +191,11 @@ export default {
               html:
                 '<span class="toast__bold-font">Success &nbsp;</span> Wallet backup up located here: ' +
                 folderPath,
-              classes: "green"
+              classes: 'green'
             });
           })
           .catch(function(err) {
-            M.toast({ html: err, classes: "wagerr-red-bg" });
+            M.toast({ html: err, classes: 'wagerr-red-bg' });
             console.log(err);
           });
       }

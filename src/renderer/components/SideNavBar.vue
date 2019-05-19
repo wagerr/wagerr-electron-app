@@ -4,7 +4,9 @@
       <h5>Sort By Sport</h5>
       <li
         @click="filterEvents()"
-        v-bind:class="{on:getEventsFilter==='' || getEventsFilter === undefined}"
+        v-bind:class="{
+          on: getEventsFilter === '' || getEventsFilter === undefined
+        }"
       >
         <div class="parent">
           <a>
@@ -15,7 +17,10 @@
         </div>
       </li>
 
-      <li @click="filterEvents('Football')" v-bind:class="{on:getEventsFilter==='Football'}">
+      <li
+        @click="filterEvents('Football')"
+        v-bind:class="{ on: getEventsFilter === 'Football' }"
+      >
         <div class="parent">
           <a active="true">
             <i class="icon-football"></i>
@@ -34,7 +39,10 @@
 
         </ul>-->
       </li>
-      <li @click="filterEvents('Baseball')" v-bind:class="{on:getEventsFilter==='Baseball'}">
+      <li
+        @click="filterEvents('Baseball')"
+        v-bind:class="{ on: getEventsFilter === 'Baseball' }"
+      >
         <div class="parent">
           <a>
             <i class="icon-baseball"></i>
@@ -46,7 +54,10 @@
         </div>
       </li>
 
-      <li @click="filterEvents('Basketball')" v-bind:class="{on:getEventsFilter==='Basketball'}">
+      <li
+        @click="filterEvents('Basketball')"
+        v-bind:class="{ on: getEventsFilter === 'Basketball' }"
+      >
         <div class="parent">
           <a>
             <i class="icon-basketball"></i>
@@ -96,7 +107,10 @@
 
       </li>-->
 
-      <li @click="filterEvents('Hockey')" v-bind:class="{on:getEventsFilter==='Hockey'}">
+      <li
+        @click="filterEvents('Hockey')"
+        v-bind:class="{ on: getEventsFilter === 'Hockey' }"
+      >
         <div class="parent">
           <a>
             <i class="icon-hockey"></i>
@@ -210,7 +224,10 @@
 
       </li>-->
 
-      <li @click="filterEvents('Soccer')" v-bind:class="{on:getEventsFilter==='Soccer'}">
+      <li
+        @click="filterEvents('Soccer')"
+        v-bind:class="{ on: getEventsFilter === 'Soccer' }"
+      >
         <div class="parent">
           <a>
             <i class="icon-soccer"></i>
@@ -224,7 +241,7 @@
 
       <li
         @click="filterEvents('Mixed Martial Arts')"
-        v-bind:class="{on:getEventsFilter==='Mixed Martial Arts'}"
+        v-bind:class="{ on: getEventsFilter === 'Mixed Martial Arts' }"
       >
         <div class="parent">
           <a>
@@ -239,7 +256,7 @@
 
       <li
         @click="filterEvents('Aussie Rules')"
-        v-bind:class="{on:getEventsFilter==='Aussie Rules'}"
+        v-bind:class="{ on: getEventsFilter === 'Aussie Rules' }"
       >
         <div class="parent">
           <a>
@@ -252,7 +269,10 @@
         </div>
       </li>
 
-      <li @click="filterEvents('Cricket')" v-bind:class="{on:getEventsFilter==='Cricket'}">
+      <li
+        @click="filterEvents('Cricket')"
+        v-bind:class="{ on: getEventsFilter === 'Cricket' }"
+      >
         <div class="parent">
           <a>
             <i class="icon-baseball"></i>
@@ -264,7 +284,10 @@
         </div>
       </li>
 
-      <li @click="filterEvents('Rugby Union')" v-bind:class="{on:getEventsFilter==='Rugby Union'}">
+      <li
+        @click="filterEvents('Rugby Union')"
+        v-bind:class="{ on: getEventsFilter === 'Rugby Union' }"
+      >
         <div class="parent">
           <a>
             <i class="icon-football"></i>
@@ -278,7 +301,7 @@
 
       <li
         @click="filterEvents('Rugby League')"
-        v-bind:class="{on:getEventsFilter==='Rugby League'}"
+        v-bind:class="{ on: getEventsFilter === 'Rugby League' }"
       >
         <div class="parent">
           <a>
@@ -295,15 +318,15 @@
 </template>
 
 <script>
-import Vuex from "vuex";
+import Vuex from 'vuex';
 
 export default {
-  name: "SideNavBar",
+  name: 'SideNavBar',
   computed: {
-    ...Vuex.mapGetters(["getEventsFilter"])
+    ...Vuex.mapGetters(['getEventsFilter'])
   },
   methods: {
-    ...Vuex.mapActions(["updateEventsFilter", "listEvents"]),
+    ...Vuex.mapActions(['updateEventsFilter', 'listEvents']),
     filterEvents: async function(eventFilter) {
       await this.updateEventsFilter(eventFilter);
       // await this.$store.dispatch("eventsFilter", eventFilter);
@@ -314,7 +337,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/scss/_variables.scss";
+@import '../assets/scss/_variables.scss';
 
 .side-nav {
   margin-top: 7px;

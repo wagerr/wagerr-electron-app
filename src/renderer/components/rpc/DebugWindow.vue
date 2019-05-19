@@ -8,15 +8,15 @@
   >
     <div class="dialog-header" slot="title">DebugWindow</div>
     <div class="h-100 w-100">
-      <debug-input/>
+      <debug-input />
     </div>
   </el-dialog>
 </template>
 
 <script>
-import DebugInput from "./DebugInput";
+import DebugInput from './DebugInput';
 export default {
-  name: "DebugWindow",
+  name: 'DebugWindow',
   components: { DebugInput },
   data() {
     return {

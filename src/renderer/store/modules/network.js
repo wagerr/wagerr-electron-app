@@ -1,214 +1,212 @@
 import networkRPC from '@/services/api/network_rpc';
 import masternodeRPC from '@/services/api/masternode_rpc';
 
-const state = function () {
-
-    return {
-        network: '',
-        connections: 0,
-        peersList: {},
-        masternodes: 0,
-        blocks: 0,
-        moneySupply: 0,
-        protocolVersion: 0,
-        networkVersion: '',
-        stakingStatus: false,
-        msyncStatus: false,
-        chainSyncStatus: false,
-        peerInfo: {},
-        bannedInfo: {}
-    }
-
+const state = function() {
+  return {
+    network: '',
+    connections: 0,
+    peersList: {},
+    masternodes: 0,
+    blocks: 0,
+    moneySupply: 0,
+    protocolVersion: 0,
+    networkVersion: '',
+    stakingStatus: false,
+    msyncStatus: false,
+    chainSyncStatus: false,
+    peerInfo: {},
+    bannedInfo: {}
+  };
 };
 
 const getters = {
+  getNetworkType: state => {
+    return state.network;
+  },
 
-    getNetworkType: (state) => {
-        return state.network;
-    },
+  getNumConnections: state => {
+    return state.connections;
+  },
 
-    getNumConnections: (state) => {
-        return state.connections;
-    },
+  getNumMasternodes: state => {
+    return state.masternodes;
+  },
 
-    getNumMasternodes: (state) => {
-        return state.masternodes;
-    },
+  getBlocks: state => {
+    return state.blocks;
+  },
 
-    getBlocks: (state) => {
-        return state.blocks;
-    },
+  getMoneySupply: state => {
+    return state.moneySupply;
+  },
 
-    getMoneySupply: (state) => {
-        return state.moneySupply;
-    },
+  getProtocolVersion: state => {
+    return state.protocolVersion;
+  },
 
-    getProtocolVersion: (state) => {
-        return state.protocolVersion;
-    },
+  getNetworkVersion: state => {
+    return state.networkVersion;
+  },
 
-    getNetworkVersion: (state) => {
-        return state.networkVersion;
-    },
+  getStakingStatus: state => {
+    return state.stakingStatus;
+  },
 
-    getStakingStatus: (state) => {
-        return state.stakingStatus;
-    },
+  getMsyncStatus: state => {
+    return state.msyncStatus;
+  },
 
-    getMsyncStatus: (state) => {
-        return state.msyncStatus;
-    },
+  getChainSyncStatus: state => {
+    return state.chainSyncStatus;
+  },
 
-    getChainSyncStatus: (state) => {
-        return state.chainSyncStatus;
-    },
+  getPeerInfo: state => {
+    return state.peerInfo;
+  },
 
-    getPeerInfo: (state) => {
-        return state.peerInfo;
-    },
-
-    getBannedInfo: (state) => {
-        return state.bannedInfo;
-    }
-
+  getBannedInfo: state => {
+    return state.bannedInfo;
+  }
 };
 
 const actions = {
+  updateNetworkType({ commit }, network) {
+    commit('setNetworkType', network);
+  },
 
-    updateNetworkType ({commit}, network) {
-        commit('setNetworkType', network);
-    },
+  updateNumConnections({ commit }, connections) {
+    commit('setNumConnections', connections);
+  },
 
-    updateNumConnections ({commit}, connections) {
-        commit('setNumConnections', connections);
-    },
+  updateNumMasternodes({ commit }) {
+    networkRPC
+      .getMasterNodeNum()
+      .then(function(resp) {
+        commit('setNumMasternodes', resp.total);
+      })
+      .catch(function(err) {
+        console.error(err);
+      });
+  },
 
-    updateNumMasternodes ({commit}) {
-        networkRPC.getMasterNodeNum()
-            .then(function (resp){
-                commit('setNumMasternodes', resp.total);
-            })
-            .catch(function (err) {
-                console.error(err);
-            })
-    },
+  updateBlocks({ commit }, blocks) {
+    commit('setBlocks', blocks);
+  },
 
-    updateBlocks ({commit}, blocks) {
-        commit('setBlocks', blocks);
-    },
+  updateInfo({ commit }) {
+    networkRPC
+      .getInfo()
+      .then(function(resp) {
+        commit('setBlocks', resp.result.blocks);
+        commit('setNumConnections', resp.result.connections);
+        commit('setMoneySupply', resp.result.moneysupply);
+        commit('setProtocolVersion', resp.result.protocolversion);
+        commit('setNetworkVersion', resp.result.version);
+      })
+      .catch(function(err) {
+        console.error(err);
+      });
+  },
 
-    updateInfo ({commit}) {
-        networkRPC.getInfo()
-            .then( function (resp) {
-                commit('setBlocks', resp.result.blocks);
-                commit('setNumConnections', resp.result.connections);
-                commit('setMoneySupply', resp.result.moneysupply);
-                commit('setProtocolVersion', resp.result.protocolversion);
-                commit('setNetworkVersion', resp.result.version);
-            })
-            .catch(function (err) {
-                console.error(err);
-            })
-    },
+  updateStakingStatus({ commit }) {
+    networkRPC
+      .getStakingStatus()
+      .then(function(resp) {
+        commit('setStakingStatus', resp['staking status']);
+        commit('setMsyncStatus', resp.mnsync);
+      })
+      .catch(function(err) {
+        console.error(err);
+      });
+  },
 
-    updateStakingStatus ({commit}) {
-        networkRPC.getStakingStatus()
-            .then( function (resp) {
-                commit('setStakingStatus', resp['staking status']);
-                commit('setMsyncStatus', resp.mnsync);
-            })
-            .catch(function (err) {
-                console.error(err);
-            })
-    },
+  updatePeerInfo({ commit }) {
+    networkRPC
+      .getPeerInfo()
+      .then(function(resp) {
+        commit('setPeerInfo', resp);
+      })
+      .catch(function(err) {
+        console.error(err);
+      });
+  },
 
-    updatePeerInfo ({commit}) {
-        networkRPC.getPeerInfo()
-            .then(function (resp) {
-                commit('setPeerInfo', resp);
-            })
-            .catch(function (err) {
-                console.error(err);
-            })
-    },
+  updateBannedInfo({ commit }) {
+    networkRPC
+      .getBannedInfo()
+      .then(function(resp) {
+        commit('setBannedInfo', resp.result);
+      })
+      .catch(function(err) {
+        console.error(err);
+      });
+  },
 
-    updateBannedInfo ({commit}) {
-        networkRPC.getBannedInfo()
-            .then(function (resp) {
-                commit('setBannedInfo', resp.result);
-            })
-            .catch(function (err) {
-                console.error(err);
-            })
-    },
-
-    updateChainSyncStatus ({commit}) {
-        masternodeRPC.getMNSyncStatus()
-            .then(function (resp) {
-                commit('setChainSynced', resp.IsBlockchainSynced);
-            })
-            .catch(function (err) {
-                console.error(err);
-            })
-    }
-
+  updateChainSyncStatus({ commit }) {
+    masternodeRPC
+      .getMNSyncStatus()
+      .then(function(resp) {
+        commit('setChainSynced', resp.IsBlockchainSynced);
+      })
+      .catch(function(err) {
+        console.error(err);
+      });
+  }
 };
 
 const mutations = {
+  setNetworkType(state, network) {
+    state.network = network;
+  },
 
-    setNetworkType (state, network) {
-        state.network = network;
-    },
+  setNumConnections(state, connections) {
+    state.connections = connections;
+  },
 
-    setNumConnections (state, connections) {
-        state.connections = connections;
-    },
+  setNumMasternodes(state, masternodes) {
+    state.masternodes = masternodes;
+  },
 
-    setNumMasternodes (state, masternodes) {
-        state.masternodes = masternodes;
-    },
+  setBlocks(state, blocks) {
+    state.blocks = blocks;
+  },
 
-    setBlocks (state, blocks) {
-        state.blocks = blocks;
-    },
+  setMoneySupply(state, supply) {
+    state.moneySupply = supply;
+  },
 
-    setMoneySupply (state, supply) {
-        state.moneySupply = supply;
-    },
+  setProtocolVersion(state, pv) {
+    state.protocolVersion = pv;
+  },
 
-    setProtocolVersion (state, pv) {
-        state.protocolVersion = pv;
-    },
+  setNetworkVersion(state, version) {
+    state.networkVersion = version;
+  },
 
-    setNetworkVersion (state, version) {
-        state.networkVersion = version;
-    },
+  setStakingStatus(state, staking) {
+    state.stakingStatus = staking;
+  },
 
-    setStakingStatus (state, staking) {
-        state.stakingStatus = staking;
-    },
+  setMsyncStatus(state, msync) {
+    state.msyncStatus = msync;
+  },
 
-    setMsyncStatus (state, msync) {
-        state.msyncStatus = msync;
-    },
+  setPeerInfo(state, peers) {
+    state.peerInfo = peers;
+  },
 
-    setPeerInfo (state, peers) {
-        state.peerInfo = peers;
-    },
+  setBannedInfo(state, banned) {
+    state.bannedInfo = banned;
+  },
 
-    setBannedInfo (state, banned) {
-        state.bannedInfo = banned;
-    },
-
-    setChainSynced (state, synced) {
-        state.chainSyncStatus = synced;
-    }
-
+  setChainSynced(state, synced) {
+    state.chainSyncStatus = synced;
+  }
 };
 
 export default {
-    state,
-    getters,
-    actions,
-    mutations
-}
+  state,
+  getters,
+  actions,
+  mutations
+};

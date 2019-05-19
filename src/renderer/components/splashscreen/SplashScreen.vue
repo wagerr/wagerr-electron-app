@@ -48,47 +48,47 @@
 </template>
 
 <script>
-import Vuex from "vuex";
-import moment from "moment";
-import blockchainRPC from "@/services/api/blockchain_rpc";
-import networkRPC from "@/services/api/network_rpc";
-import { getWagerrConfPath } from "../../../main/blockchain/blockchain";
-import ipcRender from "../../../common/ipc/ipcRender";
-import { shell } from "electron";
+import Vuex from 'vuex';
+import moment from 'moment';
+import blockchainRPC from '@/services/api/blockchain_rpc';
+import networkRPC from '@/services/api/network_rpc';
+import { getWagerrConfPath } from '../../../main/blockchain/blockchain';
+import ipcRender from '../../../common/ipc/ipcRender';
+import { shell } from 'electron';
 
-let path = require("path");
+let path = require('path');
 
 export default {
-  name: "SplashScreen",
+  name: 'SplashScreen',
 
   computed: {
     ...Vuex.mapGetters([
-      "balance",
-      "initText",
-      "walletLoaded",
-      "walletSynced",
-      "walletUnlocked",
-      "walletVersion"
+      'balance',
+      'initText',
+      'walletLoaded',
+      'walletSynced',
+      'walletUnlocked',
+      'walletVersion'
     ])
   },
 
   methods: {
     ...Vuex.mapActions([
-      "syncWallet",
-      "updateInfo",
-      "updateBlocks",
-      "walletBalance",
-      "updateInitText",
-      "updateNetworkType",
-      "updateWalletLoaded",
-      "updateWalletSynced",
-      "updateNumMasternodes",
-      "updateNumConnections",
-      "walletExtendedBalance",
-      "getWGRTransactionList",
-      "getPLBetTransactionList",
-      "getCGBetTransactionList",
-      "getWGRTransactionRecords"
+      'syncWallet',
+      'updateInfo',
+      'updateBlocks',
+      'walletBalance',
+      'updateInitText',
+      'updateNetworkType',
+      'updateWalletLoaded',
+      'updateWalletSynced',
+      'updateNumMasternodes',
+      'updateNumConnections',
+      'walletExtendedBalance',
+      'getWGRTransactionList',
+      'getPLBetTransactionList',
+      'getCGBetTransactionList',
+      'getWGRTransactionRecords'
     ]),
 
     rescanBlockchain: function() {
@@ -127,17 +127,17 @@ export default {
       } else if (secs < 2 * DAY_IN_SECONDS) {
         timeBehindText =
           Math.round(secs / HOUR_IN_SECONDS) +
-          " hours behind, Scanning block " +
+          ' hours behind, Scanning block ' +
           blockchainInfo.blocks;
       } else if (secs < 2 * WEEK_IN_SECONDS) {
         timeBehindText =
           Math.round(secs / DAY_IN_SECONDS) +
-          " days behind, Scanning block " +
+          ' days behind, Scanning block ' +
           blockchainInfo.blocks;
       } else if (secs < YEAR_IN_SECONDS) {
         timeBehindText =
           Math.round(secs / WEEK_IN_SECONDS) +
-          " weeks behind, Scanning block " +
+          ' weeks behind, Scanning block ' +
           blockchainInfo.blocks;
       } else {
         years = secs / YEAR_IN_SECONDS;
@@ -145,9 +145,9 @@ export default {
 
         timeBehindText =
           Math.round(years) +
-          " year and " +
+          ' year and ' +
           Math.round(remainder / WEEK_IN_SECONDS) +
-          " weeks behind, Scanning block " +
+          ' weeks behind, Scanning block ' +
           blockchainInfo.blocks;
       }
 
@@ -196,7 +196,7 @@ export default {
               let bestBlockHash = blockchainInfo.bestblockhash;
 
               block = await blockchainRPC.getBlockInfo(bestBlockHash);
-              secs = moment().diff(block.time * 1000, "seconds");
+              secs = moment().diff(block.time * 1000, 'seconds');
 
               let timeBehindText = this.getTimeBehindText(secs, blockchainInfo);
               this.updateInitText(timeBehindText);
@@ -227,11 +227,11 @@ export default {
 
   async created() {
     // Check if connected to the Wagerr network and if we have peers.
-    this.updateInitText("Connecting to peers...");
+    this.updateInitText('Connecting to peers...');
     await this.checkPeerStatus();
 
     // After connecting to peers get some blockchain info.
-    this.updateInitText("Getting blockchain information...");
+    this.updateInitText('Getting blockchain information...');
     await this.walletExtendedBalance();
     await this.getWGRTransactionRecords(100);
     await this.getPLBetTransactionList();
@@ -239,7 +239,7 @@ export default {
 
     // Set the network.
     let blockchainInfo = await blockchainRPC.getBlockchainInfo();
-    let network = blockchainInfo.chain === "test" ? "Testnet" : "Mainnet";
+    let network = blockchainInfo.chain === 'test' ? 'Testnet' : 'Mainnet';
     await this.updateNetworkType(network);
 
     // If Wallet not synced show time behind text.

@@ -1,168 +1,168 @@
 {
-    "name": "wagerr-electron-app",
-    "version": "1.0.1",
-    "description": "Wagerr Electron App is a cross-platform GUI for Wagerr enabling betting on the blockchain.",
-    "author": {
-        "name": "Wagerr Limited"
-    },
-    "license": "MIT",
-    "homepage": "https://www.wagerr.com/",
-    "private": true,
-    "main": "./dist/electron/main.js",
-    "scripts": {
-        "build": "node .electron-vue/build.js",
-        "build:dir": "node .electron-vue/build.js && electron-builder --dir",
-        "build:clean": "cross-env BUILD_TARGET=clean node .electron-vue/build.js",
-        "build:web": "cross-env BUILD_TARGET=web node .electron-vue/build.js",
-        "dev": "node .electron-vue/dev-runner.js",
-        "lint": "eslint --cache --format=pretty .",
-        "lint-fix": "npm run --silent lint -- --fix; exit 0",
-        "pack": "npm run pack:main && npm run pack:renderer",
-        "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.main.config.js",
-        "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
-        "package": "npm run build && electron-builder build",
-        "postlint-fix": "prettier --ignore-path .eslintignore --single-quote --write '**/*.{js,vue,json,html,css,less,scss,yml}'",
-        "postlint-styles-fix": "prettier --ignore-path .eslintignore --single-quote --write '**/*.{css,scss}'"
-    },
-    "build": {
-        "productName": "WagerrElectronApp",
-        "appId": "com.wagerr.electron.app",
-        "files": [
-            "dist/electron",
-            "node_modules/",
-            "package.json"
-        ],
-        "extraResources": [
-            {
-                "from": "bin",
-                "to": "bin"
-            }
-        ],
-        "dmg": {
-            "title": "Wagerr Electron App ${version}",
-            "contents": [
-                {
-                    "x": 90,
-                    "y": 180
-                },
-                {
-                    "x": 390,
-                    "y": 180,
-                    "type": "link",
-                    "path": "/Applications"
-                }
-            ]
+  "name": "wagerr-electron-app",
+  "version": "1.0.1",
+  "description": "Wagerr Electron App is a cross-platform GUI for Wagerr enabling betting on the blockchain.",
+  "author": {
+    "name": "Wagerr Limited"
+  },
+  "license": "MIT",
+  "homepage": "https://www.wagerr.com/",
+  "private": true,
+  "main": "./dist/electron/main.js",
+  "scripts": {
+    "build": "node .electron-vue/build.js",
+    "build:dir": "node .electron-vue/build.js && electron-builder --dir",
+    "build:clean": "cross-env BUILD_TARGET=clean node .electron-vue/build.js",
+    "build:web": "cross-env BUILD_TARGET=web node .electron-vue/build.js",
+    "dev": "node .electron-vue/dev-runner.js",
+    "lint": "eslint --cache --format=pretty .",
+    "lint-fix": "npm run --silent lint -- --fix; exit 0",
+    "pack": "npm run pack:main && npm run pack:renderer",
+    "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.main.config.js",
+    "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
+    "package": "npm run build && electron-builder build",
+    "postlint-fix": "prettier --ignore-path .eslintignore --single-quote --write '**/*.{js,vue,json,html,css,less,scss,yml}'",
+    "postlint-styles-fix": "prettier --ignore-path .eslintignore --single-quote --write '**/*.{css,scss}'"
+  },
+  "build": {
+    "productName": "WagerrElectronApp",
+    "appId": "com.wagerr.electron.app",
+    "files": [
+      "dist/electron",
+      "node_modules/",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "bin",
+        "to": "bin"
+      }
+    ],
+    "dmg": {
+      "title": "Wagerr Electron App ${version}",
+      "contents": [
+        {
+          "x": 90,
+          "y": 180
         },
-        "win": {
-            "target": [
-                {
-                    "target": "nsis",
-                    "arch": [
-                        "x64",
-                        "ia32"
-                    ]
-                }
-            ]
-        },
-        "linux": {
-            "category": "Utils",
-            "packageCategory": "utils",
-            "icon": "build/icons/icon.icns",
-            "executableName": "WagerrElectronApp",
-            "maintainer": "Wagerr Limited",
-            "synopsis": "Wagerr Electron App",
-            "target": [
-                {
-                    "target": "deb",
-                    "arch": [
-                        "x64",
-                        "ia32"
-                    ]
-                }
-            ]
-        },
-        "directories": {
-            "output": "release"
+        {
+          "x": 390,
+          "y": 180,
+          "type": "link",
+          "path": "/Applications"
         }
+      ]
     },
-    "dependencies": {
-        "childprocess": "^2.0.2",
-        "decompress": "^4.2.0",
-        "electron-progressbar": "^1.2.0",
-        "element-ui": "^2.8.2",
-        "find-process": "^1.2.1",
-        "fs": "0.0.1-security",
-        "fs-path": "0.0.24",
-        "make-runnable": "^1.3.6",
-        "moment": "^2.24.0",
-        "moment-timezone": "^0.5.23",
-        "path": "^0.12.7",
-        "properties-reader": "0.0.16",
-        "qrcode.vue": "^1.6.1",
-        "typeface-montserrat": "0.0.54",
-        "typeface-open-sans": "0.0.54",
-        "vee-validate": "^2.2.0",
-        "vue": "^2.6.10",
-        "vue-clipboards": "^1.2.4",
-        "vue-electron": "^1.0.6",
-        "vue-moment": "^4.0.0",
-        "vue-router": "^3.0.1",
-        "vuex": "^3.1.0",
-        "vuex-electron": "^1.0.3",
-        "wagerrd-rpc": "^0.1.5"
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ]
     },
-    "devDependencies": {
-        "ajv": "^6.10.0",
-        "babel-core": "^6.26.3",
-        "babel-eslint": "^10.0.1",
-        "babel-loader": "^7.1.4",
-        "babel-plugin-component": "^1.1.1",
-        "babel-plugin-transform-runtime": "^6.23.0",
-        "babel-preset-env": "^1.7.0",
-        "babel-preset-stage-0": "^6.24.1",
-        "babel-register": "^6.26.0",
-        "babili-webpack-plugin": "^0.1.2",
-        "cfonts": "^2.4.0",
-        "chalk": "^2.4.2",
-        "copy-webpack-plugin": "^4.5.1",
-        "cross-env": "^5.1.6",
-        "css-loader": "^0.28.11",
-        "del": "^3.0.0",
-        "devtron": "^1.4.0",
-        "electron": "^3.1.9",
-        "electron-builder": "^20.39.0",
-        "electron-debug": "^1.5.0",
-        "electron-devtools-installer": "^2.2.4",
-        "eslint": "^5.16.0",
-        "eslint-config-airbnb-base": "^13.1.0",
-        "eslint-config-prettier": "^4.3.0",
-        "eslint-formatter-pretty": "^2.1.1",
-        "eslint-import-resolver-webpack": "^0.11.1",
-        "eslint-plugin-import": "^2.17.2",
-        "eslint-plugin-prettier": "^3.1.0",
-        "eslint-plugin-promise": "^4.1.1",
-        "eslint-plugin-vue": "^5.2.2",
-        "file-loader": "^1.1.11",
-        "html-webpack-plugin": "^3.2.0",
-        "mini-css-extract-plugin": "0.4.0",
-        "multispinner": "^0.2.1",
-        "node-loader": "^0.6.0",
-        "node-sass": "^4.9.2",
-        "prettier": "^1.17.1",
-        "sass-loader": "^7.0.3",
-        "style-loader": "^0.21.0",
-        "url-loader": "^1.0.1",
-        "vue-html-loader": "^1.2.4",
-        "vue-loader": "^15.7.0",
-        "vue-style-loader": "^4.1.0",
-        "vue-template-compiler": "^2.6.10",
-        "webpack": "^4.29.0",
-        "webpack-cli": "^3.3.0",
-        "webpack-dev-server": "^3.1.14",
-        "webpack-hot-middleware": "^2.22.2",
-        "webpack-merge": "^4.2.1"
+    "linux": {
+      "category": "Utils",
+      "packageCategory": "utils",
+      "icon": "build/icons/icon.icns",
+      "executableName": "WagerrElectronApp",
+      "maintainer": "Wagerr Limited",
+      "synopsis": "Wagerr Electron App",
+      "target": [
+        {
+          "target": "deb",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ]
     },
-    "wagerrSettings": {
-        "daemonVersion": "3.0.1"
+    "directories": {
+      "output": "release"
     }
+  },
+  "dependencies": {
+    "childprocess": "^2.0.2",
+    "decompress": "^4.2.0",
+    "electron-progressbar": "^1.2.0",
+    "element-ui": "^2.8.2",
+    "find-process": "^1.2.1",
+    "fs": "0.0.1-security",
+    "fs-path": "0.0.24",
+    "make-runnable": "^1.3.6",
+    "moment": "^2.24.0",
+    "moment-timezone": "^0.5.23",
+    "path": "^0.12.7",
+    "properties-reader": "0.0.16",
+    "qrcode.vue": "^1.6.1",
+    "typeface-montserrat": "0.0.54",
+    "typeface-open-sans": "0.0.54",
+    "vee-validate": "^2.2.0",
+    "vue": "^2.6.10",
+    "vue-clipboards": "^1.2.4",
+    "vue-electron": "^1.0.6",
+    "vue-moment": "^4.0.0",
+    "vue-router": "^3.0.1",
+    "vuex": "^3.1.0",
+    "vuex-electron": "^1.0.3",
+    "wagerrd-rpc": "^0.1.5"
+  },
+  "devDependencies": {
+    "ajv": "^6.10.0",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^10.0.1",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-component": "^1.1.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "babili-webpack-plugin": "^0.1.2",
+    "cfonts": "^2.4.0",
+    "chalk": "^2.4.2",
+    "copy-webpack-plugin": "^4.5.1",
+    "cross-env": "^5.1.6",
+    "css-loader": "^0.28.11",
+    "del": "^3.0.0",
+    "devtron": "^1.4.0",
+    "electron": "^3.1.9",
+    "electron-builder": "^20.39.0",
+    "electron-debug": "^1.5.0",
+    "electron-devtools-installer": "^2.2.4",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-prettier": "^4.3.0",
+    "eslint-formatter-pretty": "^2.1.1",
+    "eslint-import-resolver-webpack": "^0.11.1",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-promise": "^4.1.1",
+    "eslint-plugin-vue": "^5.2.2",
+    "file-loader": "^1.1.11",
+    "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "0.4.0",
+    "multispinner": "^0.2.1",
+    "node-loader": "^0.6.0",
+    "node-sass": "^4.9.2",
+    "prettier": "^1.17.1",
+    "sass-loader": "^7.0.3",
+    "style-loader": "^0.21.0",
+    "url-loader": "^1.0.1",
+    "vue-html-loader": "^1.2.4",
+    "vue-loader": "^15.7.0",
+    "vue-style-loader": "^4.1.0",
+    "vue-template-compiler": "^2.6.10",
+    "webpack": "^4.29.0",
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-server": "^3.1.14",
+    "webpack-hot-middleware": "^2.22.2",
+    "webpack-merge": "^4.2.1"
+  },
+  "wagerrSettings": {
+    "daemonVersion": "3.0.1"
+  }
 }
