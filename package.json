@@ -75,7 +75,7 @@
       "synopsis": "Wagerr Electron App",
       "target": [
         {
-          "target": "deb",
+          "target": "AppImage",
           "arch": [
             "x64",
             "ia32"
