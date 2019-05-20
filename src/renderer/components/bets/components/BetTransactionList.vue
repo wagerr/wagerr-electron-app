@@ -23,7 +23,7 @@
 
                     <th class="hide-on-med-and-down show-on-large">Bet Outcome</th>
 
-                    <th class="">WGR Amount</th>
+                    <th class=""> {{ getNetworkType === "Testnet" ? 'tWGR' : 'WGR' }} Amount</th>
 
                     <th class="">Result</th>
 
@@ -49,7 +49,7 @@
 
                     <td class="hide-on-med-and-down show-on-large">{{ outcomeToText( tx['team-to-win'] ) }}</td>
 
-                    <td class="">{{ tx.amount }} {{ getNetworkType === "Testnet" ? 'tWGR' : 'WGR' }} </td>
+                    <td class="">{{ tx.amount }}</td>
 
                     <td class="hide-on-small-only" >{{ tx['result'] }}</td>
 
