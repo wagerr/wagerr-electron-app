@@ -1,5 +1,7 @@
-import { app, BrowserWindow, dialog, shell } from 'electron';
+import { app, BrowserWindow, dialog } from 'electron';
+import { autoUpdater } from 'electron-updater';
 import fs from 'fs';
+import { checkForUpdates } from './updater/updater';
 import menus from './menu/menus';
 import errors from './alerts/errors';
 
@@ -167,8 +169,21 @@ async function init(args) {
 }
 
 app.on('ready', async () => {
-  console.log('\x1b[32mElectron starting...\x1b[0m');
-  await init();
+  console.log('\x1b[32mWagerr Electron App starting...\x1b[0m');
+
+  // Check for updates only for the packaged app.
+  if (process.env.NODE_ENV === 'production') {
+    checkForUpdates();
+
+    // If no updates available continue with initialising the app,
+    // otherwise, updater.js would have caught the update-available event
+    // and downloaded and restarted the app.
+    autoUpdater.on('update-not-available', async () => {
+      await init();
+    });
+  } else {
+    await init();
+  }
 });
 
 app.on('before-quit', async () => {
@@ -391,22 +406,3 @@ ipcMain.on('rpc-password', event => {
 ipcMain.on('no-peers', () => {
   errors.noPeersConnectionError();
 });
-
-/**
- * Auto Updater
- *
- * Uncomment the following code below and install `electron-updater` to
- * support auto updating. Code Signing with a valid certificate is required.
- * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
- */
-/*
-import { autoUpdater } from 'electron-updater'
-
-autoUpdater.on('update-downloaded', () => {
-  autoUpdater.quitAndInstall()
-})
-
-app.on('ready', () => {
-  if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
-})
-*/
