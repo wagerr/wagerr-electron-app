@@ -40,6 +40,9 @@
         "to": "bin"
       }
     ],
+    "directories": {
+      "output": "release"
+    },
     "dmg": {
       "title": "Wagerr Electron App ${version}",
       "contents": [
@@ -67,12 +70,8 @@
       ]
     },
     "linux": {
-      "category": "Utils",
-      "packageCategory": "utils",
+      "category": "Finance",
       "icon": "build/icons/icon.icns",
-      "executableName": "WagerrElectronApp",
-      "maintainer": "Wagerr Limited",
-      "synopsis": "Wagerr Electron App",
       "target": [
         {
           "target": "AppImage",
@@ -82,9 +81,6 @@
           ]
         }
       ]
-    },
-    "directories": {
-      "output": "release"
     }
   },
   "dependencies": {
