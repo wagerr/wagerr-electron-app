@@ -4,7 +4,7 @@
       <ul class="events-list">
         <li v-for="event in eventsList" :key="event.event_id" class="card">
           <div class="event-tournament">
-            <span class="sport">{{ event.tournament }}</span>
+            <span class="sport">{{ event.tournament }} (Event ID: {{ event.event_id }})</span>
             <span class="date pull-right">{{
               Number(event.starting) | moment('timezone', getTimezone, 'LLL')
             }}</span>
