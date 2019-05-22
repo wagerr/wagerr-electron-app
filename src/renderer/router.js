@@ -15,6 +15,7 @@ import SignVerifyMessage from '@/components/tools/SignVerifyMessage';
 import Network from '@/components/tools/Network';
 import Peers from '@/components/tools/Peers.vue';
 import WalletRepair from '@/components/tools/WalletRepair';
+import Masternodes from '@/components/masternodes/Masternodes.vue'
 
 // Inject the router into the app.
 Vue.use(Router);
@@ -26,6 +27,10 @@ export default new Router({
     { path: '/bet_history', component: BetHistory },
     { path: '/betting', component: Betting },
     { path: '/chain_games', component: ChainGames },
+    {
+      path: '/masternodes',
+      component: Masternodes
+    },
     {
       path: '/tools/',
       component: Tools,

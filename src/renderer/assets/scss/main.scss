@@ -82,6 +82,19 @@ body {
     box-shadow: inherit;
   }
 }
+.btn-medium {
+  color: $white;
+  background: $wagerr_red;
+  font-family: 'Montserrat';
+  font-weight: 700;
+  letter-spacing: 1px;
+  transition: none;
+  &:hover,
+  &:focus {
+    background: $wagerr_dark_red !important;
+    box-shadow: inherit;
+  }
+}
 .btn-large {
   color: $white;
   background: $wagerr_red;

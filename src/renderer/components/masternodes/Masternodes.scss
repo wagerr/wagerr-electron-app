@@ -1,0 +1,67 @@
+.col-title {
+  margin-bottom: 12px;
+  height: 40px;
+  line-height: 40px;
+  .masternode-title {
+    font-size: 20px;
+    color: #a838ff;
+  }
+
+  .setup-button {
+    width: 185px;
+    float: right;
+  }
+}
+
+.page-masternodes {
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  .el-table-masternodes {
+    background-color: transparent;
+    &::before {
+      content: none;
+    }
+    & /deep/ .el-table-masternodes-header {
+      color: #fffeff;
+      font-size: 16px;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-radius: 3px;
+      height: 40px;
+      line-height: 40px;
+      tr,
+      th {
+        background-color: unset;
+        border-bottom: unset;
+      }
+    }
+    & /deep/ .current-row td {
+      background: #404142;
+      color: rgba(255, 255, 255, 0.3);
+    }
+    & /deep/ .col-alias {
+      padding-left: 37px;
+    }
+  }
+}
+
+.button-container {
+  .button {
+    margin-right: 18px;
+    width: 127px;
+    height: 40px;
+  }
+}
+
+.create-masternode-dialog {
+  .el-input {
+    width: 300px;
+  }
+  .el-row {
+    margin-top: 16px;
+  }
+  label {
+    width: 200px;
+  }
+}

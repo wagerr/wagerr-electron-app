@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="bg-gradient">
-    <SplashScreen v-if="!walletLoaded"></SplashScreen>
+    <SplashScreen v-if="false"></SplashScreen>
 
     <div v-else class="wrapper">
       <div class="nav">

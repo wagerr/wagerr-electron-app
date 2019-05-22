@@ -28,6 +28,10 @@
         <h6>Tools &amp; Info</h6>
       </router-link>
 
+      <router-link tag="li" to="/masternodes">
+        <i class="navico-wrench"></i>
+        <h6>Masternodes</h6>
+      </router-link>
       <li>
         <!-- Dropdown Trigger -->
         <div class="dropdown-trigger" data-target="settings-dropdown">
