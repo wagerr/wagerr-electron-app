@@ -10,10 +10,11 @@ import router from './router';
 import store from './store/index';
 import App from './App';
 import 'element-ui/lib/theme-chalk/index.css';
+import locale from 'element-ui/lib/locale/lang/en';
 // Import global styles
 import './assets/scss/main.scss';
 
-Vue.use(ElementUI);
+Vue.use(ElementUI, { locale });
 
 // Config options.
 Vue.config.productionTip = false;

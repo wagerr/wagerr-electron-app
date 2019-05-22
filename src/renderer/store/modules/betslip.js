@@ -45,7 +45,6 @@ const actions = {
 
 const mutations = {
   addBet(state, betDetails) {
-    if (state.betSlip.length > 1) return;
     state.betSlip.push(betDetails);
   },
 

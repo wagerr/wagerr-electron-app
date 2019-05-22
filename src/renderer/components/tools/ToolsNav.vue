@@ -14,6 +14,10 @@
         <a>Address Book</a>
       </router-link>
 
+      <router-link class="col s4" tag="li" to="/tools/masternode_setup">
+        <a>Masternode Setup</a>
+      </router-link>
+
       <router-link
         class="col s4"
         tag="li"

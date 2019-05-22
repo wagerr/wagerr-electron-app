@@ -23,12 +23,18 @@ export default class Daemon {
   runCommand(cmd) {
     return new Promise(async resolve => {
       const cliPath = this.getExecutablePath('wagerr-cli');
-      // Call wagerr cli to stop the wagerr daemon.
+      console.log(
+        'Confirm the cli params',
+        blockchain.rpcUser,
+        blockchain.rpcPass,
+        blockchain.rpcPort
+      );
+      console.log(cmd);
       const wagerrcliProcess = spawn(cliPath, [
         `-rpcuser=${blockchain.rpcUser}`,
         `-rpcpassword=${blockchain.rpcPass}`,
         `-rpcport=${blockchain.rpcPort}`,
-        `${cmd}`
+        ...cmd
       ]);
 
       wagerrcliProcess.stdout.on('data', function(data) {

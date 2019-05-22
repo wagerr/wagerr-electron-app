@@ -23,6 +23,11 @@
         <h6>Chain Games</h6>
       </router-link>
 
+      <router-link tag="li" to="/masternodes">
+        <i class="navico-wrench"></i>
+        <h6>Masternodes</h6>
+      </router-link>
+
       <router-link tag="li" to="/tools/info">
         <i class="navico-wrench"></i>
         <h6>Tools &amp; Info</h6>
