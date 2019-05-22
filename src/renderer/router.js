@@ -6,6 +6,7 @@ import Wallet from './views/Wallet.vue';
 import BetHistory from './views/BetHistory.vue';
 import Betting from './views/Betting.vue';
 import ChainGames from '@/components/betting/ChainGames';
+import Masternodes from './views/Masternodes.vue';
 import Tools from './views/Tools.vue';
 import Preferences from './views/Preferences.vue';
 // Tool Components
@@ -15,6 +16,7 @@ import SignVerifyMessage from '@/components/tools/SignVerifyMessage';
 import Network from '@/components/tools/Network';
 import Peers from '@/components/tools/Peers.vue';
 import WalletRepair from '@/components/tools/WalletRepair';
+import MasternodesContent from '@/components/tools/MasternodesContent.vue';
 
 // Inject the router into the app.
 Vue.use(Router);
@@ -26,6 +28,7 @@ export default new Router({
     { path: '/bet_history', component: BetHistory },
     { path: '/betting', component: Betting },
     { path: '/chain_games', component: ChainGames },
+    { path: '/masternodes', component: Masternodes },
     {
       path: '/tools/',
       component: Tools,
@@ -33,6 +36,7 @@ export default new Router({
         { path: 'info', component: Information },
         { path: 'network', component: Network },
         { path: 'address_book', component: AddressBook },
+        { path: 'masternode_setup', component: MasternodesContent },
         { path: 'sign_verify_message', component: SignVerifyMessage },
         { path: 'peers', component: Peers },
         { path: 'wallet_repair', component: WalletRepair }

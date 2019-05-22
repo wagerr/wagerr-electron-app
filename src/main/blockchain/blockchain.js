@@ -151,10 +151,12 @@ function getWagerrConfPath() {
  */
 function getCoinMasternodeConfPath() {
   return path.join(
-    testnet ? getCoinTestDataPath() : getCoinDataPath(),
+    testnet ? getWagerrTestnetDataPath() : getWagerrDataPath(),
     'masternode.conf'
   );
 }
+
+readWagerrConf();
 
 export {
   testnet,
