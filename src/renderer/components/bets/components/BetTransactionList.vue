@@ -19,13 +19,21 @@
     <table class="main-table card z-depth-2">
       <thead>
         <tr>
+          <th class="hide-on-small-only">Event ID</th>
+
           <th class="hide-on-med-and-down">Transaction ID</th>
 
-          <th class="hide-on-small-only">Event ID</th>
+          <th class="">Start Time</th>
 
           <th class="hide-on-med-and-down show-on-large">Bet Outcome</th>
 
-          <th class="">WGR Amount</th>
+          <th class="">Home</th>
+
+          <th class="">Away</th>
+
+          <th class="">
+            {{ getNetworkType === 'Testnet' ? 'tWGR' : 'WGR' }} Amount
+          </th>
 
           <th class="">Result</th>
         </tr>
@@ -33,21 +41,42 @@
 
       <tbody>
         <tr v-for="tx in plBetTransactionList" :key="tx.id">
+          <td class="hide-on-small-only">{{ tx['event-id'] }}</td>
+
           <td class="hide-on-small-only">
-            <a @click="blockExplorerUrl(tx['tx-id'])" class="transaction-link">
-              {{ tx['tx-id'] }}
+            <a
+              v-clipboard="tx['tx-id']"
+              @click="copiedAlert()"
+              class="transaction-list-link tooltipped"
+              data-position="bottom"
+              data-tooltip="Copy"
+            >
+              <i class="far fa-copy"></i>
+            </a>
+
+            <a
+              @click="blockExplorerUrl(tx['tx-id'])"
+              class="transaction-list-link tooltipped"
+              data-position="bottom"
+              data-tooltip="Open in block explorer"
+            >
+              <i class="fas fa-link"></i>
             </a>
           </td>
 
-          <td class="hide-on-small-only">{{ tx['event-id'] }}</td>
+          <td class="hide-on-small-only">
+            {{ Number(tx.starting) | moment('timezone', getTimezone, 'LLL') }}
+          </td>
 
           <td class="hide-on-med-and-down show-on-large">
             {{ outcomeToText(tx['team-to-win']) }}
           </td>
 
-          <td class="">
-            {{ tx.amount }} {{ getNetworkType === 'Testnet' ? 'tWGR' : 'WGR' }}
-          </td>
+          <td class="hide-on-small-only">{{ tx['home'] }}</td>
+
+          <td class="hide-on-small-only">{{ tx['away'] }}</td>
+
+          <td class="">{{ tx.amount }}</td>
 
           <td class="hide-on-small-only">{{ tx['result'] }}</td>
         </tr>
