@@ -84,9 +84,9 @@ const actions = {
       });
   },
 
-  getPLBetTransactionList({ commit }) {
+  getPLBetTransactionList({ commit }, length) {
     wagerrRPC.client
-      .listBets()
+      .listBets('*', length)
       .then(function(resp) {
         commit('setPLBetTransactionList', resp.result.reverse());
       })
