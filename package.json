@@ -73,6 +73,11 @@
         }
       ]
     },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": true,
+      "allowToChangeInstallationDirectory": true
+    },
     "linux": {
       "category": "Finance",
       "icon": "build/icons/icon.icns",
