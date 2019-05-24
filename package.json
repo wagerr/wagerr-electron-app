@@ -43,6 +43,9 @@
     "directories": {
       "output": "release"
     },
+    "mac": {
+      "artifactName": "${name}-${version}-${os}.${ext}"
+    },
     "dmg": {
       "title": "Wagerr Electron App ${version}",
       "contents": [
@@ -59,6 +62,7 @@
       ]
     },
     "win": {
+      "artifactName": "${name}-${version}-${os}-${arch}.${ext}",
       "target": [
         {
           "target": "nsis-web",
@@ -72,6 +76,7 @@
     "linux": {
       "category": "Finance",
       "icon": "build/icons/icon.icns",
+      "artifactName": "${name}-${version}-${os}-${arch}.${ext}",
       "target": [
         {
           "target": "AppImage",
