@@ -96,9 +96,9 @@ const actions = {
       });
   },
 
-  getCGBetTransactionList({ commit }) {
+  getCGBetTransactionList({ commit }, length) {
     wagerrRPC.client
-      .listChainGamesBets()
+      .listChainGamesBets('*', length)
       .then(function(resp) {
         commit('setCGBetTransactionList', resp.result.reverse());
       })

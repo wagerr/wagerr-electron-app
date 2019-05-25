@@ -234,8 +234,8 @@ export default {
     this.updateInitText('Getting blockchain information...');
     await this.walletExtendedBalance();
     await this.getWGRTransactionRecords(100);
-    await this.getPLBetTransactionList();
-    await this.getCGBetTransactionList();
+    await this.getPLBetTransactionList(50);
+    await this.getCGBetTransactionList(25);
 
     // Set the network.
     let blockchainInfo = await blockchainRPC.getBlockchainInfo();

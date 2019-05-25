@@ -158,8 +158,7 @@ export default {
       'potSize',
       'gameStartBlock',
       'gameStartTime',
-      'gameEndTime',
-      'currentGameBets'
+      'gameEndTime'
     ])
   },
 

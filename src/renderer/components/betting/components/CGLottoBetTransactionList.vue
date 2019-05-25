@@ -1,5 +1,5 @@
 <template>
-  <div v-if="cgBetList.length === 0" class="no-transactions text-center">
+  <div v-if="cgBetTransactionList.length === 0" class="no-transactions text-center">
     <p>No Chain Games transactions to list. Buy a ticket to enter the lotto.</p>
   </div>
 
@@ -14,7 +14,7 @@
       </thead>
 
       <tbody>
-        <tr v-for="tx in cgBetList" :key="tx.id">
+        <tr v-for="tx in cgBetTransactionList" :key="tx.id">
           <td class="col s10">
             <a @click="blockExplorerUrl(tx['tx-id'])" class="transaction-link">
               {{ tx['tx-id'] }}
@@ -39,14 +39,14 @@ export default {
     ...Vuex.mapGetters([
       'timezone',
       'gameID',
-      'currentGameBets',
-      'cgBetList',
-      'getNetworkType'
+      'cgBetTransactionList',
+      'getNetworkType',
+      'CGBetTransactionList'
     ])
   },
 
   methods: {
-    ...Vuex.mapActions(['listCGLottoBets']),
+    ...Vuex.mapActions(['getCGBetTransactionList']),
 
     blockExplorerUrl(txId) {
       let shell = require('electron').shell;
@@ -66,13 +66,13 @@ export default {
   },
 
   mounted() {
-    this.listCGLottoBets();
-
+    // Ping the get chain games RPC method every 5 secs to show any new chain
+    // game transactions.
     this.timeout = setInterval(
-      function() {
-        this.listCGLottoBets();
+      async function() {
+        this.getCGBetTransactionList(25);
       }.bind(this),
-      2000
+      5000
     );
 
     // Initialise the Material JS so modals, drop down menus etc function.

@@ -18,7 +18,6 @@ const state = function() {
     gameStartBlock: 0,
     gameStartTime: '',
     gameEndTime: 0,
-    currentGameBets: 0,
     cgBetList: []
   };
 };
@@ -58,10 +57,6 @@ const getters = {
 
   gameEndTime: state => {
     return state.gameEndTime;
-  },
-
-  currentGameBets: state => {
-    return state.currentGameBets;
   },
 
   cgBetList: state => {
@@ -110,15 +105,6 @@ const actions = {
         commit('setNoOfEntrants', resp.result['total-bets']);
         commit('setGameStartTime', resp.result['start-time']);
         commit('setGameEndTime', endDate);
-
-        let currentBets = 0;
-        for (let i = 0; i < state.cgBetList.length; i++) {
-          if (state.cgBetList[i]['event-id'] === state.gameID) {
-            currentBets += 1;
-          }
-        }
-
-        commit('setCurrentGameBets', currentBets);
         commit('setLoadingCGEvent', false);
         commit('setLoadingCGDetails', false);
       })
@@ -127,35 +113,6 @@ const actions = {
         console.error(err);
         commit('setLoadingCGEvent', true);
         commit('setLoadingCGDetails', true);
-      });
-  },
-
-  listCGLottoBets({ commit, state }) {
-    const self = this;
-
-    wagerrRPC.client
-      .listChainGamesBets()
-      .then(function(resp) {
-        self.betList = resp.result.reverse();
-        commit('setCGBetList', self.betList);
-        self.betCount = self.betList.length;
-
-        let currentBets = 0;
-        for (let i = 0; i < self.betList.length; i++) {
-          if (self.betList[i]['event-id'] === state.gameID) {
-            currentBets += 1;
-          }
-        }
-
-        if (currentBets === 0) {
-          currentBets = 'Loading';
-        }
-
-        commit('setCurrentGameBets', currentBets);
-      })
-      .catch(function(err) {
-        // TODO Handle error correctly.
-        console.error(err);
       });
   }
 };
@@ -196,18 +153,6 @@ const mutations = {
   setGameEndTime(state, gameEndTime) {
     state.gameEndTime = gameEndTime;
   },
-
-  setBetList(state, betList) {
-    state.gameStartTime = betList;
-  },
-
-  setCurrentGameBets(state, currentGameBets) {
-    state.currentGameBets = currentGameBets;
-  },
-
-  setCGBetList(state, cgBetList) {
-    state.cgBetList = cgBetList;
-  }
 };
 
 export default {
