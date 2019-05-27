@@ -10,7 +10,7 @@
       ref="myTable"
       @current-change="handleCurrentChange"
       row-key="pubkey"
-      max-height="550"
+      min-height="550"
       :data="masternodesRows"
       highlight-current-row
       header-row-class-name="el-table-masternodes-header"
@@ -58,7 +58,7 @@
 import Vuex from 'vuex';
 import moment from 'moment';
 import ipcRender from '../../../common/ipc/ipcRender';
-
+import masternode_rpc from '@/services/api/masternode_rpc';
 export default {
   name: 'Masternodes',
   // components: {
@@ -74,9 +74,9 @@ export default {
       currentStartingType: 'many'
     };
   },
-  created() {
+  async created() {
     // Get Receive Address List
-    // this.getMasternodeStatus()
+    this.getMasternodeStatus();
   },
   methods: {
     async handleCurrentChange(currentRow) {
@@ -84,81 +84,91 @@ export default {
     },
     async getMasternodeStatus() {
       console.log('getMasternodeStatus');
+      try {
+        await this.getNetworkMasternodeStatus();
+        let result = await masternode_rpc.getMasternodeConfigSync();
+        let mnConfig = result;
 
-      await this.getNetworkMasternodeStatus();
-      let result = await ipc.callMain(GET_MASTERNODE_CONFIG);
-      let mnConfig = result;
-      if (!mnConfig) return false;
+        if (!mnConfig) return false;
+        mnConfig = mnConfig.split('\n');
+        if (!mnConfig.length) return false;
 
-      mnConfig = mnConfig.split('\n');
-      if (!mnConfig.length) return false;
-
-      let masterNodes = mnConfig.filter(node => {
-        return node.trim() !== '' && node.indexOf('#') === -1;
-      });
-
-      this.masternodesRows = [];
-      masterNodes.forEach(mn => {
-        let foundMNOnNetwork = false;
-        mn = mn.split(' ');
-        for (let n = 0; n < this.masternodesNetworkRows.length; n++) {
-          // console.log(`compare ${mn[1]} and ${this.masternodesNetworkRows[n].address}`)
-          if (mn[1] === this.masternodesNetworkRows[n].pubkey) {
-            let useMe = {
-              ...this.masternodesNetworkRows[n],
-              alias: mn[0],
-              address: mn[1]
-            };
-            this.masternodesRows.push(useMe);
-            foundMNOnNetwork = true;
-            break;
-          }
-        }
-
-        if (!foundMNOnNetwork) {
-          let entry = {
-            address: mn[1],
-            active: 'unknown',
-            status: 'unknown',
-            alias: mn[0],
-            pubkey: mn[2],
-            txhash: mn[3],
-            outputidx: mn[4]
-          };
-          this.masternodesRows.push(entry);
-        }
-      });
-      if (this.selectedRow && this.$refs.myTable) {
-        let findSelected = this.masternodesRows.filter(item => {
-          if (
-            item.pubkey === this.selectedRow.pubkey &&
-            item.alias === this.selectedRow.alias
-          )
-            return item;
+        let masterNodes = mnConfig.filter(node => {
+          return node.trim() !== '' && node.indexOf('#') === -1;
         });
-        this.$refs.myTable.setCurrentRow(findSelected[0]);
+
+        this.masternodesRows = [];
+        masterNodes.forEach(mn => {
+          let foundMNOnNetwork = false;
+          mn = mn.split(' ');
+          for (let n = 0; n < this.masternodesNetworkRows.length; n++) {
+            // console.log(`compare ${mn[1]} and ${this.masternodesNetworkRows[n].address}`)
+            if (mn[1] === this.masternodesNetworkRows[n].pubkey) {
+              let useMe = {
+                ...this.masternodesNetworkRows[n],
+                alias: mn[0],
+                address: mn[1]
+              };
+              this.masternodesRows.push(useMe);
+              foundMNOnNetwork = true;
+              break;
+            }
+          }
+
+          if (!foundMNOnNetwork) {
+            let entry = {
+              address: mn[1],
+              active: 'unknown',
+              status: 'unknown',
+              alias: mn[0],
+              pubkey: mn[2],
+              txhash: mn[3],
+              outputidx: mn[4]
+            };
+            this.masternodesRows.push(entry);
+          }
+        });
+
+        console.log(this.masternodesRows);
+        if (this.selectedRow && this.$refs.myTable) {
+          let findSelected = this.masternodesRows.filter(item => {
+            if (
+              item.pubkey === this.selectedRow.pubkey &&
+              item.alias === this.selectedRow.alias
+            )
+              return item;
+          });
+          this.$refs.myTable.setCurrentRow(findSelected[0]);
+        }
+        setTimeout(this.getMasternodeStatus, 10000);
+      } catch (e) {
+        console.log(e);
       }
-      setTimeout(this.getMasternodeStatus, 10000);
     },
     async getNetworkMasternodeStatus() {
       // status, protocol, pubkey, ip:port, lastseen, activeseconds,lastpaid
-      let res = (await ipc.callMain(NETWORK_MASTERNODES)).result;
-      let rows = [];
-      if (res) {
-        for (let item of res) {
-          let lastSeen = moment(item['lastseen'] * 1000).format(
-            'MMMM Do YYYY, h:mm:ss a'
-          );
-          let minutesActive = moment.duration(item['activetime'], 'seconds');
-          rows.push({
-            status: item['status'],
-            lastSeen: lastSeen,
-            active: minutesActive.humanize(),
-            pubkey: item['addr']
-          });
+      try {
+        let res = await masternode_rpc.getMasternodeList();
+        let rows = [];
+        if (res) {
+          for (let item of res) {
+            let lastSeen = moment(item['lastseen'] * 1000).format(
+              'MMMM Do YYYY, h:mm:ss a'
+            );
+            let minutesActive = moment.duration(item['activetime'], 'seconds');
+            rows.push({
+              status: item['status'],
+              lastSeen: lastSeen,
+              active: minutesActive.humanize(),
+              pubkey: item['addr']
+            });
+          }
         }
+        console.log("I'm from network Masternode status");
+        this.masternodesNetworkRows = rows;
+      } catch (e) {
+        console.log(e);
       }
-      this.masternodesNetworkRows = rows;
     },
     async onStartMasternodeMany() {
       this.currentStartingType = 'many';
@@ -176,7 +186,7 @@ export default {
       try {
         let data;
         if (this.currentStartingType === 'many') {
-          data = await ipc.callMain(MASTERNODE_START_MANY);
+          data = await masternode_rpc.masternodeStartMany();
           let list = [];
           let self = this;
           list.push(this.$createElement('h5', data.result.overall));
