@@ -50,6 +50,9 @@
       <el-button class="btn-medium" @click="getMasternodeStatus"
         >update status</el-button
       >
+      <el-button class="btn-medium" @click="showingMasternodeConf"
+        >Masternode.conf</el-button
+      >
     </div>
   </div>
 </template>
@@ -59,6 +62,8 @@ import Vuex from 'vuex';
 import moment from 'moment';
 import ipcRender from '../../../common/ipc/ipcRender';
 import masternode_rpc from '@/services/api/masternode_rpc';
+import { getCoinMasternodeConfPath } from '../../../main/blockchain/blockchain';
+import { shell } from 'electron';
 export default {
   name: 'Masternodes',
   // components: {
@@ -261,6 +266,11 @@ export default {
         this.$message.error(e.message);
         console.log(e);
       }
+    },
+    showingMasternodeConf() {
+      const masternodeConfPath = getCoinMasternodeConfPath();
+      console.log(masternodeConfPath);
+      shell.openItem(masternodeConfPath);
     },
     gotoSettingsMasternode() {
       this.$router.replace({ path: `/settings/masternodes` });
