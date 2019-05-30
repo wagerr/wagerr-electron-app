@@ -22,7 +22,7 @@
     "pack": "npm run pack:main && npm run pack:renderer",
     "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.main.config.js",
     "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
-    "package": "npm run build && electron-builder build",
+    "package": "npm run build && electron-builder build --publish never",
     "postlint-fix": "prettier --ignore-path .eslintignore --single-quote --write '**/*.{js,vue,json,html,css,less,scss,yml}'",
     "postlint-styles-fix": "prettier --ignore-path .eslintignore --single-quote --write '**/*.{css,scss}'"
   },
