@@ -1,36 +1,56 @@
-osx_image: xcode8.3
-sudo: required
-dist: trusty
-language: c
-matrix:
-  include:
-    - os: osx
-    - os: linux
-      env: CC=clang CXX=clang++ npm_config_clang=1
-      compiler: clang
+language: node_js
+node_js: lts/*
+
+env:
+  global:
+    - ELECTRON_CACHE=$HOME/.cache/electron
+    - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
+
+before_cache:
+  - rm -rf $HOME/.cache/electron-builder/wine
+
 cache:
   directories:
     - node_modules
-    - '$HOME/.electron'
-    - '$HOME/.cache'
-addons:
-  apt:
-    packages:
-      - libgnome-keyring-dev
-      - icnsutils
-before_install:
-  - mkdir -p /tmp/git-lfs && curl -L https://github.com/github/git-lfs/releases/download/v1.2.1/git-lfs-$([
-    "$TRAVIS_OS_NAME" == "linux" ] && echo "linux" || echo "darwin")-amd64-1.2.1.tar.gz
-    | tar -xz -C /tmp/git-lfs --strip-components 1 && /tmp/git-lfs/git-lfs pull
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install --no-install-recommends -y icnsutils graphicsmagick xz-utils; fi
+    - $(npm config get prefix)/lib/node_modules
+    - $HOME/.cache/electron
+    - $HOME/.cache/electron-builder
+
+stages:
+  - lint
+  - test
+
 install:
-  - nvm install 7
-  - curl -o- -L https://yarnpkg.com/install.sh | bash
-  - source ~/.bashrc
-  - npm install -g xvfb-maybe
-  - yarn
+  - npm install
+
 script:
-  - yarn run build
-branches:
-  only:
-    - master
+  # Ideally we run `npm run package` here instead, but need to handle the
+  # complication of fetching the Wagerr binaries to place in the `bin` dir.
+  # Adding some `before_script` commands to each job to fetch the files from
+  # the latest GitHub release might be the solution.
+  - npm run build
+
+jobs:
+  include:
+
+    - stage: lint
+      name: "Lint Check"
+      script:
+        # Lint tests turned off until we can clear out all the current errors.
+        # If you would like to help out, run the below commands and you will
+        # see a list of errors that need to be fixed.
+        # - npm run lint
+        # - npm run lint-styles
+        - echo "Lint tests turned off until all current errors are resolved."
+
+    - stage: test
+      name: "Linux Test"
+      os: linux
+
+    - stage: test
+      name: "macOS Test"
+      os: osx
+
+    - stage: test
+      name: "Windows Test"
+      os: windows
