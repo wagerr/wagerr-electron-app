@@ -15,7 +15,6 @@ const state = function() {
     synced: false,
     initWalletText: 'Initialising Wagerr Wallet...',
     walletVersion: `v${packageJSON.version}`,
-    daemonVersion: `v${packageJSON.wagerrSettings.daemonVersion}`,
     txCount: 0,
     dataDir: blockchain.getWagerrDataPath()
   };
