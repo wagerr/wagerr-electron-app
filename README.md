@@ -5,6 +5,8 @@ published soon.**
 Wagerr Electron App
 ===================
 
+[![Build Status](https://travis-ci.com/wagerr/wagerr-electron-app.svg?branch=master)](https://travis-ci.com/wagerr/wagerr-electron-app)
+
 A modern cross-platform GUI for Wagerr built with
 [Electron](https://electronjs.org/) & [Vue.js](https://vuejs.org/).
 
