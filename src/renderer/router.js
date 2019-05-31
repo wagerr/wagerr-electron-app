@@ -40,7 +40,11 @@ export default new Router({
         { path: 'address_book', component: AddressBook },
         { path: 'sign_verify_message', component: SignVerifyMessage },
         { path: 'peers', component: Peers },
-        { path: 'wallet_repair', component: WalletRepair }
+        { path: 'wallet_repair', component: WalletRepair },
+        {
+          path: 'masternode_setup',
+          component: MasternodesContent
+        }
       ]
     },
     { path: '/preferences', component: Preferences },

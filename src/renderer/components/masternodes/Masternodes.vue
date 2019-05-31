@@ -273,7 +273,7 @@ export default {
       shell.openItem(masternodeConfPath);
     },
     gotoSettingsMasternode() {
-      this.$router.replace({ path: `/settings/masternodes` });
+      this.$router.replace({ path: `/tools/masternode_setup` });
     }
   }
 };

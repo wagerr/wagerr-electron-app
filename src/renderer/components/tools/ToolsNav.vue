@@ -26,6 +26,10 @@
       <router-link class="col s4" tag="li" to="/tools/wallet_repair">
         <a>Wallet Repair</a>
       </router-link>
+
+      <router-link class="col s4" tag="li" to="/tools/masternode_setup">
+        <a>Setup Masternode</a>
+      </router-link>
     </ul>
   </div>
 </template>
