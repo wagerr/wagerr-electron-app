@@ -129,7 +129,7 @@
 
     <div class="pull-right wagerr-balance">
       <span id="wagerr-total-balance">
-        {{ walletLoaded ? balance : 'Loading...' }}
+        {{ walletLoaded ? (Math.trunc(balance * 10000) / 10000) : 'Loading...' }}
         <span class="currency">{{
           getNetworkType === 'Testnet' ? 'tWGR' : 'WGR'
         }}</span>
