@@ -296,7 +296,6 @@ export default {
     line-height: 30px;
   }
   .setup-button {
-    width: 185px;
     float: right;
   }
 }
@@ -336,11 +335,12 @@ export default {
 }
 
 .button-container {
-  .el-button {
+  margin: 20px;
+  .a {
     border: none;
     margin: 10px;
   }
-  .el-button:hover {
+  .a:hover {
     color: white;
   }
 }

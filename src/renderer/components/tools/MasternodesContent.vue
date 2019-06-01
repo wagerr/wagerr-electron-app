@@ -38,49 +38,67 @@
             @back="onStepSixBack"
             :isVisible.sync="showStepSix"
         ></masternode-step-six-dialog>-->
-    <el-row class="masternode-container">
-      <el-col :span="12" class="masternode-panel-left">
-        <el-row class="masternode-container">
-          <table class="table-masternode">
-            <tbody class="table-masternode-body">
-              <tr>
-                <td>STEP ONE:</td>
-                <td>Send 20,000 ION</td>
-              </tr>
-              <tr>
-                <td>STEP TWO:</td>
-                <td>Name Masternode</td>
-              </tr>
-              <tr>
-                <td>STEP THREE:</td>
-                <td>Enter IP Address</td>
-              </tr>
-              <tr>
-                <td>STEP FOUR:</td>
-                <td>Generate Pairing Key</td>
-              </tr>
-              <tr>
-                <td>STEP FIVE:</td>
-                <td>Choose Output</td>
-              </tr>
-              <tr>
-                <td>STEP SIX:</td>
-                <td>Accept and Restart</td>
-              </tr>
-            </tbody>
-          </table>
-        </el-row>
-        <el-row class="button-container">
-          <el-button class="btn-medium" :is-light="true" @click="onStartSetup"
-            >START SETUP</el-button
+
+    <h4>Masternode Setup</h4>
+
+    <p>
+      You can check the setup Masternode step here. Please consider you are
+      ready for starting.
+    </p>
+
+    <el-row class="list-masternode">
+      <ul class="collection">
+        <li class="collection-item">
+          <span class="waves-effect waves-light red darken-4 btn"
+            >STEP ONE:</span
           >
-          <!-- <el-button
-                        :is-light="true"
-                        @click="onOpenConfig"
-                        class="config-button"
-                    >{{$t('settings.masternodes.masternode_config')}}</el-button>-->
-        </el-row>
-      </el-col>
+          <span class="command">Send 25,000 Wagerr</span>
+        </li>
+        <li class="collection-item">
+          <span class="waves-effect waves-light red darken-4 btn"
+            >STEP TWO:</span
+          >
+          <span class="command">Name Masternode</span>
+        </li>
+        <li class="collection-item">
+          <span class="waves-effect waves-light red darken-4 btn"
+            >STEP THREE:</span
+          >
+          <span class="command">Enter IP Address</span>
+        </li>
+        <li class="collection-item">
+          <span class="waves-effect waves-light red darken-4 btn"
+            >STEP FOUR:</span
+          >
+          <span class="command">Generate Pairing Key</span>
+        </li>
+        <li class="collection-item">
+          <span class="waves-effect waves-light red darken-4 btn"
+            >STEP FIVE:</span
+          >
+          <span class="command">Choose Output</span>
+        </li>
+        <li class="collection-item">
+          <span class="waves-effect waves-light red darken-4 btn"
+            >STEP SIX:</span
+          >
+          <span class="command">Accept and Restart</span>
+        </li>
+      </ul>
+    </el-row>
+    <el-row class="button-container">
+      <a
+        class="waves-effect waves-light btn-large wagerr-red-bg pulse"
+        :is-light="true"
+        @click="onStartSetup"
+        >START SETUP</a
+      >
+      <a
+        class="waves-effect waves-red wallet-action btn-large modal-trigger wagerr-red-bg z-depth-2"
+        :is-light="true"
+        @click="onOpenConfig"
+        >Masternode.conf</a
+      >
     </el-row>
   </div>
 </template>
@@ -276,33 +294,20 @@ export default {
 <style scoped lang="scss">
 @import '../../assets/scss/_variables.scss';
 
-.masternode-container {
-  display: flex;
-  width: 100%;
-}
-
-.masternode-panel-left {
-  border-right: 3px solid #39393a;
-  margin-bottom: 10px;
-  margin-right: 20px;
-}
-
-.table-masternode {
-  width: 100%;
-  padding-left: 10px;
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 16px;
-}
-
-.table-masternode-body > tr {
-  height: 50px;
-  line-height: 50px;
-}
-
-.table-masternode-body td:nth-child(2) {
-  font-size: 16px;
-  text-align: right;
-  padding-right: 20px;
+.list-masternode {
+  li {
+    margin-bottom: 10px;
+    .red {
+      width: 180px;
+      margin-right: 80px;
+    }
+    span.command {
+      font-size: 16px;
+      text-align: right;
+      color: black;
+      padding-right: 20px;
+    }
+  }
 }
 
 .button-container {
@@ -310,12 +315,6 @@ export default {
   justify-content: space-around;
   margin-top: 50px;
 }
-
-.setup-button {
-  width: 180px;
-  font-weight: bolder;
-}
-
 .config-button {
   width: 180px;
   margin-left: 20px;
