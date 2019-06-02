@@ -1,6 +1,8 @@
 export default {
   // Betting constants.
   ODDS_DIVISOR: 10000,
+  MIN_BET_AMOUNT: 25,
+  MAX_BET_AMOUNT: 10000,
 
   // Blockchain
   COIN: 1000000000,
