@@ -64,18 +64,26 @@
                   ></span>
                 </div>
                 <div class="stake-button">
-                  <button class="pull-right btn" @click="placeBet(bet.betId)">
+                  <button
+                    :id="'place-bet-button-' + index"
+                    class="pull-right btn disabled"
+                    @click="placeBet(bet.betId)"
+                  >
                     Bet
                   </button>
                 </div>
               </div>
 
+              <div :id="'bet-warning-' + index" class="bet-warning hide"></div>
+
               <div class="bet-returns">
                 <span class="pull-left potential-returns-headline"
-                  >Winnings:</span
+                  >Potential Returns:</span
                 >
 
-                <span :id="index" class="potential-returns pull-right"
+                <span
+                  :id="'potential-returns-' + index"
+                  class="potential-returns pull-right"
                   >0 {{ getNetworkType === 'Testnet' ? 'tWGR' : 'WGR' }}</span
                 >
 
@@ -99,13 +107,20 @@
 
 <script>
 import Vuex from 'vuex';
+import constants from '../../../../main/constants/constants';
 import wagerrRPC from '@/services/api/wagerrRPC';
 
 export default {
   name: 'BetSlip',
 
   computed: {
-    ...Vuex.mapGetters(['betSlip', 'getNumBets', 'getNetworkType'])
+    ...Vuex.mapGetters([
+      'balance',
+      'pending',
+      'betSlip',
+      'getNumBets',
+      'getNetworkType'
+    ])
   },
 
   methods: {
@@ -113,7 +128,7 @@ export default {
 
     // Calculate the potential winnings of a bet.
     calcPotentialWinnings: function(event, odds, index) {
-      odds = odds / 10000;
+      odds = odds / constants.ODDS_DIVISOR;
       let betFeePercent = 0.06;
       let betStake = event.target.value;
       let grossWinnings = odds * betStake;
@@ -122,20 +137,68 @@ export default {
       let netWinnings = grossWinnings - betFee;
 
       // Set the potential winnings on the UI.
-      document.getElementById(index).innerText =
+      document.getElementById('potential-returns-' + index).innerText =
         netWinnings.toFixed(8) +
         (this.getNetworkType === 'Testnet' ? ' tWGR' : ' WGR');
+
+      // If the bet stake is more than the available balance, disable the bet button and show a warning.
+      if (
+        this.balance < betStake ||
+        betStake < constants.MIN_BET_AMOUNT ||
+        betStake > constants.MAX_BET_AMOUNT
+      ) {
+        document
+          .getElementById('place-bet-button-' + index)
+          .classList.add('disabled');
+        this.showBetWarning(betStake, index);
+      } else if (this.balance > betStake) {
+        document
+          .getElementById('place-bet-button-' + index)
+          .classList.remove('disabled');
+        this.showBetWarning(betStake, index);
+      }
+    },
+
+    showBetWarning: function(betStake, index) {
+      if (this.balance < betStake && this.pending > betStake) {
+        document
+          .getElementById('bet-warning-' + index)
+          .classList.remove('hide');
+        document.getElementById('bet-warning-' + index).innerText =
+          'Available balance too low. Please wait for your pending balance of ' +
+          this.pending +
+          ' ' +
+          (this.getNetworkType === 'Testnet' ? ' tWGR' : ' WGR') +
+          ' to be confirmed.';
+      } else if (betStake < 25 || betStake > 10000) {
+        document
+          .getElementById('bet-warning-' + index)
+          .classList.remove('hide');
+        document.getElementById('bet-warning-' + index).innerText =
+          'Incorrect bet amount. Please ensure your bet is between 25 - 10000 ' +
+          (this.getNetworkType === 'Testnet' ? ' tWGR' : ' WGR') +
+          ' inclusive.';
+      } else if (this.balance < betStake) {
+        document
+          .getElementById('bet-warning-' + index)
+          .classList.remove('hide');
+        document.getElementById('bet-warning-' + index).innerText =
+          'Available balance too low.';
+      } else {
+        document.getElementById('bet-warning-' + index).classList.add('hide');
+        document.getElementById('bet-warning-' + index).innerText = '';
+      }
     },
 
     // Place a bet on a given event and sent the tx to the Wagerr blockchain.
     placeBet: function(betId) {
       let betInfo = this.betSlip.find(item => item.betId === betId);
       let betAmount = parseFloat(document.getElementById(betId).value);
-      let evetnId = parseInt(betInfo.eventDetails.event_id);
+      let eventId = parseInt(betInfo.eventDetails.event_id);
       let self = this;
 
       wagerrRPC.client
-        .placeBet(evetnId, betInfo.outcome, betAmount)
+        .placeBet(eventId, betInfo.outcome, betAmount)
         .then(function(resp) {
           // If bet was successful then display bet TX-ID to the user.
           if (resp.error !== 'null') {
@@ -189,3 +252,16 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+@import '../../../assets/scss/_variables.scss';
+
+.bet-warning {
+  background: $dark_grey;
+  border-radius: 5px;
+  color: $white;
+  font-size: 12px;
+  margin: 5px;
+  padding: 10px;
+}
+</style>
