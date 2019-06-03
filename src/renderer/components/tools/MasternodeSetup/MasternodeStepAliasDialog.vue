@@ -1,33 +1,35 @@
 <template>
-  <!-- Wallet Unlock -->
   <el-dialog
     :close-on-click-modal="false"
-    title="Step 2"
-    class="custom-dialog"
     effect="fade/zoom"
     :visible.sync="showDialog"
   >
-    <div class="dialog-header" slot="title">
-      {{ $t('settings.masternodes.step_two.title') }}
-    </div>
-    <div class="step-two-title">
-      {{ $t('settings.masternodes.step_two.description') }}
-    </div>
+    <div class="masternode-modal">
+      <el-row class="modal-text text-center">
+        <h4 class="modal-font">Step 2: Assign a Name for your Masternode.</h4>
+      </el-row>
+      <div class="input-field col s12">
+        <i class="fas fa-tags prefix"></i>
 
-    <el-input
-      v-model="innerAlias"
-      :label="$t('settings.masternodes.step_two.alias')"
-      :place-holder="$t('settings.masternodes.step_two.alias_holder')"
-    ></el-input>
-    <div class="step-button-container">
-      <el-button class="step-button" @click.prevent="onBack()">{{
-        $t('settings.masternodes.step_two.back')
-      }}</el-button>
-      <el-button class="step-button" @click.prevent="onNext()">
-        <span class="step-next-text">{{
-          $t('settings.masternodes.step_two.next')
+        <input
+          v-model="innerAlias"
+          v-validate
+          id="alias"
+          name="alias"
+          type="text"
+          autofocus
+        />
+
+        <label for="alias">Alias:</label>
+
+        <span v-if="errors.has('alias')" class="form-error">{{
+          errors.first('alias')
         }}</span>
-      </el-button>
+      </div>
+      <el-row slot="footer" class="button-container options">
+        <a class="btn green" @click.prevent="onNext()">Next</a>
+        <a class="btn" @click.prevent="onBack()">Back</a>
+      </el-row>
     </div>
   </el-dialog>
 </template>
@@ -59,7 +61,7 @@ export default {
         return this.alias;
       },
       set: function(newValue) {
-        this.$emit('update:ip', newValue);
+        this.$emit('update:alias', newValue);
       }
     }
   },
@@ -75,26 +77,25 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.step-two-title {
-  color: #ffffff;
-  font-size: 24px;
-  text-align: center;
-  margin-top: 40px;
-  margin-bottom: 30px;
-}
+@import '../../../assets/scss/_variables.scss';
+.masternode-modal {
+  position: relative;
+  width: 100%;
 
-.step-button {
-  width: 127px;
-  font-size: 17px;
-  font-weight: bolder;
-  margin-right: 10px;
+  label {
+    color: $wagerr_red !important;
+  }
+  input {
+    color: $black !important;
+  }
 }
-
-.step-button-container {
-  margin-top: 140px;
-}
-
-.step-next-text {
-  color: #10e492;
+.button-container {
+  margin-top: 50px;
+  a:nth-child(0) {
+    float: left;
+  }
+  a:nth-child(1) {
+    float: right;
+  }
 }
 </style>

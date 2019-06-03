@@ -1,16 +1,23 @@
 <template>
   <div>
     <masternode-step-send-dialog
-      :close-on-click-modal="false"
       :isVisible.sync="showStepSend"
+      @next="onStepSendFinish"
     ></masternode-step-send-dialog>
-    <!-- @next="onStepSendFinish" <masternode-step-alias-dialog
-            :close-on-click-modal="false"
-            :isVisible.sync="showStepAlias"
-            @next="onStepAliasFinish"
-            @back="onStepAliasBack"
-            :ip.sync="alias"
-        ></masternode-step-alias-dialog>
+    <masternode-step-alias-dialog
+      :isVisible.sync="showStepAlias"
+      @back="onStepAliasBack"
+      @next="onStepAliasFinish"
+      :alias.sync="alias"
+    ></masternode-step-alias-dialog>
+    <masternode-step-ip-dialog
+      :isVisible.sync="showStepIp"
+      @next="onStepIpFinish"
+      @back="onStepIpBack"
+      :ip.sync="ip"
+    ></masternode-step-ip-dialog>
+    <!--
+
         <masternode-step-ip-dialog
             :close-on-click-modal="false"
             :isVisible.sync="showStepIp"
@@ -37,8 +44,8 @@
             @next="onStepSixFinish"
             @back="onStepSixBack"
             :isVisible.sync="showStepSix"
-        ></masternode-step-six-dialog>-->
-
+        ></masternode-step-six-dialog>
+        -->
     <h4>Masternode Setup</h4>
 
     <p>
@@ -104,10 +111,9 @@
 </template>
 
 <script>
-// import MasternodeStepAliasDialog from "./MasternodeSetup/MasternodeStepAliasDialog";
-
+import MasternodeStepAliasDialog from './MasternodeSetup/MasternodeStepAliasDialog';
 import MasternodeStepSendDialog from './MasternodeSetup/MasternodeStepSendDialog';
-// import MasternodeStepIpDialog from "./MasternodeSetup/MasternodeStepIpDialog";
+import MasternodeStepIpDialog from './MasternodeSetup/MasternodeStepIpDialog';
 // import MasternodeStepPrivateKeyDialog from "./MasternodeSetup/MasternodeStepPrivateKeyDialog";
 // import MasternodeStepOutputDialog from "./MasternodeSetup/MasternodeStepOutputDialog";
 // import MasternodeStepSixDialog from "./MasternodeSetup/MasternodeStepSixDialog";
@@ -122,8 +128,9 @@ import { shell } from 'electron';
 export default {
   name: 'MasternodesContent',
   components: {
-    // MasternodeStepAliasDialog
-    MasternodeStepSendDialog
+    MasternodeStepAliasDialog,
+    MasternodeStepSendDialog,
+    MasternodeStepIpDialog
     // MasternodeStepOutputDialog,
     // MasternodeStepPrivateKeyDialog,
     // MasternodeStepIpDialog,
@@ -175,52 +182,44 @@ export default {
     },
     onStartSetup() {
       this.showStepSend = true;
+    },
+    onStepSendFinish() {
+      this.showStepSend = false;
+      this.showStepAlias = true;
+    },
+    onStepAliasBack() {
+      this.showStepSend = true;
+      this.showStepAlias = false;
+    },
+    onStepAliasFinish() {
+      console.log('alias is:', this.alias);
+      if (!this.alias || this.alias.length === 0) {
+        this.$message.error('Alias can not be empty');
+        return;
+      }
+      if (!_.find(this.configOutputs, { alias: this.alias })) {
+        this.showStepAlias = false;
+        this.showStepIp = true;
+      } else {
+        this.$message.error('Alias already exist');
+      }
+    },
+    onStepIpBack() {
+      this.showStepIp = false;
+      this.showStepAlias = true;
+    },
+    onStepIpFinish() {
+      if (!this.ip || this.ip.length === 0) {
+        this.$message.error('Ip can not be empty');
+        return;
+      }
+      if (!_.find(this.configOutputs, { ip: `${this.ip}:${port}` })) {
+        this.showStepIp = false;
+        this.showStepPrivateKey = true;
+      } else {
+        this.$message.error('Ip already exist');
+      }
     }
-    // onStepSendFinish() {
-    //     console.log("onStepSendFinish");
-    //     this.showStepSend = false;
-    //     this.showStepAlias = true;
-    // },
-    // onStepAliasBack() {
-    //     this.showStepSend = true;
-    //     this.showStepAlias = false;
-    // },
-    // onStepAliasFinish() {
-    //     if (!this.alias || this.alias.length === 0) {
-    //         this.$message.error(
-    //             this.$t("settings.masternodes.message.alias_empty_error")
-    //         );
-    //         return;
-    //     }
-    //     if (!_.find(this.configOutputs, { alias: this.alias })) {
-    //         this.showStepAlias = false;
-    //         this.showStepIp = true;
-    //     } else {
-    //         this.$message.error(
-    //             this.$t("settings.masternodes.message.alias_exist_error")
-    //         );
-    //     }
-    // },
-    // onStepIpBack() {
-    //     this.showStepIp = false;
-    //     this.showStepAlias = true;
-    // },
-    // onStepIpFinish() {
-    //     if (!this.ip || this.ip.length === 0) {
-    //         this.$message.error(
-    //             this.$t("settings.masternodes.message.ip_empty_error")
-    //         );
-    //         return;
-    //     }
-    //     if (!_.find(this.configOutputs, { ip: `${this.ip}:${port}` })) {
-    //         this.showStepIp = false;
-    //         this.showStepPrivateKey = true;
-    //     } else {
-    //         this.$message.error(
-    //             this.$t("settings.masternodes.message.ip_exist_error")
-    //         );
-    //     }
-    // },
     // onStepPrivateKeyBack() {
     //     this.showStepPrivateKey = false;
     //     this.showStepIp = true;

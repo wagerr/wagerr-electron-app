@@ -1,102 +1,103 @@
 <template>
   <!-- Send Transaction Modal -->
   <el-dialog
-    :close-on-click-modal="true"
-    title="Step 1"
-    effect="fade/zoom"
-    :close-on-press-escape="true"
+    :close-on-press-escape="false"
     :visible.sync="showDialog"
+    :modalAppendToBody="false"
+    effect="fade/zoom"
   >
-    <form @submit.prevent="handleSubmit">
-      <div class="row">
-        <div class="modal-text text-center">
-          <p class="modal-font">Enter the address and amount to send WGR.</p>
-        </div>
-
-        <div class="input-field col s12">
-          <i class="far fa-address-card prefix"></i>
-
-          <input
-            v-model="sendAddress"
-            v-validate="'required'"
-            id="send-address"
-            name="send-address"
-            type="text"
-            autofocus
-          />
-
-          <label for="send-address">Pay To</label>
-
-          <span v-if="errors.has('send-address')" class="form-error">{{
-            errors.first('send-address')
-          }}</span>
-        </div>
-
-        <div class="input-field col s12">
-          <i class="fas fa-tags prefix"></i>
-
-          <input
-            v-model="label"
-            v-validate
-            id="label"
-            name="label"
-            type="text"
-          />
-
-          <label for="label">Label</label>
-
-          <span v-if="errors.has('label')" class="form-error">{{
-            errors.first('label')
-          }}</span>
-        </div>
-
-        <div class="input-field col s10">
-          <i class="fas fa-money-bill prefix"></i>
-
-          <input
-            v-model="amount"
-            v-validate="'required|decimal:8|min_value:0'"
-            id="amount"
-            name="amount"
-            type="text"
-          />
-
-          <label for="amount">Amount</label>
-
-          <div v-if="errors.has('amount')" class="form-error amount-margin">
-            {{ errors.first('amount') }}
+    <div class="masternode-modal">
+      <form @submit.prevent="handleSubmit">
+        <el-row>
+          <div class="modal-text text-center">
+            <h4 class="modal-font">
+              Step 1:Enter the address and amount to send WGR.
+            </h4>
           </div>
-        </div>
 
-        <div class="input-field col s2">
-          <input
-            v-model="txFee"
-            v-validate="'required|decimal:5|min_value:0'"
-            id="fee"
-            name="fee"
-            type="text"
-          />
+          <div class="input-field col s12">
+            <i class="far fa-address-card prefix"></i>
 
-          <label for="fee" class="active">TX Fee</label>
+            <input
+              v-model="sendAddress"
+              v-validate="'required'"
+              id="send-address"
+              name="send-address"
+              type="text"
+              autofocus
+            />
 
-          <div v-if="errors.has('fee')" class="form-error">
-            {{ errors.first('fee') }}
+            <label for="send-address">Pay To</label>
+
+            <span v-if="errors.has('send-address')" class="form-error">{{
+              errors.first('send-address')
+            }}</span>
           </div>
-        </div>
-      </div>
 
-      <div class="options">
-        <button
-          class="send waves-effect waves-red wallet-action btn-large modal-trigger wagerr-red-bg z-depth-2"
-        >
-          Send
-        </button>
-        <el-button class="step-button" @click="clearForm()">CLEAR</el-button>
-        <el-button class="step-button" @click="onSkip()">SKIP</el-button>
-      </div>
+          <div class="input-field col s12">
+            <i class="fas fa-tags prefix"></i>
 
-      <div class="clearfix"></div>
-    </form>
+            <input
+              v-model="label"
+              v-validate
+              id="label"
+              name="label"
+              type="text"
+            />
+
+            <label for="label">Label</label>
+
+            <span v-if="errors.has('label')" class="form-error">{{
+              errors.first('label')
+            }}</span>
+          </div>
+
+          <div class="input-field col s10">
+            <i class="fas fa-money-bill prefix"></i>
+
+            <input
+              v-model="amount"
+              v-validate="'required|decimal:8|min_value:0'"
+              id="amount"
+              name="amount"
+              type="text"
+            />
+
+            <label for="amount">Amount</label>
+
+            <div v-if="errors.has('amount')" class="form-error amount-margin">
+              {{ errors.first('amount') }}
+            </div>
+          </div>
+
+          <div class="input-field col s2">
+            <input
+              v-model="txFee"
+              v-validate="'required|decimal:5|min_value:0'"
+              id="fee"
+              name="fee"
+              type="text"
+            />
+
+            <label for="fee" class="active">TX Fee</label>
+
+            <div v-if="errors.has('fee')" class="form-error">
+              {{ errors.first('fee') }}
+            </div>
+          </div>
+        </el-row>
+        <el-row slot="footer" class="button-container options">
+          <button
+            type="submit"
+            class="send waves-effect waves-red wallet-action btn modal-trigger wagerr-red-bg z-depth-2"
+          >
+            Send
+          </button>
+          <a class="btn" @click="clearForm()">CLEAR</a>
+          <a class="btn" @click="onSkip()">SKIP</a>
+        </el-row>
+      </form>
+    </div>
   </el-dialog>
 </template>
 
@@ -258,7 +259,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.el-dialog.custom-dialog {
+@import '../../../assets/scss/_variables.scss';
+.masternode-modal {
+  position: relative;
+  width: 100%;
   display: flex;
+  label {
+    color: $wagerr_red !important;
+  }
+  input {
+    color: $black !important;
+  }
+}
+.button-container {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 50px;
 }
 </style>

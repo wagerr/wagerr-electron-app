@@ -1,95 +1,114 @@
 <template>
-  <!-- Wallet Unlock -->
   <el-dialog
     :close-on-click-modal="false"
-    title="Step 3"
-    class="custom-dialog"
     effect="fade/zoom"
     :visible.sync="showDialog"
   >
-    <div class="dialog-header" slot="title">
-      {{ $t('settings.masternodes.step_three.title') }}
-    </div>
-    <div class="step-three-title">
-      {{ $t('settings.masternodes.step_three.description') }}
-    </div>
-    <label-input
-      v-model="innerIp"
-      :label="$t('settings.masternodes.step_three.ip')"
-      :place-holder="$t('settings.masternodes.step_three.ip_holder')"
-    ></label-input>
-    <div class="step-three-subtitle">
-      {{ $t('settings.masternodes.step_three.ip_subtitle') }}
-    </div>
-    <div class="step-button-container">
-      <default-button class="step-button" @click="onBack()">
-        {{ $t('settings.masternodes.step_three.back') }}
-      </default-button>
-      <default-button class="step-button" @click="onNext()">
-        <span class="step-next-text">{{
-          $t('settings.masternodes.step_three.next')
+    <div class="masternode-modal">
+      <el-row class="modal-text text-center">
+        <h4 class="modal-font">Step 3: Enter your IP Address.</h4>
+      </el-row>
+      <div class="input-field col s12">
+        <i class="fas fa-tags prefix"></i>
+
+        <input
+          v-model="innerIp"
+          v-validate
+          id="ip"
+          name="ip"
+          type="text"
+          placholder="Enter desired IP Address"
+          autofocus
+        />
+
+        <label for="ip">Ip:</label>
+
+        <span v-if="errors.has('ip')" class="form-error">{{
+          errors.first('ip')
         }}</span>
-      </default-button>
+        <span class="step-three-subtitle"
+          >For hosting on the current system you can just google "whats my IP"
+          and it will tell your current IP.</span
+        >
+      </div>
+      <el-row slot="footer" class="button-container options">
+        <a class="btn green" @click.prevent="onNext()">Next</a>
+        <a class="btn" @click.prevent="onBack()">Back</a>
+      </el-row>
     </div>
   </el-dialog>
 </template>
 
 <script>
-import LabelInput from '../../../elements/LabelInput/LabelInput';
-import DefaultButton from '../../../elements/DefaultButton/DefaultButton';
-
 export default {
-  name: 'MasternodeStepIpDialog',
-  components: { DefaultButton, LabelInput },
-  props: {
-    isVisible: {
-      type: Boolean,
-      default: false
-    },
-    ip: {
-      type: String,
-      default: ''
-    }
-  },
-  computed: {
-    showDialog: {
-      get: function() {
-        return this.isVisible;
-      },
-      set: function(newValue) {
-        this.$emit('update:isVisible', newValue);
-      }
-    },
-    innerIp: {
-      get: function() {
-        return this.ip;
-      },
-      set: function(newValue) {
-        this.$emit('update:ip', newValue);
-      }
-    }
-  },
-  methods: {
-    onBack() {
-      this.$emit('back');
-    },
-    onNext() {
-      let isValid = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(
-        this.innerIp
-      );
-      if (isValid) {
-        this.$emit('next');
-      } else {
-        this.$message.error(
-          this.$t('settings.masternodes.step_three.message.ip_invalid')
-        );
-      }
-    }
-  }
+     name: "MasternodeStepIpDialog",
+          props: {
+                     isVisible: {
+                                    type: Boolean,
+                                                 default: false
+         },
+                  ip: {
+                                 type: String,
+                                              default: ""
+                                                       }
+     },
+          computed: {
+         showDialog: {
+                        get: function() {
+                return this.isVisible;
+            },
+            set: function(newValue) {
+                this.$emit("update:isVisible", newValue);
+            }
+         }
+         innerIp: {
+             get: function() {
+                return this.ip;
+            },
+            set: function(newValue) {
+                this.$emit("update:ip", newValue);
+            }
+         }
+          },
+     methods: {
+         onBack() {
+             this.$emit("back");
+         },
+         onNext() {
+             let isValid = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(
+                 this.innerIp
+             );
+             if (isValid) {
+                 this.$emit("next");
+             } else {
+                 this.$message.error("Ip address not valid");
+             }
+         }
+     }
 };
 </script>
 
 <style lang="scss" scoped>
+@import '../../../assets/scss/_variables.scss';
+.masternode-modal {
+  position: relative;
+  width: 100%;
+  label {
+    color: $wagerr_red !important;
+  }
+  input {
+    color: $black !important;
+  }
+}
+.button-container {
+  margin-top: 50px;
+  a:nth-child(0) {
+    float: left;
+  }
+  a:nth-child(1) {
+    float: right;
+  }
+}
 .step-three-title {
   color: #ffffff;
   font-size: 24px;
