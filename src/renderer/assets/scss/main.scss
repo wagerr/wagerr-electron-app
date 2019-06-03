@@ -9,6 +9,14 @@ html {
 body {
   padding: 0;
   font-family: 'Open Sans', sans-serif;
+  &.lightbox {
+  	.wrapper .nav {
+	  	height:0px;
+	  	header {
+		  	opacity:0.1;
+	  	}
+  	}
+  }
 }
 
 #app {

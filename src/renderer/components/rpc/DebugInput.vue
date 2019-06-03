@@ -1,6 +1,7 @@
 <template>
   <div class="debug-container">
     <div class="debug-toolbar">
+    <div class="rpctitle">WAGERR RPC Console</div>
       <a @click="clearRecHistoryList">
         <i class="icon-trash" />
       </a>
@@ -79,6 +80,12 @@ export default {
       this.addCommand('Welcome to WAGERR RPC Console.');
     }
   },
+  beforeCreate: function() {
+    document.body.className = 'lightbox';
+  },
+  destroyed: function() {
+    document.body.className = '';
+  },
   methods: {
     ...Vuex.mapActions([
       'updateCommands',
@@ -124,14 +131,20 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+@import '../../assets/scss/_variables';
+
+body.lightbox
+
 .debug-container {
   position: fixed;
-  top: 100px;
-  width: 98%;
-  left: 1%;
-  height: calc(100% - 140px);
+  top: 5%;
+  width: 90%;
+  left: 5%;
+  height: 90%;
+  z-index:9999;
   overflow: hidden;
-  background-color: rgba(0, 0, 0, 1);
+  background-color: $white;
+  color:$dark_grey;
   border-radius: 3px;
   //   margin-left: 35px;
   //   margin-right: 35px;
@@ -148,15 +161,22 @@ export default {
         color: #9a999a;
         width: 80px;
         flex: 0 0 80px;
+        font-weight:600;
       }
       .content {
-        color: #fffcfd;
+        color: $dark_grey;
         flex: auto;
         white-space: pre-wrap;
         min-height: 0px;
+        font-weight:600;
+        span {
+        	color: $dark_grey !important;
+			font-weight:600;
+        }
       }
       .text-danger {
-        color: red;
+        color: $wagerr_red;
+        font-weight:600;
       }
     }
   }
@@ -168,13 +188,14 @@ export default {
     flex: 0 0 40px;
     .command {
       height: 40px;
-      line-height: 40px;
-      background: #7a7b7c;
-      color: #eeeeee;
+      line-height: 34px;
+      background: $light_grey;
+      color: $dark_grey;
       margin: 0;
-      padding: 0 0 0 0px;
+      padding: 0 0 0 15px;
       border: none;
       flex: auto;
+      
       &:focus {
         outline: none;
       }
@@ -187,31 +208,67 @@ export default {
       display: inline-block;
       width: 80px;
       line-height: 40px;
-      background: #979899;
-      color: #fefefe;
+      color: $white;
       text-align: center;
       cursor: pointer;
+	  background-color: $wagerr_red;
+	  font-weight:600;
+	  height:41px;
+	  letter-spacing:0.5px;
+	  &:hover {
+	  	background-color: $wagerr_dark_red;
+	  
+	  }
     }
   }
 }
 .debug-toolbar {
-  background: white;
-  height: 30px;
+  position:relative;
+  color: #fff;
+  background-image: url(../../assets/images/bg-header.png);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: $wagerr_red;
+  
+  height: 40px;
   width: 100%;
   justify-items: right;
   display: block;
 
   font-size: 20px;
-  font-weight: bold;
+  font-weight: 600;
   text-align: right;
-  padding-right: 10px;
-  a:hover {
-    color: red;
+  padding-right: 15px;
+  padding-top:7px;
+  .rpctitle {
+  	position:absolute;
+  	left:15px;
+  	top:9px;
+  	font-size:15px;
+  }
+  
+  a {
+  	display:inline-block;
+  	margin-left:15px;
+    i {
+    	font-weight:900;
+    	color:$white;
+    }
+    &:hover {
+    	cursor:pointer;
+    	i {
+    		color:$wagerr_red;
+    	}
+    }
   }
 }
+
+      
 </style>
 <style lang="scss">
-:global {
+:global {	
+
   .el-autocomplete-suggestion__wrap {
     background: #979899;
     color: black;
@@ -227,6 +284,7 @@ export default {
   .el-input {
     input {
       color: white;
+      height:40px !important;
     }
   }
 }
