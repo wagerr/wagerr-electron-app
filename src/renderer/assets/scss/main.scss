@@ -1545,6 +1545,13 @@ header {
   }
 }
 
+body.lightbox #app .command .el-input input.el-input__inner {
+  	height:40px !important;
+  	color:$dark_grey;
+  	font-size:15px;
+  	font-weight:500;
+}
+
 .transaction-link {
   color: $dark_grey;
   cursor: pointer;
