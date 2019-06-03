@@ -143,9 +143,7 @@ export default {
   name: 'CGLottoBets',
   components: { CGLottoBetTransactionList, CGLottoInfo, Spinner },
 
-  beforeCreate: function() {
-    document.body.className = 'lotto';
-  },
+  
 
   computed: {
     ...Vuex.mapGetters([
