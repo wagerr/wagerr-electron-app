@@ -1,7 +1,7 @@
 <template>
   <!-- Chain Games Lotto Information Modal -->
 
-  <div id="lotto-info" class="modal modal-fixed-footer bg-gradient">
+  <div id="lotto-info" class="modal modal-fixed-footer modal-info">
     <div class="modal-content">
       <div class="row">
         <div class="modal-header">
@@ -61,7 +61,7 @@
 
     <div class="modal-footer bg-gradient">
       <div class="options">
-        <button class="modal-close waves-effect waves-light btn green">
+        <button class="modal-close btn">
           Close
         </button>
       </div>
@@ -74,21 +74,3 @@ export default {
   name: 'CGLottoInfo'
 };
 </script>
-
-<style lang="scss" scoped>
-.info-text {
-  font-size: 1em;
-  text-align: justify;
-}
-
-.modal-footer {
-  display: block;
-  background: transparent;
-}
-
-.options {
-  width: 80px;
-  margin-left: auto;
-  margin-right: auto;
-}
-</style>
