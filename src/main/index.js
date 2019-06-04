@@ -1,8 +1,8 @@
-import { app, BrowserWindow, dialog } from 'electron';
+import { app, BrowserWindow, dialog, Menu } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import fs from 'fs';
 import { checkForUpdates } from './updater/updater';
-import menus from './menu/menus';
+import menu from './menu/menu';
 import errors from './alerts/errors';
 
 import Daemon from './blockchain/daemon';
@@ -36,29 +36,27 @@ let closeWindowFlag = false;
 let closeProgressBar = null;
 let forcelyQuit = false;
 /**
- * Render the main window for the Wagerr wallet.
+ * Render the main window for the Wagerr Electron App.
  */
 async function createMainWindow() {
-  // Initial window options.
-  mainWindow = new BrowserWindow({
-    backgroundColor: '#2B2C2D',
+  const windowOptions = {
+    width: 1275,
     height: 700,
-    width: 1200,
+    minWidth: 1275,
     minHeight: 700,
-    minWidth: 1200,
-    show: false,
     icon: path.join(__dirname, '../renderer/assets/images/icons/png/256.png'),
-    useContentSize: true
-  });
+    show: false,
+    autoHideMenuBar: true,
+    backgroundColor: '#2B2C2D'
+  };
 
-  // Close the web developer's console.
-  // mainWindow.webContents.closeDevTools();
+  mainWindow = new BrowserWindow(windowOptions);
 
   // Load the main browser window with the Wagerr vue application.
   mainWindow.loadURL(winURL);
 
   // Add the main application menu to the UI.
-  menus.initMainMenu();
+  Menu.setApplicationMenu(menu);
 
   // Close the window action
   mainWindow.on('close', async event => {
@@ -100,11 +98,13 @@ async function createMainWindow() {
   // Once electron app is ready then display the vue UI.
   mainWindow.once('ready-to-show', () => {
     const network = blockchain.testnet === 0 ? 'Mainnet' : 'Testnet';
-    const title = `Wagerr Wallet - ${network}`;
+    const title = `Wagerr Electron App - ${network}`;
 
     mainWindow.setTitle(title);
     mainWindow.show();
-    mainWindow.focus();
+    setImmediate(() => {
+      mainWindow.focus();
+    });
   });
 
   // If running in dev mode then also open dev tools on the main window.
@@ -129,7 +129,7 @@ async function createMainWindow() {
  * @returns {Promise<void>}
  */
 async function init(args) {
-  console.log('\x1b[32mInitialising Wagerr Wallet...\x1b[0m');
+  console.log('\x1b[32mInitialising Wagerr Electron App...\x1b[0m');
   daemon = new Daemon();
 
   // Check if the wagerrd binary exists.
