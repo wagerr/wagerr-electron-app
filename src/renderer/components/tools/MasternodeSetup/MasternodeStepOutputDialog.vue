@@ -1,65 +1,49 @@
 <template>
   <el-dialog
     :close-on-click-modal="false"
-    title="Step 5"
-    class="custom-dialog"
     effect="fade/zoom"
     :visible.sync="showDialog"
   >
-    <div class="dialog-header" slot="title">
-      {{ $t('settings.masternodes.step_five.title') }}
-    </div>
-    <div class="step-title">
-      {{ $t('settings.masternodes.step_five.description') }}
-    </div>
+    <div class="masternode-modal">
+      <el-row class="modal-text text-center">
+        <h4 class="modal-font">Step 5: Choose Masternode Transaction.</h4>
+      </el-row>
 
-    <el-table class="table-transition" :data="tableData" :show-header="false">
-      <el-table-column width="75px" class-name="row-checkbox">
-        <template slot-scope="scope">
-          <!-- label可以使用tableData中的某个字段，注意该字段的值不要重复 -->
-          <el-checkbox
-            v-model="innerRadioSelection"
-            :true-label="scope.row.txhash"
-            >&thinsp;
-          </el-checkbox>
-        </template>
-      </el-table-column>
-      <el-table-column class-name="row-txhash">
-        <template slot-scope="scope">
-          <div class="row-txhash">
-            {{ scope.row.txhash }}
-          </div>
-        </template>
-      </el-table-column>
-      <el-table-column class-name="row-date" width="153px">
-        <template slot-scope="scope">
-          {{ dateValue }}
-        </template>
-      </el-table-column>
-    </el-table>
-    <div class="step-button-container">
-      <default-button class="step-button" @click.prevent="onBack()">
-        {{ $t('settings.masternodes.step_five.back') }}
-      </default-button>
-      <default-button class="step-button" @click.prevent="onNext()">
-        <span class="step-next-text">{{
-          $t('settings.masternodes.step_five.next')
-        }}</span>
-      </default-button>
+      <el-table class="table-transition" :data="tableData" :show-header="false">
+        <el-table-column width="75px" class-name="row-checkbox">
+          <template slot-scope="scope">
+            <el-checkbox
+              v-model="innerRadioSelection"
+              :true-label="scope.row.txhash"
+              >&thinsp;</el-checkbox
+            >
+          </template>
+        </el-table-column>
+        <el-table-column class-name="row-txhash">
+          <template slot-scope="scope">
+            <div class="row-txhash">{{ scope.row.txhash }}</div>
+          </template>
+        </el-table-column>
+        <el-table-column class-name="row-date" width="153px">
+          <template slot-scope="scope">{{ dateValue }}</template>
+        </el-table-column>
+      </el-table>
+
+      <el-row slot="footer" class="button-container options">
+        <a class="btn green" @click.prevent="onNext()">Next</a>
+        <a class="btn" @click.prevent="onBack()">Back</a>
+      </el-row>
     </div>
   </el-dialog>
 </template>
 
 <script>
-import { CHECK_MASTERNODE_OUTPUTS } from '../../../../../common/channel/sendToMain';
-import * as ipc from '../../../../../common/ipc/source/renderer';
+import masternode_rpc from '@/services/api/masternode_rpc';
 import _ from 'lodash';
-import DefaultButton from '../../../elements/DefaultButton/DefaultButton';
 import moment from 'moment';
 
 export default {
   name: 'MasternodeStepOutputDialog',
-  components: { DefaultButton },
   props: {
     isVisible: {
       type: Boolean,
@@ -103,7 +87,7 @@ export default {
     }
   },
   async mounted() {
-    let outputs = (await ipc.callMain(CHECK_MASTERNODE_OUTPUTS)).result;
+    let outputs = await masternode_rpc.masternodeOutputs();
     console.log(outputs);
     this.tableData = outputs;
   },
@@ -119,6 +103,27 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '../../../assets/scss/_variables.scss';
+.masternode-modal {
+  position: relative;
+  width: 100%;
+
+  label {
+    color: $wagerr_red !important;
+  }
+  input {
+    color: $black !important;
+  }
+}
+.button-container {
+  margin-top: 50px;
+  a:nth-child(0) {
+    float: left;
+  }
+  a:nth-child(1) {
+    float: right;
+  }
+}
 .step-title {
   color: #ffffff;
   font-size: 24px;
@@ -126,18 +131,15 @@ export default {
   margin-top: 40px;
   margin-bottom: 30px;
 }
-
 .step-button {
   width: 127px;
   font-size: 17px;
   font-weight: bolder;
   margin-right: 20px;
 }
-
 .step-button-container {
   margin-top: 100px;
 }
-
 .step-next-text {
   color: #10e492;
 }

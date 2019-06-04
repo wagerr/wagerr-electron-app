@@ -58,6 +58,7 @@ export default {
         });
     });
   },
+
   async getMasternodeConfigSync() {
     const mnConfigFile = getCoinMasternodeConfPath();
     try {
@@ -78,5 +79,63 @@ export default {
 
     //     resolve(fs.readFileSync(mnConfigFile, "utf8"));
     // });
+  },
+
+  generatePrivateKey() {
+    return new Promise((resolve, reject) => {
+      wagerrRPC.client
+        .masternode('genkey')
+        .then(function(resp) {
+          resolve(resp.result);
+        })
+        .catch(function(err) {
+          console.log(err);
+          reject(err);
+        });
+    });
+  },
+
+  masternodeOutputs() {
+    return new Promise((resolve, reject) => {
+      wagerrRPC.client
+        .masternode('outputs')
+        .then(function(resp) {
+          resolve(resp.result);
+        })
+        .catch(function(err) {
+          console.log(err);
+          reject(err);
+        });
+    });
+  },
+
+  async createMasternode(arg) {
+    let mnConfig = await this.getMasternodeConfigSync();
+    const confString = `\n${arg.alias} ${arg.ipAddress}:${arg.port} ${
+      arg.privateKey
+    } ${arg.masternodeOutputs} ${arg.masternodeOutputIndex}`;
+    const writeLines = mnConfig.split('\n');
+    let dupeLine = false;
+
+    writeLines.forEach(line => {
+      if (line.trim() === confString.trim()) dupeLine = true;
+    });
+
+    if (!dupeLine) mnConfig += confString;
+    fs.writeFileSync(getCoinMasternodeConfPath(), mnConfig);
+  },
+
+  masternodeStartAlias(arg) {
+    return new Promise((resolve, reject) => {
+      wagerrRPC.client
+        .startmasternode('alias', 'true', arg.alias)
+        .then(function(resp) {
+          resolve(resp);
+        })
+        .catch(function(err) {
+          console.log(err);
+          reject(err);
+        });
+    });
   }
 };

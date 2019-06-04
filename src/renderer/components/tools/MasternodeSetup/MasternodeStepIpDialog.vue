@@ -109,33 +109,10 @@ export default {
     float: right;
   }
 }
-.step-three-title {
-  color: #ffffff;
-  font-size: 24px;
-  text-align: center;
-  margin-top: 40px;
-  margin-bottom: 30px;
-}
 
 .step-three-subtitle {
   color: #818182;
   font-size: 14px;
   text-align: center;
-  margin: 20px 80px;
-}
-
-.step-button {
-  width: 127px;
-  font-size: 17px;
-  font-weight: bolder;
-  margin-right: 20px;
-}
-
-.step-button-container {
-  margin-top: 120px;
-}
-
-.step-next-text {
-  color: #10e492;
 }
 </style>

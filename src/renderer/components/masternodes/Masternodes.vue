@@ -213,7 +213,7 @@ export default {
             this.$message.error('no_select');
             return;
           }
-          data = await ipc.callMain(MASTERNODE_START_ALIAS, {
+          data = await masternode_rpc.masternodeStartAlias({
             alias: this.selectedRow.alias
           });
           console.log(data);

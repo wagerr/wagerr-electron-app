@@ -150,13 +150,13 @@ function getWagerrConfPath() {
  * @returns {*}
  */
 function getCoinMasternodeConfPath() {
-  const walletProperties = PropertiesReader(getWagerrConfPath());
-  testnet = walletProperties.get('testnet');
   return path.join(
     testnet ? getWagerrTestnetDataPath() : getWagerrDataPath(),
     'masternode.conf'
   );
 }
+
+readWagerrConf();
 
 export {
   testnet,
