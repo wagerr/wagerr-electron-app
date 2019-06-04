@@ -232,7 +232,7 @@ export default {
             type: 'success'
           });
         } else {
-          data = await ipc.callMain(MASTERNODE_START_MISSING);
+          data = await masternode_rpc.masternodeStartMissing();
           let list = [];
           let self = this;
           list.push(this.$createElement('h5', data.result.overall));

@@ -48,9 +48,9 @@ export default {
   masternodeStartMany() {
     return new Promise((resolve, reject) => {
       wagerrRPC.client
-        .masternodeStartMany()
+        .startmasternode('many', 'true')
         .then(function(resp) {
-          resolve(resp.result);
+          resolve(resp);
         })
         .catch(function(err) {
           console.log(err);
@@ -129,6 +129,20 @@ export default {
     return new Promise((resolve, reject) => {
       wagerrRPC.client
         .startmasternode('alias', 'true', arg.alias)
+        .then(function(resp) {
+          resolve(resp);
+        })
+        .catch(function(err) {
+          console.log(err);
+          reject(err);
+        });
+    });
+  },
+
+  masternodeStartMissing() {
+    return new Promise((resolve, reject) => {
+      wagerrRPC.client
+        .startmasternode('missing', 'true')
         .then(function(resp) {
           resolve(resp);
         })
