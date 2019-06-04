@@ -1,4 +1,3 @@
-<!-- Main Wagerr Wallet Nav Bar -->
 <template>
   <header class="z-depth-2">
     <div class="wagerr-logo"></div>

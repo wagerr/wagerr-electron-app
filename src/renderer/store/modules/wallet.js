@@ -13,7 +13,7 @@ const state = function() {
     zerocoin: 0,
     unlocked: false,
     synced: false,
-    initWalletText: 'Initialising Wagerr Wallet...',
+    initWalletText: 'Initialising Electron App Wallet...',
     walletVersion: `v${packageJSON.version}`,
     txCount: 0,
     dataDir: blockchain.getWagerrDataPath()
