@@ -138,6 +138,7 @@ export default class Daemon {
       `-rpcuser=${blockchain.rpcUser}`,
       `-rpcpassword=${blockchain.rpcPass}`,
       `-rpcbind=127.0.0.1`,
+      `-rpcallowip=127.0.0.1`,
       `-rpcport=${blockchain.rpcPort}`,
       `-server=1`
     ];
