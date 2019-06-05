@@ -100,7 +100,8 @@ let webConfig = {
   ],
   output: {
     filename: '[name].js',
-    path: path.join(__dirname, '../dist/web')
+    path: path.join(__dirname, '../dist/web'),
+    publicPath: '/'
   },
   resolve: {
     alias: {
