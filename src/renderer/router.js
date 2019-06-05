@@ -15,7 +15,8 @@ import SignVerifyMessage from '@/components/tools/SignVerifyMessage';
 import Network from '@/components/tools/Network';
 import Peers from '@/components/tools/Peers.vue';
 import WalletRepair from '@/components/tools/WalletRepair';
-import Masternodes from '@/components/masternodes/Masternodes.vue'
+import Masternodes from '@/components/masternodes/Masternodes.vue';
+import MasternodesContent from '@/components/tools/MasternodesContent.vue';
 
 // Inject the router into the app.
 Vue.use(Router);

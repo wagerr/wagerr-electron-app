@@ -41,50 +41,50 @@
 
 <script>
 export default {
-     name: "MasternodeStepIpDialog",
-          props: {
-                     isVisible: {
-                                    type: Boolean,
-                                                 default: false
-         },
-                  ip: {
-                                 type: String,
-                                              default: ""
-                                                       }
-     },
-          computed: {
-         showDialog: {
-                        get: function() {
-                return this.isVisible;
-            },
-            set: function(newValue) {
-                this.$emit("update:isVisible", newValue);
-            }
-         }
-         innerIp: {
-             get: function() {
-                return this.ip;
-            },
-            set: function(newValue) {
-                this.$emit("update:ip", newValue);
-            }
-         }
-          },
-     methods: {
-         onBack() {
-             this.$emit("back");
-         },
-         onNext() {
-             let isValid = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(
-                 this.innerIp
-             );
-             if (isValid) {
-                 this.$emit("next");
-             } else {
-                 this.$message.error("Ip address not valid");
-             }
-         }
-     }
+  name: 'MasternodeStepIpDialog',
+  props: {
+    isVisible: {
+      type: Boolean,
+      default: false
+    },
+    ip: {
+      type: String,
+      default: ''
+    }
+  },
+  computed: {
+    showDialog: {
+      get: function() {
+        return this.isVisible;
+      },
+      set: function(newValue) {
+        this.$emit('update:isVisible', newValue);
+      }
+    },
+    innerIp: {
+      get: function() {
+        return this.ip;
+      },
+      set: function(newValue) {
+        this.$emit('update:ip', newValue);
+      }
+    }
+  },
+  methods: {
+    onBack() {
+      this.$emit('back');
+    },
+    onNext() {
+      let isValid = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(
+        this.innerIp
+      );
+      if (isValid) {
+        this.$emit('next');
+      } else {
+        this.$message.error('Ip address not valid');
+      }
+    }
+  }
 };
 </script>
 
