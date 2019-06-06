@@ -51,7 +51,7 @@
             </a>
           </li>
 
-          <li>
+          <li v-if="!walletEncrypted">
             <a class="modal-trigger" data-target="encrypt-wallet">
               <i class="icon-file-lock"></i>
               Encrypt Wallet
@@ -64,30 +64,6 @@
               Change Password
             </a>
           </li>
-
-          <!--<li>
-
-                        <a class="modal-trigger" data-target="">
-
-                            <i class="icon-network-lock"></i>
-
-                            Bip32 Tool
-
-                        </a>
-
-                    </li>
-
-                    <li>
-
-                        <a class="modal-trigger" data-target="">
-
-                            <i class="icon-paper-plane"></i>
-
-                            Multi Send
-
-                        </a>
-
-          </li>-->
 
           <li>
             <a class="modal-trigger" data-target="sign-verify-message">
@@ -128,7 +104,7 @@
 
     <div class="pull-right wagerr-balance">
       <span id="wagerr-total-balance">
-        {{ walletLoaded ? (Math.trunc(balance * 10000) / 10000) : 'Loading...' }}
+        {{ walletLoaded ? Math.trunc(balance * 10000) / 10000 : 'Loading...' }}
         <span class="currency">{{
           getNetworkType === 'Testnet' ? 'tWGR' : 'WGR'
         }}</span>
@@ -162,12 +138,13 @@ export default {
       'balance',
       'walletLoaded',
       'walletUnlocked',
+      'walletEncrypted',
       'getNetworkType'
     ])
   },
 
   methods: {
-    ...Vuex.mapActions(['lockWallet', 'updadteConsoleVisible']),
+    ...Vuex.mapActions(['lockWallet', 'updadteConsoleVisible', 'walletInfo']),
 
     backupWallet: function() {
       let folderPath = remote.dialog.showOpenDialog({
@@ -204,6 +181,15 @@ export default {
   mounted() {
     // Initialise the Material JS so modals, drop down menus etc function.
     M.AutoInit();
+
+    this.walletInfo();
+
+    this.timeout = setInterval(
+      function() {
+        this.walletInfo();
+      }.bind(this),
+      3000
+    );
   }
 };
 </script>
