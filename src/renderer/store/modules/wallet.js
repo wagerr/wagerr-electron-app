@@ -12,6 +12,7 @@ const state = function() {
     pending: 0,
     zerocoin: 0,
     unlocked: false,
+    encrypted: false,
     synced: false,
     initWalletText: 'Initialising Electron App Wallet...',
     walletVersion: `v${packageJSON.version}`,
@@ -43,6 +44,10 @@ const getters = {
 
   walletUnlocked: state => {
     return state.unlocked;
+  },
+
+  walletEncrypted: state => {
+    return state.encrypted;
   },
 
   walletSynced: state => {
@@ -159,6 +164,21 @@ const actions = {
       .getWalletInfo()
       .then(function(resp) {
         commit('setTXCount', resp.txcount);
+
+        switch (resp.encryption_status) {
+          case 'unencrypted':
+            commit('setWalletUnlocked', true);
+            commit('setWalletEncrypted', false);
+            break;
+          case 'locked':
+            commit('setWalletUnlocked', false);
+            commit('setWalletEncrypted', true);
+            break;
+          case 'unlocked':
+            commit('setWalletUnlocked', true);
+            commit('setWalletEncrypted', true);
+            break;
+        }
       })
       .catch(function(err) {
         console.debug(err);
@@ -195,6 +215,10 @@ const mutations = {
 
   setWalletUnlocked(state, unlocked) {
     state.unlocked = unlocked;
+  },
+
+  setWalletEncrypted(state, encrypted) {
+    state.encrypted = encrypted;
   },
 
   setWalletSynced(state, synced) {
