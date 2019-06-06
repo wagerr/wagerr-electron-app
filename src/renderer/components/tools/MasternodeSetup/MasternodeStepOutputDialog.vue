@@ -9,25 +9,23 @@
         <h4 class="modal-font">Step 5: Choose Masternode Transaction.</h4>
       </el-row>
 
-      <el-table class="table-transition" :data="tableData" :show-header="false">
-        <el-table-column width="75px" class-name="row-checkbox">
-          <template slot-scope="scope">
-            <el-checkbox
-              v-model="innerRadioSelection"
-              :true-label="scope.row.txhash"
-              >&thinsp;</el-checkbox
-            >
-          </template>
-        </el-table-column>
-        <el-table-column class-name="row-txhash">
-          <template slot-scope="scope">
-            <div class="row-txhash">{{ scope.row.txhash }}</div>
-          </template>
-        </el-table-column>
-        <el-table-column class-name="row-date" width="153px">
-          <template slot-scope="scope">{{ dateValue }}</template>
-        </el-table-column>
-      </el-table>
+      <table>
+        <tbody>
+          <tr v-for="mnoutput in tableData" :key="mnoutput.txhash">
+            <td>
+              <input
+                type="radio"
+                class="mno-radio"
+                name="mnoutputs"
+                v-model="innerRadioSelection"
+                :value="mnoutput['txhash']"
+              />
+            </td>
+            <td>{{ mnoutput['txhash'] }}</td>
+            <td>{{ mnoutput['outputidx'] }}</td>
+          </tr>
+        </tbody>
+      </table>
 
       <el-row slot="footer" class="button-container options">
         <a class="btn green" @click.prevent="onNext()">Next</a>
@@ -189,5 +187,10 @@ export default {
   &::before {
     content: none;
   }
+}
+.mno-radio {
+  position: unset !important;
+  opacity: unset !important;
+  pointer-events: unset !important;
 }
 </style>
