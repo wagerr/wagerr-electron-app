@@ -131,8 +131,7 @@ let rendererConfig = {
   output: {
     filename: '[name].js',
     libraryTarget: 'commonjs2',
-    path: path.join(__dirname, '../dist/electron'),
-    publicPath: '/'
+    path: path.join(__dirname, '../dist/electron')
   },
   resolve: {
     alias: {
