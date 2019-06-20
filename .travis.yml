@@ -1,5 +1,5 @@
 language: node_js
-node_js: lts/*
+node_js: 10
 
 env:
   global:
@@ -32,9 +32,8 @@ script:
 
 jobs:
   include:
-
     - stage: lint
-      name: "Lint Check"
+      name: 'Lint Check'
       script:
         # Lint tests turned off until we can clear out all the current errors.
         # If you would like to help out, run the below commands and you will
@@ -44,13 +43,13 @@ jobs:
         - echo "Lint tests turned off until all current errors are resolved."
 
     - stage: test
-      name: "Linux Test"
+      name: 'Linux Test'
       os: linux
 
     - stage: test
-      name: "macOS Test"
+      name: 'macOS Test'
       os: osx
 
     - stage: test
-      name: "Windows Test"
+      name: 'Windows Test'
       os: windows
