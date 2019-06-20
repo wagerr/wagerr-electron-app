@@ -34,7 +34,7 @@ export default {
   getMasternodeList() {
     return new Promise((resolve, reject) => {
       wagerrRPC.client
-        .masternode('list')
+        .listMasternodes()
         .then(function(resp) {
           resolve(resp.result);
         })
@@ -84,7 +84,7 @@ export default {
   generatePrivateKey() {
     return new Promise((resolve, reject) => {
       wagerrRPC.client
-        .masternode('genkey')
+        .createMasternodeKey()
         .then(function(resp) {
           resolve(resp.result);
         })
@@ -98,7 +98,7 @@ export default {
   masternodeOutputs() {
     return new Promise((resolve, reject) => {
       wagerrRPC.client
-        .masternode('outputs')
+        .getMasternodeOutputs()
         .then(function(resp) {
           resolve(resp.result);
         })
