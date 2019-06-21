@@ -20,13 +20,6 @@ const winURL =
     ? `http://localhost:9080`
     : `file://${__dirname}/index.html`;
 
-// Set `__static` path to static files in production
-if (process.env.NODE_ENV !== 'development') {
-  global.__static = require('path')
-    .join(__dirname, '/static')
-    .replace(/\\/g, '\\\\');
-}
-
 // Globals
 let daemon;
 let mainWindow = null;
