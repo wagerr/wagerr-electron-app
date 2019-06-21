@@ -86,7 +86,6 @@
     },
     "linux": {
       "category": "Finance",
-      "icon": "build/icons/icon.icns",
       "artifactName": "${name}-${version}-${os}-${arch}.${ext}",
       "target": [
         {
