@@ -99,15 +99,12 @@
     }
   },
   "dependencies": {
-    "childprocess": "^2.0.2",
     "core-js": "^2.6.9",
     "decompress": "^4.2.0",
     "electron-progressbar": "^1.2.0",
     "electron-updater": "^4.0.6",
     "element-ui": "^2.8.2",
     "find-process": "^1.4.2",
-    "fs-path": "0.0.24",
-    "make-runnable": "^1.3.6",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.25",
     "properties-reader": "0.2.0",
