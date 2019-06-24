@@ -51,25 +51,35 @@ async function createMainWindow() {
   // Add the main application menu to the UI.
   Menu.setApplicationMenu(menu);
 
-  // Close the window action
+  // Prepare for the window to be closed.
   mainWindow.on('close', async event => {
     if (closeWindowFlag === false && process.platform !== 'darwin') {
-      // Prevent the default close action before daemon is completely stopped.
-      closeWindowFlag = true;
-      event.preventDefault();
-
-      // Make the progress bar to show the status of close actions
-      closeProgressBar = new ProgressBar({
-        text: 'Closing the Window...',
-        detail: 'Stopping Wagerr Daemon...',
-        closeOnComplete: true
-      });
-      closeProgressBar._window.webContents.closeDevTools();
-
-      // Stop the daemon and close the app completely.
+      // Stop the daemon and close the app completely, but only if the app is
+      // not being restarted. If the app is just being restarted, like if we
+      // use 'zapwallettxes', we don't want to quit the app, just close the
+      // mainWindow instead.
       if (daemon && !global.restarting) {
+        // Prevent the default close action before daemon is completely stopped.
+        closeWindowFlag = true;
+        event.preventDefault();
+
+        // Make the progress bar to show the status of close actions.
+        closeProgressBar = new ProgressBar({
+          text: 'Closing the Window...',
+          detail: 'Stopping Wagerr daemon...',
+          closeOnComplete: true
+        });
+
+        // Close the devtools window.
+        closeProgressBar._window.webContents.closeDevTools();
+
+        // Send the `stop` command to the daemon and wait for to shutdown.
         await daemon.stop();
-        closeProgressBar.detail = 'Wagger Daemon Stopped...';
+
+        // Notify the user the daemon has shutdown.
+        closeProgressBar.detail = 'Wagger daemon stopped...';
+
+        // Close the shutdown progress bar window and quit the app.
         setTimeout(() => {
           closeProgressBar.close();
           app.quit();
@@ -78,8 +88,9 @@ async function createMainWindow() {
     }
   });
 
-  // Reset the main window on close.
+  // The window is now closed.
   mainWindow.on('closed', async () => {
+    // Reset the main window on close.
     mainWindow = null;
   });
 
