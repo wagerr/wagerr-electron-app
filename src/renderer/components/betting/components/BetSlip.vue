@@ -42,7 +42,7 @@
                 <span v-if="bet.betType == 'spread'" class="odds pull-right">{{
                   bet.handicap
                 }}</span>
-                <span class="odds pull-right">{{ bet.odds / 10000 }}</span>
+                <span class="odds pull-right">{{ convertOdds(bet.odds) }}</span>
               </div>
 
               <div class="input-field bet-stake-container">
@@ -119,7 +119,8 @@ export default {
       'pending',
       'betSlip',
       'getNumBets',
-      'getNetworkType'
+      'getNetworkType',
+      'convertOdds'
     ])
   },
 

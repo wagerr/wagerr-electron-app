@@ -88,7 +88,8 @@ export default {
       'getWGRTransactionList',
       'getPLBetTransactionList',
       'getCGBetTransactionList',
-      'getWGRTransactionRecords'
+      'getWGRTransactionRecords',
+      'loadUserSettings'
     ]),
 
     rescanBlockchain: function() {
@@ -244,6 +245,9 @@ export default {
 
     // If Wallet not synced show time behind text.
     await this.syncBlockchainStatus();
+
+    // load User Config - could use methods access, instead of store.dispatch
+    await this.loadUserSettings();
   }
 };
 </script>

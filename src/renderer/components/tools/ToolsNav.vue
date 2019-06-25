@@ -14,32 +14,15 @@
         <a>Wallet Repair</a>
       </router-link>
 
-      <li class="col s4">
-        <a href="#" @click="onOpenConf">Wagerr.Conf</a>
-      </li>
+      <router-link class="col s4" tag="li" to="/tools/preferences" exact>
+        <a>Preferences</a>
+      </router-link>
     </ul>
   </div>
 </template>
 
 <script>
-import { getWagerrConfPath } from '../../../main/blockchain/blockchain';
-import { shell } from 'electron';
-const fs = require('fs');
-const path = require('path');
-
 export default {
-  name: 'ToolsNav',
-  data() {
-    return {
-      confPath: getWagerrConfPath()
-    };
-  },
-  computed: {},
-  created() {},
-  methods: {
-    onOpenConf: function() {
-      shell.openItem(this.confPath);
-    }
-  }
+  name: 'ToolsNav'
 };
 </script>
