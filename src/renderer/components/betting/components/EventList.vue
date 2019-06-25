@@ -4,9 +4,12 @@
       <ul class="events-list">
         <li v-for="event in eventsList" :key="event.event_id" class="card">
           <div class="event-tournament">
-            <span class="sport">{{ event.tournament }} (Event ID: {{ event.event_id }})</span>
+            <span class="sport"
+              >{{ event.tournament }} (Event ID: {{ event.event_id }})</span
+            >
             <span class="date pull-right">{{
-              Number(event.starting) | moment('timezone', getTimezone, 'dddd, MMM Do h:mm A (Z z)')
+              Number(event.starting)
+                | moment('timezone', getTimezone, 'dddd, MMM Do h:mm A (Z z)')
             }}</span>
           </div>
 
@@ -62,9 +65,8 @@
                         )
                       "
                     >
-                      {{ event.odds[0].mlHome / oddsDivisor }}
+                      {{ convertOdds(event.odds[0].mlHome) }}
                     </button>
-
                     <button
                       v-else
                       class="btn"
@@ -86,7 +88,7 @@
                         )
                       "
                     >
-                      {{ event.odds[0].mlAway / oddsDivisor }}
+                      {{ convertOdds(event.odds[0].mlAway) }}
                     </button>
 
                     <button
@@ -110,7 +112,7 @@
                         )
                       "
                     >
-                      {{ event.odds[0].mlDraw / oddsDivisor }}
+                      {{ convertOdds(event.odds[0].mlDraw) }}
                     </button>
 
                     <button
@@ -170,7 +172,7 @@
                       >
 
                       <span class="pull-right">{{
-                        event.odds[1].spreadHome / oddsDivisor
+                        convertOdds(event.odds[1].spreadHome)
                       }}</span>
                     </button>
                   </div>
@@ -202,7 +204,7 @@
                       >
 
                       <span class="pull-right">{{
-                        event.odds[1].spreadAway / oddsDivisor
+                        convertOdds(event.odds[1].spreadAway)
                       }}</span>
                     </button>
                   </div>
@@ -244,7 +246,7 @@
                       >
 
                       <span class="totalodds">({{
-                        event.odds[2].totalsOver / oddsDivisor
+                        convertOdds(event.odds[2].totalsOver)
                       }})</span>
                     </button>
                   </div>
@@ -268,7 +270,7 @@
                       >
 
                       <span class="totalodds">({{
-                        event.odds[2].totalsUnder / oddsDivisor
+                        convertOdds(event.odds[2].totalsUnder)
                       }})</span>
                     </button>
                   </div>
@@ -306,13 +308,17 @@
 <script>
 import Vuex from 'vuex';
 import moment from 'moment';
-import constants from '../../../../main/constants/constants';
 
 export default {
   name: 'EventList',
 
   computed: {
-    ...Vuex.mapGetters(['getEventsFilter', 'eventsList', 'getTimezone'])
+    ...Vuex.mapGetters([
+      'getEventsFilter',
+      'eventsList',
+      'getTimezone',
+      'convertOdds'
+    ])
   },
 
   methods: {
@@ -398,7 +404,6 @@ export default {
 
   data() {
     return {
-      oddsDivisor: constants.ODDS_DIVISOR,
       timeout: 0
     };
   },
