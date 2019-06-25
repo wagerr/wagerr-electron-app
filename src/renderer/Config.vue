@@ -8,7 +8,7 @@
           <table class="main-table card z-depth-2">
             <thead>
               <tr>
-                <th colspan="2">Config</th>
+                <th colspan="2">Configs {{getOddsFormat}}</th>
               </tr>
             </thead>
 
@@ -16,16 +16,16 @@
               <tr class="info-row">
                 <th>Odds Display</th>
                 <div id="oddsChoice">
-                  <form action="#">
+                  <form action="#" @submit.prevent>
                     <p>
                       <label>
                         <input
-                          name="picked"
+                          name="oddsFormat"
                           type="radio"
-                          id="fraction"
-                          style
-                          @change="updateOddsFormat(getOddsFormats.fraction)"
-                          :checked="getOddsFormats.fraction == getOddsFormat"
+                          id="odds_choice_fraction"
+                          :value="getOddsFormats.fraction"                          
+                          @change="changeOddsFormat"
+                          :checked="oddsFormatChecked(getOddsFormats.fraction)"
                         >
                         <span>Fraction</span>
                       </label>
@@ -33,12 +33,12 @@
                     <p>
                       <label>
                         <input
-                          name="picked"
+                          name="oddsFormat"
                           type="radio"
-                          class
-                          id="decimal"
-                          @change="updateOddsFormat(getOddsFormats.decimal)"
-                          :checked="getOddsFormats.decimal == getOddsFormat"
+                          id="odds_choice_decimal"
+                          :value="getOddsFormats.decimal"
+                          @change="changeOddsFormat"
+                          :checked="oddsFormatChecked(getOddsFormats.decimal)"
                         >
                         <span>Decimal</span>
                       </label>
@@ -58,14 +58,27 @@
   <script>
 import { mapGetters, mapActions } from "vuex";
 import moment from "moment";
+import Store from "electron-store";
 
 export default {
   name: "Config",
 
-  methods: mapActions(["updateOddsFormat"]),
+  methods: {
+    ...mapActions(["updateOddsFormat"]),
+    changeOddsFormat: function(event) {
+      this.$store.dispatch('updateOddsFormat', Number(event.target.value));
+      const store = new Store();
+      store.set('oddsFormat', this.getOddsFormat);
+    },
+
+    oddsFormatChecked: function(format) {
+      return format == this.getOddsFormat;
+    }
+  },
 
   computed: {
-    ...mapGetters(["getOddsFormats", "getOddsFormat"])
-  }
+    ...mapGetters(["getOddsFormats", "getOddsFormat"]),   
+  },
 };
+
 </script>

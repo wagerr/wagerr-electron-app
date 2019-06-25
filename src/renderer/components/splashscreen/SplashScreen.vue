@@ -55,6 +55,7 @@ import networkRPC from '@/services/api/network_rpc';
 import { getWagerrConfPath } from '../../../main/blockchain/blockchain';
 import ipcRender from '../../../common/ipc/ipcRender';
 import { shell } from 'electron';
+import Store from "electron-store";
 
 let path = require('path');
 
@@ -244,6 +245,10 @@ export default {
 
     // If Wallet not synced show time behind text.
     await this.syncBlockchainStatus();
+
+    // load User Config - could use methods access, instead of store.dispatch
+    const store = new Store();
+    await this.$store.dispatch('updateOddsFormat', Number(store.get('oddsFormat')));
   }
 };
 </script>
