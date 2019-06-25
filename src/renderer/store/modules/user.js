@@ -22,12 +22,15 @@ const getters = {
 
   getOddsFormat: state => {
     return state.oddsFormat;
+  },
+  getOddsFormats: state => {
+    return OddsFormat;
   }
 };
 
 const actions = {
-  updateOddsFormat({ commit }) {
-    commit('setOddsFormat');
+  updateOddsFormat({ commit }, format) {
+    commit('setOddsFormat', format);
   }
 };
 

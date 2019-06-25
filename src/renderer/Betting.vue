@@ -1,5 +1,6 @@
 <template>
-  <div id="betting" class="content">
+<div id="betting" class="content">
+    <p>what is this - {{ getOddsFormat }}</p>
     <div class="row">
       <div class="betting-sidebar">
         <div class="betting-sidebar-container">
@@ -33,9 +34,13 @@ import bettingNav from './components/betting/bettingNav';
 import SideNavBar from './components/SideNavBar';
 import BetSlip from '@/components/betting/components/BetSlip';
 import EventList from '@/components/betting/components/EventList';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'Betting',
-  components: { SideNavBar, bettingNav, EventList, BetSlip }
+  components: { SideNavBar, bettingNav, EventList, BetSlip },
+    computed: {
+    ...mapGetters(['getOddsFormats', 'getOddsFormat']),
+  }
 };
 </script>
