@@ -19,7 +19,7 @@
 
           <div class="bet-slip-options text-center clearfix chain-btns">
             <button
-              class="waves-effect waves-light btn-large wagerr-red-bg pulse"
+              class="waves-effect waves-light btn-large wagerr-red-bg"
               @click="placeCGLottoBet"
             >
               Buy Ticket
