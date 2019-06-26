@@ -67,8 +67,6 @@ export default {
     ...mapActions(["updateOddsFormat"]),
     changeOddsFormat: function(event) {
       this.$store.dispatch('updateOddsFormat', Number(event.target.value));
-      const store = new Store();
-      store.set('oddsFormat', this.getOddsFormat);
     },
 
     oddsFormatChecked: function(format) {

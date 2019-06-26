@@ -1,12 +1,15 @@
 // Import the required libs.
 import moment from 'moment';
 import moment_timezone from 'moment-timezone';
+import ElectronStore from "electron-store";
 
 // Current odds formats for Wagerr.
 const OddsFormat = {
   fraction: 0,
   decimal: 1
 };
+
+const electronStore = new ElectronStore();
 
 const state = function() {
   return {
@@ -29,8 +32,15 @@ const getters = {
 };
 
 const actions = {
-  updateOddsFormat({ commit }, format) {
+  updateOddsFormat({ commit, state }, format) {
     commit('setOddsFormat', format);
+    electronStore.set('oddsFormat', state.oddsFormat);
+  },
+
+  loadUserSettings({ dispatch }) {
+    if (electronStore.has('oddsFormat')) { // just oddsFormat for now, could have list of keys
+      dispatch('updateOddsFormat', Number(electronStore.get('oddsFormat')));
+    }
   }
 };
 
