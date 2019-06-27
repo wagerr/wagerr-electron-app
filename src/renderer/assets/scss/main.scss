@@ -1362,6 +1362,11 @@ header {
               background-color: $wagerr_red;
             }
           }
+          &.router-link-active {
+	          a {
+              background-color: $wagerr_red;
+            }
+          }
         }
       }
     }
