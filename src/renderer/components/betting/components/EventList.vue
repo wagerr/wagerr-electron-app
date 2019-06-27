@@ -323,7 +323,8 @@ export default {
 
     convertOdds: function(val) {
       if (this.getOddsFormat === this.getOddsFormats.fraction){
-      return oddsConverter.toFraction(val)
+console.log("odds " + val +  " dec: " + oddsConverter.toDecimal(val) + " to American is: " + oddsConverter.toAmerican(val));
+      return oddsConverter.toAmerican(val)
     }
       return oddsConverter.toDecimal(val);
     },
