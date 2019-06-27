@@ -52,7 +52,7 @@
                   <div class="odd">
                     <button
                       v-if="event.odds[0].mlHome !== 0"
-                      class="waves-effect waves-light btn"
+                      class="btn"
                       @click="
                         createBet(
                           event.event_id,
@@ -67,7 +67,7 @@
 
                     <button
                       v-else
-                      class="waves-effect waves-light btn"
+                      class="btn"
                       disabled
                     >
                       N/A
@@ -76,7 +76,7 @@
                   <div class="odd">
                     <button
                       v-if="event.odds[0].mlAway !== 0"
-                      class="waves-effect waves-light btn"
+                      class="btn"
                       @click="
                         createBet(
                           event.event_id,
@@ -91,7 +91,7 @@
 
                     <button
                       v-else
-                      class="waves-effect waves-light btn"
+                      class="btn"
                       disabled
                     >
                       N/A
@@ -100,7 +100,7 @@
                   <div class="odd">
                     <button
                       v-if="event.odds[0].mlDraw !== 0"
-                      class="waves-effect waves-light btn"
+                      class="btn"
                       @click="
                         createBet(
                           event.event_id,
@@ -115,7 +115,7 @@
 
                     <button
                       v-else
-                      class="waves-effect waves-light btn"
+                      class="btn"
                       disabled
                     >
                       N/A
@@ -126,12 +126,12 @@
                 <!-- Show money line market closed -->
                 <div v-else class="col s12 m4 odds">
                   <div class="ml">
-                    <button class="waves-effect waves-light btn" disabled>
+                    <button class="btn" disabled>
                       N/A
                     </button>
                   </div>
                   <div class="ml">
-                    <button class="waves-effect waves-light btn" disabled>
+                    <button class="btn" disabled>
                       N/A
                     </button>
                   </div>
@@ -144,7 +144,7 @@
                 >
                   <div class="spread">
                     <button
-                      class="waves-effect waves-light btn"
+                      class="btn"
                       @click="
                         createBet(
                           event.event_id,
@@ -176,7 +176,7 @@
                   </div>
                   <div class="spread">
                     <button
-                      class="waves-effect waves-light btn"
+                      class="btn"
                       @click="
                         createBet(
                           event.event_id,
@@ -211,12 +211,12 @@
                 <!-- Show Spread market closed -->
                 <div v-else class="col s12 m4 odds">
                   <div class="spread">
-                    <button class="waves-effect waves-light btn" disabled>
+                    <button class="btn" disabled>
                       N/A
                     </button>
                   </div>
                   <div class="spread">
-                    <button class="waves-effect waves-light btn" disabled>
+                    <button class="btn" disabled>
                       N/A
                     </button>
                   </div>
@@ -226,7 +226,7 @@
                 <div v-if="isEventTotalsOddsSet(event)" class="col s12 m4 odds">
                   <div class="total">
                     <button
-                      class="waves-effect waves-light btn"
+                      class="btn"
                       @click="
                         createBet(
                           event.event_id,
@@ -239,18 +239,18 @@
                         )
                       "
                     >
-                      <span class="pull-left"
+                      <span class="totalnum"
                         >O{{ event.odds[2].totalsPoints / 10 }}</span
                       >
 
-                      <span class="pull-right">{{
+                      <span class="totalodds">({{
                         event.odds[2].totalsOver / oddsDivisor
-                      }}</span>
+                      }})</span>
                     </button>
                   </div>
                   <div class="total">
                     <button
-                      class="waves-effect waves-light btn"
+                      class="btn"
                       @click="
                         createBet(
                           event.event_id,
@@ -263,13 +263,13 @@
                         )
                       "
                     >
-                      <span class="pull-left"
+                      <span class="totalnum"
                         >U{{ event.odds[2].totalsPoints / 10 }}</span
                       >
 
-                      <span class="pull-right">{{
+                      <span class="totalodds">({{
                         event.odds[2].totalsUnder / oddsDivisor
-                      }}</span>
+                      }})</span>
                     </button>
                   </div>
                 </div>
@@ -277,12 +277,12 @@
                 <!-- Show Totals market closed -->
                 <div v-else class="col s12 m4 odds">
                   <div class="total">
-                    <button class="waves-effect waves-light btn" disabled>
+                    <button class="btn" disabled>
                       N/A
                     </button>
                   </div>
                   <div class="total">
-                    <button class="waves-effect waves-light btn" disabled>
+                    <button class="btn" disabled>
                       N/A
                     </button>
                   </div>
