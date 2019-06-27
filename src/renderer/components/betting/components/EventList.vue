@@ -62,9 +62,8 @@
                         )
                       "
                     >
-                      {{ event.odds[0].mlHome / oddsDivisor }}
+                      {{ convertOdds(event.odds[0].mlHome) }}
                     </button>
-
                     <button
                       v-else
                       class="waves-effect waves-light btn"
@@ -86,7 +85,7 @@
                         )
                       "
                     >
-                      {{ event.odds[0].mlAway / oddsDivisor }}
+                      {{ convertOdds(event.odds[0].mlAway)   }}
                     </button>
 
                     <button
@@ -110,7 +109,7 @@
                         )
                       "
                     >
-                      {{ event.odds[0].mlDraw / oddsDivisor }}
+                      {{ convertOdds(event.odds[0].mlDraw) }}
                     </button>
 
                     <button
@@ -170,7 +169,7 @@
                       >
 
                       <span class="pull-right">{{
-                        event.odds[1].spreadHome / oddsDivisor
+                        convertOdds(event.odds[1].spreadHome)
                       }}</span>
                     </button>
                   </div>
@@ -202,7 +201,7 @@
                       >
 
                       <span class="pull-right">{{
-                        event.odds[1].spreadAway / oddsDivisor
+                        convertOdds(event.odds[1].spreadAway)
                       }}</span>
                     </button>
                   </div>
@@ -244,7 +243,7 @@
                       >
 
                       <span class="pull-right">{{
-                        event.odds[2].totalsOver / oddsDivisor
+                        convertOdds(event.odds[2].totalsOver)
                       }}</span>
                     </button>
                   </div>
@@ -268,7 +267,7 @@
                       >
 
                       <span class="pull-right">{{
-                        event.odds[2].totalsUnder / oddsDivisor
+                        convertOdds(event.odds[2].totalsUnder)
                       }}</span>
                     </button>
                   </div>
@@ -306,13 +305,13 @@
 <script>
 import Vuex from 'vuex';
 import moment from 'moment';
-import constants from '../../../../main/constants/constants';
+import * as oddsConverter from '../../../utils/oddsConverter.js';
 
 export default {
   name: 'EventList',
 
   computed: {
-    ...Vuex.mapGetters(['getEventsFilter', 'eventsList', 'getTimezone'])
+    ...Vuex.mapGetters(['getEventsFilter', 'eventsList', 'getTimezone','getOddsFormat', 'getOddsFormats'])
   },
 
   methods: {
@@ -320,6 +319,13 @@ export default {
 
     moment: function() {
       return moment();
+    },
+
+    convertOdds: function(val) {
+      if (this.getOddsFormat === this.getOddsFormats.fraction){
+      return oddsConverter.toFraction(val)
+    }
+      return oddsConverter.toDecimal(val);
     },
 
     // Create a unique bet ID.
@@ -398,7 +404,6 @@ export default {
 
   data() {
     return {
-      oddsDivisor: constants.ODDS_DIVISOR,
       timeout: 0
     };
   },
