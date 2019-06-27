@@ -3,9 +3,6 @@
 
   <div id="encrypt-wallet" class="modal bg-gradient">
     <form @submit.prevent="handleSubmit">
-      <div class="inset-top">
-        <div class="shadow"></div>
-      </div>
 
       <div class="modal-content">
         <div class="row">
@@ -18,8 +15,8 @@
               Enter the new password which will be used to unlock your wallet.
             </p>
 
-            <p>
-              Please use a secure password of seven or more random characters.
+            <p class="gray">
+              (Please use a secure password of seven or more random characters.)
             </p>
           </div>
 
@@ -163,6 +160,8 @@ export default {
   overflow-y: inherit;
 }
 
+.gray {color:#aaa;}
+
 .input-field span {
   margin-left: 45px;
 }
@@ -171,6 +170,9 @@ export default {
   width: 210px;
   margin-left: auto;
   margin-right: auto;
+}
+.modal-content p {
+	margin:10px 0;
 }
 
 .options a,

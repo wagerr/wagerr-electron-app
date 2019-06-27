@@ -3,9 +3,6 @@
 
   <div id="change-wallet-password" class="modal bg-gradient">
     <form @submit.prevent="handleSubmit">
-      <div class="inset-top">
-        <div class="shadow"></div>
-      </div>
 
       <div class="modal-content">
         <div class="row">
@@ -164,7 +161,6 @@ export default {
 }
 
 .modal {
-  padding: 0;
   overflow-y: inherit;
   min-height: 0 !important;
   max-height: 80%;
