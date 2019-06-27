@@ -42,7 +42,7 @@
                 <span v-if="bet.betType == 'spread'" class="odds pull-right">{{
                   bet.handicap
                 }}</span>
-                <span class="odds pull-right">{{ bet.odds / 10000 }}</span>
+                <span class="odds pull-right">{{ convertOdds(bet.odds) }}</span>
               </div>
 
               <div class="input-field bet-stake-container">
@@ -108,6 +108,7 @@
 <script>
 import Vuex from 'vuex';
 import constants from '../../../../main/constants/constants';
+import * as oddsConverter from '../../../utils/oddsConverter.js';
 import wagerrRPC from '@/services/api/wagerrRPC';
 
 export default {
@@ -119,7 +120,9 @@ export default {
       'pending',
       'betSlip',
       'getNumBets',
-      'getNetworkType'
+      'getNetworkType',
+      'getOddsFormats',
+      'getOddsFormat'
     ])
   },
 
@@ -240,7 +243,16 @@ export default {
       } else {
         navbar.classList.remove('sticky');
       }
+    },
+
+    convertOdds: function(val) {
+      if (this.getOddsFormat === this.getOddsFormats.fraction){
+        console.log("odds " + val +  " dec: " + oddsConverter.toDecimal(val) + " to American is: " + oddsConverter.toAmerican(val));
+        return oddsConverter.toAmerican(val)
     }
+      return oddsConverter.toDecimal(val);
+    },
+
   },
 
   created() {
