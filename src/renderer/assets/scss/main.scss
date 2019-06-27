@@ -763,8 +763,9 @@ header {
             .selection {
               color: $dark_grey;
               font-weight: 700;
-              padding: 10px 10px 10px;
-              font-size: 14px;
+              padding: 15px 10px 10px;
+              font-size: 16px;
+              line-height:22px;
               font-family: 'Montserrat';
               color: $wagerr_red;
               h6 {
@@ -776,12 +777,16 @@ header {
                 letter-spacing: 1px;
                 font-family: 'Open Sans';
                 font-weight: 600;
+                margin:0;
+                line-height:18px;
               }
               .winner {
                 display: block;
                 text-align: center;
                 float: none;
                 font-size: 18px;
+                line-height:20px;
+                padding-bottom:5px;
               }
               .odds {
                 display: inline-block;
@@ -871,7 +876,7 @@ header {
                 color: $dark_grey;
                 font-size: 13px;
                 font-family: 'Open Sans';
-                font-weight: 800;
+                font-weight: 700;
                 margin-bottom: 2px;
               }
               .potential-returns {
