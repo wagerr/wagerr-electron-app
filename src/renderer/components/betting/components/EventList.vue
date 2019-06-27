@@ -1,5 +1,12 @@
 <template>
   <div id="events">
+    <div class="betting-page-heading">
+      <h4>Betting</h4>
+      <a class="waves-effect waves-red wallet-action btn-small modal-trigger wagerr-red-bg" data-target="sport-rules-modal">Sport Rules <i class="far fa-question-circle"></i></a>
+
+      <!-- Sport Rules Modal -->
+      <sport-rules></sport-rules>
+    </div>
     <div v-if="eventsList.length > 0">
       <ul class="events-list">
         <li v-for="event in eventsList" :key="event.event_id" class="card">
@@ -307,9 +314,14 @@
 import Vuex from 'vuex';
 import moment from 'moment';
 import constants from '../../../../main/constants/constants';
+import SportRules from '../../modals/SportRules';
 
 export default {
   name: 'EventList',
+
+  components: {
+    SportRules
+  },
 
   computed: {
     ...Vuex.mapGetters(['getEventsFilter', 'eventsList', 'getTimezone'])
@@ -415,6 +427,11 @@ export default {
     );
   },
 
+  mounted: function() {
+    // Initialise the Material JS so modals, drop down menus etc function.
+    M.AutoInit();
+  },
+
   destroyed() {
     clearInterval(this.timeout);
   }
@@ -423,6 +440,19 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../../assets/scss/_variables.scss';
+
+.betting-page-heading {
+  display: flex;
+  align-items: center;
+}
+
+.betting-page-heading a {
+  margin-left: 1rem;
+}
+
+.betting-page-heading a i {
+  font-size: 1rem;
+}
 
 .events-list li {
   border: 1px solid #414141;

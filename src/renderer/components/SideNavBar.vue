@@ -1,7 +1,7 @@
 <template>
   <nav>
+    <h5>Sort By Sport</h5>
     <ul class="side-nav">
-      <h5>Sort By Sport</h5>
       <li
         @click="filterEvents()"
         v-bind:class="{
@@ -342,6 +342,7 @@ export default {
 .side-nav {
   margin-top: 7px;
 }
+
 nav {
   position: fixed;
   top: 0px;
