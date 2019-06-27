@@ -1511,8 +1511,8 @@ header {
     .modal-text {
       padding-bottom: 20px;
       .modal-font {
-        font-size: 18px;
-        line-height: 24px;
+        font-size: 16px;
+        line-height: 22px;
         font-weight: 700px;
         font-family: 'Montserrat';
       }
@@ -1548,7 +1548,6 @@ header {
       margin-bottom: 20px;
       text-align: center;
       button {
-        width: 150px;
         background-color: $wagerr_red;
         &::active {
           width: 150px;
@@ -1879,6 +1878,8 @@ body.lightbox #app .command .el-input input.el-input__inner {
 
 .modal .modal-header {
   color: $wagerr_red;
+  padding-top:20px;
+  text-align:center;
 }
 
 .modal .modal-header,
@@ -1894,6 +1895,7 @@ body.lightbox #app .command .el-input input.el-input__inner {
 
 .modal-content {
   color: white;
+  text-align:center;
 }
 
 .dropdown-content {
