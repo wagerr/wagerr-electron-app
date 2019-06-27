@@ -1258,6 +1258,7 @@ header {
         margin: 20px 0;
         overflow: hidden;
         .stats {
+        	min-height:86px;
           h6 {
             font-family: 'Montserrat';
             font-weight: 700;
@@ -1555,6 +1556,15 @@ header {
       }
     }
   }
+}
+
+.cost {
+	color:$grey;
+	display:block;
+	font-size:12px;
+	font-style:italic;
+	letter-spacing:1px;
+	padding-top:8px;
 }
 
 body.lightbox #app .command .el-input input.el-input__inner {

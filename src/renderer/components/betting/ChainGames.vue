@@ -24,6 +24,10 @@
             >
               Buy Ticket
             </button>
+            
+              <span class="cost">(Entry Fee: {{ entryFee }} <span class="currency">{{
+                  getNetworkType === 'Testnet' ? 'tWGR' : 'WGR'
+                }}</span>)</span>
           </div>
         </div>
         <div class="lotto-right col s8">
@@ -111,13 +115,15 @@
             </div>
 
             <div class="col s4 text-center stats">
-              <h6>Entry</h6>
+              <h6>Entry Fee</h6>
 
               <div v-if="loadingCGEvent">
                 <spinner></spinner>
               </div>
 
-              <div v-else class="cg-info">{{ entryFee }}</div>
+              <div v-else class="cg-info">{{ entryFee }}<span class="currency">{{
+                  getNetworkType === 'Testnet' ? 'tWGR' : 'WGR'
+                }}</span></div>
             </div>
           </div>
         </div>
