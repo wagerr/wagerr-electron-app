@@ -8,7 +8,7 @@ import Bets from '@/Bets';
 import Tools from '@/Tools';
 // Tool Components
 import Information from '@/components/tools/Information';
-import AddressBook from '@/components/tools/AddressBook'
+import AddressBook from '@/components/tools/AddressBook';
 import Network from '@/components/tools/Network';
 import Peers from '@/components/tools/Peers.vue';
 import WalletRepair from '@/components/tools/WalletRepair';
