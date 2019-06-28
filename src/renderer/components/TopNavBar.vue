@@ -32,7 +32,7 @@
         <i class="navico-wallet"></i>
         <h6>Test Config(no neseted for dev)</h6>
       </router-link>
-      
+
       <li>
         <!-- Dropdown Trigger -->
         <div class="dropdown-trigger" data-target="settings-dropdown">

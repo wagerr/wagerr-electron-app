@@ -4,9 +4,12 @@
       <ul class="events-list">
         <li v-for="event in eventsList" :key="event.event_id" class="card">
           <div class="event-tournament">
-            <span class="sport">{{ event.tournament }} (Event ID: {{ event.event_id }})</span>
+            <span class="sport"
+              >{{ event.tournament }} (Event ID: {{ event.event_id }})</span
+            >
             <span class="date pull-right">{{
-              Number(event.starting) | moment('timezone', getTimezone, 'dddd, MMM Do h:mm A (Z z)')
+              Number(event.starting)
+                | moment('timezone', getTimezone, 'dddd, MMM Do h:mm A (Z z)')
             }}</span>
           </div>
 
@@ -85,7 +88,7 @@
                         )
                       "
                     >
-                      {{ convertOdds(event.odds[0].mlAway)   }}
+                      {{ convertOdds(event.odds[0].mlAway) }}
                     </button>
 
                     <button
@@ -310,7 +313,12 @@ export default {
   name: 'EventList',
 
   computed: {
-    ...Vuex.mapGetters(['getEventsFilter', 'eventsList', 'getTimezone','convertOdds'])
+    ...Vuex.mapGetters([
+      'getEventsFilter',
+      'eventsList',
+      'getTimezone',
+      'convertOdds'
+    ])
   },
 
   methods: {

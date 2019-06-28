@@ -1,4 +1,4 @@
-  <template>
+<template>
   <div id="information">
     <h4>Profile</h4>
 
@@ -26,7 +26,7 @@
                           :value="getOddsFormats.decimal"
                           @change="changeOddsFormat"
                           :checked="oddsFormatChecked(getOddsFormats.decimal)"
-                        >
+                        />
                         <span>Decimal</span>
                       </label>
                     </p>
@@ -36,10 +36,10 @@
                           name="oddsFormat"
                           type="radio"
                           id="odds_choice_fraction"
-                          :value="getOddsFormats.fraction"                          
+                          :value="getOddsFormats.fraction"
                           @change="changeOddsFormat"
                           :checked="oddsFormatChecked(getOddsFormats.fraction)"
-                        >
+                        />
                         <span>Fraction</span>
                       </label>
                     </p>
@@ -49,15 +49,15 @@
                           name="oddsFormat"
                           type="radio"
                           id="odds_choice_american"
-                          :value="getOddsFormats.american"                          
+                          :value="getOddsFormats.american"
                           @change="changeOddsFormat"
                           :checked="oddsFormatChecked(getOddsFormats.american)"
-                        >
+                        />
                         <span>American</span>
                       </label>
                     </p>
                   </form>
-                  <br>
+                  <br />
                 </div>
               </tr>
             </tbody>
@@ -68,16 +68,16 @@
   </div>
 </template>
 
-  <script>
-import { mapGetters, mapActions } from "vuex";
-import moment from "moment";
-import Store from "electron-store";
+<script>
+import { mapGetters, mapActions } from 'vuex';
+import moment from 'moment';
+import Store from 'electron-store';
 
 export default {
-  name: "Config",
+  name: 'Config',
 
   methods: {
-    ...mapActions(["updateOddsFormat"]),
+    ...mapActions(['updateOddsFormat']),
     changeOddsFormat: function(event) {
       this.$store.dispatch('updateOddsFormat', Number(event.target.value));
     },
@@ -88,8 +88,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["getOddsFormats", "getOddsFormat"]),   
-  },
+    ...mapGetters(['getOddsFormats', 'getOddsFormat'])
+  }
 };
-
 </script>

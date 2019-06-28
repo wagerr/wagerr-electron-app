@@ -120,7 +120,7 @@ export default {
       'betSlip',
       'getNumBets',
       'getNetworkType',
-'convertOdds'
+      'convertOdds'
     ])
   },
 
@@ -241,8 +241,7 @@ export default {
       } else {
         navbar.classList.remove('sticky');
       }
-    },
-
+    }
   },
 
   created() {

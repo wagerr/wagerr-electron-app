@@ -1,5 +1,5 @@
 <template>
-<div id="betting" class="content">
+  <div id="betting" class="content">
     <div class="row">
       <div class="betting-sidebar">
         <div class="betting-sidebar-container">
@@ -38,8 +38,8 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'Betting',
   components: { SideNavBar, bettingNav, EventList, BetSlip },
-    computed: {
-    ...mapGetters(['getOddsFormats', 'getOddsFormat']),
+  computed: {
+    ...mapGetters(['getOddsFormats', 'getOddsFormat'])
   }
 };
 </script>
