@@ -108,7 +108,6 @@
 <script>
 import Vuex from 'vuex';
 import constants from '../../../../main/constants/constants';
-import * as oddsConverter from '../../../utils/oddsConverter.js';
 import wagerrRPC from '@/services/api/wagerrRPC';
 
 export default {
@@ -121,8 +120,7 @@ export default {
       'betSlip',
       'getNumBets',
       'getNetworkType',
-      'getOddsFormats',
-      'getOddsFormat'
+'convertOdds'
     ])
   },
 
@@ -243,14 +241,6 @@ export default {
       } else {
         navbar.classList.remove('sticky');
       }
-    },
-
-    convertOdds: function(val) {
-      if (this.getOddsFormat === this.getOddsFormats.fraction){
-        console.log("odds " + val +  " dec: " + oddsConverter.toDecimal(val) + " to American is: " + oddsConverter.toAmerican(val));
-        return oddsConverter.toAmerican(val)
-    }
-      return oddsConverter.toDecimal(val);
     },
 
   },

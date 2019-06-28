@@ -305,13 +305,12 @@
 <script>
 import Vuex from 'vuex';
 import moment from 'moment';
-import * as oddsConverter from '../../../utils/oddsConverter.js';
 
 export default {
   name: 'EventList',
 
   computed: {
-    ...Vuex.mapGetters(['getEventsFilter', 'eventsList', 'getTimezone','getOddsFormat', 'getOddsFormats'])
+    ...Vuex.mapGetters(['getEventsFilter', 'eventsList', 'getTimezone','convertOdds'])
   },
 
   methods: {
@@ -319,14 +318,6 @@ export default {
 
     moment: function() {
       return moment();
-    },
-
-    convertOdds: function(val) {
-      if (this.getOddsFormat === this.getOddsFormats.fraction){
-console.log("odds " + val +  " dec: " + oddsConverter.toDecimal(val) + " to American is: " + oddsConverter.toAmerican(val));
-      return oddsConverter.toAmerican(val)
-    }
-      return oddsConverter.toDecimal(val);
     },
 
     // Create a unique bet ID.

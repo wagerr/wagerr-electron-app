@@ -22,6 +22,19 @@
                         <input
                           name="oddsFormat"
                           type="radio"
+                          id="odds_choice_decimal"
+                          :value="getOddsFormats.decimal"
+                          @change="changeOddsFormat"
+                          :checked="oddsFormatChecked(getOddsFormats.decimal)"
+                        >
+                        <span>Decimal</span>
+                      </label>
+                    </p>
+                    <p>
+                      <label>
+                        <input
+                          name="oddsFormat"
+                          type="radio"
                           id="odds_choice_fraction"
                           :value="getOddsFormats.fraction"                          
                           @change="changeOddsFormat"
@@ -35,12 +48,12 @@
                         <input
                           name="oddsFormat"
                           type="radio"
-                          id="odds_choice_decimal"
-                          :value="getOddsFormats.decimal"
+                          id="odds_choice_american"
+                          :value="getOddsFormats.american"                          
                           @change="changeOddsFormat"
-                          :checked="oddsFormatChecked(getOddsFormats.decimal)"
+                          :checked="oddsFormatChecked(getOddsFormats.american)"
                         >
-                        <span>Decimal</span>
+                        <span>American</span>
                       </label>
                     </p>
                   </form>
