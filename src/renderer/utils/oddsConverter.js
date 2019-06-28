@@ -2,17 +2,41 @@
 // import fractional from 'fractional-arithmetic'
 import constants from '../../main/constants/constants';
 
-const { Fraction } = require('fractional-arithmetic');
-
 const OddsConverter = {
+  gcd: function gcd(a, b) {
+    a = Math.abs(a);
+    b = Math.abs(b);
+    let temp;
+    while (b > 0) {
+      temp = b;
+      b = a % b;
+      a = temp;
+    }
+    return a;
+  },
+
   // Todo: all must be converted with divisor, need to remove duplication
   toDecimal: function toDecimal(decimal) {
     return decimal / constants.ODDS_DIVISOR;
   },
+
   toFraction: function toFraction(decimal) {
     decimal -= 10000; // -1
     decimal /= constants.ODDS_DIVISOR;
-    return new Fraction(decimal).simplify();
+    let n;
+    let d;
+    const ns = `${decimal}`;
+    const decimals = ns.length - ns.indexOf('.') - 1;
+    n = parseInt(ns.replace('.', ''));
+    d = Math.pow(10, decimals);
+
+    // simplify
+    if (d < 0) {
+      n *= -1;
+      d *= -1;
+    }
+    const g = this.gcd(n, d);
+    return g == 1 ? `(${n}/${d})` : `(${parseInt(n / g)}/${parseInt(d / g)})`;
   },
 
   toAmerican: function toAmerican(decimal) {
@@ -32,4 +56,5 @@ const OddsConverter = {
     return american;
   }
 };
+
 export default OddsConverter;
