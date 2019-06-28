@@ -1,5 +1,6 @@
 import moment from 'moment';
 import wagerrRPC from '@/services/api/wagerrRPC';
+// import ElectronStore from 'electron-store';
 
 const state = function() {
   return {
@@ -96,6 +97,12 @@ const actions = {
           });
       }
     });
+  },
+  // Todo: remove, used for testing atm, because, no tests
+  testlistEvents({ commit, state, getters }) {
+    // es = new ElectronStore()
+    // preferences.set("eventsList", getters.eventsList);
+    // commit('setEventsList',es.get("eventsList"));
   }
 };
 

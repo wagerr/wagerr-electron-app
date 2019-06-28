@@ -10,6 +10,10 @@
         <a>Peers</a>
       </router-link>
 
+      <router-link class="col s4" tag="li" to="/tools/address_book" exact>
+        <a>Address Book</a>
+      </router-link>
+
       <router-link class="col s4" tag="li" to="/tools/wallet_repair">
         <a>Wallet Repair</a>
       </router-link>

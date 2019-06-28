@@ -233,9 +233,9 @@
                         >(O{{ event.odds[2].totalsPoints / 10 }})</span
                       >
 
-                      <span class="totalodds"
-                        >{{ convertOdds(event.odds[2].totalsOver) }}</span
-                      >
+                      <span class="totalodds">{{
+                        convertOdds(event.odds[2].totalsOver)
+                      }}</span>
                     </button>
                   </div>
                   <div class="total">
@@ -257,9 +257,9 @@
                         >(U{{ event.odds[2].totalsPoints / 10 }})</span
                       >
 
-                      <span class="totalodds"
-                        >{{ convertOdds(event.odds[2].totalsUnder) }}</span
-                      >
+                      <span class="totalodds">{{
+                        convertOdds(event.odds[2].totalsUnder)
+                      }}</span>
                     </button>
                   </div>
                 </div>
@@ -305,16 +305,28 @@ export default {
       'getEventsFilter',
       'eventsList',
       'getTimezone',
-      'convertOdds'
+      'convertOdds',
+      'betSlip'
     ])
   },
 
   methods: {
-    ...Vuex.mapActions(['listEvents', 'addBetToSlip', 'clearBetSlip']),
+    ...Vuex.mapActions([
+      'listEvents',
+      'addBetToSlip',
+      'clearBetSlip',
+      'testlistEvents',
+      'updateBet'
+    ]),
 
     moment: function() {
       return moment();
     },
+
+    //Todo: this is where we would determine the odds of the bet,
+    // so that we could use to update the betslip if the event changes.
+    // type being the 'outcome', see const oddsForBet in Betslip.js
+    createOddsFortype: function(type, event) {},
 
     // Create a unique bet ID.
     createBetId: function() {
@@ -352,12 +364,18 @@ export default {
         eventDetails: eventDetails,
         betType: betType,
         handicap: handicap,
-        totalValue: totalValue
+        totalValue: totalValue,
+        availability: true
       };
       console.log('----------Going to create bet placer----------', betData);
       this.addBetToSlip(betData);
     },
 
+    checkValidBets: function() {
+      console.log(
+        'checking valid bets, remove bet or warn and prevent confirm'
+      );
+    },
     // Check if money line odds are available for a given event.
     isEventMLOddsSet: function(event) {
       return !(
@@ -387,6 +405,27 @@ export default {
       let totalsOdds = this.isEventTotalsOddsSet();
 
       return mlOddsSet && spreadOddsSet && totalsOdds;
+    },
+
+    updateBetSlip: function() {
+      // Todo: check if the bets are still available
+      // For each item in betslip - set to unavailable if time restricted
+      // and update odds
+      // console.log("number of betslip",this.betSlip.length);
+      // console.log("number of betslip", this.betSlip)
+
+      for (const betItem of this.betSlip) {
+        let eventDetails = this.eventsList.find(
+          item => item.event_id === betItem.eventDetails.event_id
+        );
+        this.updateBet({ betItem, eventDetails });
+      }
+    }
+  },
+  // use watcher on the EventsList if it changes, then update the betslip odds
+  watch: {
+    eventsList() {
+      this.updateBetSlip();
     }
   },
 
@@ -398,11 +437,13 @@ export default {
 
   created() {
     this.listEvents(this.getEventsFilter);
+    // this.testlistEvents();
 
     // ping listevents every 5 secs for new and updated events.
     this.timeout = setInterval(
       async function() {
         this.listEvents(this.getEventsFilter);
+        // this.testlistEvents();
       }.bind(this),
       5000
     );
