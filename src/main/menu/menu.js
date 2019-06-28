@@ -15,9 +15,7 @@ const template = [
   },
   {
     label: 'View',
-    submenu: [
-      { role: 'togglefullscreen' }
-    ]
+    submenu: [{ role: 'togglefullscreen' }]
   }
 ];
 

@@ -3,7 +3,6 @@
 
   <div id="change-wallet-password" class="modal bg-gradient">
     <form @submit.prevent="handleSubmit">
-
       <div class="modal-content">
         <div class="row">
           <div class="modal-header">

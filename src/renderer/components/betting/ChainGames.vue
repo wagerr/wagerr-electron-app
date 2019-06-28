@@ -24,10 +24,14 @@
             >
               Buy Ticket
             </button>
-            
-              <span class="cost">(Entry Fee: {{ entryFee }} <span class="currency">{{
-                  getNetworkType === 'Testnet' ? 'tWGR' : 'WGR'
-                }}</span>)</span>
+
+            <span class="cost"
+              >(Entry Fee: {{ entryFee }}
+              <span class="currency">{{
+                getNetworkType === 'Testnet' ? 'tWGR' : 'WGR'
+              }}</span
+              >)</span
+            >
           </div>
         </div>
         <div class="lotto-right col s8">
@@ -121,9 +125,12 @@
                 <spinner></spinner>
               </div>
 
-              <div v-else class="cg-info">{{ entryFee }}<span class="currency">{{
+              <div v-else class="cg-info">
+                {{ entryFee
+                }}<span class="currency">{{
                   getNetworkType === 'Testnet' ? 'tWGR' : 'WGR'
-                }}</span></div>
+                }}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -148,8 +155,6 @@ import CGLottoInfo from '@/components/betting/components/CGLottoInfo';
 export default {
   name: 'CGLottoBets',
   components: { CGLottoBetTransactionList, CGLottoInfo, Spinner },
-
-  
 
   computed: {
     ...Vuex.mapGetters([

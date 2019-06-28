@@ -67,11 +67,7 @@
                     >
                       {{ convertOdds(event.odds[0].mlHome) }}
                     </button>
-                    <button
-                      v-else
-                      class="btn"
-                      disabled
-                    >
+                    <button v-else class="btn" disabled>
                       N/A
                     </button>
                   </div>
@@ -91,11 +87,7 @@
                       {{ convertOdds(event.odds[0].mlAway) }}
                     </button>
 
-                    <button
-                      v-else
-                      class="btn"
-                      disabled
-                    >
+                    <button v-else class="btn" disabled>
                       N/A
                     </button>
                   </div>
@@ -115,11 +107,7 @@
                       {{ convertOdds(event.odds[0].mlDraw) }}
                     </button>
 
-                    <button
-                      v-else
-                      class="btn"
-                      disabled
-                    >
+                    <button v-else class="btn" disabled>
                       N/A
                     </button>
                   </div>
@@ -245,9 +233,9 @@
                         >O{{ event.odds[2].totalsPoints / 10 }}</span
                       >
 
-                      <span class="totalodds">({{
-                        convertOdds(event.odds[2].totalsOver)
-                      }})</span>
+                      <span class="totalodds"
+                        >({{ convertOdds(event.odds[2].totalsOver) }})</span
+                      >
                     </button>
                   </div>
                   <div class="total">
@@ -269,9 +257,9 @@
                         >U{{ event.odds[2].totalsPoints / 10 }}</span
                       >
 
-                      <span class="totalodds">({{
-                        convertOdds(event.odds[2].totalsUnder)
-                      }})</span>
+                      <span class="totalodds"
+                        >({{ convertOdds(event.odds[2].totalsUnder) }})</span
+                      >
                     </button>
                   </div>
                 </div>

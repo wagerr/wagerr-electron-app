@@ -1,5 +1,5 @@
-import wagerrRPC from '@/services/api/wagerrRPC';
 import moment from 'moment';
+import wagerrRPC from '@/services/api/wagerrRPC';
 
 const state = function() {
   return {

@@ -1,5 +1,8 @@
 <template>
-  <div v-if="cgBetTransactionList.length === 0" class="no-transactions text-center">
+  <div
+    v-if="cgBetTransactionList.length === 0"
+    class="no-transactions text-center"
+  >
     <p>No Chain Games transactions to list. Buy a ticket to enter the lotto.</p>
   </div>
 
