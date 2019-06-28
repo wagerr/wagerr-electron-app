@@ -8,7 +8,7 @@
           <table class="main-table card z-depth-2">
             <thead>
               <tr>
-                <th colspan="2">Configs {{getOddsFormat}}</th>
+                <th colspan="2">Configs</th>
               </tr>
             </thead>
 

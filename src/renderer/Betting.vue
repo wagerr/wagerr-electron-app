@@ -1,6 +1,5 @@
 <template>
 <div id="betting" class="content">
-    <p>what is this - {{ getOddsFormat }}</p>
     <div class="row">
       <div class="betting-sidebar">
         <div class="betting-sidebar-container">
