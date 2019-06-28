@@ -28,6 +28,11 @@
         <h6>Tools &amp; Info</h6>
       </router-link>
 
+      <router-link tag="li" to="/address_book" exact>
+        <i class="navico-wallet"></i>
+        <h6>Address Book (TODO: Move me to Tools)</h6>
+      </router-link>
+
       <router-link tag="li" to="/preferences" exact>
         <i class="navico-wallet"></i>
         <h6>Preferences (TODO: Move me to Tools)</h6>

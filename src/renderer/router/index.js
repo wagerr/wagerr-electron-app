@@ -6,12 +6,13 @@ import Betting from '@/Betting';
 import Wallet from '@/Wallet';
 import Bets from '@/Bets';
 import Tools from '@/Tools';
-import Preferences from '@/Preferences';
 // Tool Components
 import Information from '@/components/tools/Information';
+import AddressBook from '@/components/tools/AddressBook'
 import Network from '@/components/tools/Network';
 import Peers from '@/components/tools/Peers.vue';
 import WalletRepair from '@/components/tools/WalletRepair';
+import Preferences from '@/components/tools/Preferences';
 // Betting Components
 import Peerless from '@/components/betting/Peerless';
 import H2H from '@/components/betting/H2H';
@@ -27,6 +28,7 @@ export default new Router({
     { path: '/betting', component: Betting },
     { path: '/chain_games', component: ChainGames },
     { path: '/bets', component: Bets },
+    { path: '/address_book', component: AddressBook }, // Todo: place as children for Tools
     { path: '/preferences', component: Preferences }, // Todo: place as children for Tools
     {
       path: '/tools/',
