@@ -36,7 +36,7 @@ const OddsConverter = {
       d *= -1;
     }
     const g = this.gcd(n, d);
-    return g == 1 ? `(${n}/${d})` : `(${parseInt(n / g)}/${parseInt(d / g)})`;
+    return g == 1 ? `${n}/${d}` : `${parseInt(n / g)}/${parseInt(d / g)}`;
   },
 
   toAmerican: function toAmerican(decimal) {
