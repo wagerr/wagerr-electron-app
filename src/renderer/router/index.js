@@ -8,6 +8,7 @@ import Bets from '@/Bets';
 import Tools from '@/Tools';
 // Tool Components
 import Information from '@/components/tools/Information';
+import AddressBook from '@/components/tools/AddressBook';
 import Network from '@/components/tools/Network';
 import Peers from '@/components/tools/Peers.vue';
 import WalletRepair from '@/components/tools/WalletRepair';
@@ -27,6 +28,7 @@ export default new Router({
     { path: '/betting', component: Betting },
     { path: '/chain_games', component: ChainGames },
     { path: '/bets', component: Bets },
+    { path: '/address_book', component: AddressBook }, // Todo: place as children for Tools
     {
       path: '/tools/',
       component: Tools,

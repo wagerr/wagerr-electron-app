@@ -23,6 +23,11 @@
         <h6>Chain Games</h6>
       </router-link>
 
+      <router-link tag="li" to="/address_book" exact>
+        <i class="navico-wallet"></i>
+        <h6>Address Book (TODO: Move me to Tools)</h6>
+      </router-link>
+
       <router-link tag="li" to="/tools/info">
         <i class="navico-wrench"></i>
         <h6>Tools &amp; Info</h6>
