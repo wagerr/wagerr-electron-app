@@ -248,7 +248,7 @@ export default {
     await this.syncBlockchainStatus();
 
     // load User Config - could use methods access, instead of store.dispatch
-    await this.loadUserSettings();
+    await this.loadUserSettings(network);
   }
 };
 </script>
