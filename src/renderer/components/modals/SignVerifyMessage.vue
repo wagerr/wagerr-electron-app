@@ -2,7 +2,6 @@
   <!-- Sign / Verify Messages Modal -->
 
   <div id="sign-verify-message" class="modal bg-gradient">
-
     <div class="modal-content">
       <div class="row">
         <ul class="tabs">
@@ -345,23 +344,23 @@ export default {
   text-align: left;
 }
 .modal-content .tabs {
-	margin-top:20px;
+  margin-top: 20px;
 }
 .tab {
   background-color: $dark_grey;
 }
 .modal-content .tab {
-	background:#000;
-	border:none;
+  background: #000;
+  border: none;
 }
 .modal-content .tab a {
-	color:#fff;
-	border:none;
+  color: #fff;
+  border: none;
 }
 .tab .active {
   background: $wagerr_red !important;
-  color:#fff !important;
-	border:none;
+  color: #fff !important;
+  border: none;
 }
 
 .input-field span {
@@ -397,5 +396,6 @@ export default {
 }
 
 #verify-message-form {
-	padding-bottom:20px;}
+  padding-bottom: 20px;
+}
 </style>

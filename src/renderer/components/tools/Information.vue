@@ -22,7 +22,9 @@
               <tr class="info-row">
                 <th>Daemon Version</th>
 
-                <td class="number">{{ formatNetworkVersion(getNetworkVersion) }}</td>
+                <td class="number">
+                  {{ formatNetworkVersion(getNetworkVersion) }}
+                </td>
               </tr>
 
               <tr class="info-row">
@@ -210,15 +212,23 @@ export default {
 
     formatNetworkVersion: function(version) {
       let majorVersion = parseInt(version.toString().slice(0, 1));
-      majorVersion = (majorVersion === 0 ? 0 : majorVersion);
+      majorVersion = majorVersion === 0 ? 0 : majorVersion;
       let minorVersion = parseInt(version.toString().slice(1, 3));
-      minorVersion = (minorVersion === 0 ? 0 : minorVersion);
+      minorVersion = minorVersion === 0 ? 0 : minorVersion;
       let revisionVersion = parseInt(version.toString().slice(3, 5));
-      revisionVersion = (revisionVersion === 0 ? 0 : revisionVersion);
+      revisionVersion = revisionVersion === 0 ? 0 : revisionVersion;
       let buildVersion = parseInt(version.toString().slice(5, 7));
-      buildVersion = (buildVersion === 0 ? 0 : buildVersion);
+      buildVersion = buildVersion === 0 ? 0 : buildVersion;
 
-      return majorVersion + "." + minorVersion + "." + revisionVersion + "." + buildVersion;
+      return (
+        majorVersion +
+        '.' +
+        minorVersion +
+        '.' +
+        revisionVersion +
+        '.' +
+        buildVersion
+      );
     }
   },
 

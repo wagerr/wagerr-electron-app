@@ -1,5 +1,5 @@
-import wagerrRPC from '@/services/api/wagerrRPC';
 import moment from 'moment';
+import wagerrRPC from '@/services/api/wagerrRPC';
 
 /**
  * Contains all the methods to store users bet slip state and add/remove bets from the bet slip.
@@ -152,7 +152,7 @@ const mutations = {
 
   setGameEndTime(state, gameEndTime) {
     state.gameEndTime = gameEndTime;
-  },
+  }
 };
 
 export default {

@@ -93,7 +93,11 @@ export default {
   name: 'BetTransactionList',
 
   computed: {
-    ...Vuex.mapGetters(['plBetTransactionList', 'getNetworkType', 'getTimezone'])
+    ...Vuex.mapGetters([
+      'plBetTransactionList',
+      'getNetworkType',
+      'getTimezone'
+    ])
   },
 
   methods: {

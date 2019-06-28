@@ -3,7 +3,6 @@
 
   <div id="encrypt-wallet" class="modal bg-gradient">
     <form @submit.prevent="handleSubmit">
-
       <div class="modal-content">
         <div class="row">
           <div class="modal-header">
@@ -160,7 +159,9 @@ export default {
   overflow-y: inherit;
 }
 
-.gray {color:#aaa;}
+.gray {
+  color: #aaa;
+}
 
 .input-field span {
   margin-left: 45px;
@@ -172,7 +173,7 @@ export default {
   margin-right: auto;
 }
 .modal-content p {
-	margin:10px 0;
+  margin: 10px 0;
 }
 
 .options a,
