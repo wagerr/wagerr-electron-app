@@ -230,11 +230,11 @@
                       "
                     >
                       <span class="totalnum"
-                        >O{{ event.odds[2].totalsPoints / 10 }}</span
+                        >(O{{ event.odds[2].totalsPoints / 10 }})</span
                       >
 
                       <span class="totalodds"
-                        >({{ convertOdds(event.odds[2].totalsOver) }})</span
+                        >{{ convertOdds(event.odds[2].totalsOver) }}</span
                       >
                     </button>
                   </div>
@@ -254,11 +254,11 @@
                       "
                     >
                       <span class="totalnum"
-                        >U{{ event.odds[2].totalsPoints / 10 }}</span
+                        >(U{{ event.odds[2].totalsPoints / 10 }})</span
                       >
 
                       <span class="totalodds"
-                        >({{ convertOdds(event.odds[2].totalsUnder) }})</span
+                        >{{ convertOdds(event.odds[2].totalsUnder) }}</span
                       >
                     </button>
                   </div>
