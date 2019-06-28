@@ -1,6 +1,6 @@
 <template>
   <div id="information">
-    <h4>Profile</h4>
+    <h4>Preferences</h4>
 
     <div class="row text-center">
       <div class="col s6">
@@ -74,7 +74,7 @@ import moment from 'moment';
 import Store from 'electron-store';
 
 export default {
-  name: 'Config',
+  name: 'Preferences',
 
   methods: {
     ...mapActions(['updateOddsFormat']),

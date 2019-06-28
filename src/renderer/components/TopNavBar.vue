@@ -28,9 +28,9 @@
         <h6>Tools &amp; Info</h6>
       </router-link>
 
-      <router-link tag="li" to="/config" exact>
+      <router-link tag="li" to="/preferences" exact>
         <i class="navico-wallet"></i>
-        <h6>Test Config(no neseted for dev)</h6>
+        <h6>Preferences (TODO: Move me to Tools)</h6>
       </router-link>
 
       <li>
