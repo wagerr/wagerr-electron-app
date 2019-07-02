@@ -4,6 +4,11 @@ async function runCommand(cmd) {
   const res = await ipcRenderer.sendSync('runCommand', cmd);
   return res;
 }
+
+function encryptWallet() {
+  ipcRenderer.send('encrypt-wallet');
+}
+
 function salvageWallet() {
   ipcRenderer.send('salvage-wallet', '-salvagewallet');
 }
@@ -41,6 +46,7 @@ function noPeers() {
 }
 
 export default {
+  encryptWallet,
   salvageWallet,
   rescanBlockchain,
   recoverTxes1,

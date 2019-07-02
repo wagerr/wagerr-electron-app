@@ -218,6 +218,16 @@ ipcMain.on('runCommand', async (event, arg) => {
 });
 
 /**
+ * Encrypt wallet IPC handlers
+ */
+ipcMain.on('encrypt-wallet', async (event, arg) => {
+  global.restarting = true;
+
+  await mainWindow.close();
+  await init(arg);
+});
+
+/**
  * Wallet repair main IPC handlers
  */
 ipcMain.on('salvage-wallet', async (event, arg) => {

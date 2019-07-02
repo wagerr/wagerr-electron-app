@@ -75,6 +75,7 @@
 
 <script>
 import wagerrRPC from '@/services/api/wagerrRPC';
+import ipcRender from '../../../common/ipc/ipcRender';
 
 export default {
   name: 'EncryptWallet',
@@ -88,45 +89,50 @@ export default {
         }
 
         // If the form is valid then encrypt the wallet.
-        this.encryptWallet().then(() => {
-          // Clear any errors after successful wallet encryption.
-          this.clearForm();
-        });
+        this.encryptWallet();
       });
     },
 
     // Encrypt the users Wallet.
     encryptWallet: function() {
-      return new Promise((resolve, reject) => {
-        // Send RPC request to encrypt the users wallet with the provided password.
-        wagerrRPC.client
-          .encryptWallet(this.password)
-          .then(function(resp) {
-            // If successful response.
-            if (resp.error === 'null') {
-              M.toast({
-                html:
-                  '<span class="toast__bold-font">Success &nbsp;</span> ' +
-                  resp.result,
-                classes: 'green'
-              });
-            } else {
-              M.toast({
-                html:
-                  '<span class="toast__bold-font">Error &nbsp;</span> ' +
-                  resp.result,
-                classes: 'wagerr-red-bg'
-              });
-            }
+      let self = this;
 
-            resolve();
-          })
-          .catch(function(err) {
-            M.toast({ html: err, classes: 'wagerr-red-bg' });
-            console.error(err);
-            reject();
-          });
+      // Disable clicking events while we wait for encryption to finish.
+      document.body.style.pointerEvents = 'none';
+
+      // Notify they user that the encryption can take a while.
+      M.toast({
+        html:
+          '<span class="toast__bold-font">Success &nbsp;</span> Wallet is encrypting, this may take a while.',
+        classes: 'green'
       });
+
+      // Send RPC request to encrypt the users wallet with the provided password.
+      wagerrRPC.client
+        .encryptWallet(this.password)
+        .then(function(resp) {
+          // Notify the user that the encryption was successful and the wallet will restart soon.
+          M.toast({
+            html:
+              '<span class="toast__bold-font">Success &nbsp;</span> Wallet has been encrypted and will restart in a few seconds.',
+            classes: 'green'
+          });
+
+          self.clearForm();
+        })
+        .then(function() {
+          // Restart the wallet.
+          setTimeout(function() {
+            ipcRender.encryptWallet();
+          }, 6000);
+        })
+        .catch(function(err) {
+          // Re-enable clicking events if encryption fails.
+          document.body.style.pointerEvents = 'unset';
+
+          M.toast({ html: err, classes: 'wagerr-red-bg' });
+          console.error(err);
+        });
     },
 
     // Clear the form data and errors.
