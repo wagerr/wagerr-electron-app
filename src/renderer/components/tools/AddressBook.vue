@@ -10,62 +10,27 @@
     <div class="row text-center">
       <div class="col s6">
         <div class="info-block table-container">
-          <table class="main-table card z-depth-2">
+          <table
+            v-for="ac in getAccountAddressList"
+            :key="ac.accountName"
+            class="main-table card z-depth-2"
+          >
             <thead>
-              <tr>
-                <th colspan="2">Account 1</th> <!-- (NOTE: this value comes from `listaccounts`) -->
+              <tr class="info-row">
+                <th colspan="2">{{ ac.accountName }}</th>
               </tr>
             </thead>
 
             <tbody>
-              <tr class="info-row">
+              <tr v-for="aca in ac.addresses" :key="aca.address" class="info-row">
                 <th>
-                  <input placeholder="(no label)" /> <!-- (NOTE: labels will be stored locally using `electron-store`) -->
+                  <input
+                    placeholder="(no label)"
+                    :value="aca.label"
+                    v-on:blur="updateLabel(aca.address, ac.accountName, $event)"
+                  >
                 </th>
-
-                <td class="number">TDvE6m3qJuzK7G8VWPdcTbMoCaUD5kngXL</td> <!-- (NOTE: these address values come from `getaddressesbyaccount "account_name"`) -->
-              </tr>
-
-              <tr class="info-row">
-                <th>Betting Address</th> <!-- (NOTE: labels will be stored locally using `electron-store`) -->
-
-                <td class="number">THL61Zp2fiGxjvSiL4RjQM3LbouGPVngX1</td> <!-- (NOTE: these address values come from `getaddressesbyaccount "account_name"`) -->
-              </tr>
-
-              <tr class="info-row">
-                <th>Income Address</th> <!-- (NOTE: labels will be stored locally using `electron-store`) -->
-
-                <td class="number">TMX7efs82591Wi4dsM8tvsk5VocPYW6aRA</td> <!-- (NOTE: these address values come from `getaddressesbyaccount "account_name"`) -->
-              </tr>
-            </tbody>
-          </table>
-
-          <table class="main-table card z-depth-2">
-            <thead>
-              <tr>
-                <th colspan="2">Account 2</th> <!-- (NOTE: this value comes from `listaccounts`) -->
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr class="info-row">
-                <th>
-                  <input placeholder="(no label)" /> <!-- (NOTE: labels will be stored locally using `electron-store`) -->
-                </th>
-
-                <td class="number">TDvE6m3qJuzK7G8VWPdcTbMoCaUD5kngXL</td> <!-- (NOTE: these address values come from `getaddressesbyaccount "account_name"`) -->
-              </tr>
-
-              <tr class="info-row">
-                <th>Betting Address</th> <!-- (NOTE: labels will be stored locally using `electron-store`) -->
-
-                <td class="number">THL61Zp2fiGxjvSiL4RjQM3LbouGPVngX1</td> <!-- (NOTE: these address values come from `getaddressesbyaccount "account_name"`) -->
-              </tr>
-
-              <tr class="info-row">
-                <th>Income Address</th> <!-- (NOTE: labels will be stored locally using `electron-store`) -->
-
-                <td class="number">TMX7efs82591Wi4dsM8tvsk5VocPYW6aRA</td> <!-- (NOTE: these address values come from `getaddressesbyaccount "account_name"`) -->
+                <td class="number">{{ aca.address }}</td>
               </tr>
             </tbody>
           </table>
@@ -76,7 +41,29 @@
 </template>
 
 <script>
+import Vuex from "vuex";
+
 export default {
-  name: 'AddressBook'
+  name: "AddressBook",
+
+  computed: {
+    ...Vuex.mapGetters(["getAccountAddressList"])
+  },
+
+  methods: {
+    ...Vuex.mapActions(["getWGRAcountList", "updateAddressLabel"]),
+
+    updateLabel: function(address, accountName, event) {
+      this.updateAddressLabel({
+        accountName: accountName,
+        address: address,
+        label: event.target.value
+      });
+    }
+  },
+
+  mounted() {
+    this.getWGRAcountList();
+  }
 };
 </script>

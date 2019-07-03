@@ -1,8 +1,8 @@
 // Import the required libs.
 import moment from 'moment';
-import moment_timezone from 'moment-timezone';
 import ElectronStore from 'electron-store';
-import oddsConverter from '@/utils/oddsConverter.js';
+import oddsConverter from '@/utils/oddsConverter';
+import addressesRPC from '@/services/api/addresses_rpc';
 
 import constants from '../../../main/constants/constants';
 
@@ -15,11 +15,13 @@ const OddsFormat = {
 
 const electronStore = new ElectronStore();
 
-const state = function() {
+const state = function () {
   return {
     timezone: moment.tz.guess(),
     oddsFormat: OddsFormat.decimal,
-    showNetworkShare: false
+    showNetworkShare: false,
+    accountList: [],
+    accountAddressList: []
   };
 };
 
@@ -57,6 +59,12 @@ const getters = {
   },
   getShowNetworkShare: state => {
     return state.showNetworkShare;
+  },
+  getAccountList: state => {
+    return state.accountList;
+  },
+  getAccountAddressList: state => {
+    return state.accountAddressList;
   }
 };
 
@@ -84,6 +92,61 @@ const actions = {
 
   updateShowNetworkShare({ commit, state }, value) {
     commit('setShowNetworkShare', value);
+  },
+
+  getWGRAcountList({ commit, state }) {
+    addressesRPC
+      .getListAccounts()
+      .then(function(resp) {
+        commit('setAccountList', resp);
+        return resp;
+      })
+      .then(function(resp) {
+        let accounts = {};
+        let fa = [];
+        Object.keys(resp).forEach((accountName) => {
+          fa.push(addressesRPC.getAddressesByAccount(accountName)
+            .then(function (resp) {
+              // initial setting of labels
+              let ads = resp.map((e) => {
+                return { label: '', address: e };
+              });
+              return { accountName: accountName, addresses: ads };
+            })
+            .catch(function (err) {
+              // TODO Handle error correctly.
+              console.error(err);
+            })
+          );
+        });
+        let accountArray = Promise.all(fa)
+          .then((result) => {
+            // expects addresses to exist from result
+
+            // on load before calling this mutating action perhaps
+            if (electronStore.has('Accounts')) {
+              commit('setAccountAddressList', electronStore.get('Accounts'));
+            }
+
+            if (state.accountAddressList.length == 0) {
+              commit('setAccountAddressList', result);
+              electronStore.set('Accounts', result);
+            } else { // add addresses if missing
+              commit('appendAccountAddressList', result);
+              electronStore.set('Accounts', state.accountAddressList);
+            }
+
+          });
+        return accountArray;
+      })
+      .catch(function (err) {
+        // TODO Handle error correctly.
+        console.error(err);
+      });
+  },
+
+  updateAddressLabel({ commit }, payload) {
+    commit('updateLabelOfAddress', payload);
   }
 };
 
@@ -95,6 +158,58 @@ const mutations = {
   setShowNetworkShare(state, value) {
     state.showNetworkShare = value;
     electronStore.set('showNetworkShare', state.showNetworkShare);
+  },
+  setAccountList(state, list) {
+    state.accountList = list;
+  },
+  setAccountAddressList(state, list) {
+    state.accountAddressList = list;
+  },
+  appendAccountAddressList(state, result) {
+    result.forEach(account => {
+      // add account if not there
+      let indexOfAccount = state.accountAddressList.findIndex(
+        x => x.accountName === account.accountName
+      );
+
+      if (indexOfAccount == -1) {
+        state.accountAddressList.push({
+          accountName: account.accountName,
+          addresses: []
+        });
+        indexOfAccount = state.accountAddressList.findIndex(
+          x => x.accountName == account.accountName
+        );
+      }
+
+      account.addresses.forEach(address => {
+        const i = state.accountAddressList[indexOfAccount].addresses.findIndex(
+          e => {
+            return e.address === address.address;
+          }
+        );
+
+        if (i == -1) {
+          // append address for account
+          state.accountAddressList[indexOfAccount].addresses.push({
+            label: '',
+            address: address.address
+          });
+        }
+      });
+    });
+  },
+  updateLabelOfAddress(state, { accountName, address, label }) {
+    const indexOfAccount = state.accountAddressList.findIndex(e => e.accountName === accountName);
+    const indexOfAddress = state.accountAddressList[indexOfAccount].addresses.findIndex(e => e.address === address);
+    if (indexOfAddress >= 0) {
+      state.accountAddressList[indexOfAccount].addresses[indexOfAddress].label = label;
+      electronStore.set('Accounts', state.accountAddressList);
+    } else {
+      console.error(
+        `Address: ${address} for label update not found for Account: ${accountName}`
+      );
+    }
   }
 };
 
