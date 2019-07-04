@@ -119,10 +119,10 @@ const actions = {
       });
   },
 
-  unlockWallet({ commit }, password) {
+  unlockWallet({ commit }, [passphrase, timeout, anonymizeonly]) {
     return new Promise((resolve, reject) => {
       wagerrRPC.client
-        .walletPassphrase(password, 1000)
+        .walletPassphrase(passphrase, timeout, anonymizeonly)
         .then(function(resp) {
           commit('setWalletUnlocked', true);
           M.toast({

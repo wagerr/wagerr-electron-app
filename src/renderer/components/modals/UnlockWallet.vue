@@ -15,8 +15,8 @@
 
           <div class="modal-text">
             <p class="modal-font">
-              Enter wallet password to unlock wallet and enable sending WGR and
-              betting.
+              Enter wallet passphrase to unlock wallet and enable sending WGR
+              and betting.
             </p>
           </div>
 
@@ -24,19 +24,54 @@
             <i class="fas fa-unlock-alt prefix"></i>
 
             <input
-              name="wallet-password"
-              v-model="walletPassword"
+              name="unlock-passphrase"
+              v-model="unlockPassphrase"
               v-validate="'required'"
-              id="wallet-password"
+              id="unlock-passphrase"
               type="password"
               autofocus
             />
 
-            <label for="wallet-password"> Wallet Password</label>
+            <label for="unlock-passphrase"> Wallet Passphrase</label>
 
-            <span v-if="errors.has('wallet-password')" class="form-error">{{
-              errors.first('wallet-password')
-            }}</span>
+            <span v-if="errors.has('unlock-passphrase')" class="form-error">
+              {{ errors.first('unlock-passphrase') }}
+            </span>
+          </div>
+
+          <div
+            class="input-field col s12"
+            :style="
+              unlockAnonymizeOnly === true
+                ? 'display: none;'
+                : 'display: block;'
+            "
+          >
+            <i class="fas fa-clock prefix"></i>
+            <input
+              name="unlock-timeout"
+              v-model="unlockTimeout"
+              v-validate="{ required: !unlockAnonymizeOnly, numeric: true }"
+              id="unlock-timeout"
+              type="text"
+            />
+
+            <label for="unlock-timeout"> Wallet Unlock Time (seconds)</label>
+
+            <span v-if="errors.has('unlock-timeout')" class="form-error">
+              {{ errors.first('unlock-timeout') }}
+            </span>
+          </div>
+
+          <div class="input-field col s12">
+            <label>
+              <input
+                name="unlock-anonymize-only"
+                v-model="unlockAnonymizeOnly"
+                type="checkbox"
+              />
+              <span>Unlock for Staking Only</span>
+            </label>
           </div>
 
           <div class="options">
@@ -76,8 +111,18 @@ export default {
           return;
         }
 
+        // If the form is valid and we are only unlocking for staking, then set
+        // the timeout value to 0.
+        if (this.unlockAnonymizeOnly === true) {
+          this.unlockTimeout = 0;
+        }
+
         // If the form is valid then attempt to unlock the wallet.
-        await this.unlockWallet(this.walletPassword);
+        await this.unlockWallet([
+          this.unlockPassphrase,
+          this.unlockTimeout,
+          this.unlockAnonymizeOnly
+        ]);
 
         if (this.walletUnlocked) {
           // Clear any errors after successful wallet unlock.
@@ -91,20 +136,26 @@ export default {
     },
 
     clearForm: function() {
-      this.walletPassword = '';
+      this.unlockPassphrase = '';
+      this.unlockTimeout = '';
+      this.unlockAnonymizeOnly = false;
       this.$validator.reset();
     }
   },
 
   data() {
     return {
-      walletPassword: ''
+      unlockPassphrase: '',
+      unlockTimeout: '',
+      unlockAnonymizeOnly: false
     };
   }
 };
 </script>
 
 <style lang="scss" scoped>
+@import '../../assets/scss/_variables';
+
 .modal {
   overflow-y: inherit;
 }
@@ -126,5 +177,10 @@ export default {
 
 .row {
   margin-bottom: 0;
+}
+
+[type='checkbox']:checked + span:not(.lever):before {
+  border-right: 2px solid $wagerr_red;
+  border-bottom: 2px solid $wagerr_red;
 }
 </style>
