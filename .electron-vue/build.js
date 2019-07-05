@@ -24,10 +24,7 @@ else build();
 
 function clean() {
   del.sync([
-    'build/*',
-    '!build/icons',
-    '!build/icon.*',
-    '!build/background.png'
+    'release/*',
   ]);
   console.log(`\n${doneLog}\n`);
   process.exit();
