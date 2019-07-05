@@ -155,7 +155,8 @@ export default {
       return timeBehindText;
     },
 
-    // Check for peers to ensure we are connected to the network.
+    // Check for peers every 4 seconds * 30 (2 minutes) to ensure we are
+    // connected to the network.
     checkPeerStatus: function() {
       return new Promise(function(resolve, reject) {
         let count = 0;
@@ -172,14 +173,14 @@ export default {
           }
 
           // If we have no peers show a warning message to the user.
-          if (count === 15) {
+          if (count === 30) {
             ipcRender.noPeers();
             clearInterval(intervalId);
             resolve(true);
           }
 
           count++;
-        }, 2000);
+        }, 4000);
       });
     },
 
