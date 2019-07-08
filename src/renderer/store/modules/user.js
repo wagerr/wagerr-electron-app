@@ -246,6 +246,7 @@ const mutations = {
   },
   removeSendingAddress(state, sendingAddress ) {
     state.sendingAddressList.splice(state.sendingAddressList.indexOf(sendingAddress), 1)
+    electronStore.set('SendingAddressList', state.sendingAddressList);
   }
 
 };

@@ -124,9 +124,6 @@ export default {
   mounted() {
     this.getWGRAcountList();
     this.getStoredSendingAddressList();
-  },
-  created() {
-    // this.selectedAddressFilter = this.addressFilters.SENDING;
   }
 };
 </script>
