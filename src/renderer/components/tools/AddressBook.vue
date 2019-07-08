@@ -2,9 +2,11 @@
 <div id="information">
   <h4>Address Book</h4>
 
-  <div>
-    <button v-on:click="filterRecievingAddresses">Receiving Addresses</button>
-    <button v-on:click="filterSendingAddresses">Sending Addresses</button>
+  <div class="row text-center">
+    <div class="col s6">
+      <button class="btn" v-on:click="filterRecievingAddresses">Receiving Addresses</button>
+      <button class="btn" v-on:click="filterSendingAddresses">Sending Addresses</button>
+    </div>
   </div>
 
   <div v-if="selectedAddressFilter===0" class="row text-center">
