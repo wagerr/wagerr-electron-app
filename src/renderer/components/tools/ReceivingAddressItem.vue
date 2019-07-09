@@ -30,7 +30,7 @@ export default {
     return {
       editing: false
     }
-  },// Todo: what is this doing??
+  },
   directives: {
     focus (el, { value }, { context }) {
       if (value) {
@@ -59,7 +59,6 @@ export default {
       this.editing = false
     }
   }
-
   
 }
 </script>

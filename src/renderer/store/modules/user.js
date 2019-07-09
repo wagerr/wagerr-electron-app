@@ -1,8 +1,8 @@
 // Import the required libs.
 import moment from 'moment';
-import ElectronStore from 'electron-store';
 import oddsConverter from '@/utils/oddsConverter';
 import addressesRPC from '@/services/api/addresses_rpc';
+import { preferences, addressBook } from '@/services/api/preferences';
 
 import constants from '../../../main/constants/constants';
 
@@ -13,9 +13,7 @@ const OddsFormat = {
   american: 2
 };
 
-const electronStore = new ElectronStore();
-
-const state = function () {
+const state = function() {
   return {
     timezone: moment.tz.guess(),
     oddsFormat: OddsFormat.decimal,
@@ -75,17 +73,18 @@ const getters = {
 const actions = {
   updateOddsFormat({ commit, state }, format) {
     commit('setOddsFormat', format);
-    electronStore.set('oddsFormat', state.oddsFormat);
+    preferences.set('oddsFormat', state.oddsFormat);
   },
 
-  loadUserSettings({ dispatch }) {
-    if (electronStore.has('oddsFormat')) {
-      dispatch('updateOddsFormat', Number(electronStore.get('oddsFormat')));
+  // Todo: check if need other user settings loaded
+  loadUserSettings({ dispatch, getters }) {
+    if (preferences.has('oddsFormat')) {
+      dispatch('updateOddsFormat', Number(preferences.get('oddsFormat')));
     }
-    if (electronStore.has('showNetworkShare')) {
+    if (preferences.has('showNetworkShare')) {
       dispatch(
         'updateShowNetworkShare',
-        Number(electronStore.get('showNetworkShare'))
+        Number(preferences.get('showNetworkShare'))
       );
     }
   },
@@ -105,73 +104,80 @@ const actions = {
         commit('setAccountList', resp);
         return resp;
       })
+      // eslint-disable-next-line func-names
       .then(function(resp) {
-        let accounts = {};
-        let fa = [];
-        Object.keys(resp).forEach((accountName) => {
-          fa.push(addressesRPC.getAddressesByAccount(accountName)
-                  .then(function (resp) {
-                    // initial setting of labels
-                    let ads = resp.map((e) => {
-                      return { label: '', hash: e };
-                    });
-                    return { account_name: accountName, addresses: ads };
-                  })
-                  .catch(function (err) {
-                    // TODO Handle error correctly.
-                    console.error(err);
-                  })
-                 );
+        const fa = [];
+        Object.keys(resp).forEach(accountName => {
+          fa.push(
+            addressesRPC
+              .getAddressesByAccount(accountName)
+              .then(function(resp) {
+                // initial setting of labels
+                const ads = resp.map(e => {
+                  return { label: '', hash: e };
+                });
+                return { account_name: accountName, addresses: ads };
+              })
+              .catch(function(err) {
+                // TODO Handle error correctly.
+                console.error(err);
+              })
+          );
         });
-        let accountArray = Promise.all(fa)
-            .then((result) => {
-              // expects addresses to exist from result
+        const accountArray = Promise.all(fa).then(result => {
+          // expects addresses to exist from result
 
-              // on load before calling this mutating action perhaps
-              if (electronStore.has('receiving_addresses')) {
-                commit('setReceivingAddressList', electronStore.get('receiving_addresses'));
-              }
+          // on load before calling this mutating action perhaps
+          if (addressBook.has('receiving_addresses')) {
+            commit('setReceivingAddressList', addressBook.get('receiving_addresses'));
+          }
 
-              if (state.receivingAddressList.length == 0) {
-                commit('setReceivingAddressList', result);
-                electronStore.set('receiving_addresses', result);
-              } else { // add addresses if missing
-                commit('appendReceivingAddressList', result);
-                electronStore.set('receiving_addresses', state.receivingAddressList);
-              }
-
-            });
+          if (state.receivingAddressList.length == 0) {
+            commit('setReceivingAddressList', result);
+            addressBook.set('receiving_addresses', result);
+          } else {
+            // add addresses if missing
+            commit('appendReceivingAddressList', result);
+            addressBook.set('receiving_addresses', state.receivingAddressList);
+          }
+        });
         return accountArray;
       })
-      .catch(function (err) {
+      .catch(function(err) {
         // TODO Handle error correctly.
         console.error(err);
       });
   },
 
   // update Receiving Address Label
-  editReceivingAddressLabel({ commit }, { receivingAddress, label}) {
+  editReceivingAddressLabel({ commit }, { receivingAddress, label }) {
     commit('editReceivingAddressLabel', { receivingAddress, label });
   },
 
-  getStoredSendingAddressList( { commit, getters }) {
-    if ( (getters.getSendingAddressList.length === 0) && (electronStore.has('sending_addresses'))) {
-      commit('setSendingAddressList', electronStore.get('sending_addresses'));
+  getStoredSendingAddressList({ commit, getters }) {
+    if (
+      getters.getSendingAddressList.length === 0 &&
+      addressBook.has('sending_addresses')
+    ) {
+      commit('setSendingAddressList', addressBook.get('sending_addresses'));
     }
   },
 
-  addSendingAddress( { commit }, payload ) {
+  addSendingAddress({ commit }, payload) {
     commit('addSendingAddress', payload);
   },
 
-  editSendingAddress( { commit }, { sendingAddress, labelVal, hashVal } ) {
-    commit('editSendingAddress', { sendingAddress, hash: hashVal, label: labelVal});
+  editSendingAddress({ commit }, { sendingAddress, labelVal, hashVal }) {
+    commit('editSendingAddress', {
+      sendingAddress,
+      hash: hashVal,
+      label: labelVal
+    });
   },
 
-  removeSendingAddress( { commit }, sendingAddress ) {
-    commit('removeSendingAddress', sendingAddress)
+  removeSendingAddress({ commit }, sendingAddress) {
+    commit('removeSendingAddress', sendingAddress);
   }
-
 };
 
 const mutations = {
@@ -181,7 +187,7 @@ const mutations = {
 
   setShowNetworkShare(state, value) {
     state.showNetworkShare = value;
-    electronStore.set('showNetworkShare', state.showNetworkShare);
+    preferences.set('showNetworkShare', state.showNetworkShare);
   },
   setAccountList(state, list) {
     state.accountList = list;
@@ -207,11 +213,11 @@ const mutations = {
       }
 
       account.addresses.forEach(address => {
-        const i = state.receivingAddressList[indexOfAccount].addresses.findIndex(
-          e => {
-            return e.address === address.address;
-          }
-        );
+        const i = state.receivingAddressList[
+          indexOfAccount
+        ].addresses.findIndex(e => {
+          return e.address === address.address;
+        });
 
         if (i == -1) {
           // append address for account
@@ -224,31 +230,31 @@ const mutations = {
     });
   },
   editReceivingAddressLabel(state, { receivingAddress, label = receivingAddress.label }) {
-    receivingAddress.label = label
-    electronStore.set('receiving_addresses', state.receivingAddressList);
+    receivingAddress.label = label;
+    addressBook.set('receiving_addresses', state.receivingAddressList);
   },
 
   setSendingAddressList(state, addresses) {
     state.sendingAddressList = addresses;
-    electronStore.set('sending_addresses', state.sendingAddressList);
+    addressBook.set('sending_addresses', state.sendingAddressList);
   },
 
   addSendingAddress(state, sendingAddress) {
-    state.sendingAddressList.push(sendingAddress)
-    electronStore.set('sending_addresses', state.sendingAddressList);
+    state.sendingAddressList.push(sendingAddress);
+    addressBook.set('sending_addresses', state.sendingAddressList);
   },
 
-  //editSendingaddress
-  editSendingAddress(state, {sendingAddress, label = sendingAddress.label, hash = sendingAddress.hash}) {
-    sendingAddress.label = label
-    sendingAddress.hash = hash
-    electronStore.set('sending_addresses', state.sendingAddressList);
+  // editSendingaddress
+  editSendingAddress(state, { sendingAddress, label = sendingAddress.label, hash = sendingAddress.hash }) {
+    sendingAddress.label = label;
+    sendingAddress.hash = hash;
+    addressBook.set('sending_addresses', state.sendingAddressList);
   },
-  removeSendingAddress(state, sendingAddress ) {
-    state.sendingAddressList.splice(state.sendingAddressList.indexOf(sendingAddress), 1)
-    electronStore.set('sending_addresses', state.sendingAddressList);
+
+  removeSendingAddress(state, sendingAddress) {
+    state.sendingAddressList.splice(state.sendingAddressList.indexOf(sendingAddress),1);
+    addressBook.set('sending_addresses', state.sendingAddressList);
   }
-
 };
 
 export default {
