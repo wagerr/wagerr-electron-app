@@ -21,7 +21,7 @@ const state = function () {
     oddsFormat: OddsFormat.decimal,
     showNetworkShare: false,
     accountList: [],
-    accountAddressList: [],
+    receivingAddressList: [],
     sendingAddressList: []
   };
 };
@@ -64,8 +64,8 @@ const getters = {
   getAccountList: state => {
     return state.accountList;
   },
-  getAccountAddressList: state => {
-    return state.accountAddressList;
+  getReceivingAddressList: state => {
+    return state.receivingAddressList;
   },
   getSendingAddressList: state => {
     return state.sendingAddressList;
@@ -115,7 +115,7 @@ const actions = {
                     let ads = resp.map((e) => {
                       return { label: '', hash: e };
                     });
-                    return { accountName: accountName, addresses: ads };
+                    return { account_name: accountName, addresses: ads };
                   })
                   .catch(function (err) {
                     // TODO Handle error correctly.
@@ -128,16 +128,16 @@ const actions = {
               // expects addresses to exist from result
 
               // on load before calling this mutating action perhaps
-              if (electronStore.has('Accounts')) {
-                commit('setAccountAddressList', electronStore.get('Accounts'));
+              if (electronStore.has('receiving_addresses')) {
+                commit('setReceivingAddressList', electronStore.get('receiving_addresses'));
               }
 
-              if (state.accountAddressList.length == 0) {
-                commit('setAccountAddressList', result);
-                electronStore.set('Accounts', result);
+              if (state.receivingAddressList.length == 0) {
+                commit('setReceivingAddressList', result);
+                electronStore.set('receiving_addresses', result);
               } else { // add addresses if missing
-                commit('appendAccountAddressList', result);
-                electronStore.set('Accounts', state.accountAddressList);
+                commit('appendReceivingAddressList', result);
+                electronStore.set('receiving_addresses', state.receivingAddressList);
               }
 
             });
@@ -155,13 +155,13 @@ const actions = {
   },
 
   getStoredSendingAddressList( { commit, getters }) {
-    if ( getters.getSendingAddressList.length === 0 ) {
-      commit('setSendingAddressList', electronStore.get('SendingAddressList'));
+    if ( (getters.getSendingAddressList.length === 0) && (electronStore.has('sending_addresses'))) {
+      commit('setSendingAddressList', electronStore.get('sending_addresses'));
     }
   },
 
   addSendingAddress( { commit }, payload ) {
-    commit('addSendingaddress', payload);
+    commit('addSendingAddress', payload);
   },
 
   editSendingAddress( { commit }, { sendingAddress, labelVal, hashVal } ) {
@@ -186,28 +186,28 @@ const mutations = {
   setAccountList(state, list) {
     state.accountList = list;
   },
-  setAccountAddressList(state, list) {
-    state.accountAddressList = list;
+  setReceivingAddressList(state, list) {
+    state.receivingAddressList = list;
   },
-  appendAccountAddressList(state, result) {
+  appendReceivingAddressList(state, result) {
     result.forEach(account => {
       // add account if not there
-      let indexOfAccount = state.accountAddressList.findIndex(
+      let indexOfAccount = state.receivingAddressList.findIndex(
         x => x.accountName === account.accountName
       );
 
       if (indexOfAccount == -1) {
-        state.accountAddressList.push({
+        state.receivingAddressList.push({
           accountName: account.accountName,
           addresses: []
         });
-        indexOfAccount = state.accountAddressList.findIndex(
+        indexOfAccount = state.receivingAddressList.findIndex(
           x => x.accountName == account.accountName
         );
       }
 
       account.addresses.forEach(address => {
-        const i = state.accountAddressList[indexOfAccount].addresses.findIndex(
+        const i = state.receivingAddressList[indexOfAccount].addresses.findIndex(
           e => {
             return e.address === address.address;
           }
@@ -215,7 +215,7 @@ const mutations = {
 
         if (i == -1) {
           // append address for account
-          state.accountAddressList[indexOfAccount].addresses.push({
+          state.receivingAddressList[indexOfAccount].addresses.push({
             label: '',
             address: address.address
           });
@@ -225,28 +225,28 @@ const mutations = {
   },
   editReceivingAddressLabel(state, { receivingAddress, label = receivingAddress.label }) {
     receivingAddress.label = label
-    electronStore.set('Accounts', state.accountAddressList);
+    electronStore.set('receiving_addresses', state.receivingAddressList);
   },
 
   setSendingAddressList(state, addresses) {
     state.sendingAddressList = addresses;
-    electronStore.set('SendingAddressList', state.sendingAddressList);
+    electronStore.set('sending_addresses', state.sendingAddressList);
   },
 
-  addSendingaddress(state, sendingAddress) {
+  addSendingAddress(state, sendingAddress) {
     state.sendingAddressList.push(sendingAddress)
-    electronStore.set('SendingAddressList', state.sendingAddressList);
+    electronStore.set('sending_addresses', state.sendingAddressList);
   },
 
   //editSendingaddress
   editSendingAddress(state, {sendingAddress, label = sendingAddress.label, hash = sendingAddress.hash}) {
     sendingAddress.label = label
     sendingAddress.hash = hash
-    electronStore.set('SendingAddressList', state.sendingAddressList);
+    electronStore.set('sending_addresses', state.sendingAddressList);
   },
   removeSendingAddress(state, sendingAddress ) {
     state.sendingAddressList.splice(state.sendingAddressList.indexOf(sendingAddress), 1)
-    electronStore.set('SendingAddressList', state.sendingAddressList);
+    electronStore.set('sending_addresses', state.sendingAddressList);
   }
 
 };

@@ -1,7 +1,9 @@
 <template>
 <div id="information">
-  <h4>Address Book</h4>
 
+  <div class="row">
+      <h4>Address Book</h4>
+  </div>
   <div class="row text-center">
     <div class="col s6">
       <button class="btn" v-on:click="filterRecievingAddresses">Receiving Addresses</button>
@@ -13,7 +15,7 @@
     <div class="col s6">
       <div class="info-block table-container">
         <table
-          v-for="receivingAccount in getAccountAddressList"
+          v-for="receivingAccount in getReceivingAddressList "
           :key="receivingAccount.accountName"
           class="main-table card z-depth-2"
           >
@@ -90,11 +92,11 @@ export default {
   components: { SendingAddressItem, ReceivingAddressItem },
 
   computed: {
-    ...Vuex.mapGetters(["getAccountAddressList", "getSendingAddressList"])
+    ...Vuex.mapGetters(["getReceivingAddressList", "getSendingAddressList"])
   },
 
   methods: {
-    ...Vuex.mapActions(["getWGRAcountList", "getStoredSendingAddressList", "editReceivingAddressLabel"]),
+    ...Vuex.mapActions(["getWGRAcountList", "getStoredSendingAddressList"]),
 
     addNewAddress (e) {
       const labelVal = e.target.closest('tr').querySelectorAll('input.new-address-label')[0].value.trim()
