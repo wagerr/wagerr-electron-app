@@ -51,12 +51,12 @@
             <input
               name="unlock-timeout"
               v-model="unlockTimeout"
-              v-validate="{ required: !unlockAnonymizeOnly, numeric: true }"
+              v-validate="{ numeric: true }"
               id="unlock-timeout"
-              type="text"
+              type="number"
             />
 
-            <label for="unlock-timeout"> Wallet Unlock Time (seconds)</label>
+            <label for="unlock-timeout" class="active"> Wallet Unlock Time (seconds)</label>
 
             <span v-if="errors.has('unlock-timeout')" class="form-error">
               {{ errors.first('unlock-timeout') }}
@@ -111,12 +111,6 @@ export default {
           return;
         }
 
-        // If the form is valid and we are only unlocking for staking, then set
-        // the timeout value to 0.
-        if (this.unlockAnonymizeOnly === true) {
-          this.unlockTimeout = 0;
-        }
-
         // If the form is valid then attempt to unlock the wallet.
         await this.unlockWallet([
           this.unlockPassphrase,
@@ -137,7 +131,7 @@ export default {
 
     clearForm: function() {
       this.unlockPassphrase = '';
-      this.unlockTimeout = '';
+      this.unlockTimeout = '0';
       this.unlockAnonymizeOnly = false;
       this.$validator.reset();
     }
@@ -146,7 +140,7 @@ export default {
   data() {
     return {
       unlockPassphrase: '',
-      unlockTimeout: '',
+      unlockTimeout: '0',
       unlockAnonymizeOnly: false
     };
   }
