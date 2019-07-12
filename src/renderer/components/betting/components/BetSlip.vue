@@ -54,8 +54,9 @@
                     name="Bet Id"
                     type="text"
                     maxlength="10"
+                    :disabled="bet.availability === false"
                     v-on:input="calcPotentialWinnings($event, bet.odds, index)"
-                    placeholder="Enter Bet Stake"
+                    :placeholder="inputBetPlaceholder(bet)"
                   />
                   <span
                     class="helper-text"
@@ -109,6 +110,7 @@
 import Vuex from 'vuex';
 import constants from '../../../../main/constants/constants';
 import wagerrRPC from '@/services/api/wagerrRPC';
+import moment from 'moment';
 
 export default {
   name: 'BetSlip',
@@ -124,9 +126,13 @@ export default {
       'getShowNetworkShare'
     ])
   },
-
+  
   methods: {
     ...Vuex.mapActions(['addToBetSlip', 'removeBetFromSlip', 'clearBetSlip']),
+    
+    inputBetPlaceholder: function(bet) {
+      return bet.availability === true ? 'Enter Bet Stake':'Not Available';
+    },
 
     // Calculate the potential winnings of a bet.
     calcPotentialWinnings: function(event, odds, index) {
@@ -160,35 +166,36 @@ export default {
         this.showBetWarning(betStake, index);
       }
     },
+    
+    showWarning: function(index, message) {
+      document
+        .getElementById('bet-warning-' + index)
+        .classList.remove('hide');
+      document.getElementById('bet-warning-' + index).innerText = message;
+    },
 
     showBetWarning: function(betStake, index) {
       if (this.balance < betStake && this.pending > betStake) {
-        document
-          .getElementById('bet-warning-' + index)
-          .classList.remove('hide');
-        document.getElementById('bet-warning-' + index).innerText =
-          'Available balance too low. Please wait for your pending balance of ' +
-          this.pending +
-          ' ' +
-          (this.getNetworkType === 'Testnet' ? ' tWGR' : ' WGR') +
-          ' to be confirmed.';
+        this.showWarning(index,
+                         'Available balance too low. Please wait for your pending balance of ' +
+                         this.pending +
+                         ' ' +
+                         (this.getNetworkType === 'Testnet' ? ' tWGR' : ' WGR') +
+                         ' to be confirmed.'
+                        );
       } else if (betStake < 25 || betStake > 10000) {
-        document
-          .getElementById('bet-warning-' + index)
-          .classList.remove('hide');
-        document.getElementById('bet-warning-' + index).innerText =
-          'Incorrect bet amount. Please ensure your bet is between 25 - 10000 ' +
-          (this.getNetworkType === 'Testnet' ? ' tWGR' : ' WGR') +
-          ' inclusive.';
+        this.showWarning(index,
+                         'Incorrect bet amount. Please ensure your bet is between 25 - 10000 ' +
+                         (this.getNetworkType === 'Testnet' ? ' tWGR' : ' WGR') +
+                         ' inclusive.'
+                        );
       } else if (this.balance < betStake) {
-        document
-          .getElementById('bet-warning-' + index)
-          .classList.remove('hide');
-        document.getElementById('bet-warning-' + index).innerText =
-          'Available balance too low.';
+        this.showWarning(index,
+                         document.getElementById('bet-warning-' + index).innerText =
+                         'Available balance too low.'
+                        );
       } else {
-        document.getElementById('bet-warning-' + index).classList.add('hide');
-        document.getElementById('bet-warning-' + index).innerText = '';
+        this.showWarning(index, '');
       }
     },
 
@@ -217,7 +224,7 @@ export default {
           else {
             M.toast({
               html:
-                '<span class="toast__bold-font">Error &nbsp;</span> ' +
+              '<span class="toast__bold-font">Error &nbsp;</span> ' +
                 resp.result,
               classes: 'wagerr-red-bg'
             });
@@ -242,9 +249,22 @@ export default {
       } else {
         navbar.classList.remove('sticky');
       }
+    },
+  },
+  watch: {
+    betSlip: {
+      handler (newBets, oldBets) {
+        newBets.forEach( function(newBet, index) {
+          if (newBet.availability === false) {
+            document.getElementById(newBet.betId).value = ""
+            document.getElementById('bet-warning-' + index).innerText = "Sorry, you can not make a bet within 12 minutes of the Event.";
+            document.getElementById('bet-warning-' + index).classList.remove('hide');
+          }
+        })
+      },
+      deep: true
     }
   },
-
   created() {
     window.addEventListener('scroll', this.handleScroll);
   },
@@ -259,11 +279,11 @@ export default {
 @import '../../../assets/scss/_variables.scss';
 
 .bet-warning {
-  background: $dark_grey;
-  border-radius: 5px;
-  color: $white;
-  font-size: 12px;
-  margin: 5px;
-  padding: 10px;
+    background: $dark_grey;
+    border-radius: 5px;
+    color: $white;
+    font-size: 12px;
+    margin: 5px;
+    padding: 10px;
 }
 </style>

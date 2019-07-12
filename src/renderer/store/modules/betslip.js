@@ -1,4 +1,15 @@
 import { stat } from 'fs';
+import moment from 'moment';
+
+const oddsForBet = {
+  1: event => event.odds[0].mlHome,
+  2: event => event.odds[0].mlAway,
+  3: event => event.odds[0].mlDraw,
+  4: event => event.odds[1].spreadHome,
+  5: event => event.odds[1].spreadAway,
+  6: event => event.odds[2].totalsOver,
+  7: event => event.odds[2].totalsUnder
+};
 
 const state = {
   betSlip: []
@@ -25,6 +36,12 @@ const actions = {
 
   clearBetSlip({ commit }) {
     commit('clearSlip');
+  },
+
+  updateBet({commit}, {betItem, eventDetails}) {
+    commit('updateBetSlipEventDetails', {betItem,
+                                         eventDetails
+                                        });
   }
 };
 
@@ -55,6 +72,27 @@ const mutations = {
   // Clear all the bets from the bet slip.
   clearSlip(state) {
     state.betSlip = [];
+  },
+
+  updateBetSlipEventDetails({state}, {betItem, eventDetails}) {
+    // depending on bet outcome
+    betItem.eventDetails = eventDetails;
+    // prob move to another place listenign to changes
+    const odds = oddsForBet[betItem.outcome](eventDetails)
+    console.log("changing odds to ", odds);
+    betItem.odds = odds
+
+    // copied from eventList filter
+    if (
+      eventDetails.starting - 12 * 60 > moment().unix() &&
+        eventDetails.starting <
+        moment()
+        .add(13, 'days')
+        .unix()
+    ) {
+    } else {
+      betItem.availability = false
+    }
   }
 };
 

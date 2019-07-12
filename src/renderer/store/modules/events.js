@@ -1,5 +1,6 @@
 import moment from 'moment';
 import wagerrRPC from '@/services/api/wagerrRPC';
+import { preferences } from '@/services/api/preferences';
 
 const state = function() {
   return {
@@ -96,6 +97,11 @@ const actions = {
           });
       }
     });
+  },
+  // Todo: remove, used for testing atm, because, no tests
+  testlistEvents({ commit, state, getters } ) {
+    // preferences.set("eventsList", getters.eventsList);
+    commit('setEventsList',preferences.get("eventsList"));
   }
 };
 
