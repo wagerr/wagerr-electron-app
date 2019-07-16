@@ -79,7 +79,6 @@ const mutations = {
     betItem.eventDetails = eventDetails;
     // prob move to another place listenign to changes
     const odds = oddsForBet[betItem.outcome](eventDetails)
-    console.log("changing odds to ", odds);
     betItem.odds = odds
     // Todo: from Eventlist, need refactoring
     if (betItem.betType === 'spread') {
@@ -89,6 +88,13 @@ const mutations = {
       }
       let handicap = `Handicap ${handicap_calc[betItem.outcome](eventDetails)}${eventDetails.odds[1].spreadPoints / 10}`
       betItem.handicap = handicap
+    }
+    if (betItem.betType === 'total') {
+      const total_calc = {
+        6: `Over${eventDetails.odds[2].totalsPoints / 10}`,
+        7: `Under${eventDetails.odds[2].totalsPoints / 10}`
+      }
+      betItem.totalValue = total_calc[betItem.outcome]
     }
     // copied from eventList filter
     if (
