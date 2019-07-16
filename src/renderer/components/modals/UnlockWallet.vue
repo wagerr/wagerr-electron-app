@@ -27,63 +27,69 @@
               name="unlock-passphrase"
               v-model="unlockPassphrase"
               v-validate="'required'"
+              data-vv-as="Wallet Passphrase"
+              ref="unlock-passphrase"
               id="unlock-passphrase"
               type="password"
               autofocus
             />
 
-            <label for="unlock-passphrase"> Wallet Passphrase</label>
+            <label id="unlock-passphrase-label" for="unlock-passphrase">
+              Wallet Passphrase
+            </label>
 
             <span v-if="errors.has('unlock-passphrase')" class="form-error">
               {{ errors.first('unlock-passphrase') }}
             </span>
           </div>
 
-          <div
-            class="input-field col s12"
-            :style="
-              unlockAnonymizeOnly === true
-                ? 'display: none;'
-                : 'display: block;'
-            "
-          >
-            <i class="fas fa-clock prefix"></i>
+          <div class="input-field col s12">
+            <i class="fas fa-unlock-alt prefix"></i>
+
             <input
-              name="unlock-timeout"
-              v-model="unlockTimeout"
-              v-validate="{ numeric: true }"
-              id="unlock-timeout"
-              type="number"
+              name="confirm-unlock-passphrase"
+              v-model="confirmUnlockPassphrase"
+              v-validate="'required|confirmed:unlock-passphrase'"
+              data-vv-as="Confirm Wallet Passphrase"
+              id="confirm-unlock-passphrase"
+              type="password"
             />
 
-            <label for="unlock-timeout" class="active"> Wallet Unlock Time (seconds)</label>
+            <label
+              id="confirm-unlock-passphrase-label"
+              for="confirm-unlock-passphrase"
+            >
+              Confirm Wallet Passphrase
+            </label>
 
-            <span v-if="errors.has('unlock-timeout')" class="form-error">
-              {{ errors.first('unlock-timeout') }}
+            <span
+              v-if="errors.has('confirm-unlock-passphrase')"
+              class="form-error"
+            >
+              {{ errors.first('confirm-unlock-passphrase') }}
             </span>
           </div>
 
-          <div class="input-field col s12">
-            <label>
-              <input
-                name="unlock-anonymize-only"
-                v-model="unlockAnonymizeOnly"
-                type="checkbox"
-              />
-              <span>Unlock for Staking Only</span>
-            </label>
-          </div>
-
           <div class="options">
-            <a
+            <input
               @click="clearForm"
+              type="reset"
               class="modal-close waves-effect waves-light btn wagerr-red-bg"
-              >CANCEL</a
-            >
+              value="Cancel"
+            />
 
-            <button type="submit" class="waves-effect waves-light btn green">
-              UNLOCK
-            </button>
+            <input
+              @click="unlockAnonymizeOnly = true"
+              type="submit"
+              class="waves-effect waves-light btn blue"
+              value="Unlock for Staking Only"
+            />
+
+            <input
+              type="submit"
+              class="waves-effect waves-light btn green"
+              value="Unlock"
+            />
           </div>
         </div>
       </div>
@@ -116,7 +122,11 @@ export default {
           this.unlockPassphrase,
           this.unlockTimeout,
           this.unlockAnonymizeOnly
-        ]);
+        ]).catch(() => {
+          // If there is an error in unlocking the wallet clear the form and
+          // reset all the values back to default.
+          this.clearForm();
+        });
 
         if (this.walletUnlocked) {
           // Clear any errors after successful wallet unlock.
@@ -130,16 +140,31 @@ export default {
     },
 
     clearForm: function() {
-      this.unlockPassphrase = '';
-      this.unlockTimeout = '0';
+      // Reset input values to default.
+      this.unlockPassphrase = null;
+      this.confirmUnlockPassphrase = null;
       this.unlockAnonymizeOnly = false;
+
+      // Reset the form validator to remove any validation error messages.
       this.$validator.reset();
+
+      // Remove the active class from the input field labels.
+      let inputFields = [];
+      inputFields.push(document.getElementById('unlock-passphrase-label'));
+      inputFields.push(
+        document.getElementById('confirm-unlock-passphrase-label')
+      );
+
+      for (let i = 0; i < inputFields.length; i++) {
+        inputFields[i].classList.remove('active');
+      }
     }
   },
 
   data() {
     return {
-      unlockPassphrase: '',
+      unlockPassphrase: null,
+      confirmUnlockPassphrase: null,
       unlockTimeout: '0',
       unlockAnonymizeOnly: false
     };
@@ -148,8 +173,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../assets/scss/_variables';
-
 .modal {
   overflow-y: inherit;
 }
@@ -165,16 +188,11 @@ export default {
 }
 
 .options a,
-.options button {
+.options input {
   margin-top: 20px;
 }
 
 .row {
   margin-bottom: 0;
-}
-
-[type='checkbox']:checked + span:not(.lever):before {
-  border-right: 2px solid $wagerr_red;
-  border-bottom: 2px solid $wagerr_red;
 }
 </style>
