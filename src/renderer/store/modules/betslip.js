@@ -81,7 +81,15 @@ const mutations = {
     const odds = oddsForBet[betItem.outcome](eventDetails)
     console.log("changing odds to ", odds);
     betItem.odds = odds
-
+    // Todo: from Eventlist, need refactoring
+    if (betItem.betType === 'spread') {
+      const handicap_calc = {
+        4: event => event.odds[0].mlHome > event.odds[0].mlAway ? '+' : '-',
+        5: event => event.odds[0].mlAway > event.odds[0].mlHome ? '+' : '-'
+      }
+      let handicap = `Handicap ${handicap_calc[betItem.outcome](eventDetails)}${eventDetails.odds[1].spreadPoints / 10}`
+      betItem.handicap = handicap
+    }
     // copied from eventList filter
     if (
       eventDetails.starting - 12 * 60 > moment().unix() &&
