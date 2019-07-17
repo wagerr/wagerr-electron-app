@@ -16,7 +16,8 @@ const electronStore = new ElectronStore();
 const state = function() {
   return {
     timezone: moment.tz.guess(),
-    oddsFormat: OddsFormat.decimal
+    oddsFormat: OddsFormat.decimal,
+    showFee: false
   };
 };
 
@@ -42,6 +43,9 @@ const getters = {
       return oddsConverter.toAmerican(val);
     }
     return oddsConverter.toDecimal(val);
+  },
+  getShowFee: state => {
+    return state.showFee;
   }
 };
 
@@ -56,12 +60,20 @@ const actions = {
       // just oddsFormat for now, could have list of keys
       dispatch('updateOddsFormat', Number(electronStore.get('oddsFormat')));
     }
+  },
+
+  toggleShowFee({ commit, state }) {
+    commit('setShowFee', !state.showFee)
   }
 };
 
 const mutations = {
   setOddsFormat(state, format) {
     state.oddsFormat = format;
+  },
+
+  setShowFee(state, value) {
+    state.showFee = value
   }
 };
 

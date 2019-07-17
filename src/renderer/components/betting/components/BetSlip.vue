@@ -120,7 +120,8 @@ export default {
       'betSlip',
       'getNumBets',
       'getNetworkType',
-      'convertOdds'
+      'convertOdds',
+      'getShowFee'
     ])
   },
 
@@ -135,7 +136,7 @@ export default {
       let grossWinnings = odds * betStake;
       let grossProfit = grossWinnings - betStake;
       let betFee = grossProfit * betFeePercent;
-      let netWinnings = grossWinnings - betFee;
+      let netWinnings = this.getShowFee ? grossWinnings - betFee : grossWinnings;
 
       // Set the potential winnings on the UI.
       document.getElementById('potential-returns-' + index).innerText =

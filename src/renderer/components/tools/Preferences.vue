@@ -9,6 +9,7 @@
             <tbody>
               <tr class="info-row">
                 <td>Odds Display</td>
+                <td>
                 <div id="oddsChoice">
                   <form action="#" @submit.prevent>
                     <p>
@@ -53,8 +54,29 @@
                   </form>
                   <br />
                 </div>
+                </td>
               </tr>
-
+              <tr class="info-row">
+                <td>Show Wagerr Fee on Winnings?</td>
+                <td>
+                <div id="showFeeChoice">
+                  <p>
+                      <label>
+                        <input
+                          name="showFee"
+                          type="checkbox"
+                          id="showFee"
+                          :value="getShowFee"
+                          @change="toggleShowFee"
+                          :checked="getShowFee"
+                        />
+                        <span v-bind:class="{ isActive: getShowFee }">Show Fee</span>
+                      </label>
+                    </p>
+                  <br />
+</div>
+</td>
+              </tr>
               <tr class="info-row">
                 <td>Open wagerr.conf file</td>
 
@@ -81,7 +103,7 @@ export default {
   name: 'Preferences',
 
   methods: {
-    ...mapActions(['updateOddsFormat']),
+    ...mapActions(['updateOddsFormat', 'toggleShowFee']),
     changeOddsFormat: function(event) {
       this.$store.dispatch('updateOddsFormat', Number(event.target.value));
     },
@@ -96,7 +118,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['getOddsFormats', 'getOddsFormat'])
+    ...mapGetters(['getOddsFormats', 'getOddsFormat', 'getShowFee'])
   },
 
   data: function() {
@@ -133,6 +155,12 @@ export default {
         font-size: 14px;
         line-height: 20px;
         vertical-align: top;
+        #showFeeChoice span.isActive{
+            text-decoration: none;
+        }
+        #showFeeChoice span {
+            text-decoration: line-through;
+        }
       }
     }
   }
