@@ -57,11 +57,9 @@ const actions = {
 
   loadUserSettings({ dispatch }) {
     if (electronStore.has('oddsFormat')) {
-      // just oddsFormat for now, could have list of keys
       dispatch('updateOddsFormat', Number(electronStore.get('oddsFormat')));
     }
     if (electronStore.has('showFee')) {
-      // just oddsFormat for now, could have list of keys
       dispatch('updateShowFee', Number(electronStore.get('showFee')));
     }
   },
