@@ -60,10 +60,18 @@ const actions = {
       // just oddsFormat for now, could have list of keys
       dispatch('updateOddsFormat', Number(electronStore.get('oddsFormat')));
     }
+    if (electronStore.has('showFee')) {
+      // just oddsFormat for now, could have list of keys
+      dispatch('updateShowFee', Number(electronStore.get('showFee')));
+    }
   },
 
   toggleShowFee({ commit, state }) {
     commit('setShowFee', !state.showFee)
+  },
+
+  updateShowFee({ commit, state }, value) {
+    commit('setShowFee', value)
   }
 };
 
@@ -73,7 +81,8 @@ const mutations = {
   },
 
   setShowFee(state, value) {
-    state.showFee = value
+    state.showFee = value;
+    electronStore.set('showFee', state.showFee);
   }
 };
 
