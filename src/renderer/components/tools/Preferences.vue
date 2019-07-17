@@ -9,52 +9,78 @@
             <tbody>
               <tr class="info-row">
                 <td>Odds Display</td>
-                <div id="oddsChoice">
-                  <form action="#" @submit.prevent>
-                    <p>
-                      <label>
-                        <input
-                          name="oddsFormat"
-                          type="radio"
-                          id="odds_choice_decimal"
-                          :value="getOddsFormats.decimal"
-                          @change="changeOddsFormat"
-                          :checked="oddsFormatChecked(getOddsFormats.decimal)"
-                        />
-                        <span>Decimal</span>
-                      </label>
-                    </p>
-                    <p>
-                      <label>
-                        <input
-                          name="oddsFormat"
-                          type="radio"
-                          id="odds_choice_fraction"
-                          :value="getOddsFormats.fraction"
-                          @change="changeOddsFormat"
-                          :checked="oddsFormatChecked(getOddsFormats.fraction)"
-                        />
-                        <span>Fraction</span>
-                      </label>
-                    </p>
-                    <p>
-                      <label>
-                        <input
-                          name="oddsFormat"
-                          type="radio"
-                          id="odds_choice_american"
-                          :value="getOddsFormats.american"
-                          @change="changeOddsFormat"
-                          :checked="oddsFormatChecked(getOddsFormats.american)"
-                        />
-                        <span>American</span>
-                      </label>
-                    </p>
-                  </form>
-                  <br />
-                </div>
+                <td>
+                  <div id="oddsChoice">
+                    <form action="#" @submit.prevent>
+                      <p>
+                        <label>
+                          <input
+                            name="oddsFormat"
+                            type="radio"
+                            id="odds_choice_decimal"
+                            :value="getOddsFormats.decimal"
+                            @change="changeOddsFormat"
+                            :checked="oddsFormatChecked(getOddsFormats.decimal)"
+                          />
+                          <span>Decimal</span>
+                        </label>
+                      </p>
+                      <p>
+                        <label>
+                          <input
+                            name="oddsFormat"
+                            type="radio"
+                            id="odds_choice_fraction"
+                            :value="getOddsFormats.fraction"
+                            @change="changeOddsFormat"
+                            :checked="
+                              oddsFormatChecked(getOddsFormats.fraction)
+                            "
+                          />
+                          <span>Fraction</span>
+                        </label>
+                      </p>
+                      <p>
+                        <label>
+                          <input
+                            name="oddsFormat"
+                            type="radio"
+                            id="odds_choice_american"
+                            :value="getOddsFormats.american"
+                            @change="changeOddsFormat"
+                            :checked="
+                              oddsFormatChecked(getOddsFormats.american)
+                            "
+                          />
+                          <span>American</span>
+                        </label>
+                      </p>
+                    </form>
+                    <br />
+                  </div>
+                </td>
               </tr>
-
+              <tr class="info-row">
+                <td>Include Wagerr network share in betting odds?</td>
+                <td>
+                  <div id="show-network-share-choice">
+                    <p>
+                      <label>
+                        <input
+                          name="showNetworkShare"
+                          type="checkbox"
+                          id="showNetworkShare"
+                          :value="getShowNetworkShare"
+                          @change="toggleShowNetworkShare"
+                          :checked="getShowNetworkShare"
+                        />
+                        <span style="padding-left: 0px;"></span>
+                      </label>
+                    </p>
+                    <br />
+                  </div>
+                </td>
+              </tr>
               <tr class="info-row">
                 <td>Open wagerr.conf file</td>
 
@@ -81,7 +107,7 @@ export default {
   name: 'Preferences',
 
   methods: {
-    ...mapActions(['updateOddsFormat']),
+    ...mapActions(['updateOddsFormat', 'toggleShowNetworkShare']),
     changeOddsFormat: function(event) {
       this.$store.dispatch('updateOddsFormat', Number(event.target.value));
     },
@@ -96,7 +122,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['getOddsFormats', 'getOddsFormat'])
+    ...mapGetters(['getOddsFormats', 'getOddsFormat', 'getShowNetworkShare'])
   },
 
   data: function() {
@@ -133,6 +159,12 @@ export default {
         font-size: 14px;
         line-height: 20px;
         vertical-align: top;
+        #show-network-share-choice span.isActive {
+          text-decoration: none;
+        }
+        #show-network-share-choice span {
+          text-decoration: line-through;
+        }
       }
     }
   }
@@ -144,6 +176,11 @@ export default {
   [type='radio']:checked + span:after {
     background-color: $wagerr_red;
     border: 2px solid $wagerr_red;
+  }
+
+  [type='checkbox']:checked + span:not(.lever):before {
+    border-right: 2px solid $wagerr_red;
+    border-bottom: 2px solid $wagerr_red;
   }
 }
 </style>
