@@ -120,7 +120,8 @@ export default {
       'betSlip',
       'getNumBets',
       'getNetworkType',
-      'convertOdds'
+      'convertOdds',
+      'getShowNetworkShare'
     ])
   },
 
