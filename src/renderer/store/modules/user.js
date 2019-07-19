@@ -2,7 +2,11 @@
 import moment from 'moment';
 import oddsConverter from '@/utils/oddsConverter';
 import addressesRPC from '@/services/api/addresses_rpc';
-import { preferences, addressBook } from '@/services/api/preferences';
+import ElectronStore from 'electron-store';
+import blockchainRPC from '@/services/api/blockchain_rpc';
+
+let preferencesStore = null;
+let addressBookStore = null;
 
 import constants from '../../../main/constants/constants';
 
@@ -73,13 +77,17 @@ const getters = {
 const actions = {
   updateOddsFormat({ commit, state }, format) {
     commit('setOddsFormat', format);
-    preferences.set('oddsFormat', state.oddsFormat);
+    preferencesStore.set('oddsFormat', state.oddsFormat);
   },
 
-  // Todo: check if need other user settings loaded
-  loadUserSettings({ dispatch, getters }) {
-    if (preferences.has('oddsFormat')) {
-      dispatch('updateOddsFormat', Number(preferences.get('oddsFormat')));
+  // Loaded on Splash screen
+  loadUserSettings({ dispatch, getters }, networkType) {
+    let network = networkType === 'Testnet' ? '_testnet' : ''
+    preferencesStore = new ElectronStore({
+      name: `preferences${network}`
+    });
+    if (preferencesStore.has('oddsFormat')) {
+      dispatch('updateOddsFormat', Number(preferencesStore.get('oddsFormat')));
     }
     if (preferences.has('showNetworkShare')) {
       dispatch(
@@ -95,6 +103,22 @@ const actions = {
 
   updateShowNetworkShare({ commit, state }, value) {
     commit('setShowNetworkShare', value);
+  },
+
+  // Loaded on created
+  loadAddressbook({ dispatch, getters }) {
+    async function doall(dispatch, getters) {
+      let blockchainInfo = await blockchainRPC.getBlockchainInfo();
+      let networkType = blockchainInfo.chain === 'test' ? 'Testnet' : 'Mainnet';
+      let network = networkType === 'Testnet' ? '_testnet' : ''
+      addressBookStore = new ElectronStore({
+        name: `address_book${network}`
+      });
+    }
+    doall().then(function() {
+      dispatch('getWGRAcountList');
+      dispatch('getStoredSendingAddressList');
+    });
   },
 
   getWGRAcountList({ commit, state }) {
@@ -128,17 +152,17 @@ const actions = {
           // expects addresses to exist from result
 
           // on load before calling this mutating action perhaps
-          if (addressBook.has('receiving_addresses')) {
-            commit('setReceivingAddressList', addressBook.get('receiving_addresses'));
+          if (addressBookStore.has('receiving_addresses')) {
+            commit('setReceivingAddressList', addressBookStore.get('receiving_addresses'));
           }
 
           if (state.receivingAddressList.length == 0) {
             commit('setReceivingAddressList', result);
-            addressBook.set('receiving_addresses', result);
+            addressBookStore.set('receiving_addresses', result);
           } else {
             // add addresses if missing
             commit('appendReceivingAddressList', result);
-            addressBook.set('receiving_addresses', state.receivingAddressList);
+            addressBookStore.set('receiving_addresses', state.receivingAddressList);
           }
         });
         return accountArray;
@@ -157,9 +181,9 @@ const actions = {
   getStoredSendingAddressList({ commit, getters }) {
     if (
       getters.getSendingAddressList.length === 0 &&
-      addressBook.has('sending_addresses')
+        addressBookStore.has('sending_addresses')
     ) {
-      commit('setSendingAddressList', addressBook.get('sending_addresses'));
+      commit('setSendingAddressList', addressBookStore.get('sending_addresses'));
     }
   },
 
@@ -219,7 +243,7 @@ const mutations = {
           return e.address === address.address;
         });
 
-        if (i == -1) {
+        if (i === -1) {
           // append address for account
           state.receivingAddressList[indexOfAccount].addresses.push({
             label: '',
@@ -231,29 +255,29 @@ const mutations = {
   },
   editReceivingAddressLabel(state, { receivingAddress, label = receivingAddress.label }) {
     receivingAddress.label = label;
-    addressBook.set('receiving_addresses', state.receivingAddressList);
+    addressBookStore.set('receiving_addresses', state.receivingAddressList);
   },
 
   setSendingAddressList(state, addresses) {
     state.sendingAddressList = addresses;
-    addressBook.set('sending_addresses', state.sendingAddressList);
+    addressBookStore.set('sending_addresses', state.sendingAddressList);
   },
 
   addSendingAddress(state, sendingAddress) {
     state.sendingAddressList.push(sendingAddress);
-    addressBook.set('sending_addresses', state.sendingAddressList);
+    addressBookStore.set('sending_addresses', state.sendingAddressList);
   },
 
   // editSendingaddress
   editSendingAddress(state, { sendingAddress, label = sendingAddress.label, hash = sendingAddress.hash }) {
     sendingAddress.label = label;
     sendingAddress.hash = hash;
-    addressBook.set('sending_addresses', state.sendingAddressList);
+    addressBookStore.set('sending_addresses', state.sendingAddressList);
   },
 
   removeSendingAddress(state, sendingAddress) {
     state.sendingAddressList.splice(state.sendingAddressList.indexOf(sendingAddress),1);
-    addressBook.set('sending_addresses', state.sendingAddressList);
+    addressBookStore.set('sending_addresses', state.sendingAddressList);
   }
 };
 

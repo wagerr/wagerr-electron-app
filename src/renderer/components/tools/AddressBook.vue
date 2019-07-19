@@ -96,7 +96,7 @@ export default {
   },
 
   methods: {
-    ...Vuex.mapActions(["getWGRAcountList", "getStoredSendingAddressList"]),
+    ...Vuex.mapActions(["getWGRAcountList", "getStoredSendingAddressList", "loadAddressbook"]),
 
     addNewAddress (e) {
       const labelVal = e.target.closest('tr').querySelectorAll('input.new-address-label')[0].value.trim()
@@ -125,9 +125,9 @@ export default {
       selectedAddressFilter: 0
     };
   },
-  mounted() {
-    this.getWGRAcountList();
-    this.getStoredSendingAddressList();
+
+  created() {
+    this.loadAddressbook();
   }
 };
 </script>

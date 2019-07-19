@@ -1,12 +1,10 @@
 import ElectronStore from 'electron-store';
-import network from '@/store/modules/network';
 
-const electronPrefix = network.getNetworkType === 'Testnet' ? '_testnet' : '';
 const preferencesStore = new ElectronStore({
-  name: `preferences${electronPrefix}`
+  name: `preferences`
 });
 const addressBookStore = new ElectronStore({
-  name: `address_book${electronPrefix}`
+  name: `address_book`
 });
 
 export const addressBook = {
