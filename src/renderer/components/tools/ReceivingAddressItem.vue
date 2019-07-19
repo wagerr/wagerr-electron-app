@@ -16,7 +16,7 @@
       @blur="doneEditLabel"
       >
   </td>
-  <td class="number">{{ receivingAddress.hash }}</td>
+  <td class="number">{{ receivingAddress.address }}</td>
 </tr>
 </template>
 

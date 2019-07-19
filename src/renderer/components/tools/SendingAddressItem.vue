@@ -19,7 +19,7 @@
   </td>
   <td :class="{ editing: editingHash }">
     <div class="view">
-      <label v-text="sendingAddress.hash ? sendingAddress.hash : '( No Label )'"
+      <label v-text="sendingAddress.address ? sendingAddress.address : '( No Address )'"
              @click="editingHash = true"
              ></label>
       <button class="destroy" @click="removeSendingAddress(sendingAddress)"></button>
@@ -29,7 +29,7 @@
       v-focus="editingHash"
       class="update-address-hash"
       autocomplete="off"
-      :value="sendingAddress.hash"
+      :value="sendingAddress.address"
       @keyup.enter="doneEditSendingAddress"
       @keyup.esc="cancelEdit"
       @blur="doneEditSendingAddress"
@@ -95,7 +95,7 @@ export default {
     },
     cancelEdit (e) {
       const labelVal = e.target.closest('tr').querySelectorAll('input.update-address-label')[0].value = this.sendingAddress.label
-      const hashVal = e.target.closest('tr').querySelectorAll('input.update-address-hash')[0].value = this.sendingAddress.hash
+      const hashVal = e.target.closest('tr').querySelectorAll('input.update-address-hash')[0].value = this.sendingAddress.address
       this.editing = false
       this.editingLabel = false
     }

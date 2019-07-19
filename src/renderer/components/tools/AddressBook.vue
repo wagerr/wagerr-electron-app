@@ -102,7 +102,7 @@ export default {
       const labelVal = e.target.closest('tr').querySelectorAll('input.new-address-label')[0].value.trim()
       const addressVal = e.target.closest('tr').querySelectorAll('input.new-address-hash')[0].value.trim()
       if (addressVal) {
-        this.$store.dispatch('addSendingAddress', { label: labelVal, hash: addressVal })
+        this.$store.dispatch('addSendingAddress', { label: labelVal, address: addressVal })
       }
       e.target.closest('tr').querySelectorAll('input.new-address-label')[0].value = ''
       e.target.closest('tr').querySelectorAll('input.new-address-hash')[0].value = ''

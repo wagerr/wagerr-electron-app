@@ -138,7 +138,7 @@ const actions = {
               .then(function(resp) {
                 // initial setting of labels
                 const ads = resp.map(e => {
-                  return { label: '', hash: e };
+                  return { label: '', address: e };
                 });
                 return { account_name: accountName, addresses: ads };
               })
@@ -194,8 +194,8 @@ const actions = {
   editSendingAddress({ commit }, { sendingAddress, labelVal, hashVal }) {
     commit('editSendingAddress', {
       sendingAddress,
-      hash: hashVal,
-      label: labelVal
+      label: labelVal,
+      address: hashVal
     });
   },
 
@@ -269,9 +269,9 @@ const mutations = {
   },
 
   // editSendingaddress
-  editSendingAddress(state, { sendingAddress, label = sendingAddress.label, hash = sendingAddress.hash }) {
+  editSendingAddress(state, { sendingAddress, label = sendingAddress.label, address = sendingAddress.address }) {
     sendingAddress.label = label;
-    sendingAddress.hash = hash;
+    sendingAddress.address = address;
     addressBookStore.set('sending_addresses', state.sendingAddressList);
   },
 
