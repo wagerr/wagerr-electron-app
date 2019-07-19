@@ -2,7 +2,7 @@
 <div id="information">
 
   <div class="row">
-      <h4>Address Book</h4>
+    <h4>Address Book</h4>
   </div>
   <div class="row text-center">
     <div class="col s6">
@@ -44,11 +44,23 @@
           <thead>
             <tr class="info-row">
               <th colspan="2">Your Sending Addresses</th>
+              <a v-if="addingNewSendingAddress === false"
+                 class="btn-floating btn-small waves-effect waves-light red add-btn"
+                 @click="addNewSendingAddress"
+                 >
+                <i class="material-icons">+</i>
+              </a>
+              <a v-if="addingNewSendingAddress === true"
+                 class="btn-floating btn-small waves-effect waves-light red add-btn"
+                 @click="removeNewSendingAddress"
+                 >
+                <i class="material-icons">-</i>
+              </a>
             </tr>
           </thead>
 
           <tbody>
-            <tr>
+            <tr v-if="addingNewSendingAddress === true" class="new-address-row highlight">
               <td>
                 <input class="new-address-label"
                        ref="newSendingAddressLabel"
@@ -65,6 +77,12 @@
                        id="newSendingAddress"
                        placeholder="Enter New Address"
                        @keyup.enter="addNewAddress">
+                <a
+                  class="btn-small waves-effect waves-light red"
+                  @click="addNewAddress"
+                  >
+                  <i class="material-icons">Add</i>
+              </a>
               </td>
             </tr>
             <SendingAddressItem
@@ -92,17 +110,26 @@ export default {
   components: { SendingAddressItem, ReceivingAddressItem },
 
   computed: {
-    ...Vuex.mapGetters(["getReceivingAddressList", "getSendingAddressList"])
+    ...Vuex.mapGetters(["getReceivingAddressList", "getSendingAddressList"]),
   },
 
   methods: {
     ...Vuex.mapActions(["getWGRAcountList", "getStoredSendingAddressList", "loadAddressbook"]),
 
+    addNewSendingAddress (e) {
+      this.addingNewSendingAddress = true;
+      // document.getElementById("newSendingAddressRow").style.display = "table-row";
+    },
+    removeNewSendingAddress (e) {
+      this.addingNewSendingAddress = false;
+    },
+
     addNewAddress (e) {
       const labelVal = e.target.closest('tr').querySelectorAll('input.new-address-label')[0].value.trim()
       const addressVal = e.target.closest('tr').querySelectorAll('input.new-address-hash')[0].value.trim()
       if (addressVal) {
-        this.$store.dispatch('addSendingAddress', { label: labelVal, address: addressVal })
+        this.$store.dispatch('addSendingAddress', { label: labelVal, address: addressVal });
+        this.addingNewSendingAddress = false;
       }
       e.target.closest('tr').querySelectorAll('input.new-address-label')[0].value = ''
       e.target.closest('tr').querySelectorAll('input.new-address-hash')[0].value = ''
@@ -122,7 +149,8 @@ export default {
   data() {
     return {
       addressFilters: {RECEIVING: 0, SENDING: 1},
-      selectedAddressFilter: 0
+      selectedAddressFilter: 0,
+      addingNewSendingAddress: false
     };
   },
 
@@ -131,3 +159,15 @@ export default {
   }
 };
 </script>
+<style>
+.add-btn {
+  position: absolute;
+  right: 1px;
+}
+#newSendingAddress {
+   width: auto;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+     box-sizing: content-box;
+}
+</style>
