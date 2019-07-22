@@ -13,7 +13,7 @@
       :value="receivingAddress.label"
       @keyup.enter="doneEditLabel"
       @keyup.esc="cancelEdit"
-      @blur="doneEditLabel"
+      @blur="cancelEdit"
       >
   </td>
   <td class="number">{{ receivingAddress.address }}</td>
@@ -53,6 +53,11 @@ export default {
       });        
       }
       this.editing = false
+      M.toast({
+              html:
+                '<span class="toast__bold-font">Updated Receiving Address ' + label + '&nbsp;</span>',
+              classes: 'green'
+      });
     },
     cancelEdit (e) {
       e.target.value = this.receivingAddress.label

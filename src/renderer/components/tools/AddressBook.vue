@@ -43,23 +43,16 @@
         <table class="main-table card z-depth-2 highlight">
           <thead>
             <tr class="info-row">
-              <th class="tooltipped"
-                  data-position="top"
-                  data-tooltip="hereherehrh"
-                  colspan="2">Your Sending Addresses</th>
+              <th colspan="2">Your Sending Addresses</th>
               <a v-if="addingNewSendingAddress === false"
-                 class="btn-floating btn-small waves-effect waves-light red darken-4 add-btn tooltipped"
+                 class="btn-floating btn-small waves-effect waves-light red darken-4 add-btn"
                  @click="addNewSendingAddress"
-                 data-position="right"
-                 data-tooltip="Hide"
                  >
                 <i class="material-icons">+</i>
               </a>
               <a v-if="addingNewSendingAddress === true"
-                 class="btn-floating btn-small waves-effect waves-light red darken-4 add-btn tooltipped"
-                 @click="removeNewSendingAddress"
-                 data-position="right"
-                 data-tooltip="Add New Sending Address"
+                 class="btn-floating btn-small waves-effect waves-light red darken-4 add-btn"
+                 @click="removeNewSendingAddress"       
                  >
                 <i class="material-icons">-</i>
               </a>
