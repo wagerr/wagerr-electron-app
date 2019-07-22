@@ -109,8 +109,7 @@ const actions = {
   loadAddressbook({ dispatch, getters }) {
     async function doall(dispatch, getters) {
       let blockchainInfo = await blockchainRPC.getBlockchainInfo();
-      let networkType = blockchainInfo.chain === 'test' ? 'Testnet' : 'Mainnet';
-      let network = networkType === 'Testnet' ? '_testnet' : ''
+      let network = blockchainInfo.chain === 'test' ? '_testnet' : '';
       addressBookStore = new ElectronStore({
         name: `address_book${network}`
       });
