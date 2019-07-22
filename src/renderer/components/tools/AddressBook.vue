@@ -40,19 +40,26 @@
   <div v-if="selectedAddressFilter===1" class="row text-center">
     <div class="col s6">
       <div class="info-block table-container">
-        <table class="main-table card z-depth-2">
+        <table class="main-table card z-depth-2 highlight">
           <thead>
             <tr class="info-row">
-              <th colspan="2">Your Sending Addresses</th>
+              <th class="tooltipped"
+                  data-position="top"
+                  data-tooltip="hereherehrh"
+                  colspan="2">Your Sending Addresses</th>
               <a v-if="addingNewSendingAddress === false"
-                 class="btn-floating btn-small waves-effect waves-light red darken-4 add-btn"
+                 class="btn-floating btn-small waves-effect waves-light red darken-4 add-btn tooltipped"
                  @click="addNewSendingAddress"
+                 data-position="right"
+                 data-tooltip="Hide"
                  >
                 <i class="material-icons">+</i>
               </a>
               <a v-if="addingNewSendingAddress === true"
-                 class="btn-floating btn-small waves-effect waves-light red darken-4 add-btn"
+                 class="btn-floating btn-small waves-effect waves-light red darken-4 add-btn tooltipped"
                  @click="removeNewSendingAddress"
+                 data-position="right"
+                 data-tooltip="Add New Sending Address"
                  >
                 <i class="material-icons">-</i>
               </a>
@@ -89,7 +96,6 @@
               v-for ="(sendingAddress, index) in getSendingAddressList"
               :key="index"
               :sendingAddress="sendingAddress"
-              class="info-row"
               />
           </tbody>
         </table>
@@ -133,6 +139,12 @@ export default {
       }
       e.target.closest('tr').querySelectorAll('input.new-address-label')[0].value = ''
       e.target.closest('tr').querySelectorAll('input.new-address-hash')[0].value = ''
+      var updatedAddressDetail = labelVal.length > 0 ? labelVal : addressVal;
+      M.toast({
+              html:
+                '<span class="toast__bold-font">Added Address ' + updatedAddressDetail + '&nbsp;</span>',
+              classes: 'green'
+            });
     },
     filterRecievingAddresses: function() {
       this.selectedAddressFilter = this.addressFilters.RECEIVING;
@@ -162,25 +174,26 @@ export default {
 <style lang="scss" scoped>
   @import '../../assets/scss/_variables.scss';
 .add-btn {
-  position: absolute;
-  right: 1px;
+    position: absolute;
+    right: 1px;
 }
 #newSendingAddress {
-   width: auto;
+    width: auto;
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
-     box-sizing: content-box;
+    box-sizing: content-box;
 }
 #newSendingAddressLabel {
-   width: auto;
+    width: auto;
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
-     box-sizing: content-box;
+    box-sizing: content-box;
 }
 input:not([type]):focus {
-color: $wagerr_dark_red;
-border-bottom: 1px solid #a62626;
--webkit-box-shadow: 0 1px 0 0 #26a69a;
-box-shadow: 0 1px 0 0 #a62626;
+    color: $wagerr_dark_red;
+    border-bottom: 1px solid #a62626;
+    -webkit-box-shadow: 0 1px 0 0 #26a69a;
+    box-shadow: 0 1px 0 0 #a62626;
 }
+
 </style>
