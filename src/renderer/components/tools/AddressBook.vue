@@ -45,13 +45,13 @@
             <tr class="info-row">
               <th colspan="2">Your Sending Addresses</th>
               <a v-if="addingNewSendingAddress === false"
-                 class="btn-floating btn-small waves-effect waves-light red add-btn"
+                 class="btn-floating btn-small waves-effect waves-light red darken-4 add-btn"
                  @click="addNewSendingAddress"
                  >
                 <i class="material-icons">+</i>
               </a>
               <a v-if="addingNewSendingAddress === true"
-                 class="btn-floating btn-small waves-effect waves-light red add-btn"
+                 class="btn-floating btn-small waves-effect waves-light red darken-4 add-btn"
                  @click="removeNewSendingAddress"
                  >
                 <i class="material-icons">-</i>
@@ -78,7 +78,7 @@
                        placeholder="Enter New Address"
                        @keyup.enter="addNewAddress">
                 <a
-                  class="btn-small waves-effect waves-light red"
+                  class="btn-small waves-effect waves-light red darken-4"
                   @click="addNewAddress"
                   >
                   <i class="material-icons">Add</i>
@@ -159,7 +159,8 @@ export default {
   }
 };
 </script>
-<style>
+<style lang="scss" scoped>
+  @import '../../assets/scss/_variables.scss';
 .add-btn {
   position: absolute;
   right: 1px;
@@ -169,5 +170,17 @@ export default {
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
      box-sizing: content-box;
+}
+#newSendingAddressLabel {
+   width: auto;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+     box-sizing: content-box;
+}
+input:not([type]):focus {
+color: $wagerr_dark_red;
+border-bottom: 1px solid #a62626;
+-webkit-box-shadow: 0 1px 0 0 #26a69a;
+box-shadow: 0 1px 0 0 #a62626;
 }
 </style>
