@@ -17,6 +17,7 @@
       :value="sendingAddress.label"
       @keyup.enter="doneEditSendingAddress"
       @keyup.esc="cancelEdit"
+      @blur="cancelEdit"
       >
   </td>
   <td
@@ -24,9 +25,9 @@
     :class="{ editing: editingHash }"
     >
     <div class="view">
-      <label v-text="sendingAddress.address ? sendingAddress.address : '( No Address )'"
+      <span v-text="sendingAddress.address ? sendingAddress.address : '( No Address )'"
              @click="editingHash = true"
-             ></label>
+             ></span>
       <button class="destroy"
               :class="{active:editingActions}"
               @click="userRemoveSendingAddress(sendingAddress)"></button>
@@ -39,6 +40,7 @@
       :value="sendingAddress.address"
       @keyup.enter="doneEditSendingAddress"
       @keyup.esc="cancelEdit"
+      @blur="cancelEdit"
       >
   </td>
 </tr>
@@ -78,7 +80,7 @@ export default {
       var updatedAddressDetail = address.label > 0 ? address.label : address.address;
       M.toast({
         html:
-        '<span class="toast__bold-font">Removed Address ' + updatedAddressDetail + '&nbsp;</span>',
+        '<span class="toast__bold-font">Removed Sending Address ' + updatedAddressDetail + '&nbsp;</span>',
         classes: 'red'
       });
     },
@@ -107,7 +109,7 @@ export default {
       var updatedAddressDetail = labelVal.length > 0 ? labelVal : hashVal;
       M.toast({
               html:
-                '<span class="toast__bold-font">Updated Address ' + updatedAddressDetail + '&nbsp;</span>',
+                '<span class="toast__bold-font">Updated Sending Address ' + updatedAddressDetail + '&nbsp;</span>',
               classes: 'green'
             });
     },
@@ -121,6 +123,7 @@ export default {
       const hashVal = e.target.closest('tr').querySelectorAll('input.update-address-hash')[0].value = this.sendingAddress.address
       this.editing = false
       this.editingLabel = false
+      this.editingHash = false
     }
   }
 }
@@ -135,7 +138,7 @@ export default {
 .info-row td {
     position: relative;
 }
-div.view label:hover {
+div.view span:hover, label:hover {
     cursor: pointer;
 }
 button.destroy {

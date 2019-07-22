@@ -63,8 +63,23 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+  @import '../../assets/scss/_variables.scss';
+  
 .info-row td.editing .view {
   display: none;
+}
+div.view label:hover {
+    cursor: pointer;
+}
+input:not([type]):focus {
+    width: auto;
+    color: $wagerr_dark_red;
+    border-bottom: 1px solid #a62626;
+    -webkit-box-shadow: 0 1px 0 0 #26a69a;
+    box-shadow: 0 1px 0 0 #a62626;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
 }
 </style>

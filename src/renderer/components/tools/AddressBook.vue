@@ -142,7 +142,7 @@ export default {
       var updatedAddressDetail = labelVal.length > 0 ? labelVal : addressVal;
       M.toast({
               html:
-                '<span class="toast__bold-font">Added Address ' + updatedAddressDetail + '&nbsp;</span>',
+                '<span class="toast__bold-font">Added Sending Address ' + updatedAddressDetail + '&nbsp;</span>',
               classes: 'green'
             });
     },
