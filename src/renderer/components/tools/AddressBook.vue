@@ -52,7 +52,7 @@
               </a>
               <a v-if="addingNewSendingAddress === true"
                  class="btn-floating btn-small waves-effect waves-light red darken-4 add-btn"
-                 @click="removeNewSendingAddress"       
+                 @click="removeNewSendingAddress"
                  >
                 <i class="material-icons">-</i>
               </a>
