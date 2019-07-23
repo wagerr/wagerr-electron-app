@@ -1,12 +1,11 @@
 import { app, BrowserWindow, dialog, Menu } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import fs from 'fs';
-import { checkForUpdates } from './updater/updater';
-import menu from './menu/menu';
 import errors from './alerts/errors';
-
-import Daemon from './blockchain/daemon';
 import * as blockchain from './blockchain/blockchain';
+import Daemon from './blockchain/daemon';
+import menu from './menu/menu';
+import { checkForUpdates } from './updater/updater';
 
 const { ipcMain } = require('electron');
 
@@ -28,6 +27,7 @@ global.restarting = false;
 let closeWindowFlag = false;
 let closeProgressBar = null;
 let forcelyQuit = false;
+
 /**
  * Render the main window for the Wagerr Electron App.
  */
@@ -101,8 +101,8 @@ async function createMainWindow() {
 
   // Once electron app is ready then display the vue UI.
   mainWindow.once('ready-to-show', () => {
-    const network = blockchain.testnet === 0 ? 'Mainnet' : 'Testnet';
-    const title = `Wagerr Electron App - ${network}`;
+    const network = blockchain.testnet === 1 ? ' - Testnet' : '';
+    const title = `Wagerr Electron App${network}`;
 
     mainWindow.setTitle(title);
     mainWindow.show();
