@@ -1,6 +1,6 @@
 <template>
   <tr class="info-row" @mouseover="editingActions=true" @mouseleave="editingActions=false">
-    <td :class="{ editing: editingLabel }">
+    <td :class="{ editing: editingLabel }" style="width: 285px;">
       <div class="view">
         <i class="icon-pencil editing" :class="{active:editingLabelActions}"></i>
         <label
