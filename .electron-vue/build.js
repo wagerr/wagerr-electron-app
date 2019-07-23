@@ -5,9 +5,8 @@ process.env.NODE_ENV = 'production';
 const { say } = require('cfonts');
 const chalk = require('chalk');
 const del = require('del');
-const { spawn } = require('child_process');
 const webpack = require('webpack');
-const Multispinner = require('multispinner');
+const Listr = require('listr');
 
 const mainConfig = require('./webpack.main.config');
 const rendererConfig = require('./webpack.renderer.config');
@@ -23,58 +22,56 @@ else if (process.env.BUILD_TARGET === 'web') web();
 else build();
 
 function clean() {
-  del.sync([
-    'release/*',
-  ]);
+  del.sync(['release/*']);
   console.log(`\n${doneLog}\n`);
   process.exit();
 }
 
 function build() {
+  let results = '';
+
   greeting();
 
   del.sync(['dist/electron/*', '!.gitkeep']);
 
-  const tasks = ['main', 'renderer'];
-  const m = new Multispinner(tasks, {
-    preText: 'building',
-    postText: 'process'
-  });
+  const tasks = new Listr(
+    [
+      {
+        title: 'Building main process',
+        task: () =>
+          pack(mainConfig)
+            .then(result => {
+              results += result + '\n\n';
+            })
+            .catch(err => {
+              console.log(`\n  ${errorLog}failed to build main process`);
+              console.error(`\n${err}\n`);
+              process.exit(1);
+            })
+      },
+      {
+        title: 'Building renderer process',
+        task: () =>
+          pack(rendererConfig)
+            .then(result => {
+              results += result + '\n\n';
+            })
+            .catch(err => {
+              console.log(`\n  ${errorLog}failed to build renderer process`);
+              console.error(`\n${err}\n`);
+              process.exit(1);
+            })
+      }
+    ],
+    { concurrent: true }
+  );
 
-  let results = '';
-
-  m.on('success', () => {
-    process.stdout.write('\x1B[2J\x1B[0f');
+  tasks.run().then(() => {
     console.log(`\n\n${results}`);
     console.log(
       `${okayLog}take it away ${chalk.yellow('`electron-builder`')}\n`
     );
-    process.exit();
   });
-
-  pack(mainConfig)
-    .then(result => {
-      results += result + '\n\n';
-      m.success('main');
-    })
-    .catch(err => {
-      m.error('main');
-      console.log(`\n  ${errorLog}failed to build main process`);
-      console.error(`\n${err}\n`);
-      process.exit(1);
-    });
-
-  pack(rendererConfig)
-    .then(result => {
-      results += result + '\n\n';
-      m.success('renderer');
-    })
-    .catch(err => {
-      m.error('renderer');
-      console.log(`\n  ${errorLog}failed to build renderer process`);
-      console.error(`\n${err}\n`);
-      process.exit(1);
-    });
 }
 
 function pack(config) {
@@ -156,7 +153,7 @@ function greeting() {
         '                                   | o     | | /   o\\_____\\\n' +
         '                                   |   o   |o/ \\o   /o    /\n' +
         '                                   |     o |/   \\ o/  o  /\n' +
-        "                                   '-------'     \\/____o/"
+        "                                   '-------'     \\/____o/\n\n"
     )
   );
 }
