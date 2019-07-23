@@ -37,14 +37,14 @@
 
         <!-- Dropdown Structure -->
         <ul id="settings-dropdown" class="dropdown-content">
-          <li v-if="walletUnlocked">
+          <li v-if="walletUnlocked && walletEncrypted">
             <a @click="lockWallet">
               <i class="icon-lock"></i>
               Lock Wallet
             </a>
           </li>
 
-          <li v-else>
+          <li v-else-if="walletEncrypted">
             <a class="modal-trigger" data-target="unlock-wallet-modal">
               <i class="icon-unlock"></i>
               Unlock Wallet
@@ -155,8 +155,6 @@ export default {
         cancelId: 1,
         defaultId: 0
       });
-
-      console.log();
 
       if (folderPath) {
         wagerrRPC.client
