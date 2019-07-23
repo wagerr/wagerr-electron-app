@@ -5,9 +5,13 @@
     >
   <td :class="{ editing: editingLabel }">
     <div class="view">
+      <i class="icon-pencil editing-label" :class="{active:editingLabelActions}"></i>
       <label v-text="sendingAddress.label ? sendingAddress.label : '( No Label )'"
              @click="editingLabel = true"
-             ></label>
+             @mouseover="editingLabelActions=true"
+             @mouseleave="editingLabelActions=false"
+             >
+      </label>
     </div>
     <input
       v-show="editingLabel"
@@ -25,23 +29,31 @@
     :class="{ editing: editingHash }"
     >
     <div class="view">
+      <i class="icon-pencil editing-address" :class="{active:editingAddressActions}"></i>
       <span v-text="sendingAddress.address ? sendingAddress.address : '( No Address )'"
-             @click="editingHash = true"
-             ></span>
-      <button class="destroy"
+            @click="editingHash = true"
+            @mouseover="editingAddressActions=true"
+            @mouseleave="editingAddressActions=false"
+            ></span>
+            <button class="destroy"
               :class="{active:editingActions}"
               @click="userRemoveSendingAddress(sendingAddress)"></button>
     </div>
-    <input
+    <div
+      class="editing-address"
       v-show="editingHash"
+      >
+    <input
       v-focus="editingHash"
       class="update-address-hash"
       autocomplete="off"
       :value="sendingAddress.address"
       @keyup.enter="doneEditSendingAddress"
       @keyup.esc="cancelEdit"
-      @blur="cancelEdit"
       >
+    <button class="update"
+            @click="doneEditSendingAddress"></button>
+    </div>
   </td>
 </tr>
 </template>
@@ -57,7 +69,9 @@ export default {
       editing: false,
       editingLabel: false,
       editingHash: false,
-      editingActions: false
+      editingActions: false,
+      editingLabelActions: false,
+      editingAddressActions: false
     }
   },
   directives: {
@@ -74,7 +88,6 @@ export default {
       "editSendingAddress",
       "removeSendingAddress"
     ]),
-    
     userRemoveSendingAddress (address) {
       this.removeSendingAddress(address);
       var updatedAddressDetail = address.label > 0 ? address.label : address.address;
@@ -130,10 +143,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import '../../assets/scss/_variables.scss';
+@import '../../assets/scss/_variables.scss';
 
 .info-row td.editing .view {
     display: none;
+}
+.info-row td div.view i {
+    visibility:hidden;
+}
+.info-row td div.view i.active{
+    visibility:visible;
 }
 .info-row td {
     position: relative;
@@ -141,6 +160,9 @@ export default {
 div.view span:hover, label:hover {
     cursor: pointer;
 }
+/* div.view span:hover, label:hover, :after { */
+/*     cursor: pointer; */
+/* } */
 button.destroy {
     visibility: hidden;
 }
@@ -164,14 +186,40 @@ button.destroy:after {
 button.destroy {
     display: inline-block;
 }
-input:not([type]):focus {
-    width: auto;
+button.update{
+    right: 10px;
+    margin: auto 0;
+    background-color: #dcdcdc;
+    border: 1px solid;
+    border-radius: 3px;
+    color: #cc9a9a;
+}
+button.update:hover {
+    color: $wagerr_red;
+    background-color: #d0d0d0;
+    transition: color 0.2s ease-out;
+}
+button.update:after {
+    content: 'update';
+}
+button.update {
+    display: inline-block;
+}
+input:not([type]) {
+    display: inline-block;
+    width: 260px;
+    margin: 0px;
     color: $wagerr_dark_red;
     border-bottom: 1px solid #a62626;
+    height: 1.5rem;
     -webkit-box-shadow: 0 1px 0 0 #26a69a;
     box-shadow: 0 1px 0 0 #a62626;
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
     box-sizing: content-box;
+}
+input:not([type]):focus {
+    border-bottom: 1px solid #a62626;
+    box-shadow: 0 1px 0 0 #ffffff;
 }
 </style>

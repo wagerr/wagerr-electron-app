@@ -129,15 +129,21 @@ export default {
       if (addressVal) {
         this.$store.dispatch('addSendingAddress', { label: labelVal, address: addressVal });
         this.addingNewSendingAddress = false;
+        var updatedAddressDetail = labelVal.length > 0 ? labelVal : addressVal;
+        M.toast({
+          html:
+          '<span class="toast__bold-font">Added Sending Address ' + updatedAddressDetail + '&nbsp;</span>',
+          classes: 'green'
+        });
+      } else {
+        M.toast({
+          html:
+          '<span class="toast__bold-font">No Address Entered &nbsp;</span>',
+          classes: 'red'
+        });
       }
       e.target.closest('tr').querySelectorAll('input.new-address-label')[0].value = ''
       e.target.closest('tr').querySelectorAll('input.new-address-hash')[0].value = ''
-      var updatedAddressDetail = labelVal.length > 0 ? labelVal : addressVal;
-      M.toast({
-              html:
-                '<span class="toast__bold-font">Added Sending Address ' + updatedAddressDetail + '&nbsp;</span>',
-              classes: 'green'
-            });
     },
     filterRecievingAddresses: function() {
       this.selectedAddressFilter = this.addressFilters.RECEIVING;
