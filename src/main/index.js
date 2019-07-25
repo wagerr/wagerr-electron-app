@@ -6,37 +6,14 @@ import * as blockchain from './blockchain/blockchain';
 import Daemon from './blockchain/daemon';
 import menu from './menu/menu';
 import { checkForUpdates } from './updater/updater';
+import { spawnLogger } from './logger/logger';
 
 const { ipcMain } = require('electron');
 const path = require('path');
 const ProgressBar = require('electron-progressbar');
-const { createLogger, format, transports } = require('winston');
 
-const { combine, timestamp, colorize, printf } = format;
-
-// Add a custom format to the logger.
-const logFormat = printf(({ level, message, timestamp }) => {
-  return `${timestamp} [${level}] ${message}`;
-});
-
-// Create the logger.
-const logger = createLogger({
-  format: combine(timestamp(), logFormat),
-  transports: [
-    new transports.File({
-      filename: path.join(app.getPath('userData'), 'wagerr-electron-app.log')
-    })
-  ]
-});
-
-// If we're not in production then also log to the console.
-if (process.env.NODE_ENV !== 'production') {
-  logger.add(
-    new transports.Console({
-      format: combine(colorize(), logFormat)
-    })
-  );
-}
+const logger = spawnLogger();
+const packageJSON = require('../../package.json');
 
 // Main app URL.
 const winURL =
@@ -57,7 +34,7 @@ let forcelyQuit = false;
  * Render the main window for the Wagerr Electron App.
  */
 async function createMainWindow() {
-  logger.info('Rendering main window...');
+  logger.info('Rendering main window');
 
   const windowOptions = {
     width: 1275,
@@ -154,7 +131,7 @@ async function createMainWindow() {
  * @returns {Promise<void>}
  */
 async function init(args) {
-  logger.info('Initialising Wagerr Electron App...');
+  logger.info('Initialising Wagerr Electron App');
   daemon = new Daemon();
 
   // Check if the wagerrd binary exists.
@@ -194,29 +171,33 @@ async function init(args) {
 }
 
 app.on('ready', async () => {
-  logger.info('Wagerr Electron App starting...');
+  logger.info(`Wagerr Electron App version v${packageJSON.version}`);
+  logger.info('Finished initializing and ready to start');
 
   // Check for updates only for the packaged app.
   if (process.env.NODE_ENV === 'production') {
+    logger.info('Checking for an update');
     checkForUpdates();
 
     // If no updates available continue with initialising the app,
     // otherwise, updater.js would have caught the update-available event
     // and downloaded and restarted the app.
     autoUpdater.on('update-not-available', async () => {
+      logger.info('No update available, continuing with launch');
       await init();
     });
   } else {
+    logger.debug('Skipping update check when running in development mode');
     await init();
   }
 });
 
 app.on('before-quit', async () => {
-  logger.info('Preparing to close all windows...');
+  logger.info('Preparing to close all windows');
 });
 
 app.on('will-quit', async () => {
-  logger.info('All windows have been closed and the application will quit...');
+  logger.info('All windows have been closed and the application will quit');
 
   if (process.platform === 'darwin' && !forcelyQuit) {
     await daemon.stop();

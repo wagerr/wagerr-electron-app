@@ -1,7 +1,10 @@
 import { app, dialog } from 'electron';
 import { autoUpdater } from 'electron-updater';
+import { spawnLogger } from '../logger/logger';
 
 const ProgressBar = require('electron-progressbar');
+
+const logger = spawnLogger();
 
 let downloadProgressBar = null;
 
@@ -15,6 +18,8 @@ autoUpdater.on('error', error => {
 });
 
 autoUpdater.on('update-available', () => {
+  logger.info('Update available');
+
   dialog.showMessageBox(
     {
       type: 'info',
@@ -59,11 +64,15 @@ autoUpdater.on('download-progress', downloadProgress => {
   downloadStatsMessage += ` (${downloadProgress.percent.toFixed(2)}%)`;
   downloadStatsMessage += ` @ ${Mbps} Mbps`;
 
+  logger.info(downloadStatsMessage);
+
   // Display the custom message on the dialog.
   downloadProgressBar.detail = downloadStatsMessage;
 });
 
 autoUpdater.on('update-downloaded', () => {
+  logger.info('Update downloaded');
+
   // Close the progress bar.
   downloadProgressBar.setCompleted();
 
