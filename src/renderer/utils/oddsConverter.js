@@ -17,7 +17,7 @@ const OddsConverter = {
 
   // Todo: all must be converted with divisor, need to remove duplication
   toDecimal: function toDecimal(decimal) {
-    return decimal / constants.ODDS_DIVISOR;
+    return Math.round((decimal / constants.ODDS_DIVISOR) * 100) / 100;
   },
 
   toFraction: function toFraction(decimal) {

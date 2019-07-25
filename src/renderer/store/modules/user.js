@@ -4,6 +4,8 @@ import moment_timezone from 'moment-timezone';
 import ElectronStore from 'electron-store';
 import oddsConverter from '@/utils/oddsConverter.js';
 
+import constants from '../../../main/constants/constants';
+
 // Current odds formats for Wagerr.
 const OddsFormat = {
   fraction: 0,
@@ -21,11 +23,23 @@ const state = function() {
   };
 };
 
+const displayOdds = function(state, val) {
+  if (state.oddsFormat === OddsFormat.decimal) {
+    return oddsConverter.toDecimal(val);
+  }
+  if (state.oddsFormat === OddsFormat.fraction) {
+    return oddsConverter.toFraction(val);
+  }
+  if (state.oddsFormat === OddsFormat.american) {
+    return oddsConverter.toAmerican(val);
+  }
+    return oddsConverter.toDecimal(val);
+};
+
 const getters = {
   getTimezone: state => {
     return state.timezone;
   },
-
   getOddsFormat: state => {
     return state.oddsFormat;
   },
@@ -33,16 +47,12 @@ const getters = {
     return OddsFormat;
   },
   convertOdds: state => val => {
-    if (state.oddsFormat === OddsFormat.decimal) {
-      return oddsConverter.toDecimal(val);
-    }
-    if (state.oddsFormat === OddsFormat.fraction) {
-      return oddsConverter.toFraction(val);
-    }
-    if (state.oddsFormat === OddsFormat.american) {
-      return oddsConverter.toAmerican(val);
-    }
-    return oddsConverter.toDecimal(val);
+    // add/remove juice
+    if (state.showFee) {
+      val -= 10000; // -1
+      val = (val * 0.94) + 10000; // to correct decimal
+    };
+    return displayOdds(state, val);
   },
   getShowFee: state => {
     return state.showFee;
