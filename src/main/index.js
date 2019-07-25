@@ -1,4 +1,4 @@
-import { app, BrowserWindow, dialog, Menu } from 'electron';
+import { BrowserWindow, Menu, app, dialog } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import fs from 'fs';
 import errors from './alerts/errors';
@@ -8,10 +8,35 @@ import menu from './menu/menu';
 import { checkForUpdates } from './updater/updater';
 
 const { ipcMain } = require('electron');
-
-// import isDev from 'electron-is-dev';
 const path = require('path');
 const ProgressBar = require('electron-progressbar');
+const { createLogger, format, transports } = require('winston');
+
+const { combine, timestamp, colorize, printf } = format;
+
+// Add a custom format to the logger.
+const logFormat = printf(({ level, message, timestamp }) => {
+  return `${timestamp} [${level}] ${message}`;
+});
+
+// Create the logger.
+const logger = createLogger({
+  format: combine(timestamp(), logFormat),
+  transports: [
+    new transports.File({
+      filename: path.join(app.getPath('userData'), 'wagerr-electron-app.log')
+    })
+  ]
+});
+
+// If we're not in production then also log to the console.
+if (process.env.NODE_ENV !== 'production') {
+  logger.add(
+    new transports.Console({
+      format: combine(colorize(), logFormat)
+    })
+  );
+}
 
 // Main app URL.
 const winURL =
@@ -32,6 +57,8 @@ let forcelyQuit = false;
  * Render the main window for the Wagerr Electron App.
  */
 async function createMainWindow() {
+  logger.info('Rendering main window...');
+
   const windowOptions = {
     width: 1275,
     height: 700,
@@ -111,12 +138,6 @@ async function createMainWindow() {
     });
   });
 
-  // If running in dev mode then also open dev tools on the main window.
-  mainWindow.webContents.on('did-finish-load', () => {
-    // console.log('did-finish-loading...');
-    // mainWindow.webContents.openDevTools()
-  });
-
   // If the main window has crashed, clear it.
   mainWindow.webContents.on('crashed', () => {
     mainWindow = null;
@@ -133,7 +154,7 @@ async function createMainWindow() {
  * @returns {Promise<void>}
  */
 async function init(args) {
-  console.log('\x1b[32mInitialising Wagerr Electron App...\x1b[0m');
+  logger.info('Initialising Wagerr Electron App...');
   daemon = new Daemon();
 
   // Check if the wagerrd binary exists.
@@ -141,8 +162,8 @@ async function init(args) {
   const wagerrcliExe = daemon.getExecutablePath('wagerr-cli');
 
   if (!fs.existsSync(wagerrExe) || !fs.existsSync(wagerrcliExe)) {
-    console.error(
-      '\x1b[32mThe wagerrd and wagerr-cli binaries do not exist. Please download and place in the bin directory.\x1b[0m'
+    logger.error(
+      'The wagerrd and wagerr-cli binaries do not exist. Please download and place in the bin directory.'
     );
     process.exit(1);
   }
@@ -173,7 +194,7 @@ async function init(args) {
 }
 
 app.on('ready', async () => {
-  console.log('\x1b[32mWagerr Electron App starting...\x1b[0m');
+  logger.info('Wagerr Electron App starting...');
 
   // Check for updates only for the packaged app.
   if (process.env.NODE_ENV === 'production') {
@@ -191,19 +212,15 @@ app.on('ready', async () => {
 });
 
 app.on('before-quit', async () => {
-  console.log('\x1b[32mbefore-quit\x1b[0m');
+  logger.info('Preparing to close all windows...');
 });
 
 app.on('will-quit', async () => {
-  console.log('\x1b[32mwill-quit\x1b[0m');
+  logger.info('All windows have been closed and the application will quit...');
 
   if (process.platform === 'darwin' && !forcelyQuit) {
     await daemon.stop();
   }
-});
-
-app.on('window-all-closed', async () => {
-  console.log('\x1b[32mwindow-all-closed\x1b[0m');
 });
 
 app.on('activate', async () => {
@@ -244,7 +261,7 @@ ipcMain.on('salvage-wallet', async (event, arg) => {
     global.restarting = true;
 
     await daemon.stop().catch(function() {
-      console.log('Wagerrd may not have shutdown correctly.');
+      logger.warn('wagerrd may not have shutdown correctly.');
     });
     await mainWindow.close();
     await init(arg);
@@ -266,7 +283,7 @@ ipcMain.on('rescan-blockchain', async (event, arg) => {
     global.restarting = true;
 
     await daemon.stop().catch(function() {
-      console.log('Wagerrd may not have shutdown correctly.');
+      logger.warn('wagerrd may not have shutdown correctly.');
     });
     await mainWindow.close();
     await init(arg);
@@ -289,7 +306,7 @@ ipcMain.on('recover-tx-1', async (event, arg) => {
     global.restarting = true;
 
     await daemon.stop().catch(function() {
-      console.log('Wagerrd may not have shutdown correctly.');
+      logger.warn('wagerrd may not have shutdown correctly.');
     });
     await mainWindow.close();
     await init(arg);
@@ -311,7 +328,7 @@ ipcMain.on('recover-tx-2', async (event, arg) => {
     global.restarting = true;
 
     await daemon.stop().catch(function() {
-      console.log('Wagerrd may not have shutdown correctly.');
+      logger.warn('wagerrd may not have shutdown correctly.');
     });
     await mainWindow.close();
     await init(arg);
@@ -333,7 +350,7 @@ ipcMain.on('upgrade-wallet', async (event, arg) => {
     global.restarting = true;
 
     await daemon.stop().catch(function() {
-      console.log('Wagerrd may not have shutdown correctly.');
+      logger.warn('wagerrd may not have shutdown correctly.');
     });
     await mainWindow.close();
     await init(arg);
@@ -355,7 +372,7 @@ ipcMain.on('reindex-blockchain', async (event, arg) => {
     global.restarting = true;
 
     await daemon.stop().catch(function() {
-      console.log('Wagerrd may not have shutdown correctly.');
+      logger.warn('wagerrd may not have shutdown correctly.');
     });
     await mainWindow.close();
     await init(arg);
@@ -377,7 +394,7 @@ ipcMain.on('resync-blockchain', async (event, arg) => {
     global.restarting = true;
 
     await daemon.stop().catch(function() {
-      console.log('Wagerrd may not have shutdown correctly.');
+      logger.warn('wagerrd may not have shutdown correctly.');
     });
     await mainWindow.close();
     await init(arg);
@@ -399,7 +416,7 @@ ipcMain.on('restart-wagerrd', async (event, arg) => {
     global.restarting = true;
 
     await daemon.stop().catch(function() {
-      console.log('Wagerrd may not have shutdown correctly.');
+      logger.warn('wagerrd may not have shutdown correctly.');
     });
     await mainWindow.close();
     await init(arg);
