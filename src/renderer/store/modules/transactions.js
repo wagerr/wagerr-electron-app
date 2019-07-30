@@ -93,10 +93,19 @@ const actions = {
         console.error(err);
       });
   },
-  
-  getPLBetTransactionList({ dispatch, commit, getters }, {length, rexg, from, betTransactionlistLength}) {
+
+  // :TEST
+  setTransactionRecordsTest({ commit }, list) {
+    commit('setWGRTransactionRecords', list);
+  },
+
+  getBetTransactionListTest({ commit }, list) {
+    commit('setPLBetTransactionList', list);
+  },
+
+  getPLBetTransactionList({ commit }, {length, rexg}) {
     wagerrRPC.client
-      .listBets(rexg, length, from)
+      .listBets(rexg, length)
       .then(function(resp) {
         commit('setPLBetTransactionList', resp.result.reverse());
       })
@@ -107,7 +116,7 @@ const actions = {
         if ((from === 0) && (getters.plBetTransactionList.length >= length)) {
           commit('setFirstPageBetTransactionsPaginated', length);
         } else {
-          commit('setBetTransactionsPaginated', getters.betTransactionsPaginated.concat(getters.plBetTransactionList));          
+          commit('setBetTransactionsPaginated', getters.betTransactionsPaginated.concat(getters.plBetTransactionList));
         }
       })
       .catch(function(err) {
