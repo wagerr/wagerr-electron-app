@@ -273,7 +273,7 @@ export default {
     this.updateInitText('Fetching wallet information...');
     await this.walletExtendedBalance();
     await this.getWGRTransactionRecords(100);
-    await this.getPLBetTransactionList(50);
+    await this.getPLBetTransactionList({length: 50, rexg: '*'});
     await this.getCGBetTransactionList(25);
 
     // load User Config - could use methods access, instead of store.dispatch
