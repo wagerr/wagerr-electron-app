@@ -6,13 +6,7 @@
       <div class="row">
         <div class="modal-text">
           <div class="card barcode text-center z-depth-3">
-            <qrcode-vue
-              :value="accountAddress"
-              :size="145"
-              background="#FFFFFF"
-              foreground="#000000"
-              level="H"
-            ></qrcode-vue>
+            <QrCode :value="accountAddress" width="145"></QrCode>
           </div>
         </div>
 
@@ -77,7 +71,7 @@
 
 <script>
 import Vuex from 'vuex';
-import QrcodeVue from 'qrcode.vue';
+import QrCode from '../utilities/QrCode.vue';
 
 import constants from '../../../main/constants/constants';
 
@@ -119,7 +113,7 @@ export default {
   },
 
   components: {
-    QrcodeVue
+    QrCode
   }
 };
 </script>
