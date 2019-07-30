@@ -68,7 +68,7 @@
                       {{ convertOdds(event.odds[0].mlHome) }}
                     </button>
                     <button v-else class="btn" disabled>
-                      N/A
+                      -
                     </button>
                   </div>
                   <div class="odd">
@@ -88,7 +88,7 @@
                     </button>
 
                     <button v-else class="btn" disabled>
-                      N/A
+                      -
                     </button>
                   </div>
                   <div class="odd">
@@ -108,7 +108,7 @@
                     </button>
 
                     <button v-else class="btn" disabled>
-                      N/A
+                      -
                     </button>
                   </div>
                 </div>
@@ -117,12 +117,12 @@
                 <div v-else class="col s12 m4 odds">
                   <div class="ml">
                     <button class="btn" disabled>
-                      N/A
+                      -
                     </button>
                   </div>
                   <div class="ml">
                     <button class="btn" disabled>
-                      N/A
+                      -
                     </button>
                   </div>
                 </div>
@@ -202,12 +202,12 @@
                 <div v-else class="col s12 m4 odds">
                   <div class="spread">
                     <button class="btn" disabled>
-                      N/A
+                      -
                     </button>
                   </div>
                   <div class="spread">
                     <button class="btn" disabled>
-                      N/A
+                      -
                     </button>
                   </div>
                 </div>
@@ -255,6 +255,7 @@
                     >
                       <span class="totalnum"
                         >(U{{ event.odds[2].totalsPoints / 10 }})</span
+                      
                       >
 
                       <span class="totalodds">{{
@@ -268,12 +269,12 @@
                 <div v-else class="col s12 m4 odds">
                   <div class="total">
                     <button class="btn" disabled>
-                      N/A
+                      -
                     </button>
                   </div>
                   <div class="total">
                     <button class="btn" disabled>
-                      N/A
+                      -
                     </button>
                   </div>
                 </div>
