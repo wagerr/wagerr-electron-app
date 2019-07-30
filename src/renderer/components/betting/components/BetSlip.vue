@@ -136,7 +136,7 @@ export default {
       let grossWinnings = odds * betStake;
       let grossProfit = grossWinnings - betStake;
       let betFee = grossProfit * betFeePercent;
-      let netWinnings = this.getShowFee ? grossWinnings - betFee : grossWinnings;
+      let netWinnings = grossWinnings - betFee;
 
       // Set the potential winnings on the UI.
       document.getElementById('potential-returns-' + index).innerText =
