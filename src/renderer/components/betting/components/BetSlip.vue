@@ -121,7 +121,7 @@ export default {
       'getNumBets',
       'getNetworkType',
       'convertOdds',
-      'getShowFee'
+      'getShowNetworkShare'
     ])
   },
 

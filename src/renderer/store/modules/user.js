@@ -19,7 +19,7 @@ const state = function() {
   return {
     timezone: moment.tz.guess(),
     oddsFormat: OddsFormat.decimal,
-    showFee: false
+    showNetworkShare: false
   };
 };
 
@@ -33,7 +33,7 @@ const displayOdds = function(state, val) {
   if (state.oddsFormat === OddsFormat.american) {
     return oddsConverter.toAmerican(val);
   }
-    return oddsConverter.toDecimal(val);
+  return oddsConverter.toDecimal(val);
 };
 
 const getters = {
@@ -47,15 +47,16 @@ const getters = {
     return OddsFormat;
   },
   convertOdds: state => val => {
-    // add/remove juice
-    if (state.showFee) {
+    // Add/remove network share from odds. Default is to not display the 6%
+    // network share taken from the winnings.
+    if (!state.showNetworkShare) {
       val -= 10000; // -1
-      val = (val * 0.94) + 10000; // to correct decimal
-    };
+      val = val * 0.94 + 10000; // to correct decimal
+    }
     return displayOdds(state, val);
   },
-  getShowFee: state => {
-    return state.showFee;
+  getShowNetworkShare: state => {
+    return state.showNetworkShare;
   }
 };
 
@@ -69,17 +70,20 @@ const actions = {
     if (electronStore.has('oddsFormat')) {
       dispatch('updateOddsFormat', Number(electronStore.get('oddsFormat')));
     }
-    if (electronStore.has('showFee')) {
-      dispatch('updateShowFee', Number(electronStore.get('showFee')));
+    if (electronStore.has('showNetworkShare')) {
+      dispatch(
+        'updateShowNetworkShare',
+        Number(electronStore.get('showNetworkShare'))
+      );
     }
   },
 
-  toggleShowFee({ commit, state }) {
-    commit('setShowFee', !state.showFee)
+  toggleShowNetworkShare({ commit, state }) {
+    commit('setShowNetworkShare', !state.showNetworkShare);
   },
 
-  updateShowFee({ commit, state }, value) {
-    commit('setShowFee', value)
+  updateShowNetworkShare({ commit, state }, value) {
+    commit('setShowNetworkShare', value);
   }
 };
 
@@ -88,9 +92,9 @@ const mutations = {
     state.oddsFormat = format;
   },
 
-  setShowFee(state, value) {
-    state.showFee = value;
-    electronStore.set('showFee', state.showFee);
+  setShowNetworkShare(state, value) {
+    state.showNetworkShare = value;
+    electronStore.set('showNetworkShare', state.showNetworkShare);
   }
 };
 
