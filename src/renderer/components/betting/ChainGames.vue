@@ -52,7 +52,7 @@
 
           <div class="all-stats">
             <div class="col s4 text-center stats">
-              <h6>Potential Winnings</h6>
+              <h6>Winners Prize</h6>
 
               <div v-if="loadingCGEvent">
                 <spinner></spinner>
@@ -109,7 +109,7 @@
             </div>
 
             <div class="col s4 text-center  stats">
-              <h6>Entrants</h6>
+              <h6>Tickets Sold</h6>
 
               <div v-if="loadingCGEvent">
                 <spinner></spinner>
@@ -119,7 +119,7 @@
             </div>
 
             <div class="col s4 text-center stats">
-              <h6>Entry Fee</h6>
+              <h6>Ticket Price</h6>
 
               <div v-if="loadingCGEvent">
                 <spinner></spinner>
