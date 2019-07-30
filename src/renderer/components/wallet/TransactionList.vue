@@ -157,6 +157,8 @@
 <script>
 import Vuex from 'vuex';
 import constants from '../../../main/constants/constants';
+// Test:
+import ElectronStore from 'electron-store';
 
 export default {
   name: 'TransactionList',
@@ -166,7 +168,8 @@ export default {
       'getTimezone',
       'wgrTransactionList',
       'wgrTransactionRecords',
-      'getNetworkType'
+      'getNetworkType',
+      'setTransactionRecordsTest'
     ])
   },
 
