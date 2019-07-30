@@ -418,3 +418,7 @@ ipcMain.on('rpc-password', event => {
 ipcMain.on('no-peers', () => {
   errors.noPeersConnectionError();
 });
+
+ipcMain.on('log-message', (event, ...args) => {
+  logger.log(...args);
+});
