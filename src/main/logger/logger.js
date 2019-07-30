@@ -33,6 +33,7 @@ export function spawnLogger() {
   if (process.env.NODE_ENV !== 'production') {
     logger.add(
       new transports.Console({
+        level: 'debug',
         format: combine(colorize(), logFormat)
       })
     );
