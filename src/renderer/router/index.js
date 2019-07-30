@@ -28,7 +28,6 @@ export default new Router({
     { path: '/betting', component: Betting },
     { path: '/chain_games', component: ChainGames },
     { path: '/bets', component: Bets },
-    { path: '/address_book', component: AddressBook }, // Todo: place as children for Tools
     {
       path: '/tools/',
       component: Tools,
@@ -40,6 +39,10 @@ export default new Router({
         {
           path: 'network',
           component: Network
+        },
+        {
+          path: 'address_book',
+          component: AddressBook
         },
         {
           path: 'peers',
