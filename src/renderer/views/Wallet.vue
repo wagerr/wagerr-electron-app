@@ -92,10 +92,11 @@ export default {
       'walletLoaded',
       'accountAddress',
       'wgrTransactionList',
-      'getNetworkType'
+      'getNetworkType',
+      'wgrTransactionRecords'
     ])
   },
-
+  
   methods: {
     ...Vuex.mapActions([
       'getAccountAddress',
