@@ -8,8 +8,6 @@ import blockchainRPC from '@/services/api/blockchain_rpc';
 let preferencesStore = null;
 let addressBookStore = null;
 
-import constants from '../../../main/constants/constants';
-
 // Current odds formats for Wagerr.
 const OddsFormat = {
   fraction: 0,
@@ -89,10 +87,10 @@ const actions = {
     if (preferencesStore.has('oddsFormat')) {
       dispatch('updateOddsFormat', Number(preferencesStore.get('oddsFormat')));
     }
-    if (preferences.has('showNetworkShare')) {
+    if (preferencesStore.has('showNetworkShare')) {
       dispatch(
         'updateShowNetworkShare',
-        Number(preferences.get('showNetworkShare'))
+        Number(preferencesStore.get('showNetworkShare'))
       );
     }
   },
@@ -210,7 +208,7 @@ const mutations = {
 
   setShowNetworkShare(state, value) {
     state.showNetworkShare = value;
-    preferences.set('showNetworkShare', state.showNetworkShare);
+    preferencesStore.set('showNetworkShare', state.showNetworkShare);
   },
   setAccountList(state, list) {
     state.accountList = list;
