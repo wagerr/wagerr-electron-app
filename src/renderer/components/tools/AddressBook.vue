@@ -24,7 +24,7 @@
             >
               <thead>
                 <tr class="info-row">
-                  <th colspan="2">{{ receivingAccount.accountName }}</th>
+                  <th colspan="2">{{ receivingAccount.account_name }}</th>
                 </tr>
               </thead>
 
