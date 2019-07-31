@@ -66,20 +66,6 @@
           </li>
 
           <li>
-            <a class="modal-trigger" data-target="sign-verify-message">
-              <i class="icon-pencil"></i>
-              Sign Message
-            </a>
-          </li>
-
-          <li>
-            <a class="modal-trigger" data-target="sign-verify-message">
-              <i class="icon-check"></i>
-              Verify Message
-            </a>
-          </li>
-
-          <li>
             <a @click="backupWallet">
               <i class="icon-files"></i>
               Backup Wallet
@@ -98,7 +84,6 @@
       <!-- Settings Modals -->
       <encrypt-wallet></encrypt-wallet>
       <change-password></change-password>
-      <sign-verify-message></sign-verify-message>
       <unlock-wallet></unlock-wallet>
     </ul>
 
@@ -120,7 +105,6 @@ import wagerrRPC from '@/services/api/wagerrRPC';
 import EncryptWallet from '@/components/modals/EncryptWallet.vue';
 import ChangePassword from '@/components/modals/ChangePassword.vue';
 import UnlockWallet from '@/components/modals/UnlockWallet';
-import SignVerifyMessage from '@/components/modals/SignVerifyMessage';
 
 const { remote } = require('electron');
 
@@ -129,7 +113,6 @@ export default {
   components: {
     EncryptWallet,
     ChangePassword,
-    SignVerifyMessage,
     UnlockWallet
   },
 
