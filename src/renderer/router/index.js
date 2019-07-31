@@ -2,12 +2,12 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 // Main Components
-import Wallet from '@/Wallet';
-import Bets from '@/Bets';
-import Betting from '@/Betting';
+import Wallet from '../views/Wallet.vue';
+import Bets from '../views/Bets.vue';
+import Betting from '../views/Betting.vue';
 import ChainGames from '@/components/betting/ChainGames';
-import Tools from '@/Tools';
-import Preferences from '@/Preferences';
+import Tools from '../views/Tools.vue';
+import Preferences from '../views/Preferences.vue';
 // Tool Components
 import Information from '@/components/tools/Information';
 import AddressBook from '@/components/tools/AddressBook';

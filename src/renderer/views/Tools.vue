@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import ToolsNav from './components/tools/ToolsNav';
+import ToolsNav from '@/components/tools/ToolsNav';
 
 export default {
   name: 'Tools',

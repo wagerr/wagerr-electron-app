@@ -29,8 +29,8 @@
 </template>
 
 <script>
-import bettingNav from './components/betting/bettingNav';
-import SideNavBar from './components/SideNavBar';
+import bettingNav from '@/components/betting/bettingNav';
+import SideNavBar from '@/components/SideNavBar';
 import BetSlip from '@/components/betting/components/BetSlip';
 import EventList from '@/components/betting/components/EventList';
 import { mapGetters } from 'vuex';
