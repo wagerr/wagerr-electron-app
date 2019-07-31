@@ -71,6 +71,13 @@
               RPC CLI Tool
             </a>
           </li>
+
+          <router-link tag="li" to="/preferences" exact>
+            <a>
+              <i class="icon-cog"></i>
+              Preferences
+            </a>
+          </router-link>
         </ul>
       </li>
 
@@ -135,3 +142,24 @@ export default {
   }
 };
 </script>
+
+<style scoped lang="scss">
+@import '../assets/scss/_variables';
+
+.dropdown-content {
+  background-color: $dark_grey;
+}
+
+.dropdown-content li a {
+  color: white;
+}
+
+.dropdown-content li a i {
+  color: $wagerr_red;
+  font-size: 1.3em;
+}
+
+.dropdown-content li:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+</style>

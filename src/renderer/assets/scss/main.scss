@@ -1920,23 +1920,6 @@ body.lightbox #app .command .el-input input.el-input__inner {
   text-align: center;
 }
 
-.dropdown-content {
-  background-color: $dark_grey;
-}
-
-.dropdown-content li a {
-  color: white;
-}
-
-.dropdown-content li a i {
-  color: $wagerr_red;
-  font-size: 1.3em;
-}
-
-.dropdown-content li:hover {
-  background-color: rgba(0, 0, 0, 0.1);
-}
-
 .input-field > .active {
   color: $wagerr_red !important;
 }
