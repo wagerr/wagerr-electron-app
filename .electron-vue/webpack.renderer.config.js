@@ -11,25 +11,12 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
 
-/**
- * List of node_modules to include in webpack bundle
- *
- * Required for specific packages like Vue UI libraries
- * that provide pure *.vue files that need compiling
- * https://simulatedgreg.gitbooks.io/electron-vue/content/en/webpack-configurations.html#white-listing-externals
- */
-let whiteListedModules = ['vue'];
-
 let rendererConfig = {
   devtool: '#cheap-module-eval-source-map',
   entry: {
     renderer: path.join(__dirname, '../src/renderer/main.js')
   },
-  externals: [
-    ...Object.keys(dependencies || {}).filter(
-      d => !whiteListedModules.includes(d)
-    )
-  ],
+  externals: [...Object.keys(dependencies || {})],
   module: {
     rules: [
       {

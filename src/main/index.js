@@ -44,7 +44,10 @@ async function createMainWindow() {
     icon: path.join(__dirname, '../renderer/assets/images/icons/png/256.png'),
     show: false,
     autoHideMenuBar: true,
-    backgroundColor: '#2B2C2D'
+    backgroundColor: '#2B2C2D',
+    webPreferences: {
+      nodeIntegration: true
+    }
   };
 
   mainWindow = new BrowserWindow(windowOptions);
