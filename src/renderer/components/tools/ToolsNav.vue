@@ -26,10 +26,6 @@
       <router-link class="col s4" tag="li" to="/tools/wallet_repair">
         <a>Wallet Repair</a>
       </router-link>
-
-      <router-link class="col s4" tag="li" to="/tools/preferences" exact>
-        <a>Preferences</a>
-      </router-link>
     </ul>
   </div>
 </template>
