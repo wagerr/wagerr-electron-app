@@ -31,10 +31,8 @@ if (!process.env.IS_WEB) {
   Vue.use(require('vue-electron'));
 }
 
-/* eslint-disable no-new */
 new Vue({
-  components: { App },
   router,
   store,
-  template: '<App/>'
+  render: h => h(App)
 }).$mount('#app');
