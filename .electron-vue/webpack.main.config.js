@@ -9,6 +9,7 @@ const webpack = require('webpack');
 const MinifyPlugin = require('babel-minify-webpack-plugin');
 
 let mainConfig = {
+  devtool: 'source-map',
   entry: {
     main: path.join(__dirname, '../src/main/index.js')
   },

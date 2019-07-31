@@ -12,7 +12,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
 
 let rendererConfig = {
-  devtool: '#cheap-module-eval-source-map',
+  devtool: 'inline-source-map',
   entry: {
     renderer: path.join(__dirname, '../src/renderer/main.js')
   },
@@ -134,7 +134,7 @@ let rendererConfig = {
  * Adjust rendererConfig for production settings
  */
 if (process.env.NODE_ENV === 'production') {
-  rendererConfig.devtool = '';
+  rendererConfig.devtool = 'cheap-module-source-map';
 
   rendererConfig.plugins.push(
     new MinifyPlugin(),
