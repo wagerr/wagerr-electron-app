@@ -57,7 +57,7 @@
 <script>
 import Vuex from 'vuex';
 import moment from 'moment';
-import ipcRender from '../../../common/ipc/ipcRender';
+import ipcRenderer from '../../../common/ipc/ipcRenderer';
 import { commands as commandSuggestions } from './command';
 // Get rpc credentials from the main process. These values are read from the wagerr.conf file in the main
 // process when the app is initialising. Default values are used if the wagerr.conf does not exist or doesnt
@@ -114,7 +114,7 @@ export default {
       this.addCommand(this.command);
 
       try {
-        const res = await ipcRender.runCommand(this.command);
+        const res = await ipcRenderer.runCommand(this.command);
         console.log(res);
         this.addCommand('', res);
       } catch (error) {

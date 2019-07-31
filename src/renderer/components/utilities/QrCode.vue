@@ -4,7 +4,7 @@
 
 <script>
 import QRCode from 'qrcode';
-import ipcRender from '../../../common/ipc/ipcRender';
+import ipcRenderer from '../../../common/ipc/ipcRenderer';
 
 export default {
   name: 'QrCode',
@@ -30,7 +30,7 @@ export default {
         this.value,
         { errorCorrectionLevel: 'H', margin: '0', width: this.width },
         function(error) {
-          if (error) ipcRender.log('debug', error);
+          if (error) ipcRenderer.log('debug', error);
         }
       );
     }
