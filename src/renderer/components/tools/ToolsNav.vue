@@ -14,6 +14,15 @@
         <a>Address Book</a>
       </router-link>
 
+      <router-link
+        class="col s4"
+        tag="li"
+        to="/tools/sign_verify_message"
+        exact
+      >
+        <a>Sign/Verify Message</a>
+      </router-link>
+
       <router-link class="col s4" tag="li" to="/tools/wallet_repair">
         <a>Wallet Repair</a>
       </router-link>
