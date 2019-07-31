@@ -107,8 +107,8 @@
 import { remote, shell } from 'electron';
 import Store from 'electron-store';
 import { mapGetters, mapActions } from 'vuex';
-import wagerrRPC from './services/api/wagerrRPC';
-import { getWagerrConfPath } from '../main/blockchain/blockchain';
+import wagerrRPC from '@/services/api/wagerrRPC';
+import { getWagerrConfPath } from '../../main/blockchain/blockchain';
 
 export default {
   name: 'Preferences',
@@ -170,7 +170,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import './assets/scss/_variables.scss';
+@import '../assets/scss/_variables.scss';
 
 .preferences-block {
   table {
