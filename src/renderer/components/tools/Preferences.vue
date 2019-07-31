@@ -86,6 +86,11 @@
 
                 <button class="btn" @click="onOpenConf">Open</button>
               </tr>
+              <tr class="info-row">
+                <td>Backup wallet</td>
+
+                <button class="btn" @click="backupWallet">Export</button>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -95,13 +100,11 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-import moment from 'moment';
+import { remote, shell } from 'electron';
 import Store from 'electron-store';
+import { mapGetters, mapActions } from 'vuex';
+import wagerrRPC from '../../services/api/wagerrRPC';
 import { getWagerrConfPath } from '../../../main/blockchain/blockchain';
-import { shell } from 'electron';
-const fs = require('fs');
-const path = require('path');
 
 export default {
   name: 'Preferences',
@@ -118,6 +121,35 @@ export default {
 
     onOpenConf: function() {
       shell.openItem(this.confPath);
+    },
+
+    backupWallet: function() {
+      let folderPath = remote.dialog.showOpenDialog({
+        title: 'Backup Wallet.dat file.',
+        buttonLabel: 'Select Folder',
+        properties: ['openDirectory'],
+        buttons: ['Confirm', 'Cancel'],
+        cancelId: 1,
+        defaultId: 0
+      });
+
+      if (folderPath) {
+        wagerrRPC.client
+          .backupWallet(folderPath)
+          .then(function(resp) {
+            console.log(resp);
+            M.toast({
+              html:
+                '<span class="toast__bold-font">Success &nbsp;</span> Wallet backup up located here: ' +
+                folderPath,
+              classes: 'green'
+            });
+          })
+          .catch(function(err) {
+            M.toast({ html: err, classes: 'wagerr-red-bg' });
+            console.log(err);
+          });
+      }
     }
   },
 
