@@ -75,7 +75,7 @@
 
 <script>
 import wagerrRPC from '@/services/api/wagerrRPC';
-import ipcRender from '../../../common/ipc/ipcRender';
+import ipcRenderer from '../../../common/ipc/ipcRenderer';
 
 export default {
   name: 'EncryptWallet',
@@ -123,7 +123,7 @@ export default {
         .then(function() {
           // Restart the wallet.
           setTimeout(function() {
-            ipcRender.encryptWallet();
+            ipcRenderer.encryptWallet();
           }, 6000);
         })
         .catch(function(err) {

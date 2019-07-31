@@ -111,7 +111,7 @@
 
 <script>
 import Vuex from 'vuex';
-import ipcRender from '../../../common/ipc/ipcRender';
+import ipcRenderer from '../../../common/ipc/ipcRenderer';
 
 export default {
   name: 'WalletRepair',
@@ -120,31 +120,31 @@ export default {
     ...Vuex.mapActions([]),
 
     salvageWallet: function() {
-      ipcRender.salvageWallet();
+      ipcRenderer.salvageWallet();
     },
 
     rescanBlockchain: function() {
-      ipcRender.rescanBlockchain();
+      ipcRenderer.rescanBlockchain();
     },
 
     recoverTxes1: function() {
-      ipcRender.recoverTxes1();
+      ipcRenderer.recoverTxes1();
     },
 
     recoverTxes2: function() {
-      ipcRender.recoverTxes2();
+      ipcRenderer.recoverTxes2();
     },
 
     upgradeWallet: function() {
-      ipcRender.upgradeWallet();
+      ipcRenderer.upgradeWallet();
     },
 
     reindexBlockchain: function() {
-      ipcRender.reindexBlockchain();
+      ipcRenderer.reindexBlockchain();
     },
 
     resyncBlockchain: function() {
-      ipcRender.resyncBlockchain();
+      ipcRenderer.resyncBlockchain();
     }
   }
 };

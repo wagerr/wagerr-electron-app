@@ -53,7 +53,7 @@ import moment from 'moment';
 import blockchainRPC from '@/services/api/blockchain_rpc';
 import networkRPC from '@/services/api/network_rpc';
 import { getWagerrConfPath } from '../../../main/blockchain/blockchain';
-import ipcRender from '../../../common/ipc/ipcRender';
+import ipcRenderer from '../../../common/ipc/ipcRenderer';
 import { shell } from 'electron';
 
 let path = require('path');
@@ -93,23 +93,23 @@ export default {
     ]),
 
     rescanBlockchain: function() {
-      ipcRender.rescanBlockchain();
+      ipcRenderer.rescanBlockchain();
     },
 
     reindexBlockchain: function() {
-      ipcRender.reindexBlockchain();
+      ipcRenderer.reindexBlockchain();
     },
 
     resyncBlockchain: function() {
-      ipcRender.resyncBlockchain();
+      ipcRenderer.resyncBlockchain();
     },
 
     restartWallet: function() {
-      ipcRender.restartWallet();
+      ipcRenderer.restartWallet();
     },
 
     closeWallet: function() {
-      ipcRender.closeWallet();
+      ipcRenderer.closeWallet();
     },
 
     getTimeBehindText: function(secs, blockchainInfo) {
@@ -174,7 +174,7 @@ export default {
 
           // If we have no peers show a warning message to the user.
           if (count === 30) {
-            ipcRender.noPeers();
+            ipcRenderer.noPeers();
             clearInterval(intervalId);
             resolve(true);
           }
@@ -217,7 +217,7 @@ export default {
     },
     onOpenConf: function() {
       console.log(this.confPath);
-      //ipcRender.openConf(s);
+      //ipcRenderer.openConf(s);
       shell.openItem(this.confPath);
     }
   },
