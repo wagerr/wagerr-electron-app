@@ -6,10 +6,10 @@ const path = require('path');
 const { dependencies } = require('../package.json');
 const webpack = require('webpack');
 
-const MinifyPlugin = require('babel-minify-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
+const TerserPlugin = require('terser-webpack-plugin');
 
 let rendererConfig = {
   devtool: 'inline-source-map',
@@ -127,7 +127,16 @@ let rendererConfig = {
     },
     extensions: ['.js', '.vue', '.json', '.css', '.node']
   },
-  target: 'electron-renderer'
+  target: 'electron-renderer',
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        parallel: true,
+        sourceMap: true,
+        cache: true
+      })
+    ]
+  }
 };
 
 /**
@@ -137,7 +146,6 @@ if (process.env.NODE_ENV === 'production') {
   rendererConfig.devtool = 'cheap-module-source-map';
 
   rendererConfig.plugins.push(
-    new MinifyPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': '"production"'
     }),
