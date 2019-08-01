@@ -131,8 +131,9 @@ export default {
       'getTimezone'
     ]),
     pageCounted: function() {
-      // this.setPage(this.pageSelected)
-      return Math.round(this.transactionsPaginated.length / this.limit);
+      this.pageCount = Math.round(this.transactionsPaginated.length / this.limit);
+      if ((this.pageCount * this.limit) < this.transactionsPaginated.length) this.pageCount += 1;
+      return this.pageCount
     }
   },
 
@@ -187,7 +188,6 @@ export default {
     loadPagination: function() {
       this.getPLBetTransactionList({length: this.betTransactionlistLength, rexg: '*', from: 0, filter: 'Luton'});
       this.transactionsPaginated = this.plBetTransactionList
-      this.pageCount = Math.round(this.transactionsPaginated.length / this.limit);
       this.tlist = this.plBetTransactionList;
       this.setPage(this.pageSelected)
     }
