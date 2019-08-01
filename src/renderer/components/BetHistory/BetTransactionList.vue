@@ -18,25 +18,26 @@
 <div v-else>
   <div class="row">
     <div class="input-field col s1">
-      <select class="input-field">
-        <option>20</option>
-        <option>50</option>
-        <option>100</option>
-        <option>500</option>
+      <select class="input-field"
+              v-model="limit"
+              >
+        <option :value="3">3</option>
+        <option :value="6">6</option>
+        <option :value="100">100</option>
+        <option :value="10000">All</option>
       </select>
       <label>List</label>
     </div>
-    <div class="col s6">
-      <ul class="pagination">
-        <li class="disabled"><a href="#!"><i class="icon-chevron-left"></i></a></li>
-        <li class="active"><a href="#!">1</a></li>
-        <li class="waves-effect"><a href="#!">2</a></li>
-        <li class="waves-effect"><a href="#!">3</a></li>
-        <li class="waves-effect"><a href="#!">4</a></li>
-        <li class="waves-effect"><a href="#!">5</a></li>
-        <li class=""><a href="#!"><i class="icon-chevron-right"></i></a></li>
-      </ul>
-    </div>
+    <paginate
+      v-model="pageSelected"
+      :pageCount="pageCounted"
+      :pageRange="limit"
+      :clickHandler="setPage"
+      :prevText="'Prev'"
+      :nextText="'Next'"
+      :containerClass="'pagination'"
+      :pageClass="'waves-effect'">
+    </paginate>
   </div>
   <table class="main-table card z-depth-2">
     <thead>
@@ -62,7 +63,7 @@
     </thead>
 
     <tbody>
-      <tr v-for="tx in plBetTransactionList" :key="tx.id">
+      <tr v-for="tx in tlist" :key="tx.id">
         <td class="hide-on-small-only">{{ tx['event-id'] }}</td>
 
         <td class="hide-on-small-only">
@@ -116,16 +117,23 @@ import {
 import constants from '../../../../main/constants/constants';
 // Test:
 import ElectronStore from 'electron-store';
+import Paginate from 'vuejs-paginate';
 
 export default {
   name: 'BetTransactionList',
+
+  components: { Paginate },
 
   computed: {
     ...Vuex.mapGetters([
       'plBetTransactionList',
       'getNetworkType',
       'getTimezone'
-    ])
+    ]),
+    pageCounted: function() {
+      // this.setPage(this.pageSelected)
+      return Math.round(this.transactionsPaginated.length / this.limit);
+    }
   },
 
   methods: {
@@ -134,6 +142,15 @@ export default {
       'getPLBetTransactionList',
       'getBetTransactionListTest'
     ]),
+
+    setPage: function(pageNum) {
+      let start = 0;
+      if (pageNum > 1) {
+        start = this.limit * (pageNum);
+        start -= this.limit;
+      }
+      this.tlist = this.transactionsPaginated.slice(start, start + this.limit)
+    },
 
     // Convert the interger
     outcomeToText: function(outcome) {
@@ -165,25 +182,49 @@ export default {
           : mainnetParams.BLOCK_EXPLORER_URL;
 
       shell.openExternal(explorerUrl + '/#/tx/' + txId);
+    },
+
+    loadPagination: function() {
+      this.getPLBetTransactionList({length: this.betTransactionlistLength, rexg: '*', from: 0, filter: 'Luton'});
+      this.transactionsPaginated = this.plBetTransactionList
+      this.pageCount = Math.round(this.transactionsPaginated.length / this.limit);
+      this.tlist = this.plBetTransactionList;
+      this.setPage(this.pageSelected)
     }
   },
 
   data() {
     return {
-      timeout: 0
+      timeout: 0,
+      transactionsPaginated: [],
+      tlist: [],
+      transactionLimit: 0,
+      limit: 3,
+      pageCount: 0,
+      pageSelected: 1,
+      betTransactionlistLength: 100
     };
+  },
+
+  watch: {
+    limit: function(val) {
+      this.pageSelected = 1;
+      this.setPage(1)
+      this.limit
+    }
   },
 
   mounted() {
     // Ping the get bets RPC method every 5 secs to show any new bet transactions.
+    // let electronStore = new ElectronStore()
+    // this.transactionsPaginated = electronStore.get('betTransactions');
+    this.loadPagination()
     this.timeout = setInterval(
       async function() {
-        // this.getPLBetTransactionList({length: 50, rexg: '*'});
-        let electronStore = new ElectronStore()
-        // electronStore.set('betTransactions', this.plBetTransactionList);
-        this.getBetTransactionListTest(electronStore.get('betTransactions'));
+        // Todo: add filter and then retrieve
+        await this.loadPagination();
       }.bind(this),
-      5000
+      2000
     );
   },
 

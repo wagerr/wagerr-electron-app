@@ -275,6 +275,7 @@ export default {
     // Check if connected to the Wagerr network and if we have peers.
     await this.checkPeerStatus();
 
+
     // Set the network.
     let blockchainInfo = await blockchainRPC.getBlockchainInfo();
     let network = blockchainInfo.chain === 'test' ? 'Testnet' : 'Mainnet';
