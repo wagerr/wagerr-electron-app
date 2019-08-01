@@ -6,21 +6,32 @@
   >
     <div class="masternode-modal">
       <el-row class="modal-text text-center">
-        <h4 class="modal-font">Step 5: Choose Masternode Transaction.</h4>
+        <h4 class="modal-font">
+          Step 5
+          <br />Choose Masternode Transaction.
+        </h4>
       </el-row>
 
-      <table>
+      <table
+        class="col-12 col-sm-12 col-md-12 col-lg-8 main-table card z-depth-2"
+      >
+        <thead>
+          <tr>
+            <th>txhash</th>
+
+            <th>outputidx</th>
+          </tr>
+        </thead>
+
         <tbody>
-          <tr v-for="mnoutput in tableData" :key="mnoutput.txhash">
-            <td>
-              <input
-                type="radio"
-                class="mno-radio"
-                name="mnoutputs"
-                v-model="innerRadioSelection"
-                :value="mnoutput['txhash']"
-              />
-            </td>
+          <tr
+            v-for="mnoutput in tableData"
+            :key="mnoutput.txhash"
+            @click="onOutputSelect(mnoutput)"
+            :class="[
+              mnoutput.txhash == selectedOutput_txHash ? 'output-table-row' : ''
+            ]"
+          >
             <td>{{ mnoutput['txhash'] }}</td>
             <td>{{ mnoutput['outputidx'] }}</td>
           </tr>
@@ -54,6 +65,7 @@ export default {
   data() {
     return {
       tableData: [],
+      selectedOutput_txHash: '',
       defaultDate: new Date()
     };
   },
@@ -95,6 +107,19 @@ export default {
     },
     onNext() {
       this.$emit('next');
+    },
+    onOutputSelect(mnoutput) {
+      if (this.selectedOutput_txHash === mnoutput.txhash) {
+        this.selectedOutput_txHash = '';
+        this.$emit('update:outputSelection', null);
+      } else {
+        this.selectedOutput_txHash = mnoutput.txhash;
+
+        let output = _.find(this.tableData, {
+          txhash: mnoutput.txhash
+        });
+        this.$emit('update:outputSelection', output);
+      }
     }
   }
 };
@@ -102,6 +127,9 @@ export default {
 
 <style scoped lang="scss">
 @import '../../../assets/scss/_variables.scss';
+.output-table-row {
+  background: lightblue !important;
+}
 .masternode-modal {
   position: relative;
   width: 100%;
@@ -113,6 +141,7 @@ export default {
     color: $black !important;
   }
 }
+
 .button-container {
   margin-top: 50px;
   a:nth-child(0) {
@@ -122,6 +151,7 @@ export default {
     float: right;
   }
 }
+
 .step-title {
   color: #ffffff;
   font-size: 24px;
@@ -129,15 +159,26 @@ export default {
   margin-top: 40px;
   margin-bottom: 30px;
 }
+
 .step-button {
   width: 127px;
   font-size: 17px;
   font-weight: bolder;
   margin-right: 20px;
 }
+
 .step-button-container {
   margin-top: 100px;
 }
+
+.step-next-text {
+  color: #10e492;
+}
+
+.step-button-container {
+  margin-top: 100px;
+}
+
 .step-next-text {
   color: #10e492;
 }
@@ -187,10 +228,5 @@ export default {
   &::before {
     content: none;
   }
-}
-.mno-radio {
-  position: unset !important;
-  opacity: unset !important;
-  pointer-events: unset !important;
 }
 </style>

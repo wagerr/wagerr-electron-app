@@ -6,7 +6,10 @@
   >
     <div class="masternode-modal">
       <el-row class="modal-text text-center">
-        <h4 class="modal-font">Step 3: Enter your IP Address.</h4>
+        <h4 class="modal-font">
+          Step 3
+          <br />Enter your IP Address.
+        </h4>
       </el-row>
       <div class="input-field col s12">
         <i class="fas fa-tags prefix"></i>
@@ -93,6 +96,7 @@ export default {
 .masternode-modal {
   position: relative;
   width: 100%;
+
   label {
     color: $wagerr_red !important;
   }
@@ -100,6 +104,7 @@ export default {
     color: $black !important;
   }
 }
+
 .button-container {
   margin-top: 50px;
   a:nth-child(0) {

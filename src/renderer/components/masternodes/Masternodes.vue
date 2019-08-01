@@ -2,56 +2,71 @@
   <div class="page-masternodes">
     <div class="col-title">
       <span class="masternode-title">Masternode</span>
-      <el-button class="setup-button" @click="gotoSettingsMasternode"
-        >Setup Masternode</el-button
+      <a
+        class="waves-effect waves-red wallet-action btn modal-trigger wagerr-red-bg z-depth-2 setup-button"
+        @click="gotoSettingsMasternode"
+        >Setup Masternode</a
       >
     </div>
-    <el-table
-      ref="myTable"
-      @current-change="handleCurrentChange"
-      row-key="pubkey"
-      min-height="550"
-      :data="masternodesRows"
-      highlight-current-row
-      header-row-class-name="el-table-masternodes-header"
-      class="el-table-masternodes"
-      row-class-name="table-recent-transactions-row"
-      style="width: 100%"
+
+    <table
+      class="col-12 col-sm-12 col-md-12 col-lg-8 main-table card z-depth-2"
     >
-      <el-table-column
-        class-name="col-alias"
-        label="Alias"
-        prop="alias"
-        width="225"
-      ></el-table-column>
-      <el-table-column prop="address" label="Address"></el-table-column>
-      <el-table-column
-        prop="status"
-        label="Status"
-        width="140"
-      ></el-table-column>
-      <el-table-column
-        prop="active"
-        label="Active"
-        width="140"
-      ></el-table-column>
-    </el-table>
+      <thead>
+        <tr>
+          <th>Alias</th>
+
+          <th>Address</th>
+
+          <th>Status</th>
+          <th>Active</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr
+          v-for="masternode in masternodesRows"
+          :key="masternode.txhash"
+          @click="onMasternodeSelect(masternode)"
+          :class="[
+            masternode.address == selectedRow.address ? 'output-table-row' : ''
+          ]"
+        >
+          <td>{{ masternode.alias }}</td>
+
+          <td>{{ masternode.address }}</td>
+
+          <td>{{ masternode.status }}</td>
+          <td>{{ masternode.active }}</td>
+        </tr>
+      </tbody>
+    </table>
 
     <div class="button-container">
-      <el-button class="btn-medium" @click="onStartMasternodeAlias"
-        >Start Alias</el-button
+      <a
+        class="waves-effect waves-red wallet-action btn modal-trigger wagerr-red-bg z-depth-2"
+        @click="onStartMasternodeAlias"
+        >Start Alias</a
       >
-      <el-button class="btn-medium" @click="onStartMasternodeMany"
-        >Start Many</el-button
+      <a
+        class="waves-effect waves-red wallet-action btn modal-trigger wagerr-red-bg z-depth-2"
+        @click="onStartMasternodeMany"
+        >Start Many</a
       >
-      <el-button class="btn-medium" @click="onStartMasternodeMissing"
-        >Start Missing</el-button
+      <a
+        class="waves-effect waves-red wallet-action btn modal-trigger wagerr-red-bg z-depth-2"
+        @click="onStartMasternodeMissing"
+        >Start Missing</a
       >
-      <el-button class="btn-medium" @click="getMasternodeStatus"
-        >update status</el-button
+      <a
+        class="waves-effect waves-red wallet-action btn modal-trigger wagerr-red-bg z-depth-2"
+        @click="getMasternodeStatus"
+        >update status</a
       >
-      <el-button class="btn-medium" @click="showingMasternodeConf"
-        >Masternode.conf</el-button
+      <a
+        class="waves-effect waves-red wallet-action btn modal-trigger wagerr-red-bg z-depth-2"
+        @click="showingMasternodeConf"
+        >Masternode.conf</a
       >
     </div>
   </div>
@@ -60,16 +75,13 @@
 <script>
 import Vuex from 'vuex';
 import moment from 'moment';
-import ipcRender from '../../../common/ipc/ipcRender';
+import ipcRenderer from '../../../common/ipc/ipcRenderer';
 import masternode_rpc from '@/services/api/masternode_rpc';
 import { getCoinMasternodeConfPath } from '../../../main/blockchain/blockchain';
+
 import { shell } from 'electron';
 export default {
   name: 'Masternodes',
-  // components: {
-  //   UnlockDialog,
-  //   DefaultButton
-  // },
   data() {
     return {
       masternodesRows: [],
@@ -84,9 +96,6 @@ export default {
     this.getMasternodeStatus();
   },
   methods: {
-    async handleCurrentChange(currentRow) {
-      this.selectedRow = currentRow;
-    },
     async getMasternodeStatus() {
       console.log('getMasternodeStatus');
       try {
@@ -135,16 +144,17 @@ export default {
         });
 
         console.log(this.masternodesRows);
-        if (this.selectedRow && this.$refs.myTable) {
-          let findSelected = this.masternodesRows.filter(item => {
-            if (
-              item.pubkey === this.selectedRow.pubkey &&
-              item.alias === this.selectedRow.alias
-            )
-              return item;
-          });
-          this.$refs.myTable.setCurrentRow(findSelected[0]);
-        }
+
+        // if (this.selectedRow && this.$refs.myTable) {
+        //     let findSelected = this.masternodesRows.filter(item => {
+        //         if (
+        //             item.pubkey === this.selectedRow.pubkey &&
+        //             item.alias === this.selectedRow.alias
+        //         )
+        //             return item;
+        //     });
+        //     this.$refs.myTable.setCurrentRow(findSelected[0]);
+        // }
         setTimeout(this.getMasternodeStatus, 10000);
       } catch (e) {
         console.log(e);
@@ -204,6 +214,7 @@ export default {
             );
           });
           let vnode = this.$createElement('div', list);
+
           this.$message({
             message: vnode,
             type: 'success'
@@ -245,6 +256,7 @@ export default {
             );
           });
           let vnode = this.$createElement('div', list);
+
           this.$message({
             message: vnode,
             type: 'success'
@@ -254,9 +266,6 @@ export default {
         await this.getMasternodeStatus();
       } catch (e) {
         this.$message.error(e.message);
-        if (e.code === -13) {
-          this.isUnlockWalletWindowOpen = true;
-        }
       }
     },
     async onWalletUnlock() {
@@ -266,6 +275,11 @@ export default {
         this.$message.error(e.message);
         console.log(e);
       }
+    },
+    onMasternodeSelect(masternode) {
+      if (this.selectedRow.txhash === masternode.txhash) {
+        this.selectedRow = {};
+      } else this.selectedRow = masternode;
     },
     showingMasternodeConf() {
       const masternodeConfPath = getCoinMasternodeConfPath();
@@ -281,7 +295,9 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../assets/scss/_variables.scss';
-
+.output-table-row {
+  background: lightblue !important;
+}
 .col-title {
   margin-bottom: 20px;
   height: 40px;
@@ -307,7 +323,7 @@ export default {
   flex-direction: column;
   height: 100%;
   .el-table-masternodes {
-    background-color: transparent;
+    background-color: white;
     &::before {
       content: none;
     }

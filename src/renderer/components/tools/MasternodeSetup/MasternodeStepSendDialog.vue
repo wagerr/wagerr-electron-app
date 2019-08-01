@@ -11,7 +11,8 @@
         <el-row>
           <div class="modal-text text-center">
             <h4 class="modal-font">
-              Step 1:Enter the address and amount to send WGR.
+              Step 1
+              <br />Enter the address to send 25,000 WGR.
             </h4>
           </div>
 
@@ -50,40 +51,6 @@
             <span v-if="errors.has('label')" class="form-error">{{
               errors.first('label')
             }}</span>
-          </div>
-
-          <div class="input-field col s10">
-            <i class="fas fa-money-bill prefix"></i>
-
-            <input
-              v-model="amount"
-              v-validate="'required|decimal:8|min_value:0'"
-              id="amount"
-              name="amount"
-              type="text"
-            />
-
-            <label for="amount">Amount</label>
-
-            <div v-if="errors.has('amount')" class="form-error amount-margin">
-              {{ errors.first('amount') }}
-            </div>
-          </div>
-
-          <div class="input-field col s2">
-            <input
-              v-model="txFee"
-              v-validate="'required|decimal:5|min_value:0'"
-              id="fee"
-              name="fee"
-              type="text"
-            />
-
-            <label for="fee" class="active">TX Fee</label>
-
-            <div v-if="errors.has('fee')" class="form-error">
-              {{ errors.first('fee') }}
-            </div>
           </div>
         </el-row>
         <el-row slot="footer" class="button-container options">
@@ -144,21 +111,25 @@ export default {
     sendTransaction: function() {
       let that = this;
       this.getAccountAddress();
+
       // Retrieve the wallet UTXOs (unspent outputs)
       wagerrRPC.client
         .listUnspent()
         .then(function(resp) {
           let UTXOAmount = 0;
           let utxos = [];
+
           // Only use the UTXO we require to cover the tx amount.
           for (var i = 0; i < resp.result.length; i++) {
             UTXOAmount += resp.result[i].amount;
             utxos.push(resp.result[i]);
+
             if (UTXOAmount > that.amount) {
               utxos = JSON.stringify(utxos);
               break;
             }
           }
+
           // Ensure we have enough Wagerr to cover the TX.
           if (UTXOAmount < that.amount) {
             M.toast({
@@ -168,6 +139,7 @@ export default {
             });
             return;
           }
+
           let json =
             '{"' +
             that.sendAddress +
@@ -178,16 +150,19 @@ export default {
             '":' +
             (UTXOAmount - that.txFee - that.amount) +
             '}';
+
           // Create the raw send transaction.
           wagerrRPC.client
             .createRawTransaction(utxos, json)
             .then(function(resp) {
               let rawTxHex = resp.result;
+
               // Sign the raw transaction.
               wagerrRPC.client
                 .signRawTransaction(rawTxHex)
                 .then(function(resp) {
                   let signedHex = resp.result.hex;
+
                   // Send the signed tx to the Wagerr blockchain.
                   wagerrRPC.client
                     .sendRawTransaction(signedHex)
@@ -199,6 +174,7 @@ export default {
                           resp.result,
                         classes: 'green'
                       });
+
                       // Clear the sent TX form data and any errors.
                       that.clearForm();
                     })
@@ -232,7 +208,7 @@ export default {
     // Clear the form data and errors.
     clearForm: function() {
       this.sendAddress = '';
-      this.amount = '';
+      this.amount = '25000';
       this.label = '';
       this.$validator.reset();
     },
@@ -240,25 +216,27 @@ export default {
       this.$emit('next');
     }
   },
+
   data() {
     return {
       sendAddress: '',
       label: '',
-      amount: '',
-      txFee: 0.001,
+      amount: '25000',
+      txFee: 0,
       showModal: false
     };
   },
+
   mounted() {
     // Initialise the Material JS so modals, drop down menus etc function.
     M.AutoInit();
+
     // Reset the form validation after opening the modal
     this.$validator.reset();
   }
 };
 </script>
-
-<style lang="scss" scoped>
+<style scoped lang="scss">
 @import '../../../assets/scss/_variables.scss';
 .masternode-modal {
   position: relative;

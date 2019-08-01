@@ -1,6 +1,6 @@
+import fs from 'fs';
 import wagerrRPC from '@/services/api/wagerrRPC';
 import { getCoinMasternodeConfPath } from '../../../main/blockchain/blockchain';
-import fs from 'fs';
 
 export default {
   getMasternodeCount() {
@@ -111,9 +111,7 @@ export default {
 
   async createMasternode(arg) {
     let mnConfig = await this.getMasternodeConfigSync();
-    const confString = `\n${arg.alias} ${arg.ipAddress}:${arg.port} ${
-      arg.privateKey
-    } ${arg.masternodeOutputs} ${arg.masternodeOutputIndex}`;
+    const confString = `\n${arg.alias} ${arg.ipAddress}:${arg.port} ${arg.privateKey} ${arg.masternodeOutputs} ${arg.masternodeOutputIndex}`;
     const writeLines = mnConfig.split('\n');
     let dupeLine = false;
 

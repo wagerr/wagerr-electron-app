@@ -6,10 +6,14 @@
   >
     <div class="masternode-modal">
       <el-row class="modal-text text-center">
-        <h4 class="modal-font">Step 4: Generate Pairing Key.</h4>
+        <h4 class="modal-font">
+          Step 4
+          <br />Generate Pairing Key.
+        </h4>
       </el-row>
       <div class="input-field col s12">
         <i class="fas fa-tags prefix"></i>
+
         <input
           v-model="innerPrivateKey"
           v-validate
@@ -20,6 +24,7 @@
         />
 
         <label for="ip">Paring Key:</label>
+
         <span v-if="errors.has('privateKey')" class="form-error">{{
           errors.first('privateKey')
         }}</span>
@@ -94,6 +99,7 @@ export default {
 .masternode-modal {
   position: relative;
   width: 100%;
+
   label {
     color: $wagerr_red !important;
   }

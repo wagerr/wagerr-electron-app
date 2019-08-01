@@ -1,62 +1,48 @@
 <template>
-  <!-- Wallet Unlock -->
   <el-dialog
     :close-on-click-modal="false"
-    title="Step 6"
-    class="custom-dialog"
     effect="fade/zoom"
     :visible.sync="showDialog"
   >
-    <div class="dialog-header" slot="title">
-      {{ $t('settings.masternodes.step_six.title') }}
-    </div>
-    <div class="step-title">
-      {{ $t('settings.masternodes.step_six.description') }}
-    </div>
-    <div class="finish-container">
-      <div class="top-button-container">
-        <default-button class="step-open-button" @click="onOpenWalletFile()">
-          {{ $t('settings.masternodes.step_six.open_wallet') }}
-        </default-button>
+    <div class="masternode-modal">
+      <el-row class="modal-text text-center">
+        <h4 class="modal-font">
+          Step 6
+          <br />Finish and Restart.
+        </h4>
+      </el-row>
 
-        <default-button
-          class="step-open-button"
-          @click="onOpenMasternodeFile()"
+      <el-row class="button-container">
+        <a class="btn" @click.prevent="onOpenWalletFile()"
+          >Open Wallet Config File</a
         >
-          {{ $t('settings.masternodes.step_six.open_masternode') }}
-        </default-button>
-      </div>
-
+        <a class="btn" @click.prevent="onOpenMasternodeFile()"
+          >Open Masternode Config File</a
+        >
+      </el-row>
       <div class="step-subtitle">
-        {{ $t('settings.masternodes.step_six.step_subtitle') }}
+        Your settings have been saved to your Configuration files. You can view
+        them here if you like, or just restart your wallet to start your
+        masternode.
       </div>
 
-      <div class="bottom-button-container">
-        <default-button class="step-button" @click="onBack()">
-          {{ $t('settings.masternodes.step_six.back') }}
-        </default-button>
-        <default-button class="step-button" @click="onFinish()">
-          <span class="step-finish-text">
-            {{ $t('settings.masternodes.step_six.finish') }}</span
-          >
-        </default-button>
-      </div>
+      <el-row slot="footer" class="button-container options">
+        <a class="btn green" @click.prevent="onFinish()">Next</a>
+        <a class="btn" @click.prevent="onBack()">Back</a>
+      </el-row>
     </div>
   </el-dialog>
 </template>
 
 <script>
 import {
-  getCoinConfPath,
+  getWagerrConfPath,
   getCoinMasternodeConfPath
-} from '../../../../../common/blockchain/blockchain';
-import DefaultButton from '../../../elements/DefaultButton/DefaultButton';
-
-const { shell } = require('electron');
+} from '../../../../main/blockchain/blockchain';
+import { shell } from 'electron';
 
 export default {
   name: 'MasternodeStepSixDialog',
-  components: { DefaultButton },
   props: {
     isVisible: {
       type: Boolean,
@@ -79,7 +65,7 @@ export default {
       shell.openItem(masternodeConfigPath);
     },
     onOpenWalletFile() {
-      let coinConfigPath = getCoinConfPath();
+      let coinConfigPath = getWagerrConfPath();
       shell.openItem(coinConfigPath);
     },
     onBack() {
@@ -94,6 +80,29 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '../../../assets/scss/_variables.scss';
+
+.masternode-modal {
+  position: relative;
+  width: 100%;
+
+  label {
+    color: $wagerr_red !important;
+  }
+  input {
+    color: $black !important;
+  }
+}
+
+.button-container {
+  margin-top: 50px;
+  a:nth-child(0) {
+    float: left;
+  }
+  a:nth-child(1) {
+    float: right;
+  }
+}
 .step-title {
   color: #ffffff;
   font-size: 24px;

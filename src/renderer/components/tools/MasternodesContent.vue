@@ -28,14 +28,12 @@
       @back="onStepOutputBack"
       :outputSelection.sync="outputSelection"
     ></masternode-step-output-dialog>
-    <!--
-        <masternode-step-six-dialog
-            :close-on-click-modal="false"
-            @next="onStepSixFinish"
-            @back="onStepSixBack"
-            :isVisible.sync="showStepSix"
-        ></masternode-step-six-dialog>
-        -->
+    <masternode-step-six-dialog
+      :isVisible.sync="showStepSix"
+      @next="onStepSixFinish"
+      @back="onStepSixBack"
+    ></masternode-step-six-dialog>
+
     <h4>Masternode Setup</h4>
 
     <p>
@@ -106,9 +104,9 @@ import MasternodeStepAliasDialog from './MasternodeSetup/MasternodeStepAliasDial
 import MasternodeStepIpDialog from './MasternodeSetup/MasternodeStepIpDialog';
 import MasternodeStepPrivateKeyDialog from './MasternodeSetup/MasternodeStepPrivateKeyDialog';
 import MasternodeStepOutputDialog from './MasternodeSetup/MasternodeStepOutputDialog';
-// import MasternodeStepSixDialog from "./MasternodeSetup/MasternodeStepSixDialog";
+import MasternodeStepSixDialog from './MasternodeSetup/MasternodeStepSixDialog';
 
-import ipcRender from '../../../common/ipc/ipcRender';
+import ipcRenderer from '../../../common/ipc/ipcRenderer';
 import masternode_rpc from '@/services/api/masternode_rpc';
 import {
   getCoinMasternodeConfPath,
@@ -125,8 +123,8 @@ export default {
     MasternodeStepAliasDialog,
     MasternodeStepIpDialog,
     MasternodeStepPrivateKeyDialog,
-    MasternodeStepOutputDialog
-    // MasternodeStepSixDialog
+    MasternodeStepOutputDialog,
+    MasternodeStepSixDialog
   },
   data() {
     return {
@@ -228,11 +226,12 @@ export default {
         this.$message.error('PrivateKey already exist');
       }
     },
-    async onStepOutputBack() {
+    onStepOutputBack() {
       this.showStepOutput = false;
       this.showStepPrivateKey = true;
     },
     async onStepOutputFinish() {
+      console.log(this.outputSelection);
       if (!this.outputSelection) {
         this.$message.error('Output can not be empty');
         return;
@@ -246,30 +245,30 @@ export default {
         return;
       }
       try {
-        // await ipc.callMain(CREATE_MASTERNODE, {
-        //     alias: this.alias,
-        //     ipAddress: this.ip,
-        //     port: rpcPort,
-        //     privateKey: this.privateKey,
-        //     masternodeOutputs: this.outputSelection.txhash,
-        //     masternodeOutputIndex: this.outputSelection.outputidx
-        // });
+        await masternode_rpc.createMasternode({
+          alias: this.alias,
+          ipAddress: this.ip,
+          port: rpcPort,
+          privateKey: this.privateKey,
+          masternodeOutputs: this.outputSelection.txhash,
+          masternodeOutputIndex: this.outputSelection.outputidx
+        });
         this.showStepOutput = false;
         this.showStepSix = true;
       } catch (e) {
         this.$message.error(e.message);
       }
+    },
+    onStepSixBack() {
+      this.showStepSix = false;
+      this.showStepOutput = true;
+    },
+    onStepSixFinish() {
+      this.ip = '';
+      this.alias = '';
+      this.privateKey = '';
+      this.outputSelection = null;
     }
-    // async onStepSixBack() {
-    //     this.showStepSix = false;
-    //     this.showStepOutput = true;
-    // },
-    // async onStepSixFinish() {
-    //     this.ip = "";
-    //     this.alias = "";
-    //     this.privateKey = "";
-    //     this.outputSelection = null;
-    // }
   }
 };
 </script>
