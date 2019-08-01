@@ -14,19 +14,6 @@
         <!-- External CSS libraries -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
-        <% if (htmlWebpackPlugin.options.nodeModules) { %>
-
-            <!-- Add `node_modules/` to global paths so `require` works properly in development -->
-
-            <script>
-
-                require('module').globalPaths.push('<%= htmlWebpackPlugin.options.nodeModules.replace(/\\/g, '\\\\') %>')
-
-            </script>
-
-        <% } %>
-
-        <base href="">
 
     </head>
 
