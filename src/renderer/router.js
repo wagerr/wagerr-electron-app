@@ -3,7 +3,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 // Main Components
 import Wallet from './views/Wallet.vue';
-import Bets from './views/Bets.vue';
+import BetHistory from './views/BetHistory.vue';
 import Betting from './views/Betting.vue';
 import ChainGames from '@/components/betting/ChainGames';
 import Tools from './views/Tools.vue';
@@ -23,7 +23,7 @@ export default new Router({
   mode: 'history',
   routes: [
     { path: '/', component: Wallet },
-    { path: '/bets', component: Bets },
+    { path: '/bet_history', component: BetHistory },
     { path: '/betting', component: Betting },
     { path: '/chain_games', component: ChainGames },
     {

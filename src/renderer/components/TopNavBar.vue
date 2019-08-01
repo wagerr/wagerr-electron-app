@@ -8,7 +8,7 @@
         <h6>Wallet Home</h6>
       </router-link>
 
-      <router-link tag="li" to="/bets">
+      <router-link tag="li" to="/bet_history">
         <i class="navico-history"></i>
         <h6>Bet History</h6>
       </router-link>
