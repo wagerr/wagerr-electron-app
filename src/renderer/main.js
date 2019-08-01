@@ -28,10 +28,6 @@ Vue.use(VueClipboards);
 // Inject the vee form validation JS lib.
 Vue.use(VeeValidate);
 
-if (!process.env.IS_WEB) {
-  Vue.use(require('vue-electron'));
-}
-
 new Vue({
   router,
   store,
