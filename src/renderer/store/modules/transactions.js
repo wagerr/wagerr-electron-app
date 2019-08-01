@@ -93,9 +93,10 @@ const actions = {
     commit('setPLBetTransactionList', list);
   },
   
-  getPLBetTransactionList({ commit }, {length, rexg}) {
+  getPLBetTransactionList({ commit }, {length, rexg, from}) {
+    console.log("from ", from)
     wagerrRPC.client
-      .listBets(rexg, length)
+      .listBets(rexg, length, from)
       .then(function(resp) {
         commit('setPLBetTransactionList', resp.result.reverse());
       })
