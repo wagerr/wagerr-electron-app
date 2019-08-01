@@ -114,7 +114,8 @@ export default {
       this.addCommand(this.command);
 
       try {
-        const res = await ipcRenderer.runCommand(this.command);
+        const cmd = this.command.split(/\s/);
+        const res = await ipcRenderer.runCommand(cmd);
         console.log(res);
         this.addCommand('', res);
       } catch (error) {
