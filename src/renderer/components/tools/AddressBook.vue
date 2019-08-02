@@ -1,5 +1,5 @@
 <template>
-  <div id="address-book" class="content row">
+  <div id="address-book" class="row">
     <div class="col s12">
       <h4>Address Book</h4>
 
@@ -15,7 +15,7 @@
       </div>
 
       <div v-if="selectedAddressFilter === 0" class="row text-center">
-        <div class="col s6 offset-s3">
+        <div class="col s12">
           <div class="info-block table-container">
             <table
               v-for="receivingAccount in getReceivingAddressList"
@@ -41,25 +41,25 @@
       </div>
 
       <div v-if="selectedAddressFilter === 1" class="row text-center">
-        <div class="col s6 offset-s3">
+        <div class="col s12">
           <div class="info-block table-container">
             <table class="main-table card z-depth-2 highlight">
               <thead>
-                <tr class="info-row">
+                <tr class="info-row sendingbar">
                   <th colspan="2">Your Sending Addresses</th>
                   <a
                     v-if="addingNewSendingAddress === false"
-                    class="btn-floating btn-small waves-effect waves-light red darken-4 add-btn"
+                    class="btn-small black darken-4 add-btn"
                     @click="addNewSendingAddress"
                   >
-                    <i class="material-icons">+</i>
+                    <i class="material-icons">&plus;</i>
                   </a>
                   <a
                     v-if="addingNewSendingAddress === true"
-                    class="btn-floating btn-small waves-effect waves-light red darken-4 add-btn"
+                    class="btn-small black darken-4 add-btn"
                     @click="removeNewSendingAddress"
                   >
-                    <i class="material-icons">-</i>
+                    <i class="material-icons">&dash;</i>
                   </a>
                 </tr>
               </thead>
@@ -93,7 +93,7 @@
                       class="btn-small waves-effect waves-light red darken-4"
                       @click="addNewAddress"
                     >
-                      <i class="material-icons">Add</i>
+                      Add
                     </a>
                   </td>
                 </tr>
@@ -212,14 +212,17 @@ export default {
 }
 
 #newSendingAddress {
-  width: auto;
+  width:calc(100% - 100px);
+  margin-right:15px;
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
   box-sizing: content-box;
 }
+.sendingbar a {width:50px;}
+.sendingbar a i {font-size:28px !important;}
 
 #newSendingAddressLabel {
-  width: auto;
+  
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
   box-sizing: content-box;

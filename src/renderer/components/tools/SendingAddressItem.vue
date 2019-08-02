@@ -222,14 +222,14 @@ button.destroy.active {
   visibility: visible;
   right: 10px;
   margin: auto 0;
-  background-color: #dcdcdc;
+  background-color: #wagerr_red;
   border: 1px solid;
   border-radius: 3px;
-  color: #cc9a9a;
+  color: $white;
 }
 button.destroy:hover {
-  color: $wagerr_red;
-  background-color: #d0d0d0;
+  color: $white;
+  background-color: $wagerr_dark_red;
   transition: color 0.2s ease-out;
 }
 button.destroy:after {
@@ -241,15 +241,15 @@ button.destroy {
 button.update {
   right: 10px;
   margin: auto 0;
-  background-color: #dcdcdc;
+  color: $white;
+  background-color: $wagerr_red;
   border: 1px solid;
   border-radius: 3px;
-  color: #cc9a9a;
 }
 button.update:hover {
-  color: $wagerr_red;
-  background-color: #d0d0d0;
+  color: $white;
   transition: color 0.2s ease-out;
+  background-color: $wagerr_dark_red;
 }
 button.update:after {
   content: 'update';
@@ -259,7 +259,7 @@ button.update {
 }
 input:not([type]) {
   display: inline-block;
-  width: auto;
+  width: 55%;
   margin: 0px;
   color: $wagerr_dark_red;
   border-bottom: 1px solid #a62626;
