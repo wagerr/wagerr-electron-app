@@ -128,18 +128,38 @@ label:hover {
 button.destroy {
   visibility: hidden;
 }
+button.destroy.active {
+  visibility: visible;
+  right: 10px;
+  margin: auto 0;
+  background-color: #wagerr_red;
+  border: 1px solid;
+  border-radius: 3px;
+  color: $white;
+}
+button.destroy:hover {
+  color: $white;
+  background-color: $wagerr_dark_red;
+  transition: color 0.2s ease-out;
+}
+button.destroy:after {
+  content: '×';
+}
+button.destroy {
+  display: inline-block;
+}
 button.update {
   right: 10px;
   margin: auto 0;
-  background-color: #dcdcdc;
+  color: $white;
+  background-color: $wagerr_red;
   border: 1px solid;
   border-radius: 3px;
-  color: #cc9a9a;
 }
 button.update:hover {
-  color: $wagerr_red;
-  background-color: #d0d0d0;
+  color: $white;
   transition: color 0.2s ease-out;
+  background-color: $wagerr_dark_red;
 }
 button.update:after {
   content: 'update';
