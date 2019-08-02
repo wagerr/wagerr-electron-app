@@ -13,12 +13,12 @@
       </el-row>
 
       <el-row class="button-container">
-        <a class="btn" @click.prevent="onOpenWalletFile()"
-          >Open Wallet Config File</a
-        >
-        <a class="btn" @click.prevent="onOpenMasternodeFile()"
-          >Open Masternode Config File</a
-        >
+        <a class="btn" @click.prevent="onOpenWalletFile()">
+          Open Wallet Config File
+        </a>
+        <a class="btn" @click.prevent="onOpenMasternodeFile()">
+          Open Masternode Config File
+        </a>
       </el-row>
       <div class="step-subtitle">
         Your settings have been saved to your Configuration files. You can view
@@ -27,8 +27,12 @@
       </div>
 
       <el-row slot="footer" class="button-container options">
-        <a class="btn green" @click.prevent="onFinish()">Next</a>
-        <a class="btn" @click.prevent="onBack()">Back</a>
+        <a class="btn green finish-button" @click.prevent="onFinish()">
+          Finish
+        </a>
+        <a class="btn blue restart-button" @click.prevent="onRestart()">
+          Restart Wallet
+        </a>
       </el-row>
     </div>
   </el-dialog>
@@ -40,6 +44,7 @@ import {
   getCoinMasternodeConfPath
 } from '../../../../main/blockchain/blockchain';
 import { shell } from 'electron';
+import ipcRenderer from '../../../../common/ipc/ipcRenderer';
 
 export default {
   name: 'MasternodeStepSixDialog',
@@ -68,8 +73,8 @@ export default {
       let coinConfigPath = getWagerrConfPath();
       shell.openItem(coinConfigPath);
     },
-    onBack() {
-      this.$emit('back');
+    onRestart() {
+      ipcRenderer.restartWallet();
     },
     onFinish() {
       this.$emit('next');
@@ -96,13 +101,17 @@ export default {
 
 .button-container {
   margin-top: 50px;
-  a:nth-child(0) {
-    float: left;
-  }
-  a:nth-child(1) {
-    float: right;
-  }
 }
+
+.restart-button {
+  float: right;
+  margin-right: 10px;
+}
+
+.finish-button {
+  float: right;
+}
+
 .step-title {
   color: #ffffff;
   font-size: 24px;
