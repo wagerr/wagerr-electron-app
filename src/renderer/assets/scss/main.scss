@@ -2105,6 +2105,12 @@ body.lightbox #app .command .el-input input.el-input__inner {
   color: $wagerr_dark_red;
 }
 
+#sign-verify-message .tabs .indicator {
+  border-bottom: 1px solid $wagerr_red;
+  background-color: transparent;
+  display:none !important;
+}
+
 tbody tr {
   font-size: 1.1em;
 }

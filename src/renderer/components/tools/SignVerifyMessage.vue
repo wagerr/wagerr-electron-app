@@ -1,14 +1,14 @@
 <template>
-  <div id="sign-verify-message" class="content row">
+  <div id="sign-verify-message" class="row">
     <div class="col s12">
       <h4>Sign/Verify Message</h4>
-      <div class="row">
+      <div class="row content">
         <ul class="tabs">
-          <li class="tab col s6 m6 l6 active">
+          <li class="tab col s4 offset-s2 active">
             <a class="active" href="#sign-message-form">Sign Message</a>
           </li>
 
-          <li class="tab col s6 m6 l6 ">
+          <li class="tab col s4">
             <a href="#verify-message-form">Verify Message</a>
           </li>
         </ul>
@@ -327,9 +327,42 @@ export default {
 <style lang="scss" scoped>
 @import '../../assets/scss/_variables';
 
-.tabs .indicator {
+.tabs {
+	background-color:transparent;
+}
+
+.tabs .tab {
+	background-color:transparent;
+  padding:0 5px;
+}
+
+.tabs .tab a {
+	color: $white;
+  display: block;
+  background: $wagerr_red;
+  text-align: center;
+  line-height: 24px;
+  font-size: 18px;
+  line-height: 24px;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: 'Montserrat';
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  height:auto;
+}
+
+.tabs .tab a:hover, .tabs .tab a.active {
+	background: $wagerr_dark_red;
+}
+
+#sign-verify-message .tabs .indicator {
   border-bottom: 1px solid $wagerr_red;
   background-color: transparent;
+  display:none !important;
 }
 
 .input-field input {
