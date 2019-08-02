@@ -74,18 +74,32 @@ import wagerrRPC from '@/services/api/wagerrRPC';
 
 export default {
   name: 'MasternodeStepSendDialog',
+
+  data() {
+    return {
+      sendAddress: '',
+      label: '',
+      amount: '25000',
+      txFee: 0,
+      showModal: false
+    };
+  },
+
   props: {
     isVisible: {
       type: Boolean,
       default: false
     }
   },
+
   computed: {
     ...Vuex.mapGetters(['accountAddress']),
+
     showDialog: {
       get: function() {
         return this.isVisible;
       },
+
       set: function(newValue) {
         this.$emit('update:isVisible', newValue);
       }
@@ -178,6 +192,9 @@ export default {
                       // Clear the sent TX form data and any errors.
                       that.clearForm();
                     })
+                    .then(function() {
+                      that.onSkip();
+                    })
                     .catch(function(err) {
                       M.toast({
                         html: err,
@@ -212,19 +229,10 @@ export default {
       this.label = '';
       this.$validator.reset();
     },
+
     onSkip() {
       this.$emit('next');
     }
-  },
-
-  data() {
-    return {
-      sendAddress: '',
-      label: '',
-      amount: '25000',
-      txFee: 0,
-      showModal: false
-    };
   },
 
   mounted() {
