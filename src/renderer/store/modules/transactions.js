@@ -7,7 +7,9 @@ const state = function() {
     wgrTransactionList: [],
     wgrTransactionRecords: [],
     plBetTransactionList: [],
-    cgBetTransactionList: []
+    cgBetTransactionList: [],
+    transactionMax: -1,
+    betTransactionsPaginated: []
   };
 };
 
@@ -30,7 +32,15 @@ const getters = {
 
   cgBetTransactionList: state => {
     return state.cgBetTransactionList;
-  }
+  },
+
+  transactionMax: state => {
+    return state.transactionMax;
+  },
+
+  betTransactionsPaginated: state => {
+    return state.betTransactionsPaginated;
+  },
 };
 
 const actions = {
@@ -93,12 +103,16 @@ const actions = {
     commit('setPLBetTransactionList', list);
   },
   
-  getPLBetTransactionList({ commit }, {length, rexg, from}) {
-    console.log("from ", from)
+  getPLBetTransactionList({ dispatch, commit, getters }, {length, rexg, from, betTransactionlistLength}) {
     wagerrRPC.client
       .listBets(rexg, length, from)
       .then(function(resp) {
         commit('setPLBetTransactionList', resp.result.reverse());
+      })
+      .then(function(r) {
+        if (getters.plBetTransactionList.length === 0 || getters.plBetTransactionList.length < betTransactionlistLength) commit('setTransactionMax', getters.betTransactionsPaginated.length + getters.plBetTransactionList.length);
+        commit('setBetTransactionsPaginated', getters.betTransactionsPaginated.concat(getters.plBetTransactionList));
+        // set page 
       })
       .catch(function(err) {
         // TODO Handle error correctly.
@@ -138,7 +152,15 @@ const mutations = {
 
   setCGBetTransactionList(state, txList) {
     state.cgBetTransactionList = txList;
-  }
+  },
+
+  setTransactionMax(state, max) {
+    state.transactionMax = max;
+  },
+
+  setBetTransactionsPaginated(state, paginated) {
+    state.betTransactionsPaginated = paginated;
+  },
 };
 
 export default {
