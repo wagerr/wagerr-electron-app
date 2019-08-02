@@ -4,15 +4,15 @@
       <h4>Preferences</h4>
 
       <div class="row text-center">
-        <div class="col s6">
+        <div class="col s12">
           <div class="preferences-block table-container">
             <table class="main-table card z-depth-2">
               <tbody>
                 <tr class="info-row">
                   <td>Odds Display</td>
-                  <td>
+                  <td class="aligncenter">
                     <div id="oddsChoice">
-                      <form action="#" @submit.prevent>
+                      <form id="oddschoiceform" action="#" @submit.prevent>
                         <p>
                           <label>
                             <input
@@ -65,7 +65,7 @@
                 </tr>
                 <tr class="info-row">
                   <td>Include Wagerr network share in betting odds?</td>
-                  <td>
+                  <td class="aligncenter">
                     <div id="show-network-share-choice">
                       <p>
                         <label>
@@ -204,11 +204,17 @@ export default {
       }
     }
   }
+  .aligncenter {text-align:center;}
 
   button {
     margin: 5px;
   }
-
+  [type='radio'] + span {
+    padding-left:30px !important;
+  }
+  [type='radio']:checked + span {
+    color: $wagerr_red;
+  }
   [type='radio']:checked + span:after {
     background-color: $wagerr_red;
     border: 2px solid $wagerr_red;
@@ -218,5 +224,6 @@ export default {
     border-right: 2px solid $wagerr_red;
     border-bottom: 2px solid $wagerr_red;
   }
+  #oddschoiceform p {display:inline-block;padding:0 10px;}
 }
 </style>
