@@ -195,12 +195,22 @@ app.on('ready', async () => {
   }
 });
 
+// Catch the 'window-all-closed' event and (right now) do nothing with it. If
+// you do not subscribe to this event and all windows are closed, the default
+// behavior is to quit the app. We want finer grained control of when the app
+// is quit, because sometimes we just want to restart the app (like after
+// encrypting etc.).
+// https://electronjs.org/docs/api/app#event-window-all-closed
+app.on('window-all-closed', event => {
+  logger.info('All windows have been closed');
+});
+
 app.on('before-quit', async () => {
   logger.info('Preparing to close all windows');
 });
 
 app.on('will-quit', async () => {
-  logger.info('All windows have been closed and the application will quit');
+  logger.info('Application will quit');
 
   if (process.platform === 'darwin' && !forcelyQuit) {
     await daemon.stop();
