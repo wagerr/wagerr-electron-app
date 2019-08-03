@@ -197,13 +197,13 @@ export default {
 }
 
 .no-transactions .fa-list-alt {
-  color: $wagerr_dark_red;
+  color: $wagerr-red-dark;
   font-size: 10em;
 }
 
 .invalid {
   font-size: 1.1em;
-  color: $wagerr_dark_red;
+  color: $wagerr-red-dark;
 }
 
 tbody tr {
@@ -216,7 +216,7 @@ tbody tr {
 }
 
 .confirmation-conflicted .tooltipped {
-  color: $wagerr_red;
+  color: $wagerr-red;
 }
 
 .confirmation-success .tooltipped {
@@ -228,14 +228,14 @@ tbody tr {
 }
 
 .transaction-list-link {
-  color: $dark_grey;
+  color: $gray-900;
   cursor: pointer;
   font-size: 1.5em;
   padding: 17px;
 }
 
 .transaction-list-link:hover {
-  color: $wagerr_dark_red;
+  color: $wagerr-red-dark;
   cursor: pointer;
 }
 </style>

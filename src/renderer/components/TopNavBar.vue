@@ -152,7 +152,7 @@ export default {
 @import '../assets/scss/_variables';
 
 .dropdown-content {
-  background-color: $dark_grey;
+  background-color: $gray-900;
 }
 
 .dropdown-content li a {
@@ -160,7 +160,7 @@ export default {
 }
 
 .dropdown-content li a i {
-  color: $wagerr_red;
+  color: $wagerr-red;
   font-size: 1.3em;
 }
 

@@ -468,9 +468,9 @@ export default {
 }
 
 .event-tournament {
-  background-color: $dark_grey;
+  background-color: $gray-900;
   border-bottom-width: 1px;
-  border-bottom-color: $light_grey;
+  border-bottom-color: $gray-300;
   border-bottom-style: solid;
   color: #eeeeee;
   font-weight: bold;
@@ -482,7 +482,7 @@ export default {
 }
 
 .event-details div {
-  background-color: $dark_grey;
+  background-color: $gray-900;
   color: $white;
   font-size: 12px;
   padding: 0px 5px 0px 5px;
@@ -556,7 +556,7 @@ export default {
 
 .fa-calendar-times {
   font-size: 150px;
-  color: $wagerr_dark_red;
+  color: $wagerr-red-dark;
   margin-bottom: 29%;
 }
 

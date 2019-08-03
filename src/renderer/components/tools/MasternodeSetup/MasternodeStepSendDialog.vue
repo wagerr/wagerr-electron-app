@@ -251,7 +251,7 @@ export default {
   width: 100%;
   display: flex;
   label {
-    color: $wagerr_red !important;
+    color: $wagerr-red !important;
   }
   input {
     color: $black !important;

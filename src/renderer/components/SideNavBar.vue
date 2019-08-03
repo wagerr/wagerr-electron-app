@@ -348,7 +348,7 @@ nav {
   left: 0px;
   width: 160px;
   height: 100%;
-  background-color: $dark_grey;
+  background-color: $gray-900;
   padding-top: 60px;
   z-index: 1;
 }
@@ -378,7 +378,7 @@ nav ul li span {
 }
 
 nav ul li i {
-  color: $wagerr_red;
+  color: $wagerr-red;
   font-size: 20px;
   vertical-align: middle;
   width: 30px;

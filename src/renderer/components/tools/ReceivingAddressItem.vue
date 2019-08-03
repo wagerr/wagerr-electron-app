@@ -115,7 +115,7 @@ div.editing {
 }
 .info-row td div.editing i.icon-cross-circle.active:hover {
   visibility: visible;
-  color: $wagerr_dark_red;
+  color: $wagerr-red-dark;
   font-weight: bold;
 }
 .info-row td {
@@ -132,14 +132,14 @@ button.destroy.active {
   visibility: visible;
   right: 10px;
   margin: auto 0;
-  background-color: #wagerr_red;
+  background-color: $wagerr-red;
   border: 1px solid;
   border-radius: 3px;
   color: $white;
 }
 button.destroy:hover {
   color: $white;
-  background-color: $wagerr_dark_red;
+  background-color: $wagerr-red-dark;
   transition: color 0.2s ease-out;
 }
 button.destroy:after {
@@ -152,14 +152,16 @@ button.update {
   right: 10px;
   margin: auto 0;
   color: $white;
-  background-color: $wagerr_red;
+  background-color: $wagerr-red;
   border: 1px solid;
   border-radius: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
 }
 button.update:hover {
   color: $white;
   transition: color 0.2s ease-out;
-  background-color: $wagerr_dark_red;
+  background-color: $wagerr-red-dark;
 }
 button.update:after {
   content: 'update';
@@ -171,7 +173,7 @@ input:not([type]) {
   display: inline-block;
   width: 55%;
   margin: 0px;
-  color: $wagerr_dark_red;
+  color: $wagerr-red-dark;
   border-bottom: 1px solid #a62626;
   height: 1.5rem;
   -webkit-box-shadow: 0 1px 0 0 #26a69a;

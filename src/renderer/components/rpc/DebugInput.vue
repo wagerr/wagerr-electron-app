@@ -143,7 +143,7 @@ body.lightbox .debug-container {
   z-index: 999;
   overflow: hidden;
   background-color: $white;
-  color: $dark_grey;
+  color: $gray-900;
   border-radius: 3px;
   //   margin-left: 35px;
   //   margin-right: 35px;
@@ -163,18 +163,18 @@ body.lightbox .debug-container {
         font-weight: 600;
       }
       .content {
-        color: $dark_grey;
+        color: $gray-900;
         flex: auto;
         white-space: pre-wrap;
         min-height: 0px;
         font-weight: 600;
         span {
-          color: $dark_grey !important;
+          color: $gray-900 !important;
           font-weight: 600;
         }
       }
       .text-danger {
-        color: $wagerr_red;
+        color: $wagerr-red;
         font-weight: 600;
       }
     }
@@ -188,8 +188,8 @@ body.lightbox .debug-container {
     .command {
       height: 40px;
       line-height: 34px;
-      background: $light_grey;
-      color: $dark_grey;
+      background: $gray-300;
+      color: $gray-900;
       margin: 0;
       padding: 0 0 0 15px;
       border: none;
@@ -210,12 +210,12 @@ body.lightbox .debug-container {
       color: $white;
       text-align: center;
       cursor: pointer;
-      background-color: $wagerr_red;
+      background-color: $wagerr-red;
       font-weight: 600;
       height: 41px;
       letter-spacing: 0.5px;
       &:hover {
-        background-color: $wagerr_dark_red;
+        background-color: $wagerr-red-dark;
       }
     }
   }
@@ -227,7 +227,7 @@ body.lightbox .debug-container {
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
-  background-color: $wagerr_red;
+  background-color: $wagerr-red;
 
   height: 40px;
   width: 100%;
@@ -256,7 +256,7 @@ body.lightbox .debug-container {
     &:hover {
       cursor: pointer;
       i {
-        color: $wagerr_red;
+        color: $wagerr-red;
       }
     }
   }

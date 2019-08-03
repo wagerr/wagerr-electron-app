@@ -204,26 +204,31 @@ export default {
       }
     }
   }
-  .aligncenter {text-align:center;}
+  .aligncenter {
+    text-align: center;
+  }
 
   button {
     margin: 5px;
   }
   [type='radio'] + span {
-    padding-left:30px !important;
+    padding-left: 30px !important;
   }
   [type='radio']:checked + span {
-    color: $wagerr_red;
+    color: $wagerr-red;
   }
   [type='radio']:checked + span:after {
-    background-color: $wagerr_red;
-    border: 2px solid $wagerr_red;
+    background-color: $wagerr-red;
+    border: 2px solid $wagerr-red;
   }
 
   [type='checkbox']:checked + span:not(.lever):before {
-    border-right: 2px solid $wagerr_red;
-    border-bottom: 2px solid $wagerr_red;
+    border-right: 2px solid $wagerr-red;
+    border-bottom: 2px solid $wagerr-red;
   }
-  #oddschoiceform p {display:inline-block;padding:0 10px;}
+  #oddschoiceform p {
+    display: inline-block;
+    padding: 0 10px;
+  }
 }
 </style>

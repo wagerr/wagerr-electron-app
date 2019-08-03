@@ -52,14 +52,14 @@
                     class="btn-small black darken-4 add-btn"
                     @click="addNewSendingAddress"
                   >
-                    <i class="material-icons">&plus;</i>
+                    <i class="material-icons">&#43;</i>
                   </a>
                   <a
                     v-if="addingNewSendingAddress === true"
                     class="btn-small black darken-4 add-btn"
                     @click="removeNewSendingAddress"
                   >
-                    <i class="material-icons">&dash;</i>
+                    <i class="material-icons">&#45;</i>
                   </a>
                 </tr>
               </thead>
@@ -212,24 +212,27 @@ export default {
 }
 
 #newSendingAddress {
-  width:calc(100% - 100px);
-  margin-right:15px;
+  width: calc(100% - 100px);
+  margin-right: 15px;
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
   box-sizing: content-box;
 }
-.sendingbar a {width:50px;}
-.sendingbar a i {font-size:28px !important;}
+.sendingbar a {
+  width: 50px;
+}
+.sendingbar a i {
+  font-size: 28px !important;
+}
 
 #newSendingAddressLabel {
-  
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
   box-sizing: content-box;
 }
 
 input:not([type]):focus {
-  color: $wagerr_dark_red;
+  color: $wagerr-red-dark;
   border-bottom: 1px solid #a62626;
   -webkit-box-shadow: 0 1px 0 0 #26a69a;
   box-shadow: 0 1px 0 0 #a62626;
