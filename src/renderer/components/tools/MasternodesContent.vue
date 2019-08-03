@@ -110,14 +110,18 @@ import ipcRenderer from '../../../common/ipc/ipcRenderer';
 import masternode_rpc from '@/services/api/masternode_rpc';
 import {
   getCoinMasternodeConfPath,
-  rpcPort
+  testnet
 } from '../../../main/blockchain/blockchain';
-
+import {
+  testnetParams,
+  mainnetParams
+} from '../../../main/constants/constants';
 import _ from 'lodash';
 import { shell } from 'electron';
 
 export default {
   name: 'MasternodesContent',
+
   components: {
     MasternodeStepSendDialog,
     MasternodeStepAliasDialog,
@@ -126,9 +130,11 @@ export default {
     MasternodeStepOutputDialog,
     MasternodeStepSixDialog
   },
+
   data() {
     return {
       ip: '',
+      port: '',
       alias: '',
       privateKey: '',
       outputSelection: null,
@@ -141,7 +147,131 @@ export default {
       configOutputs: []
     };
   },
+
+  methods: {
+    onOpenConfig() {
+      let masternodeConfigPath = getCoinMasternodeConfPath();
+      shell.openItem(masternodeConfigPath);
+    },
+
+    onStartSetup() {
+      this.showStepSend = true;
+    },
+
+    onStepSendFinish() {
+      this.showStepSend = false;
+      this.showStepAlias = true;
+    },
+
+    onStepAliasBack() {
+      this.showStepSend = true;
+      this.showStepAlias = false;
+    },
+
+    onStepAliasFinish() {
+      if (!this.alias || this.alias.length === 0) {
+        this.$message.error('Alias can not be empty');
+        return;
+      }
+      if (!_.find(this.configOutputs, { alias: this.alias })) {
+        this.showStepAlias = false;
+        this.showStepIp = true;
+      } else {
+        this.$message.error('Alias already exist');
+      }
+    },
+
+    onStepIpBack() {
+      this.showStepIp = false;
+      this.showStepAlias = true;
+    },
+
+    onStepIpFinish() {
+      if (!this.ip || this.ip.length === 0) {
+        this.$message.error('Ip can not be empty');
+        return;
+      }
+      if (!_.find(this.configOutputs, { ip: `${this.ip}:${this.port}` })) {
+        this.showStepIp = false;
+        this.showStepPrivateKey = true;
+      } else {
+        this.$message.error('Ip already exist');
+      }
+      console.log('alias is:', this.alias, 'ip is:', this.ip);
+    },
+
+    onStepPrivateKeyBack() {
+      this.showStepPrivateKey = false;
+      this.showStepIp = true;
+    },
+
+    onStepPrivateKeyFinish() {
+      if (!this.privateKey || this.privateKey.length === 0) {
+        this.$message.error('PrivateKey can not be empty');
+        return;
+      }
+      if (!_.find(this.configOutputs, { pubkey: this.privateKey })) {
+        this.showStepPrivateKey = false;
+        this.showStepOutput = true;
+      } else {
+        this.$message.error('PrivateKey already exist');
+      }
+    },
+
+    onStepOutputBack() {
+      this.showStepOutput = false;
+      this.showStepPrivateKey = true;
+    },
+
+    async onStepOutputFinish() {
+      console.log(this.outputSelection);
+      if (!this.outputSelection) {
+        this.$message.error('Output can not be empty');
+        return;
+      }
+      if (
+        _.find(this.configOutputs, {
+          txhash: this.outputSelection.txhash
+        })
+      ) {
+        this.$message.error('Output already exist');
+        return;
+      }
+      try {
+        await masternode_rpc.createMasternode({
+          alias: this.alias,
+          ipAddress: this.ip,
+          port: this.port,
+          privateKey: this.privateKey,
+          masternodeOutputs: this.outputSelection.txhash,
+          masternodeOutputIndex: this.outputSelection.outputidx
+        });
+        this.showStepOutput = false;
+        this.showStepSix = true;
+      } catch (e) {
+        this.$message.error(e.message);
+      }
+    },
+
+    onStepSixBack() {
+      this.showStepSix = false;
+      this.showStepOutput = true;
+    },
+
+    onStepSixFinish() {
+      this.ip = '';
+      this.alias = '';
+      this.privateKey = '';
+      this.outputSelection = null;
+    }
+  },
+
   async mounted() {
+    // Set default masternode port.
+    this.port = testnet
+      ? testnetParams.DEFAULT_PORT
+      : mainnetParams.DEFAULT_PORT;
+
     let mnConfig = await masternode_rpc.getMasternodeConfigSync();
     if (!mnConfig) return false;
 
@@ -164,111 +294,6 @@ export default {
         this.configOutputs.push(entry);
       });
     console.log('mounted', this.configOutputs);
-  },
-  methods: {
-    onOpenConfig() {
-      let masternodeConfigPath = getCoinMasternodeConfPath();
-      shell.openItem(masternodeConfigPath);
-    },
-    onStartSetup() {
-      this.showStepSend = true;
-    },
-    onStepSendFinish() {
-      this.showStepSend = false;
-      this.showStepAlias = true;
-    },
-    onStepAliasBack() {
-      this.showStepSend = true;
-      this.showStepAlias = false;
-    },
-    onStepAliasFinish() {
-      if (!this.alias || this.alias.length === 0) {
-        this.$message.error('Alias can not be empty');
-        return;
-      }
-      if (!_.find(this.configOutputs, { alias: this.alias })) {
-        this.showStepAlias = false;
-        this.showStepIp = true;
-      } else {
-        this.$message.error('Alias already exist');
-      }
-    },
-    onStepIpBack() {
-      this.showStepIp = false;
-      this.showStepAlias = true;
-    },
-    onStepIpFinish() {
-      if (!this.ip || this.ip.length === 0) {
-        this.$message.error('Ip can not be empty');
-        return;
-      }
-      if (!_.find(this.configOutputs, { ip: `${this.ip}:${rpcPort}` })) {
-        this.showStepIp = false;
-        this.showStepPrivateKey = true;
-      } else {
-        this.$message.error('Ip already exist');
-      }
-      console.log('alias is:', this.alias, 'ip is:', this.ip);
-    },
-    onStepPrivateKeyBack() {
-      this.showStepPrivateKey = false;
-      this.showStepIp = true;
-    },
-    onStepPrivateKeyFinish() {
-      if (!this.privateKey || this.privateKey.length === 0) {
-        this.$message.error('PrivateKey can not be empty');
-        return;
-      }
-      if (!_.find(this.configOutputs, { pubkey: this.privateKey })) {
-        this.showStepPrivateKey = false;
-        this.showStepOutput = true;
-      } else {
-        this.$message.error('PrivateKey already exist');
-      }
-    },
-    onStepOutputBack() {
-      this.showStepOutput = false;
-      this.showStepPrivateKey = true;
-    },
-    async onStepOutputFinish() {
-      console.log(this.outputSelection);
-      if (!this.outputSelection) {
-        this.$message.error('Output can not be empty');
-        return;
-      }
-      if (
-        _.find(this.configOutputs, {
-          txhash: this.outputSelection.txhash
-        })
-      ) {
-        this.$message.error('Output already exist');
-        return;
-      }
-      try {
-        await masternode_rpc.createMasternode({
-          alias: this.alias,
-          ipAddress: this.ip,
-          port: rpcPort,
-          privateKey: this.privateKey,
-          masternodeOutputs: this.outputSelection.txhash,
-          masternodeOutputIndex: this.outputSelection.outputidx
-        });
-        this.showStepOutput = false;
-        this.showStepSix = true;
-      } catch (e) {
-        this.$message.error(e.message);
-      }
-    },
-    onStepSixBack() {
-      this.showStepSix = false;
-      this.showStepOutput = true;
-    },
-    onStepSixFinish() {
-      this.ip = '';
-      this.alias = '';
-      this.privateKey = '';
-      this.outputSelection = null;
-    }
   }
 };
 </script>
