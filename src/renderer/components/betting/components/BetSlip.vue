@@ -283,7 +283,7 @@ export default {
 @import '../../../assets/scss/_variables.scss';
 
 .bet-warning {
-  background: $dark_grey;
+  background: $gray-900;
   border-radius: 5px;
   color: $white;
   font-size: 12px;

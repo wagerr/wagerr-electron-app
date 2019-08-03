@@ -328,18 +328,18 @@ export default {
 @import '../../assets/scss/_variables';
 
 .tabs {
-	background-color:transparent;
+  background-color: transparent;
 }
 
 .tabs .tab {
-	background-color:transparent;
-  padding:0 5px;
+  background-color: transparent;
+  padding: 0 5px;
 }
 
 .tabs .tab a {
-	color: $white;
+  color: $white;
   display: block;
-  background: $wagerr_red;
+  background: $wagerr-red;
   text-align: center;
   line-height: 24px;
   font-size: 18px;
@@ -352,37 +352,38 @@ export default {
   font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
-  height:auto;
+  height: auto;
 }
 
-.tabs .tab a:hover, .tabs .tab a.active {
-	background: $wagerr_dark_red;
+.tabs .tab a:hover,
+.tabs .tab a.active {
+  background: $wagerr-red-dark;
 }
 
 #sign-verify-message .tabs .indicator {
-  border-bottom: 1px solid $wagerr_red;
+  border-bottom: 1px solid $wagerr-red;
   background-color: transparent;
-  display:none !important;
+  display: none !important;
 }
 
 .input-field input {
-  color: $dark_grey;
+  color: $gray-900;
 }
 
 .input-field input:focus {
-  color: $dark_grey !important;
+  color: $gray-900 !important;
 }
 
 .input-field input::placeholder {
-  color: $dark_grey;
+  color: $gray-900;
 }
 
 .input-field input[readonly='readonly'] {
-  color: $dark_grey;
+  color: $gray-900;
 }
 
 .input-field label {
-  color: $wagerr_red;
+  color: $wagerr-red;
 }
 
 .options {
@@ -393,7 +394,7 @@ export default {
   margin-bottom: 20px;
   text-align: center;
   button {
-    background-color: $wagerr_red;
+    background-color: $wagerr-red;
     &::active {
       width: 150px;
     }

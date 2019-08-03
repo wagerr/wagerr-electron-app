@@ -1,14 +1,13 @@
-// Import scss files so we can use here...
-@import 'fonts.scss';
-@import '../css/icons.css';
-@import 'variables.scss';
+// Configuration
+@import 'variables';
 
-html {
-}
+// Fonts & Icons
+@import 'fonts';
+@import '../css/icons';
 
 body {
-  padding: 0;
-  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  font-family: 'Open Sans', 'Arial', sans-serif;
   &.lightbox {
     .wrapper .nav {
       height: 0;
@@ -36,7 +35,7 @@ body {
 }
 
 .wrapper {
-  background-color: $light_grey;
+  background-color: $gray-300;
   .nav {
     height: 90px;
   }
@@ -50,7 +49,7 @@ body {
 .but {
   color: $white;
   display: block;
-  background: $wagerr_red;
+  background: $wagerr-red;
   text-align: center;
   line-height: 24px;
   font-size: 18px;
@@ -65,12 +64,12 @@ body {
   text-transform: uppercase;
   &:hover,
   &:focus {
-    background: $wagerr_dark_red;
+    background: $wagerr-red-dark;
   }
 }
 .btn {
   color: $white;
-  background: $wagerr_red;
+  background: $wagerr-red;
   font-family: 'Montserrat';
   font-weight: 600;
   letter-spacing: 1px;
@@ -79,26 +78,26 @@ body {
   &:hover,
   &:focus,
   &.active {
-    background: $wagerr_dark_red;
+    background: $wagerr-red-dark;
     box-shadow: inherit;
   }
 }
 .btn-medium {
   color: $white;
-  background: $wagerr_red;
+  background: $wagerr-red;
   font-family: 'Montserrat';
   font-weight: 700;
   letter-spacing: 1px;
   transition: none;
   &:hover,
   &:focus {
-    background: $wagerr_dark_red !important;
+    background: $wagerr-red-dark !important;
     box-shadow: inherit;
   }
 }
 .btn-large {
   color: $white;
-  background: $wagerr_red;
+  background: $wagerr-red;
   font-family: 'Montserrat';
   font-weight: 700;
   letter-spacing: 1px;
@@ -107,7 +106,7 @@ body {
   &:hover,
   &:focus,
   &.active {
-    background: $wagerr_dark_red !important;
+    background: $wagerr-red-dark !important;
     box-shadow: inherit;
   }
 }
@@ -116,7 +115,7 @@ h4 {
   font-weight: 700;
   font-family: 'Montserrat';
   font-size: 28px;
-  color: $dark_grey;
+  color: $gray-900;
   margin-bottom: 25px;
   line-height: 30px;
   & + p {
@@ -145,7 +144,7 @@ header {
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
-  background-color: $wagerr_red;
+  background-color: $wagerr-red;
 
   .wagerr-logo {
     height: 50px;
@@ -163,7 +162,7 @@ header {
     margin: 17px 25px 0 0;
 
     #wagerr-total-balance {
-      background-color: $halfblack;
+      background-color: $bg-gradient-black-half;
       display: inline-block;
       padding: 10px 15px;
       font-weight: 600;
@@ -171,7 +170,7 @@ header {
       font-size: 16px;
       letter-spacing: 0.3px;
       h6 {
-        color: $wagerr_red;
+        color: $wagerr-red;
         font-size: 11px;
         text-align: center;
         letter-spacing: 0.3px;
@@ -203,7 +202,7 @@ header {
       position: relative;
       width: 110px;
       &:hover {
-        background-color: $quarterblack;
+        background-color: $bg-gradient-black-quarter;
         i {
           filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.3));
         }
@@ -212,7 +211,7 @@ header {
         }
       }
       &.router-link-active {
-        background-color: $halfblack;
+        background-color: $bg-gradient-black-half;
       }
       i {
         cursor: pointer;
@@ -293,11 +292,11 @@ header {
             font-size: 13px;
             padding: 8px 16px;
             &:hover {
-              background-color: $halfblack;
+              background-color: $bg-gradient-black-half;
             }
             i {
               margin: 0 8px 0 0 !important;
-              color: $wagerr_red;
+              color: $wagerr-red;
               font-weight: 600;
             }
           }
@@ -372,12 +371,12 @@ header {
             text-transform: none;
             display: block;
             &:hover {
-              background-color: $wagerr_red;
+              background-color: $wagerr-red;
             }
           }
           &.router-link-active {
             a {
-              background-color: $wagerr_red;
+              background-color: $wagerr-red;
             }
           }
         }
@@ -402,7 +401,7 @@ header {
             display: inline-block;
             text-align: center;
             height: auto;
-            color: $grey;
+            color: $gray-600;
             font-size: 18px;
             &.icon-chevron-down {
               font-size: 14px;
@@ -425,10 +424,10 @@ header {
         &.open,
         &.on {
           background-color: $black;
-          border-left: 3px solid $brightred;
+          border-left: 3px solid $wagerr-red-light;
           cursor: pointer;
           i {
-            color: $brightred;
+            color: $wagerr-red-light;
           }
         }
         &.open {
@@ -447,11 +446,11 @@ header {
             span {
               font-size: 13px;
               font-weight: 600;
-              color: $grey;
+              color: $gray-600;
             }
             &:hover {
               span {
-                color: $brightred;
+                color: $wagerr-red-light;
               }
             }
           }
@@ -461,7 +460,7 @@ header {
     h5 {
       font-size: 11px;
       font-weight: 700;
-      color: $brightred;
+      color: $wagerr-red-light;
       text-transform: uppercase;
       padding-left: 50px;
       letter-spacing: 1px;
@@ -484,7 +483,7 @@ header {
     font-weight: 700;
     font-family: 'Montserrat';
     font-size: 28px;
-    color: $dark_grey;
+    color: $gray-900;
     margin-bottom: 25px;
     line-height: 30px;
   }
@@ -497,7 +496,7 @@ header {
       margin-bottom: 15px;
       overflow: hidden;
       .event-tournament {
-        background: $wagerr_red;
+        background: $wagerr-red;
         color: $white;
         border: none;
         font-family: 'Montserrat';
@@ -514,16 +513,16 @@ header {
       }
       .event-details {
         > div:first-child {
-          background-color: $wagerr_dark_red;
+          background-color: $wagerr-red-dark;
           height: 28px;
         }
         .event-headers {
-          background-color: $wagerr_dark_red;
+          background-color: $wagerr-red-dark;
           margin: 0;
           padding: 0;
           .event-header {
             background-color: transparent;
-            background-color: $wagerr_dark_red;
+            background-color: $wagerr-red-dark;
             font-family: 'Montserrat';
             font-size: 11px;
             line-height: 20px;
@@ -550,7 +549,7 @@ header {
               font-size: 16px;
               line-height: 20px;
               font-weight: 700;
-              color: $dark_grey;
+              color: $gray-900;
               height: 50px;
               margin: 0;
               display: table-cell;
@@ -617,8 +616,8 @@ header {
               letter-spacing: 0.5px;
               &:hover {
                 color: $white;
-                border: 1px solid $wagerr_dark_red;
-                background: $brightred;
+                border: 1px solid $wagerr-red-dark;
+                background: $wagerr-red-light;
                 box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2),
                   inset 0 0 0 1px rgba(255, 255, 255, 0.2);
                 &::before {
@@ -629,7 +628,7 @@ header {
                 }
               }
               &:active {
-                background: $wagerr_dark_red;
+                background: $wagerr-red-dark;
               }
               &::before {
                 content: '';
@@ -699,7 +698,7 @@ header {
       margin-bottom: 0;
       margin-top: 0;
       line-height: 30px;
-      background: $dark_grey;
+      background: $gray-900;
       color: $white;
       border: none;
       font-family: 'Montserrat';
@@ -713,7 +712,7 @@ header {
       letter-spacing: 1px;
       position: relative;
       button {
-        background: $wagerr_red;
+        background: $wagerr-red;
         color: $white;
         height: 24px;
         line-height: 24px;
@@ -725,7 +724,7 @@ header {
         font-weight: 700;
         padding: 0 10px;
         &:hover {
-          background: $wagerr_dark_red;
+          background: $wagerr-red-dark;
         }
       }
     }
@@ -738,17 +737,17 @@ header {
         padding: 0;
         li.card {
           background: transparent;
-          color: $dark_grey;
+          color: $gray-900;
           padding: 0 0 10px;
           box-shadow: none;
-          border: 2px solid $wagerr_red;
+          border: 2px solid $wagerr-red;
           margin: 0 0 15px;
           .bet-details {
             padding: 0;
             position: relative;
             .bet-slip-pair {
               color: $white;
-              background: $wagerr_red;
+              background: $wagerr-red;
               font-family: 'Montserrat';
               font-weight: 700;
               text-align: left;
@@ -765,11 +764,11 @@ header {
               width: 30px;
               height: 30px;
               display: block;
-              background: $wagerr_red;
+              background: $wagerr-red;
               text-align: center;
               line-height: 30px;
               &:hover {
-                background: $wagerr_dark_red;
+                background: $wagerr-red-dark;
               }
               i {
                 font-weight: 700;
@@ -778,13 +777,13 @@ header {
               }
             }
             .selection {
-              color: $dark_grey;
+              color: $gray-900;
               font-weight: 700;
               padding: 15px 10px 10px;
               font-size: 16px;
               line-height: 22px;
               font-family: 'Montserrat';
-              color: $wagerr_red;
+              color: $wagerr-red;
               h6 {
                 color: #aaa;
                 font-size: 9px;
@@ -815,11 +814,11 @@ header {
                 padding: 4px 0;
                 border-radius: 4px;
                 letter-spacing: 1px;
-                color: $dark_grey;
+                color: $gray-900;
               }
             }
             .bet-stake-container {
-              color: $dark_grey;
+              color: $gray-900;
               padding: 0;
               display: flex;
               justify-content: center;
@@ -832,7 +831,7 @@ header {
                   left: 0;
                   top: 0;
                   position: absolute;
-                  color: $dark_grey;
+                  color: $gray-900;
                   font-size: 14px;
                   font-family: 'Open Sans';
                   font-weight: 600;
@@ -840,7 +839,7 @@ header {
                   width: 100%;
                 }
                 input {
-                  color: $dark_grey;
+                  color: $gray-900;
                   font-family: 'Open Sans';
                   font-size: 18px;
                   font-weight: 700;
@@ -849,7 +848,7 @@ header {
                   background: #eee;
                   margin-bottom: 0;
                   height: 33px;
-                  box-shadow: 0 1px 0 0 $grey;
+                  box-shadow: 0 1px 0 0 $gray-600;
                   &::-webkit-input-placeholder {
                     /* Chrome/Opera/Safari */
                     font-size: 13px;
@@ -884,13 +883,13 @@ header {
               }
             }
             .bet-returns {
-              color: $dark_grey;
+              color: $gray-900;
               padding: 5px 10px;
               .potential-returns-headline {
                 float: none;
                 text-align: center;
                 display: block;
-                color: $dark_grey;
+                color: $gray-900;
                 font-size: 13px;
                 font-family: 'Open Sans';
                 font-weight: 700;
@@ -900,7 +899,7 @@ header {
                 float: none;
                 text-align: center;
                 display: block;
-                color: $wagerr_red;
+                color: $wagerr-red;
                 font-size: 12px;
                 font-family: 'Open Sans';
                 font-weight: 700;
@@ -922,7 +921,7 @@ header {
       top: 110px;
       .wallet-balance {
         width: 100%;
-        color: $wagerr_red;
+        color: $wagerr-red;
         margin-left: auto;
         margin-right: auto;
         margin-bottom: 0;
@@ -939,7 +938,7 @@ header {
           font-family: 'Montserrat';
           font-weight: 700;
           font-size: 24px;
-          color: $wagerr_red;
+          color: $wagerr-red;
           letter-spacing: 2px;
           text-align: center;
           text-transform: uppercase;
@@ -958,7 +957,7 @@ header {
           padding-top: 30px;
           padding-bottom: 10px;
           div {
-            color: $light_grey;
+            color: $gray-300;
             font-size: 14px;
             font-weight: 500;
             line-height: 18px;
@@ -1019,7 +1018,7 @@ header {
   table-layout: auto;
   overflow: hidden;
   thead {
-    background: $wagerr_red;
+    background: $wagerr-red;
     border-radius: 0;
     tr {
       border-radius: 0;
@@ -1047,7 +1046,7 @@ header {
         background-color: #eee;
       }
       td {
-        color: $dark_grey;
+        color: $gray-900;
         text-align: left;
         font-family: 'Open Sans';
         font-weight: 600;
@@ -1074,7 +1073,7 @@ header {
   text-align: center;
   display: block;
   padding: 20px 0;
-  border-top: 34px solid $wagerr_red;
+  border-top: 34px solid $wagerr-red;
   margin-top: 8px;
   font-size: 12px;
   font-weight: 600;
@@ -1092,7 +1091,7 @@ header {
     font-weight: 700;
     font-family: 'Montserrat';
     font-size: 28px;
-    color: $dark_grey;
+    color: $gray-900;
     margin-bottom: 25px;
     line-height: 30px;
   }
@@ -1132,7 +1131,7 @@ header {
 
   .line {
     position: absolute;
-    background: $wagerr_red;
+    background: $wagerr-red;
     width: 100%;
     height: 4px;
   }
@@ -1179,7 +1178,7 @@ header {
     margin-top: 20px;
     div {
       a {
-        color: $wagerr_red;
+        color: $wagerr-red;
         font-weight: bold;
         font-size: 18px;
         line-height: 32px;
@@ -1197,7 +1196,7 @@ header {
     padding-top: 0;
     .cg-lotto-info {
       width: 100%;
-      color: $wagerr_red;
+      color: $wagerr-red;
       margin-left: auto;
       margin-right: auto;
       margin-bottom: 40px;
@@ -1214,7 +1213,7 @@ header {
         right: 20px;
         margin: 0;
         font-size: 24px;
-        color: $wagerr_red;
+        color: $wagerr-red;
         cursor: pointer;
         font-weight: 500;
       }
@@ -1224,7 +1223,7 @@ header {
         font-family: 'Montserrat';
         font-weight: 700;
         font-size: 20px;
-        color: $wagerr_red;
+        color: $wagerr-red;
         letter-spacing: 2px;
         text-align: center;
         text-transform: uppercase;
@@ -1247,7 +1246,7 @@ header {
         letter-spacing: 1px;
         h6 {
           font-size: 14px;
-          color: $grey;
+          color: $gray-600;
           letter-spacing: 1px;
           font-weight: 600;
         }
@@ -1261,7 +1260,7 @@ header {
         letter-spacing: 1px;
         text-align: center;
         h3 {
-          color: $wagerr_red;
+          color: $wagerr-red;
           font-weight: 700;
           font-size: 15px;
           margin: 0;
@@ -1285,7 +1284,7 @@ header {
             font-family: 'Montserrat';
             font-weight: 700;
             font-size: 14px;
-            color: $wagerr_red;
+            color: $wagerr-red;
             margin-top: 5px;
             margin-bottom: 10px;
           }
@@ -1297,7 +1296,7 @@ header {
             .currency {
               font-size: 13px;
               display: block;
-              color: $grey;
+              color: $gray-600;
             }
           }
           &:not(:last-child) {
@@ -1381,12 +1380,12 @@ header {
             text-transform: none;
             display: block;
             &:hover {
-              background-color: $wagerr_red;
+              background-color: $wagerr-red;
             }
           }
           &.router-link-active {
             a {
-              background-color: $wagerr_red;
+              background-color: $wagerr-red;
             }
           }
         }
@@ -1395,7 +1394,7 @@ header {
     h5 {
       font-size: 11px;
       font-weight: 700;
-      color: $brightred;
+      color: $wagerr-red-light;
       text-transform: uppercase;
       padding-left: 50px;
       letter-spacing: 1px;
@@ -1446,14 +1445,14 @@ header {
   }
 
   .fa-check-circle {
-    color: $success-green;
+    color: $success;
     font-size: 20px;
     margin-top: -10px;
     top: 2px;
     position: relative;
   }
   .fa-times-circle {
-    color: $wagerr_dark_red;
+    color: $wagerr-red-dark;
     font-size: 20px;
     margin-top: -10px;
     top: 2px;
@@ -1498,7 +1497,7 @@ header {
   background-size: cover;
   &.modal-info {
     h4 {
-      color: $wagerr_red;
+      color: $wagerr-red;
       text-align: center;
       padding: 20px 0 10px;
       margin: 0;
@@ -1553,7 +1552,7 @@ header {
     }
 
     .address-label {
-      color: $wagerr_red;
+      color: $wagerr-red;
       font-size: 18px;
       line-height: 24px;
       font-weight: 700px;
@@ -1576,7 +1575,7 @@ header {
       margin-bottom: 20px;
       text-align: center;
       button {
-        background-color: $wagerr_red;
+        background-color: $wagerr-red;
         &::active {
           width: 150px;
         }
@@ -1586,7 +1585,7 @@ header {
 }
 
 .cost {
-  color: $grey;
+  color: $gray-600;
   display: block;
   font-size: 12px;
   font-style: italic;
@@ -1596,18 +1595,18 @@ header {
 
 body.lightbox #app .command .el-input input.el-input__inner {
   height: 40px !important;
-  color: $dark_grey;
+  color: $gray-900;
   font-size: 15px;
   font-weight: 500;
 }
 
 .transaction-link {
-  color: $dark_grey;
+  color: $gray-900;
   cursor: pointer;
 }
 
 .transaction-link:hover {
-  color: $wagerr_dark_red;
+  color: $wagerr-red-dark;
   cursor: pointer;
 }
 
@@ -1620,7 +1619,7 @@ body.lightbox #app .command .el-input input.el-input__inner {
 }
 
 .bet-slip-options button {
-  background-color: $wagerr_red;
+  background-color: $wagerr-red;
 }
 
 .bet-returns span {
@@ -1636,7 +1635,7 @@ body.lightbox #app .command .el-input input.el-input__inner {
 
 .clear-bet .icon-delete {
   font-weight: bold;
-  color: $wagerr_red;
+  color: $wagerr-red;
   font-size: 20px;
 }
 
@@ -1656,7 +1655,7 @@ body.lightbox #app .command .el-input input.el-input__inner {
 }
 
 .second-nav ul li button {
-  background-color: $wagerr_red;
+  background-color: $wagerr-red;
   border: none;
   color: white;
   font-weight: normal;
@@ -1668,23 +1667,23 @@ body.lightbox #app .command .el-input input.el-input__inner {
 }
 
 .router-link {
-  color: $wagerr_dark_red;
+  color: $wagerr-red-dark;
 }
 
 .btn:active {
-  background-color: $dark_grey;
+  background-color: $gray-900;
 }
 
 .second-nav ul li button:hover {
-  background-color: $wagerr_dark_red;
+  background-color: $wagerr-red-dark;
 }
 
 .second-nav ul li button:active {
-  background-color: $dark_grey;
+  background-color: $gray-900;
 }
 
 .second-nav ul li button:visited {
-  background-color: $dark_grey;
+  background-color: $gray-900;
 }
 
 .fade-enter-active,
@@ -1747,12 +1746,12 @@ body.lightbox #app .command .el-input input.el-input__inner {
   border-radius: 50%;
   border-style: solid;
   border-width: 0;
-  border-color: $wagerr_dark_red;
-  background-color: $wagerr_dark_red;
+  border-color: $wagerr-red-dark;
+  background-color: $wagerr-red-dark;
   color: $white;
   &:hover {
     border-color: $white;
-    background-color: $wagerr_red;
+    background-color: $wagerr-red;
   }
   i.far {
     color: $white;
@@ -1774,7 +1773,7 @@ body.lightbox #app .command .el-input input.el-input__inner {
 }
 .circle-icon-link {
   font-size: 1.5em;
-  color: $wagerr_red;
+  color: $wagerr-red;
   i.far {
     font-size: 1.2em;
     border-radius: 60px;
@@ -1855,17 +1854,17 @@ body.lightbox #app .command .el-input input.el-input__inner {
 }
 
 .modal-header h4 {
-  color: $wagerr_red;
+  color: $wagerr-red;
 }
 
 .team-font {
   font-size: 1.2em;
-  color: $dark_grey;
+  color: $gray-900;
 }
 
 // Styling the error toast popups
 .toast-error {
-  color: $wagerr_red;
+  color: $wagerr-red;
   background-color: #f2dede;
   border-color: #ebccd1;
 }
@@ -1888,11 +1887,11 @@ body.lightbox #app .command .el-input input.el-input__inner {
 }
 
 .form-error {
-  color: $wagerr_red;
+  color: $wagerr-red;
 }
 
 .wagerr-red {
-  color: $wagerr_red;
+  color: $wagerr-red;
 }
 
 .wagerr-white {
@@ -1900,11 +1899,11 @@ body.lightbox #app .command .el-input input.el-input__inner {
 }
 
 .wagerr-red-bg {
-  background-color: $wagerr_red;
+  background-color: $wagerr-red;
 }
 
 .wagerr-red-bg:hover {
-  background-color: $wagerr_red;
+  background-color: $wagerr-red;
 }
 
 .modal-content {
@@ -1914,7 +1913,7 @@ body.lightbox #app .command .el-input input.el-input__inner {
 }
 
 .modal .modal-header {
-  color: $wagerr_red;
+  color: $wagerr-red;
   padding-top: 20px;
   text-align: center;
 }
@@ -1936,13 +1935,13 @@ body.lightbox #app .command .el-input input.el-input__inner {
 }
 
 .input-field > .active {
-  color: $wagerr_red !important;
+  color: $wagerr-red !important;
 }
 
 .input-field .prefix {
   font-size: 20px !important;
   margin-top: 10px !important;
-  color: $wagerr_dark_red !important;
+  color: $wagerr-red-dark !important;
 }
 
 .input-field input {
@@ -1956,7 +1955,7 @@ body.lightbox #app .command .el-input input.el-input__inner {
 .input-field .prefix {
   font-size: 20px;
   margin-top: 10px;
-  color: $wagerr_dark_red;
+  color: $wagerr-red-dark;
 }
 
 .input-field label {
@@ -1980,15 +1979,15 @@ body.lightbox #app .command .el-input input.el-input__inner {
 .input-field input[type='search']:not(.browser-default):focus:not([readonly]),
 .input-field textarea.materialize-textarea:focus:not([readonly]) {
   color: white;
-  border-bottom: 1px solid $wagerr_red;
-  -webkit-box-shadow: 0 1px 0 0 $wagerr_red;
-  box-shadow: 0 1px 0 0 $wagerr_red;
+  border-bottom: 1px solid $wagerr-red;
+  -webkit-box-shadow: 0 1px 0 0 $wagerr-red;
+  box-shadow: 0 1px 0 0 $wagerr-red;
 }
 
 .input-field .prefix {
   font-size: 20px;
   margin-top: 10px;
-  color: $wagerr_dark_red;
+  color: $wagerr-red-dark;
 }
 
 /* Time loader animation */
@@ -2096,19 +2095,19 @@ body.lightbox #app .command .el-input input.el-input__inner {
 }
 
 .no-transactions .fa-list-alt {
-  color: $wagerr_dark_red;
+  color: $wagerr-red-dark;
   font-size: 10em;
 }
 
 .invalid {
   font-size: 1.1em;
-  color: $wagerr_dark_red;
+  color: $wagerr-red-dark;
 }
 
 #sign-verify-message .tabs .indicator {
-  border-bottom: 1px solid $wagerr_red;
+  border-bottom: 1px solid $wagerr-red;
   background-color: transparent;
-  display:none !important;
+  display: none !important;
 }
 
 tbody tr {
@@ -2121,7 +2120,7 @@ tbody tr {
 }
 
 .confirmation-conflicted {
-  color: $wagerr_red;
+  color: $wagerr-red;
 }
 
 .confirmation-success {
@@ -2133,13 +2132,13 @@ tbody tr {
 }
 
 .transaction-list-link {
-  color: $dark_grey;
+  color: $gray-900;
   cursor: pointer;
   font-size: 1.5em;
   padding: 17px;
 }
 
 .transaction-list-link:hover {
-  color: $wagerr_dark_red;
+  color: $wagerr-red-dark;
   cursor: pointer;
 }
