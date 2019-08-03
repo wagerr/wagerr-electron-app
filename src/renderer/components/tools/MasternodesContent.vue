@@ -41,60 +41,51 @@
       ready for starting.
     </p>
 
-    <el-row class="list-masternode">
-      <ul class="collection">
-        <li class="collection-item">
-          <span class="waves-effect waves-light red darken-4 btn"
-            >STEP ONE:</span
-          >
-          <span class="command">Send 25,000 Wagerr</span>
-        </li>
-        <li class="collection-item">
-          <span class="waves-effect waves-light red darken-4 btn"
-            >STEP TWO:</span
-          >
-          <span class="command">Name Masternode</span>
-        </li>
-        <li class="collection-item">
-          <span class="waves-effect waves-light red darken-4 btn"
-            >STEP THREE:</span
-          >
-          <span class="command">Enter IP Address</span>
-        </li>
-        <li class="collection-item">
-          <span class="waves-effect waves-light red darken-4 btn"
-            >STEP FOUR:</span
-          >
-          <span class="command">Generate Pairing Key</span>
-        </li>
-        <li class="collection-item">
-          <span class="waves-effect waves-light red darken-4 btn"
-            >STEP FIVE:</span
-          >
-          <span class="command">Choose Output</span>
-        </li>
-        <li class="collection-item">
-          <span class="waves-effect waves-light red darken-4 btn"
-            >STEP SIX:</span
-          >
-          <span class="command">Accept and Restart</span>
-        </li>
-      </ul>
-    </el-row>
-    <el-row class="button-container">
+    <div class="row button-container">
       <a
         class="waves-effect waves-light btn-large wagerr-red-bg pulse"
         :is-light="true"
         @click="onStartSetup"
-        >START SETUP</a
       >
+        START SETUP
+      </a>
       <a
         class="waves-effect waves-red wallet-action btn-large modal-trigger wagerr-red-bg z-depth-2"
         :is-light="true"
         @click="onOpenConfig"
-        >Masternode.conf</a
       >
-    </el-row>
+        Masternode.conf
+      </a>
+    </div>
+
+    <div class="row list-masternode">
+      <ul class="collection">
+        <li class="collection-item">
+          <span class="red darken-4 btn">STEP ONE:</span>
+          <span class="command">Send 25,000 Wagerr</span>
+        </li>
+        <li class="collection-item">
+          <span class="red darken-4 btn">STEP TWO:</span>
+          <span class="command">Name Masternode</span>
+        </li>
+        <li class="collection-item">
+          <span class="red darken-4 btn">STEP THREE:</span>
+          <span class="command">Enter IP Address</span>
+        </li>
+        <li class="collection-item">
+          <span class="red darken-4 btn">STEP FOUR:</span>
+          <span class="command">Generate Pairing Key</span>
+        </li>
+        <li class="collection-item">
+          <span class="red darken-4 btn">STEP FIVE:</span>
+          <span class="command">Choose Output</span>
+        </li>
+        <li class="collection-item">
+          <span class="red darken-4 btn">STEP SIX:</span>
+          <span class="command">Accept and Restart</span>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -301,9 +292,12 @@ export default {
 <style scoped lang="scss">
 @import '../../assets/scss/_variables.scss';
 
+.row {
+  margin-bottom: 0;
+}
+
 .list-masternode {
   li {
-    margin-bottom: 10px;
     .red {
       width: 180px;
       margin-right: 80px;
@@ -314,13 +308,20 @@ export default {
       color: black;
       padding-right: 20px;
     }
+    .btn {
+      cursor: auto;
+      box-shadow: none;
+    }
   }
 }
 
 .button-container {
   display: flex;
-  justify-content: space-around;
-  margin-top: 50px;
+  justify-content: center;
+
+  a {
+    margin: 5px;
+  }
 }
 .config-button {
   width: 180px;
