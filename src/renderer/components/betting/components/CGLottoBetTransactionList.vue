@@ -33,7 +33,10 @@
 
 <script>
 import Vuex from 'vuex';
-import constants from '../../../../main/constants/constants';
+import {
+  testnetParams,
+  mainnetParams
+} from '../../../../main/constants/constants';
 
 export default {
   name: 'CGLottoBetTransactionList',
@@ -55,8 +58,8 @@ export default {
       let shell = require('electron').shell;
       let explorerUrl =
         this.getNetworkType === 'Testnet'
-          ? constants.TESTNET_EXP_URL
-          : constants.MAINNET_EXP_URL;
+          ? testnetParams.BLOCK_EXPLORER_URL
+          : mainnetParams.BLOCK_EXPLORER_URL;
 
       shell.openExternal(explorerUrl + '/#/tx/' + txId);
     }

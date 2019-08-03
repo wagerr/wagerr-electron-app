@@ -108,7 +108,7 @@
 
 <script>
 import Vuex from 'vuex';
-import constants from '../../../../main/constants/constants';
+import { bettingParams } from '../../../../main/constants/constants';
 import wagerrRPC from '@/services/api/wagerrRPC';
 import moment from 'moment';
 
@@ -136,7 +136,7 @@ export default {
 
     // Calculate the potential winnings of a bet.
     calcPotentialWinnings: function(event, odds, index) {
-      odds = odds / constants.ODDS_DIVISOR;
+      odds = odds / bettingParams.ODDS_DIVISOR;
       let betFeePercent = 0.06;
       let betStake = event.target.value;
       let grossWinnings = odds * betStake;
@@ -152,8 +152,8 @@ export default {
       // If the bet stake is more than the available balance, disable the bet button and show a warning.
       if (
         this.balance < betStake ||
-        betStake < constants.MIN_BET_AMOUNT ||
-        betStake > constants.MAX_BET_AMOUNT
+        betStake < bettingParams.MIN_BET_AMOUNT ||
+        betStake > bettingParams.MAX_BET_AMOUNT
       ) {
         document
           .getElementById('place-bet-button-' + index)

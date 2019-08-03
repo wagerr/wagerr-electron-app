@@ -73,7 +73,10 @@
 import Vuex from 'vuex';
 import QrCode from '../utilities/QrCode.vue';
 
-import constants from '../../../main/constants/constants';
+import {
+  testnetParams,
+  mainnetParams
+} from '../../../main/constants/constants';
 
 export default {
   name: 'RecieveTransaction',
@@ -98,8 +101,8 @@ export default {
       let shell = require('electron').shell;
       let explorerUrl =
         this.getNetworkType === 'Testnet'
-          ? constants.TESTNET_EXP_URL
-          : constants.MAINNET_EXP_URL;
+          ? testnetParams.BLOCK_EXPLORER_URL
+          : mainnetParams.BLOCK_EXPLORER_URL;
 
       shell.openExternal(explorerUrl + '/#/address/' + this.accountAddress);
     }

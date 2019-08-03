@@ -1,6 +1,5 @@
 // Betting Converters
-// import fractional from 'fractional-arithmetic'
-import constants from '../../main/constants/constants';
+import { bettingParams } from '../../main/constants/constants';
 
 const OddsConverter = {
   gcd: function gcd(a, b) {
@@ -17,12 +16,12 @@ const OddsConverter = {
 
   // Todo: all must be converted with divisor, need to remove duplication
   toDecimal: function toDecimal(decimal) {
-    return Math.round((decimal / constants.ODDS_DIVISOR) * 100) / 100;
+    return Math.round((decimal / bettingParams.ODDS_DIVISOR) * 100) / 100;
   },
 
   toFraction: function toFraction(decimal) {
     decimal -= 10000; // -1
-    decimal /= constants.ODDS_DIVISOR;
+    decimal /= bettingParams.ODDS_DIVISOR;
     let n;
     let d;
     const ns = `${decimal}`;
