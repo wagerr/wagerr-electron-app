@@ -93,15 +93,6 @@ const actions = {
         console.error(err);
       });
   },
-
-  // :TEST
-  setTransactionRecordsTest({ commit }, list) {
-    commit('setWGRTransactionRecords', list);
-  },
-  
-  getBetTransactionListTest({ commit }, list) {
-    commit('setPLBetTransactionList', list);
-  },
   
   getPLBetTransactionList({ dispatch, commit, getters }, {length, rexg, from, betTransactionlistLength}) {
     wagerrRPC.client
@@ -109,10 +100,15 @@ const actions = {
       .then(function(resp) {
         commit('setPLBetTransactionList', resp.result.reverse());
       })
-      .then(function(r) {
+      .then(function() {
         if (getters.plBetTransactionList.length === 0 || getters.plBetTransactionList.length < betTransactionlistLength) commit('setTransactionMax', getters.betTransactionsPaginated.length + getters.plBetTransactionList.length);
-        commit('setBetTransactionsPaginated', getters.betTransactionsPaginated.concat(getters.plBetTransactionList));
-        // set page 
+        // Update the first page of bets.
+        // Assuming no more bets made from first page since. Update rest of bets?
+        if ((from === 0) && (getters.plBetTransactionList.length >= length)) {
+          commit('setFirstPageBetTransactionsPaginated', length);
+        } else {
+          commit('setBetTransactionsPaginated', getters.betTransactionsPaginated.concat(getters.plBetTransactionList));          
+        }
       })
       .catch(function(err) {
         // TODO Handle error correctly.
@@ -160,6 +156,10 @@ const mutations = {
 
   setBetTransactionsPaginated(state, paginated) {
     state.betTransactionsPaginated = paginated;
+  },
+  setFirstPageBetTransactionsPaginated(state, length) {
+    state.betTransactionsPaginated.splice(0, length, ...state.plBetTransactionList);
+    state.betTransactionsPaginated;
   },
 };
 
