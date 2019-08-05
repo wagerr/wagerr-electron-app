@@ -64,7 +64,9 @@
                   </td>
                 </tr>
                 <tr class="info-row">
-                  <td>Include Wagerr network share in betting odds?</td>
+                  <td>
+                    Include Wagerr network share in betting odds? (Experimental)
+                  </td>
                   <td class="aligncenter">
                     <div id="show-network-share-choice">
                       <p>
