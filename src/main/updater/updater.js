@@ -1,5 +1,6 @@
 import { app, dialog } from 'electron';
 import { autoUpdater } from 'electron-updater';
+import { init } from '../index';
 import { spawnLogger } from '../logger/logger';
 
 const ProgressBar = require('electron-progressbar');
@@ -8,15 +9,23 @@ const logger = spawnLogger();
 
 let downloadProgressBar = null;
 
+// Don't automatically being downloaded the update when available, instead we
+// give the user an option to cancel the update.
 autoUpdater.autoDownload = false;
 
+// Show and log any error when going through the update process.
 autoUpdater.on('error', error => {
+  logger.error('There was an error while updating the app');
   dialog.showErrorBox(
     'Error: ',
     error == null ? 'unknown' : (error.stack || error).toString()
   );
+
+  // If there is an error with the updater quit the app.
+  app.quit();
 });
 
+// An update is available, ask the user if they would like to update.
 autoUpdater.on('update-available', () => {
   logger.info('Update available');
 
@@ -27,7 +36,8 @@ autoUpdater.on('update-available', () => {
       message: 'An update is available, do you want to update now?',
       buttons: ['Yes', 'No']
     },
-    buttonIndex => {
+    async buttonIndex => {
+      // If the user selects 'Yes', download the update.
       if (buttonIndex === 0) {
         // Show a progress bar of the update status
         downloadProgressBar = new ProgressBar({
@@ -36,15 +46,23 @@ autoUpdater.on('update-available', () => {
           closeOnComplete: true
         });
 
-        // Start the update
+        // Download the update.
         autoUpdater.downloadUpdate();
       } else {
-        app.quit();
+        // If the user does not select 'Yes' start the app.
+        await init();
       }
     }
   );
 });
 
+// If no updates available continue with initialising the app.
+autoUpdater.on('update-not-available', async () => {
+  logger.info('No update available, continuing with launch');
+  await init();
+});
+
+// As the update is downloaded update the progress bar.
 autoUpdater.on('download-progress', downloadProgress => {
   // Convert bytes per second to megabits per second.
   let Mbps = downloadProgress.bytesPerSecond / 125000;
@@ -64,12 +82,15 @@ autoUpdater.on('download-progress', downloadProgress => {
   downloadStatsMessage += ` (${downloadProgress.percent.toFixed(2)}%)`;
   downloadStatsMessage += ` @ ${Mbps} Mbps`;
 
+  // Log the update process.
   logger.info(downloadStatsMessage);
 
   // Display the custom message on the dialog.
   downloadProgressBar.detail = downloadStatsMessage;
 });
 
+// Once the update has been downloaded show a success message to the user, then
+// quit and install the update and relaunch the app.
 autoUpdater.on('update-downloaded', () => {
   logger.info('Update downloaded');
 
