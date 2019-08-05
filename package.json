@@ -102,7 +102,7 @@
   "dependencies": {
     "core-js": "^3.1.4",
     "decompress": "^4.2.0",
-    "electron-progressbar": "^1.2.0",
+    "electron-progressbar": "Cryptarchist/electron-progressbar#1f49bcb",
     "electron-store": "^4.0.0",
     "electron-updater": "^4.1.2",
     "element-ui": "^2.8.2",
