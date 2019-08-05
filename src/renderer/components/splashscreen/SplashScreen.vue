@@ -229,7 +229,7 @@ export default {
 
   async created() {
     // Check if connected to the Wagerr network and if we have peers.
-    this.updateInitText('Connecting to peers...');
+    this.updateInitText('Connecting to peers... This may take some time');
     await this.checkPeerStatus();
 
     // After connecting to peers get some blockchain info.
