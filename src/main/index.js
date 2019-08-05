@@ -133,7 +133,7 @@ async function createMainWindow() {
  *
  * @returns {Promise<void>}
  */
-async function init(args) {
+export async function init(args) {
   logger.info('Initialising Wagerr Electron App');
   daemon = new Daemon();
 
@@ -181,14 +181,6 @@ app.on('ready', async () => {
   if (process.env.NODE_ENV === 'production') {
     logger.info('Checking for an update');
     checkForUpdates();
-
-    // If no updates available continue with initialising the app,
-    // otherwise, updater.js would have caught the update-available event
-    // and downloaded and restarted the app.
-    autoUpdater.on('update-not-available', async () => {
-      logger.info('No update available, continuing with launch');
-      await init();
-    });
   } else {
     logger.debug('Skipping update check when running in development mode');
     await init();
