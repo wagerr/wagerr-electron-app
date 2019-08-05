@@ -34,11 +34,14 @@
       @back="onStepSixBack"
     ></masternode-step-six-dialog>
 
-    <h4>Masternode Setup</h4>
+    <h4>Masternode Setup (BETA)</h4>
 
     <p>
-      You can check the setup Masternode step here. Please consider you are
-      ready for starting.
+      This screen provides a helpful interactive process that guides you through
+      setting up a Wagerr masternode. While this interactive guide has been
+      tested and there are no known major issues, we are still actively
+      developing this feature so please use at your own risk or alternatively
+      you can use the RPC CLI window in the Settings menu.
     </p>
 
     <div class="row button-container">
