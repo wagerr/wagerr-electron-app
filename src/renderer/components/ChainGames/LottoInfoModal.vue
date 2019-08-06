@@ -65,6 +65,6 @@
 
 <script>
 export default {
-  name: 'CGLottoInfo'
+  name: 'LottoInfoModal'
 };
 </script>

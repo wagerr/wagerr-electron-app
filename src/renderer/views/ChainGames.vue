@@ -8,36 +8,40 @@
             data-target="lotto-info"
           ></i>
 
+          <!-- Lotto Info Modal -->
+          <LottoInfoModal></LottoInfoModal>
+
           <h2 class=""><span></span>Lotto Jackpot</h2>
 
           <div class="cg-dates text-center clearfix">
             <h6>Game Start:</h6>
-            {{ gameStartTime | moment('MMM Do YYYY hh:mm A') }}
+            {{ loadingCGEvent ? '-' : getLottoStartTime() }}
             <h6>Game End:</h6>
-            {{ gameEndTime | moment('MMM Do YYYY hh:mm A') }}
+            {{ loadingCGEvent ? '-' : getLottoEndTime() }}
           </div>
 
           <div class="bet-slip-options text-center clearfix chain-btns">
             <button
-              class="waves-effect waves-light btn-large wagerr-red-bg"
-              @click="placeCGLottoBet"
+              class="waves-effect waves-light btn-large wagerr-red-bg modal-trigger"
+              data-target="confirm-lotto-entry"
+              v-bind:class="{ disabled: loadingCGEvent }"
             >
               Buy Ticket
             </button>
 
-            <span class="cost"
-              >(Entry Fee: {{ entryFee }}
-              <span class="currency">{{
-                getNetworkType === 'Testnet' ? 'tWGR' : 'WGR'
-              }}</span
-              >)</span
-            >
+            <!-- Confirm Lotto Entry Modal -->
+            <ConfirmLottoEntryModal></ConfirmLottoEntryModal>
+
+            <span class="cost">
+              (Entry Fee: {{ entryFee }}
+              <span class="currency">
+                {{ getNetworkType === 'Testnet' ? 'tWGR' : 'WGR' }}
+              </span>
+              )
+            </span>
           </div>
         </div>
         <div class="lotto-right col s8">
-          <!-- Lotto Info Modal -->
-          <CGLottoInfo></CGLottoInfo>
-
           <div v-if="loadingCGEvent" class="text-center">
             <spinner></spinner>
           </div>
@@ -126,10 +130,10 @@
               </div>
 
               <div v-else class="cg-info">
-                {{ entryFee
-                }}<span class="currency">{{
-                  getNetworkType === 'Testnet' ? 'tWGR' : 'WGR'
-                }}</span>
+                {{ entryFee }}
+                <span class="currency">
+                  {{ getNetworkType === 'Testnet' ? 'tWGR' : 'WGR' }}
+                </span>
               </div>
             </div>
           </div>
@@ -139,78 +143,65 @@
       <div class="table-container">
         <h4>CG Lotto Bet History</h4>
 
-        <c-g-lotto-bet-transaction-list></c-g-lotto-bet-transaction-list>
+        <ChainGamesTransactionHistory></ChainGamesTransactionHistory>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Vuex from 'vuex';
-import wagerrRPC from '@/services/api/wagerrRPC';
+import { mapActions, mapGetters } from 'vuex';
+import moment from 'moment';
+import ChainGamesTransactionHistory from '@/components/ChainGames/ChainGamesTransactionHistory';
+import ConfirmLottoEntryModal from '@/components/ChainGames/ConfirmLottoEntryModal.vue';
+import LottoInfoModal from '@/components/ChainGames/LottoInfoModal';
 import Spinner from '@/components/utilities/LoadingSpinner';
-import CGLottoBetTransactionList from '@/components/betting/components/CGLottoBetTransactionList';
-import CGLottoInfo from '@/components/betting/components/CGLottoInfo';
 
 export default {
-  name: 'CGLottoBets',
-  components: { CGLottoBetTransactionList, CGLottoInfo, Spinner },
+  name: 'ChainGames',
+
+  components: {
+    ChainGamesTransactionHistory,
+    ConfirmLottoEntryModal,
+    LottoInfoModal,
+    Spinner
+  },
+
+  data() {
+    return {
+      listChainGamesEventsIntervalID: null
+    };
+  },
 
   computed: {
-    ...Vuex.mapGetters([
+    ...mapGetters([
       'loadingCGEvent',
-      'loadingCGDetails',
       'noOfEntrants',
       'entryFee',
       'gameID',
       'getNetworkType',
       'potSize',
-      'gameStartBlock',
       'gameStartTime',
       'gameEndTime'
     ])
   },
 
   methods: {
-    ...Vuex.mapActions(['listChainGamesEvents']),
+    ...mapActions(['listChainGamesEvents']),
 
-    // Place a bet on the given event and sent the tx to the Wagerr blockchain.
-    placeCGLottoBet: function() {
-      let entryFeeInt = parseInt(100);
-
-      wagerrRPC.client
-        .placeChainGamesBet(this.gameID, entryFeeInt)
-        .then(function(resp) {
-          // If bet was successful then display bet TX-ID to the user.
-          if (resp.error !== 'null') {
-            M.toast({
-              html:
-                '<span class="toast__bold-font">Success &nbsp;</span> your bet has been placed: ' +
-                resp.result,
-              classes: 'green'
-            });
-          }
-
-          // If bet was unsuccessful then show error to the user.
-          else {
-            M.toast({
-              html:
-                '<span class="toast__bold-font">Error &nbsp;</span> ' +
-                resp.result,
-              classes: 'wagerr-red-bg'
-            });
-          }
-        })
-        .catch(function(err) {
-          // TODO Parse the error from the response.
-          M.toast({ html: err, classes: 'wagerr-red-bg' });
-          console.error(err);
-        });
+    getLottoStartTime: function() {
+      return moment.unix(this.gameStartTime).format('MMM Do YYYY hh:mm A');
     },
+
+    getLottoEndTime: function() {
+      return moment.unix(this.gameEndTime).format('MMM Do YYYY hh:mm A');
+    },
+
     getCGWinnings(potAmount, rewardType) {
-      let winningPercent = 0.8;
-      let masternodePercent = 0.02;
-      let burnPercent = 0.18;
+      const winningPercent = 0.8;
+      const masternodePercent = 0.02;
+      const burnPercent = 0.18;
+
       switch (rewardType) {
         case 'bet':
           return potAmount * winningPercent;
@@ -222,25 +213,19 @@ export default {
     }
   },
 
-  created() {
+  mounted() {
     this.listChainGamesEvents();
 
-    this.timeout = setInterval(
+    this.listChainGamesEventsIntervalID = setInterval(
       function() {
         this.listChainGamesEvents();
       }.bind(this),
-      3000
+      60000
     );
   },
 
-  data() {
-    return {
-      timeout: 0
-    };
-  },
-
   destroyed() {
-    clearTimeout(this.timeout);
+    clearInterval(this.listChainGamesEventsIntervalID);
   }
 };
 </script>
