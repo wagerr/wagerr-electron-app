@@ -1,7 +1,3 @@
-**Note: The Wagerr Electron App is currently experimental and not expected to
-work with the current Wagerr Core release. An official beta release will be
-published soon.**
-
 Wagerr Electron App
 ===================
 
