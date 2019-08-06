@@ -43,33 +43,6 @@
             </span>
           </div>
 
-          <div class="input-field col s12">
-            <i class="fas fa-unlock-alt prefix"></i>
-
-            <input
-              name="confirm-unlock-passphrase"
-              v-model="confirmUnlockPassphrase"
-              v-validate="'required|confirmed:unlock-passphrase'"
-              data-vv-as="Confirm Wallet Passphrase"
-              id="confirm-unlock-passphrase"
-              type="password"
-            />
-
-            <label
-              id="confirm-unlock-passphrase-label"
-              for="confirm-unlock-passphrase"
-            >
-              Confirm Wallet Passphrase
-            </label>
-
-            <span
-              v-if="errors.has('confirm-unlock-passphrase')"
-              class="form-error"
-            >
-              {{ errors.first('confirm-unlock-passphrase') }}
-            </span>
-          </div>
-
           <div class="options">
             <input
               @click="clearForm"
@@ -103,6 +76,14 @@ import Vuex from 'vuex';
 export default {
   name: 'UnlockWallet',
 
+  data() {
+    return {
+      unlockPassphrase: null,
+      unlockTimeout: '0',
+      unlockAnonymizeOnly: false
+    };
+  },
+
   computed: {
     ...Vuex.mapGetters(['walletLoaded', 'walletUnlocked'])
   },
@@ -132,7 +113,7 @@ export default {
           // Clear any errors after successful wallet unlock.
           this.clearForm();
 
-          let elem = document.querySelector('#unlock-wallet-modal');
+          let elem = document.getElementById('unlock-wallet-modal');
           let instance = M.Modal.getInstance(elem);
           instance.close();
         }
@@ -142,32 +123,16 @@ export default {
     clearForm: function() {
       // Reset input values to default.
       this.unlockPassphrase = null;
-      this.confirmUnlockPassphrase = null;
       this.unlockAnonymizeOnly = false;
 
       // Reset the form validator to remove any validation error messages.
       this.$validator.reset();
 
       // Remove the active class from the input field labels.
-      let inputFields = [];
-      inputFields.push(document.getElementById('unlock-passphrase-label'));
-      inputFields.push(
-        document.getElementById('confirm-unlock-passphrase-label')
-      );
-
-      for (let i = 0; i < inputFields.length; i++) {
-        inputFields[i].classList.remove('active');
-      }
+      document
+        .getElementById('unlock-passphrase-label')
+        .classList.remove('active');
     }
-  },
-
-  data() {
-    return {
-      unlockPassphrase: null,
-      confirmUnlockPassphrase: null,
-      unlockTimeout: '0',
-      unlockAnonymizeOnly: false
-    };
   }
 };
 </script>
