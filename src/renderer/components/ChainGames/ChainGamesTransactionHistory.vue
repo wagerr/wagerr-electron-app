@@ -36,10 +36,10 @@ import Vuex from 'vuex';
 import {
   testnetParams,
   mainnetParams
-} from '../../../../main/constants/constants';
+} from '../../../main/constants/constants';
 
 export default {
-  name: 'CGLottoBetTransactionList',
+  name: 'ChainGamesTransactionHistory',
 
   computed: {
     ...Vuex.mapGetters([

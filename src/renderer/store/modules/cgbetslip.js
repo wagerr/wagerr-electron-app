@@ -97,7 +97,8 @@ const actions = {
         // Calculate the lotto end date. Add one day for testnet and seven days for mainnet.
         const endDate = moment
           .unix(resp.result['start-time'])
-          .add(resp.result.network === 'test' ? 1 : 7, 'days');
+          .add(resp.result.network === 'test' ? 1 : 7, 'days')
+          .format('X');
 
         commit('setEntryFee', `${resp.result['entry-fee']}`);
         commit('setPotSize', `${resp.result['pot-size']}`);

@@ -5,7 +5,7 @@ import Router from 'vue-router';
 import Wallet from './views/Wallet.vue';
 import BetHistory from './views/BetHistory.vue';
 import Betting from './views/Betting.vue';
-import ChainGames from '@/components/betting/ChainGames';
+import ChainGames from './views/ChainGames.vue';
 import Masternodes from './views/Masternodes.vue';
 import Tools from './views/Tools.vue';
 import Preferences from './views/Preferences.vue';
