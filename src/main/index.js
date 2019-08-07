@@ -1,19 +1,21 @@
-import { BrowserWindow, Menu, app, dialog } from 'electron';
-import { autoUpdater } from 'electron-updater';
+import { BrowserWindow, Menu, app, dialog, ipcMain } from 'electron';
+import ProgressBar from 'electron-progressbar';
 import fs from 'fs';
+import path from 'path';
 import errors from './alerts/errors';
-import * as blockchain from './blockchain/blockchain';
+import {
+  readWagerrConf,
+  rpcPass,
+  rpcUser,
+  testnet
+} from './blockchain/blockchain';
 import Daemon from './blockchain/daemon';
+import { spawnLogger } from './logger/logger';
 import menu from './menu/menu';
 import { checkForUpdates } from './updater/updater';
-import { spawnLogger } from './logger/logger';
-
-const { ipcMain } = require('electron');
-const path = require('path');
-const ProgressBar = require('electron-progressbar');
+import { version as appVersion } from '../../package.json';
 
 const logger = spawnLogger();
-const packageJSON = require('../../package.json');
 
 // Main app URL.
 const winURL =
@@ -108,7 +110,7 @@ async function createMainWindow() {
 
   // Once electron app is ready then display the vue UI.
   mainWindow.once('ready-to-show', () => {
-    const network = blockchain.testnet === 1 ? ' - Testnet' : '';
+    const network = testnet === 1 ? ' - Testnet' : '';
     const title = `Wagerr Electron App${network}`;
 
     mainWindow.setTitle(title);
@@ -149,7 +151,7 @@ export async function init(args) {
   }
 
   // Check if the wagerr.conf file exists. If not use default values.
-  const confExists = blockchain.readWagerrConf();
+  const confExists = readWagerrConf();
 
   if (!confExists) {
     console.error(
@@ -174,7 +176,7 @@ export async function init(args) {
 }
 
 app.on('ready', async () => {
-  logger.info(`Wagerr Electron App version v${packageJSON.version}`);
+  logger.info(`Wagerr Electron App version v${appVersion}`);
   logger.info('Finished initializing and ready to start');
 
   // Check for updates only for the packaged app.
@@ -411,12 +413,12 @@ ipcMain.on('restart-wagerrd', async (event, arg) => {
 
 // Send the RPC username to the render process.
 ipcMain.on('rpc-username', event => {
-  event.returnValue = blockchain.rpcUser;
+  event.returnValue = rpcUser;
 });
 
 // Send the RPC password to the render process.
 ipcMain.on('rpc-password', event => {
-  event.returnValue = blockchain.rpcPass;
+  event.returnValue = rpcPass;
 });
 
 // Show error dialog informing user that the wallet could not connect to wagerr network.
