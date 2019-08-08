@@ -100,6 +100,7 @@
     }
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.10.1",
     "core-js": "^3.1.4",
     "decompress": "^4.2.0",
     "electron-progressbar": "Cryptarchist/electron-progressbar#1f49bcb",
