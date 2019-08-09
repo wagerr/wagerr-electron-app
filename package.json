@@ -8,7 +8,7 @@
   "license": "MIT",
   "homepage": "https://www.wagerr.com/",
   "private": true,
-  "main": "./dist/electron/main.js",
+  "main": "./dist/main.js",
   "scripts": {
     "build": "node .electron-vue/build.js",
     "build:dir": "node .electron-vue/build.js && electron-builder --dir",
@@ -35,7 +35,7 @@
     "productName": "WagerrElectronApp",
     "appId": "com.wagerr.electron.app",
     "files": [
-      "dist/electron",
+      "dist",
       "node_modules/",
       "package.json"
     ],

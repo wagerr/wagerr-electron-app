@@ -30,7 +30,7 @@ function build() {
 
   greeting();
 
-  del.sync(['dist/electron/*', '!.gitkeep']);
+  del.sync(['dist/*', '!.gitkeep']);
 
   const tasks = new Listr(
     [
