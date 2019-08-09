@@ -87,9 +87,6 @@ function startRenderer() {
 
 function startMain() {
   return new Promise((resolve, reject) => {
-    mainConfig.entry.main = [
-      path.join(__dirname, '../src/main/index.dev.js')
-    ].concat(mainConfig.entry.main);
     mainConfig.mode = 'development';
     const compiler = webpack(mainConfig);
 
@@ -124,10 +121,7 @@ function startMain() {
 }
 
 function startElectron() {
-  var args = [
-    '--inspect=5858',
-    path.join(__dirname, '../dist/main.js')
-  ];
+  var args = ['--inspect=5858', path.join(__dirname, '../dist/main.js')];
 
   // detect yarn or npm and process commandline args accordingly
   if (process.env.npm_execpath.endsWith('yarn.js')) {

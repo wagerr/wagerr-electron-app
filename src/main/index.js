@@ -32,6 +32,21 @@ let closeWindowFlag = false;
 let closeProgressBar = null;
 let forcelyQuit = false;
 
+// If in development mode use 'electron-debug' which adds useful debug features to the app.
+if (process.env.NODE_ENV === 'development') {
+  require('electron-debug')();
+}
+
+// Install defined Electron/Chrome devtools extensions.
+const installExtensions = async () => {
+  const installer = require('electron-devtools-installer');
+  const extensions = ['VUEJS_DEVTOOLS'];
+
+  return Promise.all(
+    extensions.map(name => installer.default(installer[name]))
+  ).catch(console.log);
+};
+
 /**
  * Render the main window for the Wagerr Electron App.
  */
@@ -178,6 +193,12 @@ export async function init(args) {
 app.on('ready', async () => {
   logger.info(`Wagerr Electron App version v${appVersion}`);
   logger.info('Finished initializing and ready to start');
+
+  // If running in development mode, install some Electron/Chrome devtools extensions like vue-devtools.
+  if (process.env.NODE_ENV === 'development') {
+    logger.debug('Installing Electron/Chrome devtools extensions');
+    await installExtensions();
+  }
 
   // Check for updates only for the packaged app.
   if (process.env.NODE_ENV === 'production') {
