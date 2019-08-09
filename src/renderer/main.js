@@ -11,6 +11,11 @@ import store from './store/index';
 import App from './App';
 import 'element-ui/lib/theme-chalk/index.css';
 import locale from 'element-ui/lib/locale/lang/en';
+
+// Import frontend framework
+import 'materialize-css/dist/css/materialize.css'
+import 'materialize-css/dist/js/materialize.js'
+
 // Import global styles
 import './assets/scss/main.scss';
 
