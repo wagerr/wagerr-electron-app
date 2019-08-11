@@ -1,5 +1,5 @@
 <template>
-  <div id="betting-slip">
+  <div id="bet-slip">
     <h4 v-if="betSlip.length > 0">
       Bet slip
       <button
@@ -32,22 +32,20 @@
 
               <div class="selection">
                 <h6>Your Pick:</h6>
-                <span v-if="bet.betType != 'total'" class="winner">{{
-                  bet.winner
-                }}</span>
-                <!-- Inserted Value !-->
-                <span v-if="bet.betType == 'total'" class="odds pull-right">{{
-                  bet.totalValue
-                }}</span>
-                <span v-if="bet.betType == 'spread'" class="odds pull-right">{{
-                  bet.handicap
-                }}</span>
+                <span v-if="bet.betType != 'total'" class="winner">
+                  {{ bet.winner }}
+                </span>
+                <span v-if="bet.betType == 'total'" class="odds pull-right">
+                  {{ bet.totalValue }}
+                </span>
+                <span v-if="bet.betType == 'spread'" class="odds pull-right">
+                  {{ bet.handicap }}
+                </span>
                 <span class="odds pull-right">{{ convertOdds(bet.odds) }}</span>
               </div>
 
               <div class="input-field bet-stake-container">
                 <div class="stake-input">
-                  <!--<label :for="bet.betId">Enter Bet Stake</label>-->
                   <input
                     :id="bet.betId"
                     class="bet-stake validate"
@@ -75,18 +73,19 @@
                 </div>
               </div>
 
-              <div :id="'bet-warning-' + index" class="bet-warning hide"></div>
+              <div :id="'bet-warning-' + index" class="bet-warning display-none"></div>
 
               <div class="bet-returns">
-                <span class="pull-left potential-returns-headline"
-                  >Potential Returns:</span
-                >
+                <span class="pull-left potential-returns-headline">
+                  Potential Returns:
+                </span>
 
                 <span
                   :id="'potential-returns-' + index"
                   class="potential-returns pull-right"
-                  >0 {{ getNetworkType === 'Testnet' ? 'tWGR' : 'WGR' }}</span
                 >
+                  0 {{ getNetworkType === 'Testnet' ? 'tWGR' : 'WGR' }}
+                </span>
 
                 <div class="clear"></div>
               </div>
@@ -107,16 +106,16 @@
 </template>
 
 <script>
-import Vuex from 'vuex';
-import { bettingParams } from '../../../../main/constants/constants';
-import wagerrRPC from '@/services/api/wagerrRPC';
 import moment from 'moment';
+import { mapActions, mapGetters } from 'vuex';
+import wagerrRPC from '../../../services/api/wagerrRPC'
+import { bettingParams } from '../../../../main/constants/constants';
 
 export default {
   name: 'BetSlip',
 
   computed: {
-    ...Vuex.mapGetters([
+    ...mapGetters([
       'balance',
       'pending',
       'betSlip',
@@ -128,7 +127,7 @@ export default {
   },
 
   methods: {
-    ...Vuex.mapActions(['addToBetSlip', 'removeBetFromSlip', 'clearBetSlip']),
+    ...mapActions(['addToBetSlip', 'removeBetFromSlip', 'clearBetSlip']),
 
     inputBetPlaceholder: function(bet) {
       return bet.availability === true ? 'Enter Bet Stake' : 'Not Available';
@@ -137,67 +136,60 @@ export default {
     // Calculate the potential winnings of a bet.
     calcPotentialWinnings: function(event, odds, index) {
       odds = odds / bettingParams.ODDS_DIVISOR;
-      let betFeePercent = 0.06;
-      let betStake = event.target.value;
-      let grossWinnings = odds * betStake;
-      let grossProfit = grossWinnings - betStake;
-      let betFee = grossProfit * betFeePercent;
-      let netWinnings = grossWinnings - betFee;
-
-      // Set the potential winnings on the UI.
-      document.getElementById('potential-returns-' + index).innerText =
-        netWinnings.toFixed(8) +
-        (this.getNetworkType === 'Testnet' ? ' tWGR' : ' WGR');
+      const betFeePercent = bettingParams.NETWORK_SHARE;
+      const betStake = event.target.value;
+      const grossWinnings = odds * betStake;
+      const grossProfit = grossWinnings - betStake;
+      const betFee = grossProfit * betFeePercent;
+      const netWinnings = grossWinnings - betFee;
+      const returnsElem = document.getElementById('potential-returns-' + index);
+      const wagerrCode = this.getNetworkType === 'Testnet' ? ' tWGR' : ' WGR';
 
       // If the bet stake is more than the available balance, disable the bet button and show a warning.
-      if (
-        this.balance < betStake ||
-        betStake < bettingParams.MIN_BET_AMOUNT ||
-        betStake > bettingParams.MAX_BET_AMOUNT
-      ) {
-        document
-          .getElementById('place-bet-button-' + index)
-          .classList.add('disabled');
-        this.showBetWarning(betStake, index);
-      } else if (this.balance > betStake) {
-        document
-          .getElementById('place-bet-button-' + index)
-          .classList.remove('disabled');
-        this.showBetWarning(betStake, index);
+      if (this.showBetWarning(betStake, index)) {
+        returnsElem.innerText = 0 + ' ' + wagerrCode;
+      } else {
+        returnsElem.innerText = netWinnings.toFixed(8) + ' ' + wagerrCode;
       }
-    },
-
-    showWarning: function(index, message) {
-      document.getElementById('bet-warning-' + index).classList.remove('hide');
-      document.getElementById('bet-warning-' + index).innerText = message;
     },
 
     showBetWarning: function(betStake, index) {
-      if (this.balance < betStake && this.pending > betStake) {
-        this.showWarning(
-          index,
-          'Available balance too low. Please wait for your pending balance of ' +
-            this.pending +
-            ' ' +
-            (this.getNetworkType === 'Testnet' ? ' tWGR' : ' WGR') +
-            ' to be confirmed.'
-        );
-      } else if (betStake < 25 || betStake > 10000) {
-        this.showWarning(
-          index,
-          'Incorrect bet amount. Please ensure your bet is between 25 - 10000 ' +
-            (this.getNetworkType === 'Testnet' ? ' tWGR' : ' WGR') +
-            ' inclusive.'
-        );
+      const placeBetButton = document.getElementById('place-bet-button-' + index)
+      const warningElem = document.getElementById('bet-warning-' + index);
+      const wagerrCode = this.getNetworkType === 'Testnet' ? ' tWGR' : ' WGR';
+      let showWarning = false;
+
+      if (betStake.length === 0) {
+        placeBetButton.classList.add('disabled');
+        warningElem.classList.add('display-none');
+        showWarning = true;
+      } else if(isNaN(betStake)) {
+        placeBetButton.classList.add('disabled');
+        warningElem.classList.remove('display-none');
+        warningElem.innerText = 'Bet stake must be a number.'
+        showWarning = true;
+      } else if (this.balance < betStake && this.pending > betStake) {
+        placeBetButton.classList.add('disabled');
+        warningElem.classList.remove('display-none');
+        warningElem.innerText = 'Available balance too low. Please wait for your pending balance of ' + this.pending + ' ' + wagerrCode + ' to be confirmed.'
+        showWarning = true;
+      } else if (betStake < bettingParams.MIN_BET_AMOUNT || betStake > bettingParams.MAX_BET_AMOUNT) {
+        placeBetButton.classList.add('disabled');
+        warningElem.classList.remove('display-none');
+        warningElem.innerText = 'Incorrect bet amount. Please ensure your bet is between 25 - 10000 ' + wagerrCode + ' inclusive.'
+        showWarning = true;
       } else if (this.balance < betStake) {
-        this.showWarning(
-          index,
-          (document.getElementById('bet-warning-' + index).innerText =
-            'Available balance too low.')
-        );
+        placeBetButton.classList.add('disabled');
+        warningElem.classList.remove('display-none');
+        warningElem.innerText = 'Available balance too low.'
+        showWarning = true;
       } else {
-        this.showWarning(index, '');
+        placeBetButton.classList.remove('disabled');
+        warningElem.classList.add('display-none');
+        showWarning = false;
       }
+
+      return showWarning;
     },
 
     // Place a bet on a given event and sent the tx to the Wagerr blockchain.
@@ -240,7 +232,7 @@ export default {
 
     handleScroll(event) {
       // Get the bet slip.
-      let navbar = document.getElementById('betting-slip');
+      let navbar = document.getElementById('bet-slip');
 
       // Get the offset position of the navbar.
       let sticky = navbar.offsetTop;
@@ -252,6 +244,7 @@ export default {
       }
     }
   },
+
   watch: {
     betSlip: {
       handler(newBets, oldBets) {
@@ -269,6 +262,7 @@ export default {
       deep: true
     }
   },
+
   created() {
     window.addEventListener('scroll', this.handleScroll);
   },
@@ -281,6 +275,240 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../../assets/scss/_variables.scss';
+
+.bet-slip-div {
+  margin-top: 25px;
+  #bet-slip {
+    background: $white;
+    position: fixed;
+    top: 120px;
+    width: calc(25% - 3.5rem);
+    height: calc(100vh - 120px);
+    right: 0;
+    .bet-list-scroll {
+      height: calc(100% - 25px);
+      overflow-y: scroll;
+    }
+    h4 {
+      margin-bottom: 0;
+      margin-top: 0;
+      background: $gray-900;
+      color: $white;
+      border: none;
+      font-family: 'Montserrat';
+      font-weight: 700;
+      padding: 10px 10px 8px;
+      font-size: 15px;
+      line-height: 20px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      button {
+        background: $wagerr-red;
+        color: $white;
+        height: 24px;
+        line-height: 24px;
+        position: absolute;
+        top: 7px;
+        right: 10px;
+        font-size: 11px;
+        font-family: 'Montserrat';
+        font-weight: 700;
+        padding: 0 10px;
+        &:hover {
+          background: $wagerr-red-dark;
+        }
+      }
+    }
+
+    .bet-list {
+      background: $white;
+      padding: 10px;
+      ul {
+        margin: 0;
+        padding: 0;
+        li.card {
+          background: transparent;
+          color: $gray-900;
+          padding: 0 0 10px;
+          box-shadow: none;
+          border: 2px solid $wagerr-red;
+          margin: 0 0 15px;
+          .bet-details {
+            padding: 0;
+            position: relative;
+            .bet-slip-pair {
+              color: $white;
+              background: $wagerr-red;
+              font-family: 'Montserrat';
+              font-weight: 700;
+              text-align: left;
+              padding: 6px 40px 6px 10px;
+              width: 100%;
+              font-size: 12px;
+              line-height: 16px;
+            }
+            .clear-bet {
+              color: $white;
+              position: absolute;
+              top: -2px;
+              right: -2px;
+              width: 30px;
+              height: 30px;
+              display: block;
+              background: $wagerr-red;
+              text-align: center;
+              line-height: 30px;
+              &:hover {
+                background: $wagerr-red-dark;
+              }
+              i {
+                font-weight: 700;
+                cursor: pointer;
+                font-size: 24px;
+              }
+            }
+            .selection {
+              color: $gray-900;
+              font-weight: 700;
+              padding: 15px 10px 10px;
+              font-size: 16px;
+              line-height: 22px;
+              font-family: 'Montserrat';
+              color: $wagerr-red;
+              h6 {
+                color: #aaa;
+                font-size: 9px;
+                text-align: center;
+                width: 100%;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                font-family: 'Open Sans';
+                font-weight: 600;
+                margin: 0;
+                line-height: 18px;
+              }
+              .winner {
+                display: block;
+                text-align: center;
+                float: none;
+                font-size: 18px;
+                line-height: 20px;
+                padding-bottom: 5px;
+              }
+              .odds {
+                display: inline-block;
+                text-align: center;
+                float: none;
+                width: 60%;
+                background: #eee;
+                margin: 5px 20% 0;
+                padding: 4px 0;
+                border-radius: 4px;
+                letter-spacing: 1px;
+                color: $gray-900;
+              }
+            }
+            .bet-stake-container {
+              color: $gray-900;
+              padding: 0;
+              display: flex;
+              justify-content: center;
+              margin-bottom: 0;
+              .stake-input {
+                width: 120px;
+                position: relative;
+                margin-right: 0;
+                label {
+                  left: 0;
+                  top: 0;
+                  position: absolute;
+                  color: $gray-900;
+                  font-size: 14px;
+                  font-family: 'Open Sans';
+                  font-weight: 600;
+                  text-align: center;
+                  width: 100%;
+                }
+                input {
+                  color: $gray-900;
+                  font-family: 'Open Sans';
+                  font-size: 18px;
+                  font-weight: 700;
+                  text-align: center;
+                  width: 120px;
+                  background: #eee;
+                  margin-bottom: 0;
+                  height: 33px;
+                  box-shadow: 0 1px 0 0 $gray-600;
+                  &::-webkit-input-placeholder {
+                    /* Chrome/Opera/Safari */
+                    font-size: 13px;
+                    font-weight: 600;
+                  }
+                  &::-moz-placeholder {
+                    /* Firefox 19+ */
+                    font-size: 13px;
+                    font-weight: 600;
+                  }
+                  &:-ms-input-placeholder {
+                    /* IE 10+ */
+                    font-size: 13px;
+                    font-weight: 600;
+                  }
+                  &:-moz-placeholder {
+                    /* Firefox 18- */
+                    font-size: 13px;
+                    font-weight: 600;
+                  }
+                }
+              }
+              .stake-button {
+                button {
+                  border-radius: 0;
+                  height: 35px;
+                  line-height: 35px;
+                  box-shadow: none;
+                  padding-top: 2px;
+                  font-weight: 700;
+                }
+              }
+            }
+            .bet-returns {
+              color: $gray-900;
+              padding: 5px 10px;
+              .potential-returns-headline {
+                float: none;
+                text-align: center;
+                display: block;
+                color: $gray-900;
+                font-size: 13px;
+                font-family: 'Open Sans';
+                font-weight: 700;
+                margin-bottom: 2px;
+              }
+              .potential-returns {
+                float: none;
+                text-align: center;
+                display: block;
+                color: $wagerr-red;
+                font-size: 12px;
+                font-family: 'Open Sans';
+                font-weight: 700;
+                letter-spacing: 0.5px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.empty-slip-message {
+  padding: 10px;
+  text-align: center;
+}
 
 .bet-warning {
   background: $gray-900;
