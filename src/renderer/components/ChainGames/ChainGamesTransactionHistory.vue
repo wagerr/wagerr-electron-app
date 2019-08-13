@@ -41,6 +41,12 @@ import {
 export default {
   name: 'ChainGamesTransactionHistory',
 
+  data() {
+    return {
+      getCGBetTransactionListIID: 0
+    };
+  },
+
   computed: {
     ...Vuex.mapGetters([
       'timezone',
@@ -65,20 +71,14 @@ export default {
     }
   },
 
-  data() {
-    return {
-      timeout: 0
-    };
-  },
-
   mounted() {
     // Ping the get chain games RPC method every 5 secs to show any new chain
     // game transactions.
-    this.timeout = setInterval(
+    this.getCGBetTransactionListIID = setInterval(
       async function() {
         this.getCGBetTransactionList(25);
       }.bind(this),
-      5000
+      30000
     );
 
     // Initialise the Material JS so modals, drop down menus etc function.
@@ -86,7 +86,7 @@ export default {
   },
 
   destroyed() {
-    clearInterval(this.timeout);
+    clearInterval(this.getCGBetTransactionListIID);
   }
 };
 </script>
