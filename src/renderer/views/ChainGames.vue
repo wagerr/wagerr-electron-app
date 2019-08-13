@@ -169,7 +169,7 @@ export default {
 
   data() {
     return {
-      listChainGamesEventsIntervalID: null
+      listChainGamesEventsIID: 0
     };
   },
 
@@ -216,7 +216,7 @@ export default {
   mounted() {
     this.listChainGamesEvents();
 
-    this.listChainGamesEventsIntervalID = setInterval(
+    this.listChainGamesEventsIID = setInterval(
       function() {
         this.listChainGamesEvents();
       }.bind(this),
@@ -225,7 +225,7 @@ export default {
   },
 
   destroyed() {
-    clearInterval(this.listChainGamesEventsIntervalID);
+    clearInterval(this.listChainGamesEventsIID);
   }
 };
 </script>
