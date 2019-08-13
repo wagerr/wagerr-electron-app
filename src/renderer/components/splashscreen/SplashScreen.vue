@@ -183,6 +183,7 @@ export default {
         }
 
         count++;
+        console.log("Count: " + count)
 
         // Give the daemon an arbitrary 101 loops to find peers. If not show an error to the user.
         if (count === 100) {
