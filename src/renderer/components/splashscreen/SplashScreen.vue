@@ -48,15 +48,14 @@
 </template>
 
 <script>
-import Vuex from 'vuex';
-import moment from 'moment';
-import blockchainRPC from '@/services/api/blockchain_rpc';
-import networkRPC from '@/services/api/network_rpc';
-import { getWagerrConfPath } from '../../../main/blockchain/blockchain';
-import ipcRenderer from '../../../common/ipc/ipcRenderer';
 import { shell } from 'electron';
-
-let path = require('path');
+import moment from 'moment';
+import { path } from 'path'
+import { mapActions, mapGetters } from 'vuex';
+import blockchainRPC from '../../services/api/blockchain_rpc';
+import networkRPC from '../../services/api/network_rpc';
+import ipcRenderer from '../../../common/ipc/ipcRenderer';
+import { getWagerrConfPath } from '../../../main/blockchain/blockchain';
 
 export default {
   name: 'SplashScreen',
@@ -68,7 +67,7 @@ export default {
   },
 
   computed: {
-    ...Vuex.mapGetters([
+    ...mapGetters([
       'balance',
       'initText',
       'walletLoaded',
@@ -79,7 +78,7 @@ export default {
   },
 
   methods: {
-    ...Vuex.mapActions([
+    ...mapGetters([
       'syncWallet',
       'updateInfo',
       'updateBlocks',
@@ -171,6 +170,9 @@ export default {
       let connections = 0;
       let peersFound = false;
 
+      this.updateInitText('Connecting to peers... this may take some time!');
+      ipcRenderer.log("info", "Waiting for daemon to find peers")
+
       // While no peers have connected to the daemon keep looping.
       while (!peersFound) {
         let peerInfo = await networkRPC.getPeerInfo();
@@ -187,6 +189,7 @@ export default {
 
         // Give the daemon an arbitrary 101 loops to find peers. If not show an error to the user.
         if (count === 100) {
+          ipcRenderer.log("warn", "No peers could be found, please review your Wagerr Core logs")
           ipcRenderer.noPeers();
           return 1;
         }
@@ -197,6 +200,7 @@ export default {
 
       // Once peers have been found resolve the Promise.
       if (peersFound) {
+        ipcRenderer.log("info", "Connected to network")
         return 1;
       }
     },
@@ -209,6 +213,8 @@ export default {
       let bestBlockTimeDifference;
       let synced = false;
       let verificationProgress;
+
+      ipcRenderer.log("info", "Syncing blockchain")
 
       while (!synced) {
         let blockchainInfo = await blockchainRPC.getBlockchainInfo();
@@ -241,28 +247,20 @@ export default {
 
       // Once peers have been found resolve the Promise.
       if (synced) {
+        ipcRenderer.log("info", "Blockchain is now synced with network")
         return 1;
       }
     },
 
     onOpenConf: function() {
-      console.log(this.confPath);
-      //ipcRenderer.openConf(s);
+      ipcRenderer.log("debug", "Opening wagerr.conf file")
       shell.openItem(this.confPath);
     }
   },
 
   async created() {
     // Check if connected to the Wagerr network and if we have peers.
-    this.updateInitText('Connecting to peers... This may take some time');
     await this.checkPeerStatus();
-
-    // After connecting to peers get some blockchain info.
-    this.updateInitText('Getting blockchain information...');
-    await this.walletExtendedBalance();
-    await this.getWGRTransactionRecords(100);
-    await this.getPLBetTransactionList(50);
-    await this.getCGBetTransactionList(25);
 
     // Set the network.
     let blockchainInfo = await blockchainRPC.getBlockchainInfo();
@@ -271,6 +269,13 @@ export default {
 
     // If Wallet not synced show time behind text.
     await this.syncBlockchainStatus();
+
+    // After connecting to peers get some blockchain info.
+    this.updateInitText('Fetching wallet information...');
+    await this.walletExtendedBalance();
+    await this.getWGRTransactionRecords(100);
+    await this.getPLBetTransactionList(50);
+    await this.getCGBetTransactionList(25);
 
     // load User Config - could use methods access, instead of store.dispatch
     await this.loadUserSettings(network);
