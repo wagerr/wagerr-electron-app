@@ -1,6 +1,6 @@
 {
   "name": "wagerr-electron-app",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Wagerr Electron App is a cross-platform GUI for Wagerr enabling betting on the blockchain.",
   "author": {
     "name": "Wagerr Limited"
