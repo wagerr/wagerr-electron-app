@@ -78,7 +78,7 @@ export default {
   },
 
   methods: {
-    ...mapGetters([
+    ...mapActions([
       'syncWallet',
       'updateInfo',
       'updateBlocks',
