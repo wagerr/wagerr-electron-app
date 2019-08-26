@@ -258,6 +258,8 @@ export default {
   },
 
   async created() {
+    await this.sleep(20000);
+
     // Check if connected to the Wagerr network and if we have peers.
     await this.checkPeerStatus();
 
