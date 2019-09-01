@@ -1,17 +1,20 @@
 import moment from 'moment';
 import wagerrRPC from '@/services/api/wagerrRPC';
-// import ElectronStore from 'electron-store';
 
 const state = function() {
   return {
-    eventsFilter: '',
+    eventsSportFilter: '',
+    eventsTournamentFilter: '',
     eventsList: {}
   };
 };
 
 const getters = {
-  getEventsFilter: state => {
-    return state.eventsFilter;
+  getEventsSportFilter: state => {
+    return state.eventsSportFilter;
+  },
+  getEventsTournamentFilter: state => {
+    return state.eventsTournamentFilter;
   },
 
   eventsList: state => {
@@ -19,81 +22,63 @@ const getters = {
   }
 };
 
+function filterListEvents(events, state) {
+  // Filter events that are expired (15 mins before event start time)
+  return events.filter(e => {
+    // Prevent events that:
+    // - start in less than 12 mins 
+    // - and events starting outside the two weeks listed.
+    // - events belonging to a tournament different to the filter
+    return  e.starting - 12 * 60 > moment().unix() &&
+            e.starting < moment().add(13, 'days').unix() &&
+            (!state.eventsTournamentFilter || e.tournament === state.eventsTournamentFilter)
+
+  }).sort((x, y) => { x.starting - y.starting });  
+}
+
+function treatListEventErr(err) {
+  // TODO Handle `err` properly.
+  console.error(err);
+}
+
 const actions = {
-  updateEventsFilter({ commit, state }, filter) {
-    commit('setEventsFilter', filter);
+  updateEventsSportFilter({ commit, state }, sport) {
+    commit('setEventsSportFilter', sport);
   },
-
-  // Todo - marty: remove code duplication!
-  listEvents({ commit, state }, filter) {
+  updateEventsTournamentFilter({ commit, state }, tournament) {
+    commit('setEventsTournamentFilter', tournament);
+  },
+  
+  //TODO it would be nice to be able to send empty/null parameters to the rpc api, now we have to call twice to the library like below (code duplication):
+  // * One option is to modify wagerrd-rpc library so it ignores null/undefined parameters, the only caveat is that all parameters after a null have to be null as well
+  // * Another option is to modify the endpoint so it can interpret some string as an empty value
+  listEvents({ dispatch, commit, state }, filter) {
     return new Promise((resolve, reject) => {
-      if (filter) {
+      if (state.eventsSportFilter) {
         wagerrRPC.client
-          .listEvents(filter)
+          .listEvents(state.eventsSportFilter)
           .then(function(resp) {
-            // Filter events that are expired (15 mins before event start time)
-            const filteredList = [];
-            const numEvents = resp.result.length;
-
-            for (let i = 0; i < numEvents; i++) {
-              // Prevent events that are starting in less than 12 mins and events starting outside the two weeks listed.
-              if (
-                resp.result[i].starting - 12 * 60 > moment().unix() &&
-                resp.result[i].starting <
-                  moment()
-                    .add(13, 'days')
-                    .unix()
-              ) {
-                filteredList.push(resp.result[i]);
-              }
-            }
-
-            // Sort events by start time.
-            filteredList.sort(function(x, y) {
-              return x.starting - y.starting;
-            });
-
-            commit('setEventsList', filteredList);
+            let events = filterListEvents(resp.result, state);
+            commit('setEventsList', events);
+            dispatch('updateTournaments', events, { root: true });
             resolve();
           })
           .catch(function(err) {
-            // TODO Handle `err` properly.
-            console.error(err);
-            reject(err);
+            treatListEventErr(err, reject);
+            reject(err);            
           });
       } else {
         wagerrRPC.client
           .listEvents()
           .then(function(resp) {
-            // Filter events that are expired (15 mins before event start time)
-            const filteredList = [];
-            const numEvents = resp.result.length;
-
-            for (let i = 0; i < numEvents; i++) {
-              // Prevent events that are starting in less than 12 mins and events starting outside the two weeks listed.
-              if (
-                resp.result[i].starting - 12 * 60 > moment().unix() &&
-                resp.result[i].starting <
-                  moment()
-                    .add(13, 'days')
-                    .unix()
-              ) {
-                filteredList.push(resp.result[i]);
-              }
-            }
-
-            // Sort events by start time.
-            filteredList.sort(function(x, y) {
-              return x.starting - y.starting;
-            });
-
-            commit('setEventsList', filteredList);
+            let events = filterListEvents(resp.result, state);
+            commit('setEventsList', events);
+            dispatch('updateTournaments', events, { root: true });
             resolve();
           })
           .catch(function(err) {
-            // TODO Handle `err` properly.
-            console.error(err);
-            reject(err);
+            treatListEventErr(err, reject);
+            reject(err);            
           });
       }
     });
@@ -107,8 +92,13 @@ const actions = {
 };
 
 const mutations = {
-  setEventsFilter(state, filter) {
-    state.eventsFilter = filter;
+  setEventsSportFilter(state, sport) {
+    state.eventsSportFilter = sport;
+    state.eventsTournamentFilter = '';
+  },
+
+  setEventsTournamentFilter(state, tournament) {
+    state.eventsTournamentFilter = tournament;
   },
 
   setEventsList(state, eventsList) {

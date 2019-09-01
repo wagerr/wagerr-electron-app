@@ -314,7 +314,7 @@ export default {
 
   computed: {
     ...Vuex.mapGetters([
-      'getEventsFilter',
+      'getEventsSportFilter',
       'eventsList',
       'getTimezone',
       'convertOdds',
@@ -530,13 +530,13 @@ export default {
   },
 
   created() {
-    this.listEvents(this.getEventsFilter);
+    this.listEvents(this.getEventsSportFilter);
     // this.testlistEvents();
 
     // ping listevents every 5 secs for new and updated events.
     this.timeout = setInterval(
       async function() {
-        this.listEvents(this.getEventsFilter);
+        this.listEvents(this.getEventsSportFilter);
         // this.testlistEvents();
       }.bind(this),
       5000
