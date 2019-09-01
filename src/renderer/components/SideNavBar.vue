@@ -2,316 +2,34 @@
   <nav>
     <ul class="side-nav">
       <h5>Sort By Sport</h5>
-      <li
-        @click="filterEvents()"
+
+      <li 
+        v-for="sport in sportsAvailable" 
+        :key="sport.name"
         v-bind:class="{
-          on: getEventsFilter === '' || getEventsFilter === undefined
-        }"
+          on: getEventsSportFilter === resolveSearchTerm(sport)
+        }"        
       >
-        <div class="parent">
-          <a>
-            <i class="icon-calendar-check"></i>
+        <div class="parent">        
+          <a @click="filterEventsBySport(resolveSearchTerm(sport))">
+            <i :class="sport.icon"></i>        
+            <span>{{sport.name}}</span>
 
-            <span>All Events</span>
+            <!-- <i class="icon-chevron-down pull-right"></i> -->
           </a>
         </div>
-      </li>
-
-      <li
-        @click="filterEvents('Football')"
-        v-bind:class="{ on: getEventsFilter === 'Football' }"
-      >
-        <div class="parent">
-          <a active="true">
-            <i class="icon-football"></i>
-
-            <span>Football</span>
-
-            <i class="icon-chevron-down pull-right"></i>
-          </a>
-        </div>
-
-        <!--<ul class="bet-dropdown">
-
-                  <li class="open-demo-dialog"><span>NFL</span></li>
-
-                  <li class="open-demo-dialog"><span>NCAA</span></li>
-
-        </ul>-->
-      </li>
-      <li
-        @click="filterEvents('Baseball')"
-        v-bind:class="{ on: getEventsFilter === 'Baseball' }"
-      >
-        <div class="parent">
-          <a>
-            <i class="icon-baseball"></i>
-
-            <span>Baseball</span>
-
-            <i class="icon-chevron-down pull-right"></i>
-          </a>
-        </div>
-      </li>
-
-      <li
-        @click="filterEvents('Basketball')"
-        v-bind:class="{ on: getEventsFilter === 'Basketball' }"
-      >
-        <div class="parent">
-          <a>
-            <i class="icon-basketball"></i>
-
-            <span>Basketball</span>
-
-            <i class="icon-chevron-down pull-right"></i>
-          </a>
-        </div>
-
-        <!--<ul class="bet-dropdown">
-
-                  <li class="open-demo-dialog"><span>NBA</span></li>
-
-                  <li class="open-demo-dialog"><span>NCAA</span></li>
-
-                  <li class="open-demo-dialog"><span>Eurobasket</span></li>
-
-        </ul>-->
-      </li>
-
-      <!--<li>
-
-              <div class="parent">
-
-                  <a>
-
-                      <i class="icon-baseball"></i>
-
-                      <span>Baseball</span>
-
-                      <i class="icon-chevron-down pull-right"></i>
-
-                  </a>
-
-              </div>
-
-              <ul class="bet-dropdown">
-
-                  <li class="open-demo-dialog"><span>MLB</span></li>
-
-                  <li class="open-demo-dialog"><span>NCAA</span></li>
-
-                  <li class="open-demo-dialog"><span>WSOB</span></li>
-
-              </ul>
-
-      </li>-->
-
-      <li
-        @click="filterEvents('Hockey')"
-        v-bind:class="{ on: getEventsFilter === 'Hockey' }"
-      >
-        <div class="parent">
-          <a>
-            <i class="icon-hockey"></i>
-
-            <span>Hockey</span>
-
-            <i class="icon-chevron-down pull-right"></i>
-          </a>
-        </div>
-
-        <!--<ul class="bet-dropdown">
-
-                  <li class="open-demo-dialog"><span>NHL</span></li>
-
-                  <li class="open-demo-dialog"><span>KHL</span></li>
-
-                  <li class="open-demo-dialog"><span>AHL</span></li>
-
-        </ul>-->
-      </li>
-
-      <!--<li>
-
-              <div class="parent">
-
-                  <a>
-
-                      <i class="icon-golf"></i>
-
-                      <span>Golf</span>
-
-                      <i class="icon-chevron-down pull-right"></i>
-
-                  </a>
-
-              </div>
-
-              <ul class="bet-dropdown">
-
-                  <li class="open-demo-dialog"><span>PGA</span></li>
-
-                  <li class="open-demo-dialog"><span>ETOUR</span></li>
-
-                  <li class="open-demo-dialog"><span>RYDERCUP</span></li>
-
-              </ul>
-
-      </li>-->
-
-      <!--<li @click="filterEvents('Tennis')">
-
-              <div class="parent">
-
-                  <a>
-
-                      <i class="icon-tennis2"></i>
-
-                      <span>Tennis</span>
-
-                      <i class="icon-chevron-down pull-right"></i>
-
-                  </a>
-
-              </div>
-
-              <ul class="bet-dropdown">
-
-                  <li class="open-demo-dialog"><span>ATP</span></li>
-
-                  <li class="open-demo-dialog"><span>DAVISC</span></li>
-
-                  <li class="open-demo-dialog"><span>ITF</span></li>
-
-                  <li class="open-demo-dialog"><span>GST</span></li>
-
-              </ul>
-
-      </li>-->
-
-      <!--<li>
-
-              <div class="parent">
-
-                  <a>
-
-                      <i class="icon-headset"></i>
-
-                      <span>e-Sports</span>
-
-                      <i class="icon-chevron-down pull-right"></i>
-
-                  </a>
-
-              </div>
-
-              <ul class="bet-dropdown">
-
-                  <li class="open-demo-dialog"><span>CS:GO</span></li>
-
-                  <li class="open-demo-dialog"><span>DOTA</span></li>
-
-                  <li class="open-demo-dialog"><span>LoL</span></li>
-
-                  <li class="open-demo-dialog"><span>OVERWATCH</span></li>
-
-                  <li class="open-demo-dialog"><span>STARCRAFT</span></li>
-
-                  <li class="open-demo-dialog"><span>HALO</span></li>
-
-              </ul>
-
-      </li>-->
-
-      <li
-        @click="filterEvents('Soccer')"
-        v-bind:class="{ on: getEventsFilter === 'Soccer' }"
-      >
-        <div class="parent">
-          <a>
-            <i class="icon-soccer"></i>
-
-            <span>Soccer</span>
-
-            <i class="icon-chevron-down pull-right"></i>
-          </a>
-        </div>
-      </li>
-
-      <li
-        @click="filterEvents('Mixed Martial Arts')"
-        v-bind:class="{ on: getEventsFilter === 'Mixed Martial Arts' }"
-      >
-        <div class="parent">
-          <a>
-            <i class="icon-bench-press"></i>
-
-            <span>MMA</span>
-
-            <i class="icon-chevron-down pull-right"></i>
-          </a>
-        </div>
-      </li>
-
-      <li
-        @click="filterEvents('Aussie Rules')"
-        v-bind:class="{ on: getEventsFilter === 'Aussie Rules' }"
-      >
-        <div class="parent">
-          <a>
-            <i class="icon-football"></i>
-
-            <span>Aussie Rules</span>
-
-            <i class="icon-chevron-down pull-right"></i>
-          </a>
-        </div>
-      </li>
-
-      <li
-        @click="filterEvents('Cricket')"
-        v-bind:class="{ on: getEventsFilter === 'Cricket' }"
-      >
-        <div class="parent">
-          <a>
-            <i class="icon-baseball"></i>
-
-            <span>Cricket</span>
-
-            <i class="icon-chevron-down pull-right"></i>
-          </a>
-        </div>
-      </li>
-
-      <li
-        @click="filterEvents('Rugby Union')"
-        v-bind:class="{ on: getEventsFilter === 'Rugby Union' }"
-      >
-        <div class="parent">
-          <a>
-            <i class="icon-football"></i>
-
-            <span>Rugby Union</span>
-
-            <i class="icon-chevron-down pull-right"></i>
-          </a>
-        </div>
-      </li>
-
-      <li
-        @click="filterEvents('Rugby League')"
-        v-bind:class="{ on: getEventsFilter === 'Rugby League' }"
-      >
-        <div class="parent">
-          <a>
-            <i class="icon-football"></i>
-
-            <span>Rugby League</span>
-
-            <i class="icon-chevron-down pull-right"></i>
-          </a>
-        </div>
+        <ul class="tournaments-dropdown" v-if="getEventsSportFilter === resolveSearchTerm(sport) && hasTournaments(sport.name)">
+          <li 
+            v-for="tournament in getTournaments(sport.name)" 
+            :key="tournament"
+            @click="filterEventsByTournament(tournament)"
+            v-bind:class="{
+              on: getEventsTournamentFilter === tournament
+            }"
+          >
+              <div class="tournament" :title="tournament"><span>{{tournament}}</span></div>
+          </li>
+        </ul>
       </li>
     </ul>
   </nav>
@@ -319,18 +37,31 @@
 
 <script>
 import Vuex from 'vuex';
+import {SPORTS_AVAILABLE} from '../../main/constants/constants';
 
 export default {
   name: 'SideNavBar',
   computed: {
-    ...Vuex.mapGetters(['getEventsFilter'])
+    ...Vuex.mapGetters(['getEventsSportFilter', 'getEventsTournamentFilter', 'getTournaments', 'hasTournaments'])
   },
+  data: () => {
+    return  {
+      sportsAvailable: [...SPORTS_AVAILABLE]
+    };
+  }, 
   methods: {
-    ...Vuex.mapActions(['updateEventsFilter', 'listEvents']),
-    filterEvents: async function(eventFilter) {
-      await this.updateEventsFilter(eventFilter);
-      // await this.$store.dispatch("eventsFilter", eventFilter);
-      await this.listEvents(eventFilter);
+    ...Vuex.mapActions(['updateEventsSportFilter', 'updateEventsTournamentFilter', 'listEvents']),    
+    filterEventsBySport: async function(sportFilter) {
+      await this.updateEventsSportFilter(sportFilter);
+      // await this.$store.dispatch("eventsSportFilter", sportFilter);
+      await this.listEvents();
+    },
+    filterEventsByTournament: async function(tournamentFilter) {
+      await this.updateEventsTournamentFilter(tournamentFilter);
+      await this.listEvents();
+    },
+    resolveSearchTerm: (sport) => {
+      return sport.searchTerm === '' || sport.searchTerm ? sport.searchTerm : sport.name;
     }
   }
 };
@@ -370,11 +101,20 @@ nav ul li {
   cursor: pointer;
 }
 
-nav ul li span {
-  display: inline-block;
-  vertical-align: middle;
-  padding: 10px 0px;
-  cursor: pointer;
+nav ul li {
+  span {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 10px 0px;
+    cursor: pointer;
+  }
+
+  div.tournament {
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 10px;
+  }
 }
 
 nav ul li i {
