@@ -9,6 +9,7 @@ import betSlip from './modules/betslip';
 import cgBetSlip from './modules/cgbetslip';
 import network from './modules/network';
 import rpc from './modules/rpc';
+import tournamentsCache from './modules/tournamentscache';
 
 Vue.use(Vuex);
 
@@ -21,7 +22,8 @@ export default new Vuex.Store({
     cgBetSlip,
     transactions,
     network,
-    rpc
+    rpc,
+    tournamentsCache
   },
 
   strict: true
