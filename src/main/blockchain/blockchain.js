@@ -13,7 +13,7 @@ const minTxFee = 0.0001;
 const dustLimit = 0.0000546;
 
 // Define some env values.
-const environment = Object.assign(
+const environment = 
   {
     DEVELOPMENT: 'development',
     TEST: 'test',
@@ -26,9 +26,7 @@ const environment = Object.assign(
     isTest: () => environment.current === environment.TEST,
     isProduction: () => environment.current === environment.PRODUCTION,
     isMainnet: () => environment.NETWORK === 'mainnet'
-  },
-  process.env
-);
+  };
 
 // If the user has not specified a rpcuser and rpcpassword in their wagerr.conf
 // then generate random RFC4122 version 4 compliant UUIDs for them. Be aware
