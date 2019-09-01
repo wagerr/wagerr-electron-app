@@ -18,7 +18,6 @@ const modules = modulesFiles.keys().reduce((modules, modulePath) => {
 
 export default new Vuex.Store({
   modules,
-
   // In strict mode, whenever Vuex state is mutated outside of mutation
   // handlers, an error will be thrown. Do not enable strict mode when
   // deploying for production to avoid the performance cost!
