@@ -12,7 +12,6 @@ const getters = {
     return tournamentsSet && tournamentsSet.size > 0;
   },
   getNEvents: state => sport => {
-    console.log('getNEVents', sport);
     const nEvents = state.nEventsBySport.get(sport);
     return nEvents === undefined ? 0 : nEvents;
   }
