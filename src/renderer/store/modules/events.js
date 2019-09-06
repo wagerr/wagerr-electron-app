@@ -29,15 +29,14 @@ function filterEventsByStartingTime(events) {
     // - start in less than 12 mins 
     // - and events starting outside the two weeks listed.
     return  e.starting - 12 * 60 > moment().unix() &&
-            e.starting < moment().add(13, 'days').unix() &&
-            (!state.eventsTournamentFilter || e.tournament === state.eventsTournamentFilter);
+            e.starting < moment().add(13, 'days').unix();
 
   }).sort((x, y) => { x.starting - y.starting });  
 }
 
 function filterEventsByTournament(events, state) {
   return events.filter(e => {
-    return  (!state.eventsTournamentFilter || e.tournament === state.eventsTournamentFilter);
+    return  !state.eventsTournamentFilter || e.tournament === state.eventsTournamentFilter;
   });  
 }
 
