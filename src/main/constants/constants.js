@@ -22,7 +22,7 @@ export const bettingParams = {
 export const SPORTS_AVAILABLE =  [
   {
     name: 'All Events',
-    searchTerm: '',
+    id: '',
     icon: 'icon-calendar-check'
   }, {
     name: 'Football',    
@@ -41,7 +41,7 @@ export const SPORTS_AVAILABLE =  [
     icon: 'icon-soccer'
   }, {
     name: 'MMA',    
-    searchTerm: 'Mixed Martial Arts',
+    id: 'Mixed Martial Arts',
     icon: 'icon-bench-press'
   }, {
     name: 'Aussie Rules',    
