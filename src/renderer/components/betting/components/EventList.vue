@@ -2,7 +2,10 @@
   <div id="events">
 
     <div class="row search-row">
-      <div class="col s4 offset-s8">
+      <div class="col s4 offset-s4">
+        <p class="n-events pull-right">Showing {{nEvents}} events</p>
+      </div>
+      <div class="col s4 ">
         <input v-model="searchTermInput" type="text" placeholder="Search..." />
       </div>
     </div>          
@@ -317,6 +320,9 @@ export default {
       'convertOdds',
       'betSlip'      
     ]),
+    'nEvents': function() { 
+      return this.events.length; 
+    },
     'events': function() {    
       return !Array.isArray(this.eventsList) ? [] :
         this.eventsList.reduce((acc, e) => {          
@@ -548,6 +554,11 @@ export default {
 
 input::placeholder {
   color: #555
+}
+
+.n-events {
+  color: #999; 
+  font-size: 14px;
 }
 
 .events-list li {
