@@ -22,18 +22,23 @@ const getters = {
   }
 };
 
-function filterListEvents(events, state) {
+function filterEventsByStartingTime(events) {
   // Filter events that are expired (15 mins before event start time)
   return events.filter(e => {
     // Prevent events that:
     // - start in less than 12 mins 
     // - and events starting outside the two weeks listed.
-    // - events belonging to a tournament different to the filter
     return  e.starting - 12 * 60 > moment().unix() &&
             e.starting < moment().add(13, 'days').unix() &&
-            (!state.eventsTournamentFilter || e.tournament === state.eventsTournamentFilter)
+            (!state.eventsTournamentFilter || e.tournament === state.eventsTournamentFilter);
 
   }).sort((x, y) => { x.starting - y.starting });  
+}
+
+function filterEventsByTournament(events, state) {
+  return events.filter(e => {
+    return  (!state.eventsTournamentFilter || e.tournament === state.eventsTournamentFilter);
+  });  
 }
 
 function treatListEventErr(err) {
@@ -58,9 +63,10 @@ const actions = {
         wagerrRPC.client
           .listEvents(state.eventsSportFilter)
           .then(function(resp) {
-            let events = filterListEvents(resp.result, state);
+            let events = filterEventsByStartingTime(resp.result);
+            dispatch('updateEventsDataCache', events, { root: true });
+            events = filterEventsByTournament(events, state);
             commit('setEventsList', events);
-            dispatch('updateTournaments', events, { root: true });
             resolve();
           })
           .catch(function(err) {
@@ -71,9 +77,10 @@ const actions = {
         wagerrRPC.client
           .listEvents()
           .then(function(resp) {
-            let events = filterListEvents(resp.result, state);
+            let events = filterEventsByStartingTime(resp.result);
+            dispatch('updateEventsDataCache', events, { root: true });
+            events = filterEventsByTournament(events, state);
             commit('setEventsList', events);
-            dispatch('updateTournaments', events, { root: true });
             resolve();
           })
           .catch(function(err) {
