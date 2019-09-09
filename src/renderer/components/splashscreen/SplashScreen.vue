@@ -261,6 +261,12 @@ export default {
     // Check if connected to the Wagerr network and if we have peers.
     await this.checkPeerStatus();
 
+    // After connecting to peers get some blockchain info.
+    this.updateInitText('Getting blockchain information...');
+    await this.walletExtendedBalance();
+    await this.getWGRTransactionRecords(100);
+    // await this.getPLBetTransactionList({length: 3, rexg: '*', from: 0});
+    await this.getCGBetTransactionList(25);
 
     // Set the network.
     let blockchainInfo = await blockchainRPC.getBlockchainInfo();
