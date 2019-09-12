@@ -51,18 +51,12 @@ const mutations = {
   // Remove a single bet from the bet slip using hte betId.
   removeBet(state, betId) {
     const { betSlip } = state;
-    const bet = betSlip.find(p => p.betId === betId);
+    const betIndex = betSlip.findIndex(p => p.betId === betId);
 
-    // If a bet with the given ID is in the bet slip.
-    if (bet) {
-      // Iterate over bet slip and remove the bet with the matching betId.
-      for (let i = 0; i < betSlip.length; i++) {
-        const obj = betSlip[i];
-
-        if (obj.betId === betId) {
-          betSlip.splice(i, 1);
-        }
-      }
+    if (betIndex >= 0) {
+      betSlip.splice(betIndex, 1);
+    } else {
+      //TODO show a dialog error message and log the error
     }
   },
 
@@ -96,6 +90,7 @@ const mutations = {
       betItem.totalValue = total_calc[betItem.outcome];
     }
     // copied from eventList filter
+    //TODO centralize this code (also found on events store):
     if (
       eventDetails.starting - 12 * 60 > moment().unix() &&
       eventDetails.starting <
