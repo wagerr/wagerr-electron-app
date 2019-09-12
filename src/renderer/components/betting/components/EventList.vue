@@ -1,16 +1,25 @@
 <template>
   <div id="events">
-    <div v-if="eventsList.length > 0">
+
+    <div class="row search-row">
+      <div class="col s4 offset-s4">
+        <p class="n-events pull-right">Showing {{nEvents}} events</p>
+      </div>
+      <div class="col s4 ">
+        <input v-model="searchTermInput" type="text" placeholder="Search..." />
+      </div>
+    </div>          
+
+    <div v-if="events.length > 0">
       <ul class="events-list">
-        <li v-for="event in eventsList" :key="event.event_id" class="card">
+        <li v-for="event in events" :key="event.event_id" class="card">
           <div class="event-tournament">
-            <span class="sport"
-              >{{ event.tournament }} (Event ID: {{ event.event_id }})</span
-            >
-            <span class="date pull-right">{{
-              Number(event.starting)
-                | moment('timezone', getTimezone, 'dddd, MMM Do h:mm A (Z z)')
-            }}</span>
+            <span class="sport">
+              <span v-html="event.show.tournament" /> (Event ID: <span v-html="event.show.eventId" />)
+            </span>
+            <span class="date pull-right">
+              <span v-html="event.show.starting" />
+            </span>
           </div>
 
           <div class="event-details">
@@ -37,11 +46,11 @@
           <div class="event-pair row">
             <div class="col s12 m4 event-teams">
               <div class="teams">
-                <div class="team-name">{{ event.teams.home }}</div>
+                <div class="team-name"><span v-html="event.show.homeTeam" /></div>
               </div>
 
               <div class="teams">
-                <div class="team-name">{{ event.teams.away }}</div>
+                <div class="team-name"><span v-html="event.show.awayTeam" /></div>
               </div>
 
               <div class="teams">
@@ -65,7 +74,7 @@
                         )
                       "
                     >
-                      {{ convertOdds(event.odds[0].mlHome) }}
+                      <span v-html="event.show.mlHomeOdds" />
                     </button>
                     <button v-else class="btn" disabled>
                       -
@@ -84,13 +93,14 @@
                         )
                       "
                     >
-                      {{ convertOdds(event.odds[0].mlAway) }}
+                      <span v-html="event.show.mlAwayOdds" />
                     </button>
 
                     <button v-else class="btn" disabled>
                       -
                     </button>
                   </div>
+
                   <div class="odd">
                     <button
                       v-if="event.odds[0].mlDraw !== 0"
@@ -104,7 +114,7 @@
                         )
                       "
                     >
-                      {{ convertOdds(event.odds[0].mlDraw) }}
+                      <span v-html="event.show.mlDrawOdds" />
                     </button>
 
                     <button v-else class="btn" disabled>
@@ -151,17 +161,17 @@
                         )
                       "
                     >
-                      <span class="pull-left"
-                        >{{
+                      <span class="pull-left">
+                        {{
                           event.odds[0].mlHome > event.odds[0].mlAway
                             ? '+'
                             : '-'
-                        }}{{ event.odds[1].spreadPoints / 10 }}</span
-                      >
+                        }}<span v-html="event.show.spreadPointsOdds" />
+                      </span>
 
-                      <span class="pull-right">{{
-                        convertOdds(event.odds[1].spreadHome)
-                      }}</span>
+                      <span class="pull-right">
+                        <span v-html="event.show.spreadHomeOdds" />
+                      </span>
                     </button>
                   </div>
                   <div class="spread">
@@ -183,17 +193,17 @@
                         )
                       "
                     >
-                      <span class="pull-left"
-                        >{{
+                      <span class="pull-left">
+                        {{
                           event.odds[0].mlAway > event.odds[0].mlHome
                             ? '+'
                             : '-'
-                        }}{{ event.odds[1].spreadPoints / 10 }}</span
-                      >
+                        }}<span v-html="event.show.spreadPointsOdds" />                        
+                      </span>
 
-                      <span class="pull-right">{{
-                        convertOdds(event.odds[1].spreadAway)
-                      }}</span>
+                      <span class="pull-right">
+                        <span v-html="event.show.spreadAwayOdds" />
+                      </span>
                     </button>
                   </div>
                 </div>
@@ -229,13 +239,13 @@
                         )
                       "
                     >
-                      <span class="totalnum"
-                        >(O{{ event.odds[2].totalsPoints / 10 }})</span
-                      >
+                      <span class="totalnum">
+                        (O<span v-html="event.show.totalsPointsOdds" />)
+                      </span>
 
-                      <span class="totalodds">{{
-                        convertOdds(event.odds[2].totalsOver)
-                      }}</span>
+                      <span class="totalodds">
+                        <span v-html="event.show.totalsOverOdds" />
+                      </span>
                     </button>
                   </div>
                   <div class="total">
@@ -253,13 +263,13 @@
                         )
                       "
                     >
-                      <span class="totalnum"
-                        >(U{{ event.odds[2].totalsPoints / 10 }})</span
-                      >
+                      <span class="totalnum">
+                        (U<span v-html="event.show.totalsPointsOdds" />)
+                      </span>
 
-                      <span class="totalodds">{{
-                        convertOdds(event.odds[2].totalsUnder)
-                      }}</span>
+                      <span class="totalodds">
+                        <span v-html="event.show.totalsUnderOdds" />
+                      </span>
                     </button>
                   </div>
                 </div>
@@ -296,6 +306,8 @@
 <script>
 import Vuex from 'vuex';
 import moment from 'moment';
+import _ from 'lodash';
+
 
 export default {
   name: 'EventList',
@@ -306,8 +318,48 @@ export default {
       'eventsList',
       'getTimezone',
       'convertOdds',
-      'betSlip'
-    ])
+      'betSlip'      
+    ]),
+    'nEvents': function() { 
+      return this.events.length; 
+    },
+    'events': function() {    
+      return !Array.isArray(this.eventsList) ? [] :
+        this.eventsList.reduce((acc, e) => {          
+          let event = {...e};
+          event.teams = {...e.teams};
+          event.odds = [...e.odds];
+          event.show = {
+            eventId: e.event_id.toString(),
+            tournament: e.tournament,
+            starting: moment(Number(e.starting) * 1000).tz(this.getTimezone).format('dddd, MMM Do h:mm A (Z z)'),
+            homeTeam: e.teams.home,
+            awayTeam: e.teams.away,
+            mlHomeOdds: this.convertOdds(e.odds[0].mlHome),
+            mlAwayOdds: this.convertOdds(e.odds[0].mlAway),
+            mlDrawOdds: this.convertOdds(e.odds[0].mlDraw),
+            spreadHomeOdds: this.convertOdds(e.odds[1].spreadHome),
+            spreadAwayOdds: this.convertOdds(e.odds[1].spreadAway),
+            spreadPointsOdds: e.odds[1].spreadPoints / 10,
+            totalsOverOdds: this.convertOdds(e.odds[2].totalsOver),
+            totalsUnderOdds: this.convertOdds(e.odds[2].totalsUnder),
+            totalsPointsOdds: e.odds[2].totalsPoints / 10,
+          };
+                    
+          if (!this.searchTerm) {
+            acc.push(event);
+
+          } else {
+            let result = this._checkContainsSearchTermAndMark(event);
+            if (result.hasSearchTerm) {
+              event.show = result.show;
+              acc.push(event);
+            }
+          }
+
+          return acc;
+        }, []);
+    }
   },
 
   methods: {
@@ -318,6 +370,37 @@ export default {
       'testlistEvents',
       'updateBet'
     ]),
+
+    
+    _maybeMarkBySearchTerm: function(text, hasSearchTerm) {
+      text = text.toString();
+      const index = text.toLowerCase().indexOf(this.searchTerm.toLowerCase());
+      
+      if (index >= 0) {
+        const endSearchTerm = index + this.searchTerm.length;
+        text = `${text.slice(0, index)}<mark>${text.slice(index, endSearchTerm)}</mark>${text.slice(endSearchTerm)}`;
+        hasSearchTerm = true;
+      }
+
+      return [hasSearchTerm, text];
+    },
+
+    _checkContainsSearchTermAndMark: function(event) {
+      return Object.entries(event.show).reduce((acc, [key, value]) => {
+          let text = value.toString();
+          const index = text.toLowerCase().indexOf(this.searchTerm.toLowerCase());
+
+          if (index >= 0) {
+            const endSearchTerm = index + this.searchTerm.length;
+            text = `${text.slice(0, index)}<mark>${text.slice(index, endSearchTerm)}</mark>${text.slice(endSearchTerm)}`;
+            acc.hasSearchTerm = true;
+          }
+
+          acc.show[key] = text;
+          return acc;          
+
+        }, {hasSearchTerm: false, show: {...events.show}});
+    },   
 
     moment: function() {
       return moment();
@@ -350,7 +433,6 @@ export default {
       handicap = null,
       totalValue = null
     ) {
-      console.log(this.eventsList);
       let eventDetails = this.eventsList.find(
         item => item.event_id === eventId
       );
@@ -420,18 +502,30 @@ export default {
         );
         this.updateBet({ betItem, eventDetails });
       }
-    }
+    },
+  
+    _debouncedSearch: _.debounce(function(val, oldVal) { 
+      if (val !== oldVal) {
+        this.searchTerm = val; 
+      }
+    }, 300)
   },
+
   // use watcher on the EventsList if it changes, then update the betslip odds
-  watch: {
+  watch: {    
     eventsList() {
       this.updateBetSlip();
+    },
+    searchTermInput(val, oldVal) {
+      this._debouncedSearch.call(this, val, oldVal);
     }
   },
 
   data() {
     return {
-      timeout: 0
+      timeout: 0,
+      searchTermInput: '',
+      searchTerm: ''
     };
   },
 
@@ -457,6 +551,15 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../../assets/scss/_variables.scss';
+
+input::placeholder {
+  color: #555
+}
+
+.n-events {
+  color: #999; 
+  font-size: 14px;
+}
 
 .events-list li {
   border: 1px solid #414141;
