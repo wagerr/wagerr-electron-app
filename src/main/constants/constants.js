@@ -18,3 +18,42 @@ export const bettingParams = {
   MAX_BET_AMOUNT: 10000,
   NETWORK_SHARE: 0.06
 };
+
+export const SPORTS_AVAILABLE =  [
+  {
+    name: 'All Events',
+    id: '',
+    icon: 'icon-calendar-check'
+  }, {
+    name: 'Football',    
+    icon: 'icon-football'
+  }, {
+    name: 'Baseball',    
+    icon: 'icon-baseball'
+  }, {
+    name: 'Basketball',    
+    icon: 'icon-basketball'
+  }, {
+    name: 'Hockey',    
+    icon: 'icon-hockey'
+  }, {
+    name: 'Soccer',    
+    icon: 'icon-soccer'
+  }, {
+    name: 'MMA',    
+    id: 'Mixed Martial Arts',
+    icon: 'icon-bench-press'
+  }, {
+    name: 'Aussie Rules',    
+    icon: 'icon-football'
+  }, {
+    name: 'Cricket',    
+    icon: 'icon-baseball'
+  }, {
+    name: 'Rugby Union',    
+    icon: 'icon-football'
+  }, {
+    name: 'Rugby League',    
+    icon: 'icon-football'
+  }
+];

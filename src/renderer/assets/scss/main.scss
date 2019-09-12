@@ -436,7 +436,7 @@ header {
             padding-bottom: 6px;
           }
         }
-        .bet-dropdown {
+        .tournaments-dropdown {
           display: block;
           padding-left: 50px;
           padding-bottom: 5px;
@@ -449,7 +449,8 @@ header {
               font-weight: 600;
               color: $gray-600;
             }
-            &:hover {
+            &:hover,
+            &.on {
               span {
                 color: $wagerr-red-light;
               }
