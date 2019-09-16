@@ -175,7 +175,9 @@ export default {
 
       // While no peers have connected to the daemon keep looping.
       while (!peersFound) {
+        console.log("1")
         let peerInfo = await networkRPC.getPeerInfo();
+        console.log("2")
         connections = peerInfo.length;
 
         // If we have successfully connected to peers break out of the loop.

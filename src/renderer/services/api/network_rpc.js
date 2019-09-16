@@ -16,8 +16,8 @@ export default {
   },
 
   getPeerInfo() {
-    return new Promise((resolve, reject) => {
-      wagerrRPC.client
+    return new Promise(async (resolve, reject) => {
+      await wagerrRPC.client
         .getPeerInfo()
         .then(function(resp) {
           resolve(resp.result);
