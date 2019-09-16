@@ -166,6 +166,8 @@ export default {
 
     // Check for peers.
     checkPeerStatus: async function() {
+      await this.sleep(10000);
+
       let count = 0;
       let connections = 0;
       let peersFound = false;
@@ -259,7 +261,7 @@ export default {
     }
   },
 
-  async created() {
+  async mounted() {
     // Check if connected to the Wagerr network and if we have peers.
     await this.checkPeerStatus();
 
