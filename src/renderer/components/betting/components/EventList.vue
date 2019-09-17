@@ -666,4 +666,9 @@ input::placeholder {
 .no-transactions {
   margin-top: 10px;
 }
+
+input[type='text']:not(.browser-default):focus:not([readonly]) {
+  border-bottom: 1px solid $wagerr-red;
+  box-shadow: 0 1px 0 0 $wagerr-red;
+}
 </style>
