@@ -50,7 +50,7 @@
 <script>
 import { shell } from 'electron';
 import moment from 'moment';
-import { path } from 'path'
+import { path } from 'path';
 import { mapActions, mapGetters } from 'vuex';
 import blockchainRPC from '../../services/api/blockchain_rpc';
 import networkRPC from '../../services/api/network_rpc';
@@ -171,7 +171,7 @@ export default {
       let peersFound = false;
 
       this.updateInitText('Connecting to peers... this may take some time!');
-      ipcRenderer.log("info", "Waiting for daemon to find peers")
+      ipcRenderer.log('info', 'Waiting for daemon to find peers');
 
       // While no peers have connected to the daemon keep looping.
       while (!peersFound) {
@@ -188,7 +188,10 @@ export default {
 
         // Give the daemon an arbitrary 101 loops to find peers. If not show an error to the user.
         if (count === 100) {
-          ipcRenderer.log("warn", "No peers could be found, please review your Wagerr Core logs")
+          ipcRenderer.log(
+            'warn',
+            'No peers could be found, please review your Wagerr Core logs'
+          );
           ipcRenderer.noPeers();
           return 1;
         }
@@ -199,7 +202,7 @@ export default {
 
       // Once peers have been found resolve the Promise.
       if (peersFound) {
-        ipcRenderer.log("info", "Connected to network")
+        ipcRenderer.log('info', 'Connected to network');
         return 1;
       }
     },
@@ -213,7 +216,7 @@ export default {
       let synced = false;
       let verificationProgress;
 
-      ipcRenderer.log("info", "Syncing blockchain")
+      ipcRenderer.log('info', 'Syncing blockchain');
 
       while (!synced) {
         let blockchainInfo = await blockchainRPC.getBlockchainInfo();
@@ -240,24 +243,32 @@ export default {
           break;
         }
 
-        // Sleep for 1 second between loops to lessen the burden on contiously making calls to the daemon and updating the UI.
+        // Sleep for 1 second between loops to lessen the burden on contiously
+        // making calls to the daemon and updating the UI.
         await this.sleep(1000);
       }
 
       // Once peers have been found resolve the Promise.
       if (synced) {
-        ipcRenderer.log("info", "Blockchain is now synced with network")
+        ipcRenderer.log('info', 'Blockchain is now synced with network');
         return 1;
       }
     },
 
     onOpenConf: function() {
-      ipcRenderer.log("debug", "Opening wagerr.conf file")
+      ipcRenderer.log('debug', 'Opening wagerr.conf file');
       shell.openItem(this.confPath);
     }
   },
 
-  async created() {
+  async mounted() {
+    // On some computers (especially Windows) the daemon is taking a while to
+    // launch. If we start hitting it with RPC calls too early the app might
+    // fail to launch in some instances. Dirty workaround to allow 10 seconds
+    // before moving to the RPC calls.
+    // TODO: Implement a cleaner solution.
+    await this.sleep(10000);
+
     // Check if connected to the Wagerr network and if we have peers.
     await this.checkPeerStatus();
 
