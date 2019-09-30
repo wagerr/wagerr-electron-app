@@ -288,7 +288,7 @@ export default {
     // After connecting to peers get some blockchain info.
     this.updateInitText('Fetching wallet information...');
     await this.walletExtendedBalance();
-    await this.getWGRTransactionRecords(100);
+    await this.getWGRTransactionRecords(50);
     await this.getPLBetTransactionList(50);
     await this.getCGBetTransactionList(25);
   }
