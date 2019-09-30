@@ -9,7 +9,8 @@ const state = function() {
     plBetTransactionList: [],
     cgBetTransactionList: [],
     transactionMax: -1,
-    betTransactionsPaginated: []
+    betTransactionsPaginated: [],
+    wgrTransactionRecordsPaginated: []
   };
 };
 
@@ -41,6 +42,10 @@ const getters = {
   betTransactionsPaginated: state => {
     return state.betTransactionsPaginated;
   },
+
+  wgrTransactionRecordsPaginated: state => {
+    return state.wgrTransactionRecordsPaginated;
+  },
 };
 
 const actions = {
@@ -68,7 +73,7 @@ const actions = {
       });
   },
 
-  getWGRTransactionRecords({ commit }, length) {
+  getWGRTransactionRecords({ dispath, commit, getters }, {length, rexg, from, wgrTransactionRecordsLength}) {
     wagerrRPC.client
       .listTransactionRecords('*', length)
       .then(async function(resp) {
@@ -88,12 +93,23 @@ const actions = {
 
         commit('setWGRTransactionRecords', updatedTxList);
       })
+      .then(function() {
+        if (getters.wgrTransactionRecords.length === 0 || getters.wgrTransactionRecords.length < wgrTransactionRecordsLength) commit('setTransactionMax', getters.wgrTransactionRecordsPaginated.length + getters.wgrTransactionRecords.length);
+        // Update the first page of bets.
+        // Assuming no more bets made from first page since. Update rest of bets?
+        if ((from === 0) && (getters.wgrTransactionRecords.length >= length)) {
+          commit('setFirstPageWGRTransactionsPaginated', length);
+        } else {
+          console.log("here is pageintated");
+          commit('setWGRTransactionRecordsPaginated', getters.wgrTransactionRecordsPaginated.concat(getters.wgrTransactionRecords));
+        }
+      })
       .catch(function(err) {
         // TODO Handle error correctly.
         console.error(err);
       });
   },
-  
+
   getPLBetTransactionList({ dispatch, commit, getters }, {length, rexg, from, betTransactionlistLength}) {
     wagerrRPC.client
       .listBets(rexg, length, from)
@@ -107,7 +123,7 @@ const actions = {
         if ((from === 0) && (getters.plBetTransactionList.length >= length)) {
           commit('setFirstPageBetTransactionsPaginated', length);
         } else {
-          commit('setBetTransactionsPaginated', getters.betTransactionsPaginated.concat(getters.plBetTransactionList));          
+          commit('setBetTransactionsPaginated', getters.betTransactionsPaginated.concat(getters.plBetTransactionList));
         }
       })
       .catch(function(err) {
@@ -157,9 +173,16 @@ const mutations = {
   setBetTransactionsPaginated(state, paginated) {
     state.betTransactionsPaginated = paginated;
   },
+  setWGRTransactionRecordsPaginated(state, paginated) {
+    state.wgrTransactionRecordsPaginated = paginated;
+  },
   setFirstPageBetTransactionsPaginated(state, length) {
     state.betTransactionsPaginated.splice(0, length, ...state.plBetTransactionList);
     state.betTransactionsPaginated;
+  },
+  setFirstPageWGRTransactionsPaginated(state, length) {
+    state.wgrTransactionRecordsPaginated.splice(0, length, ...state.wgrTransactionRecords);
+    state.wgrTransactionRecordsPaginated;
   },
 };
 

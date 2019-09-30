@@ -21,7 +21,7 @@
       <select
         v-model="limit"
         >
-        <option v-for="limitt in limits" v-bind:value="limitt.value">
+        <option v-for="limitt in limits" v-bind:value="parseInt(limitt.value)">
           {{ limitt.text }}
         </option>
       </select>
@@ -160,8 +160,7 @@ export default {
   methods: {
     ...Vuex.mapActions([
       'getAccountAddress',
-      'getPLBetTransactionList',
-      'getBetTransactionListTest'
+      'getPLBetTransactionList'
     ]),
 
     setPage: function(pageNum) {
@@ -247,6 +246,7 @@ export default {
   watch: {
     limit: function(val) {
       // fix selected page
+      console.log("limit change", val)
       this.pageSelected = 0;
       this.setPage(1)
       this.limit
