@@ -1,13 +1,9 @@
 <template>
   <!-- Unlock Wallet Modal -->
-
   <div id="unlock-wallet-modal" class="modal bg-gradient">
-    <form @submit.prevent="handleSubmit">
-      <div class="inset-top">
-        <div class="shadow"></div>
-      </div>
-
-      <div class="modal-content">
+    <div class="modal-content">
+      <!-- Prevent the submit event from reloading the page -->
+      <form @submit.prevent="handleSubmit">
         <div class="row">
           <div class="modal-header">
             <h4>Unlock Wallet</h4>
@@ -44,34 +40,33 @@
           </div>
 
           <div class="options">
-            <input
-              @click="clearForm"
-              type="reset"
+            <a
+              @click="clearForm()"
               class="modal-close waves-effect waves-light btn wagerr-red-bg"
-              value="Cancel"
-            />
-
-            <input
-              @click="unlockAnonymizeOnly = true"
-              type="submit"
+            >
+              Cancel
+            </a>
+            <a
+              @click="unlockAnonymizeOnly = true; handleSubmit();"
               class="waves-effect waves-light btn blue"
-              value="Unlock for Staking Only"
-            />
-
-            <input
-              type="submit"
+            >
+              Unlock for Staking Only
+            </a>
+            <a
+              @click="handleSubmit()"
               class="waves-effect waves-light btn green"
-              value="Unlock"
-            />
+            >
+              Unlock
+            </a>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 </template>
 
 <script>
-import Vuex from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'UnlockWallet',
@@ -85,11 +80,11 @@ export default {
   },
 
   computed: {
-    ...Vuex.mapGetters(['walletLoaded', 'walletUnlocked'])
+    ...mapGetters(['walletLoaded', 'walletUnlocked'])
   },
 
   methods: {
-    ...Vuex.mapActions(['lockWallet', 'unlockWallet']),
+    ...mapActions(['lockWallet', 'unlockWallet']),
 
     // Handle the unlock wallet from validation and id valid unlock the wallet.
     handleSubmit: function() {
