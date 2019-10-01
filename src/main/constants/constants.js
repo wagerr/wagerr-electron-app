@@ -24,36 +24,50 @@ export const SPORTS_AVAILABLE =  [
     name: 'All Events',
     id: '',
     icon: 'icon-calendar-check'
-  }, {
-    name: 'Football',    
+  },
+  {
+    name: 'Football',
     icon: 'icon-football'
-  }, {
-    name: 'Baseball',    
+  },
+  {
+    name: 'Baseball',
     icon: 'icon-baseball'
-  }, {
-    name: 'Basketball',    
+  },
+  {
+    name: 'Basketball',
     icon: 'icon-basketball'
-  }, {
-    name: 'Hockey',    
+  },
+  {
+    name: 'Hockey',
     icon: 'icon-hockey'
-  }, {
-    name: 'Soccer',    
+  },
+  {
+    name: 'Soccer',
     icon: 'icon-soccer'
-  }, {
-    name: 'MMA',    
+  },
+  {
+    name: 'MMA',
     id: 'Mixed Martial Arts',
     icon: 'icon-bench-press'
-  }, {
-    name: 'Aussie Rules',    
+  },
+  {
+    name: 'Aussie Rules',
     icon: 'icon-football'
-  }, {
-    name: 'Cricket',    
+  },
+  {
+    name: 'Cricket',
     icon: 'icon-baseball'
-  }, {
-    name: 'Rugby Union',    
+  },
+  {
+    name: 'Rugby Union',
     icon: 'icon-football'
-  }, {
-    name: 'Rugby League',    
+  },
+  {
+    name: 'Rugby League',
     icon: 'icon-football'
+  },
+  {
+    name: 'Esports',
+    icon: 'icon-gamepad'
   }
 ];
