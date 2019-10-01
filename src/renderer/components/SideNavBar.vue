@@ -1,34 +1,42 @@
 <template>
   <nav>
+    <h5>Filter By Sport</h5>
     <ul class="side-nav">
-      <h5>Sort By Sport</h5>
-
-      <li 
-        v-for="sport in sportsAvailable" 
+      <li
+        v-for="sport in sportsAvailable"
         :key="sport.name"
-        v-bind:class="{
-          on: getEventsSportFilter === resolveSportId(sport)
-        }"        
+        v-bind:class="{ on: getEventsSportFilter === resolveSportId(sport) }"
       >
-        <div class="parent">        
+        <div class="parent">
           <a @click="filterEventsBySport(resolveSportId(sport))">
-            <i :class="sport.icon"></i>        
-            <span>{{sport.name}}</span>
-            <span v-if="getNEvents(resolveSportId(sport)) > 0" class="pull-right n-events"><small>({{getNEvents(resolveSportId(sport))}})</small></span>
+            <i :class="sport.icon"></i>
+            <span>{{ sport.name }}</span>
+            <span
+              v-if="getNEvents(resolveSportId(sport)) > 0"
+              class="pull-right n-events"
+            >
+              <small>({{ getNEvents(resolveSportId(sport)) }})</small>
+            </span>
 
             <!-- <i class="icon-chevron-down pull-right"></i> -->
           </a>
         </div>
-        <ul class="tournaments-dropdown" v-if="getEventsSportFilter === resolveSportId(sport) && hasTournaments(sport.name)">
-          <li 
-            v-for="tournament in getTournaments(sport.name)" 
+        <ul
+          class="tournaments-dropdown"
+          v-if="
+            getEventsSportFilter === resolveSportId(sport) &&
+              hasTournaments(sport.name)
+          "
+        >
+          <li
+            v-for="tournament in getTournaments(sport.name)"
             :key="tournament"
             @click="filterEventsByTournament(tournament)"
-            v-bind:class="{
-              on: getEventsTournamentFilter === tournament
-            }"
+            v-bind:class="{ on: getEventsTournamentFilter === tournament }"
           >
-              <div class="tournament" :title="tournament"><span>{{tournament}}</span></div>
+            <div class="tournament" :title="tournament">
+              <span>{{ tournament }}</span>
+            </div>
           </li>
         </ul>
       </li>
@@ -38,20 +46,30 @@
 
 <script>
 import Vuex from 'vuex';
-import {SPORTS_AVAILABLE} from '../../main/constants/constants';
+import { SPORTS_AVAILABLE } from '../../main/constants/constants';
 
 export default {
   name: 'SideNavBar',
   computed: {
-    ...Vuex.mapGetters(['getEventsSportFilter', 'getEventsTournamentFilter', 'getTournaments', 'hasTournaments', 'getNEvents'])
+    ...Vuex.mapGetters([
+      'getEventsSportFilter',
+      'getEventsTournamentFilter',
+      'getTournaments',
+      'hasTournaments',
+      'getNEvents'
+    ])
   },
   data: () => {
-    return  {
+    return {
       sportsAvailable: [...SPORTS_AVAILABLE]
     };
-  }, 
+  },
   methods: {
-    ...Vuex.mapActions(['updateEventsSportFilter', 'updateEventsTournamentFilter', 'listEvents']),    
+    ...Vuex.mapActions([
+      'updateEventsSportFilter',
+      'updateEventsTournamentFilter',
+      'listEvents'
+    ]),
     filterEventsBySport: async function(sportFilter) {
       await this.updateEventsSportFilter(sportFilter);
       // await this.$store.dispatch("eventsSportFilter", sportFilter);
@@ -61,8 +79,8 @@ export default {
       await this.updateEventsTournamentFilter(tournamentFilter);
       await this.listEvents();
     },
-    resolveSportId: (sport) => {
-      return (sport.id === '' || sport.id) ? sport.id : sport.name;
+    resolveSportId: sport => {
+      return sport.id === '' || sport.id ? sport.id : sport.name;
     }
   }
 };
@@ -92,9 +110,9 @@ nav ul {
 
 nav ul li {
   .n-events {
-    margin-right:8px !important;
+    margin-right: 8px !important;
   }
-  
+
   margin: 0px;
   padding: 0px;
   list-style: none;
@@ -115,7 +133,7 @@ nav ul li {
   }
 
   div.tournament {
-    white-space: nowrap; 
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     padding-right: 10px;
