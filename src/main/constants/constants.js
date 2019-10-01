@@ -19,15 +19,19 @@ export const bettingParams = {
   NETWORK_SHARE: 0.06
 };
 
-export const SPORTS_AVAILABLE =  [
+export const SPORTS_AVAILABLE = [
   {
     name: 'All Events',
     id: '',
     icon: 'icon-calendar-check'
   },
   {
-    name: 'Football',
-    icon: 'icon-football'
+    name: 'Soccer',
+    icon: 'icon-soccer'
+  },
+  {
+    name: 'Esports',
+    icon: 'icon-headphones'
   },
   {
     name: 'Baseball',
@@ -38,17 +42,12 @@ export const SPORTS_AVAILABLE =  [
     icon: 'icon-basketball'
   },
   {
+    name: 'Football',
+    icon: 'icon-football'
+  },
+  {
     name: 'Hockey',
     icon: 'icon-hockey'
-  },
-  {
-    name: 'Soccer',
-    icon: 'icon-soccer'
-  },
-  {
-    name: 'MMA',
-    id: 'Mixed Martial Arts',
-    icon: 'icon-bench-press'
   },
   {
     name: 'Aussie Rules',
@@ -59,15 +58,16 @@ export const SPORTS_AVAILABLE =  [
     icon: 'icon-baseball'
   },
   {
-    name: 'Rugby Union',
-    icon: 'icon-football'
+    name: 'MMA',
+    id: 'Mixed Martial Arts',
+    icon: 'icon-bench-press'
   },
   {
     name: 'Rugby League',
     icon: 'icon-football'
   },
   {
-    name: 'Esports',
-    icon: 'icon-gamepad'
+    name: 'Rugby Union',
+    icon: 'icon-football'
   }
 ];
