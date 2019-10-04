@@ -92,23 +92,11 @@ const actions = {
       });
   },
 
-  walletBalance({ commit }) {
-    wagerrRPC.client
-      .getBalance()
-      .then(function(resp) {
-        commit('setBalance', resp.result);
-      })
-      .catch(function(err) {
-        commit('setBalance', 0);
-        console.error(err);
-      });
-  },
-
   walletExtendedBalance({ commit }) {
     wagerrRPC.client
       .getExtendedBalance()
       .then(function(resp) {
-        commit('setBalance', resp.result.balance);
+        commit('setBalance', (resp.result.balance - resp.result.balance_immature));
         commit('setImmature', resp.result.balance_immature);
         commit('setPending', resp.result.balance_unconfirmed);
         commit('setZerocoin', resp.result.zerocoin_balance);
