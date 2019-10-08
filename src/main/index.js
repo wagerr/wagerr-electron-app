@@ -422,14 +422,26 @@ ipcMain.on('restart-wagerrd', async (event, arg) => {
   });
 
   if (!cancel) {
-    global.restarting = true;
-
-    await daemon.stop().catch(function() {
-      logger.warn('wagerrd may not have shutdown correctly.');
-    });
-    await mainWindow.close();
-    await init(arg);
+    restartWagerrd(arg);
   }
+});
+
+ipcMain.on('restart-wagerrd-force', async (event, arg) => {
+  restartWagerrd();
+});
+
+async function restartWagerrd(arg) {
+  global.restarting = true;
+
+  await daemon.stop().catch(function() {
+    logger.warn('wagerrd may not have shutdown correctly.');
+  });
+  await mainWindow.close();
+  await init(arg);
+}
+
+ipcMain.on('stop-daemon', async (event, arg) => {
+  event.returnValue = await daemon.stop();
 });
 
 // Send the RPC username to the render process.

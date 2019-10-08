@@ -45,8 +45,19 @@ function restartWallet() {
   ipcRenderer.send('restart-wagerrd');
 }
 
+function restartWalletForce() {
+  console.log('ipc renderer');
+  ipcRenderer.send('restart-wagerrd-force');
+}
+
 function noPeers() {
   ipcRenderer.send('no-peers');
+}
+
+async function stopDaemon() {
+  const res = await ipcRenderer.sendSync('stop-daemon');
+  console.log('Daemon has stopped with res: ' + res);
+  return res;
 }
 
 export default {
@@ -60,6 +71,8 @@ export default {
   reindexBlockchain,
   resyncBlockchain,
   restartWallet,
+  restartWalletForce,
   noPeers,
-  runCommand
+  runCommand,
+  stopDaemon
 };
