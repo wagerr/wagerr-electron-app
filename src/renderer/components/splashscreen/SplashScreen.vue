@@ -22,6 +22,13 @@
         </div>
       </div>
 
+      <download-snapshot 
+        v-if="mayDownloadSnapshot"
+        :sync-method="syncMethod" 
+        :time-behind-text="timeBehindText"
+        v-on:update-sync-method="updateSyncMethod"
+      />
+
       <div class="splash-wallet-repair text-center">
         <div>
           <a href="#" @click="restartWallet">Restart Wallet</a>
@@ -48,21 +55,29 @@
 </template>
 
 <script>
-import { shell } from 'electron';
+import { remote, shell } from 'electron';
 import moment from 'moment';
 import { path } from 'path';
+import fs from 'fs';
 import { mapActions, mapGetters } from 'vuex';
 import blockchainRPC from '../../services/api/blockchain_rpc';
 import networkRPC from '../../services/api/network_rpc';
 import ipcRenderer from '../../../common/ipc/ipcRenderer';
 import { getWagerrConfPath } from '../../../main/blockchain/blockchain';
+import DownloadSnapshot from './DownloadSnapshot.vue';
+import { blockchainSnapshot, syncMethods } from '../../../main/constants/constants';
+
 
 export default {
   name: 'SplashScreen',
+  components: { DownloadSnapshot },
 
   data() {
     return {
-      confPath: getWagerrConfPath()
+      confPath: getWagerrConfPath(),
+      syncMethod: syncMethods.SCAN_BLOCKS,
+      timeBehindText: '',
+      mayDownloadSnapshot: false
     };
   },
 
@@ -116,44 +131,25 @@ export default {
       ipcRenderer.closeWallet();
     },
 
-    getTimeBehindText: function(seconds, blockHeight) {
-      const HOUR_IN_SECONDS = 60 * 60;
-      const DAY_IN_SECONDS = 24 * 60 * 60;
-      const WEEK_IN_SECONDS = 7 * 24 * 60 * 60;
-      const YEAR_IN_SECONDS = 31556952; // Average length of year in Gregorian calendar.
+    updateSyncMethod: function(syncMethod) {
+      this.syncMethod = syncMethod;
+    },
 
-      let timeBehindText;
-      let years;
-      let remainder;
+    getTimeBehindText: function(durationBehind) {
+      let timeBehindText;      
 
-      if (Math.round(seconds / HOUR_IN_SECONDS) === 0) {
-        // Wallet is synced enough to allow user access.
-        this.updateWalletLoaded(true);
-      } else if (seconds < 2 * DAY_IN_SECONDS) {
-        timeBehindText =
-          Math.round(seconds / HOUR_IN_SECONDS) +
-          ' hours behind, Scanning block ' +
-          blockHeight;
-      } else if (seconds < 2 * WEEK_IN_SECONDS) {
-        timeBehindText =
-          Math.round(seconds / DAY_IN_SECONDS) +
-          ' days behind, Scanning block ' +
-          blockHeight;
-      } else if (seconds < YEAR_IN_SECONDS) {
-        timeBehindText =
-          Math.round(seconds / WEEK_IN_SECONDS) +
-          ' weeks behind, Scanning block ' +
-          blockHeight;
+      if (durationBehind.asDays() < 2) {
+        timeBehindText = `${Math.ceil(durationBehind.asHours())} hours behind`;
+
+      } else if (durationBehind.asWeeks() < 2) {
+        timeBehindText = `${Math.ceil(durationBehind.asDays())} days behind`;
+
+      } else if (durationBehind.asYears() < 1) {
+        timeBehindText = `${Math.ceil((durationBehind.asWeeks()))}  weeks behind`;
+
       } else {
-        years = seconds / YEAR_IN_SECONDS;
-        remainder = seconds % YEAR_IN_SECONDS;
-
-        timeBehindText =
-          Math.round(years) +
-          ' year and ' +
-          Math.round(remainder / WEEK_IN_SECONDS) +
-          ' weeks behind, Scanning block ' +
-          blockHeight;
+        const weeksBehind = Math.ceil(durationBehind.asWeeks() - moment.duration(durationBehind.years(), 'years').asWeeks());
+        timeBehindText = `${durationBehind.years()} year and ${weeksBehind} weeks behind`;
       }
 
       return timeBehindText;
@@ -214,27 +210,34 @@ export default {
       let bestBlockTimeDifference;
       let synced = false;
       let verificationProgress;
-
+      let durationBehind;
       ipcRenderer.log('info', 'Syncing blockchain');
 
       while (!synced) {
-        let blockchainInfo = await blockchainRPC.getBlockchainInfo();
-        bestBlockHash = blockchainInfo.bestblockhash;
-        bestBlockHeight = blockchainInfo.blocks;
-        verificationProgress = blockchainInfo.verificationprogress;
+        if (this.syncMethod === syncMethods.SCAN_BLOCKS) {
+          let blockchainInfo = await blockchainRPC.getBlockchainInfo();
+          bestBlockHash = blockchainInfo.bestblockhash;
+          bestBlockHeight = blockchainInfo.blocks;
+          verificationProgress = blockchainInfo.verificationprogress;
 
-        let blockInfo = await blockchainRPC.getBlockInfo(bestBlockHash);
-        bestBlockTime = blockInfo.time;
-        bestBlockTimeDifference = moment().diff(
-          bestBlockTime * 1000,
-          'seconds'
-        );
+          let blockInfo = await blockchainRPC.getBlockInfo(bestBlockHash);
+          bestBlockTime = blockInfo.time;
+          bestBlockTimeDifference = moment().diff(bestBlockTime * 1000, 'seconds');
+          durationBehind = moment.duration(bestBlockTimeDifference, 'seconds');
 
-        let timeBehindText = this.getTimeBehindText(
-          bestBlockTimeDifference,
-          bestBlockHeight
-        );
-        this.updateInitText(timeBehindText);
+          if (Math.round(durationBehind.asHours()) === 0) {
+            // Wallet is synced enough to allow user access.
+            this.updateWalletLoaded(true);
+
+          } else {
+            this.timeBehindText = this.getTimeBehindText(durationBehind);
+            
+            this.updateInitText(this.timeBehindText + ', Scanning block ' + bestBlockHeight);
+
+            let weeksBehind = Math.ceil(durationBehind.asWeeks());
+            this.mayDownloadSnapshot = weeksBehind > blockchainSnapshot.TRESHOLD_IN_WEEKS;            
+          }
+        }
 
         // If verification progress is 1 or above it means the daemon is synced.
         if (verificationProgress >= 1) {
