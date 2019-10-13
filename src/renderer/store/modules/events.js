@@ -22,21 +22,28 @@ const getters = {
   }
 };
 
-function filterEventsByStartingTime(events) {
+function filterEventsForCache(events) {
   // Filter events that are expired (15 mins before event start time)
   return events.filter(e => {
     // Prevent events that:
     // - start in less than 12 mins 
     // - and events starting outside the two weeks listed.
     return  e.starting - 12 * 60 > moment().unix() &&
-            e.starting < moment().add(13, 'days').unix();
-
+            e.starting < moment().add(13, 'days').unix() &&
+            // We also filter all events that have 0/0/0 for all three markets odds
+            !(e.odds[0]['mlAway'] === 0 && e.odds[0]['mlDraw'] === 0 && e.odds[0]['mlHome'] === 0 &&
+            e.odds[1]['spreadAway'] === 0 && e.odds[1]['spreadHome'] === 0 && e.odds[1]['spreadPoints'] === 0 &&
+            e.odds[2]['totalsOver'] === 0 && e.odds[2]['totalsPoints'] === 0 && e.odds[2]['totalsUnder'] === 0
+          );
   }).sort((x, y) => { x.starting - y.starting });  
 }
 
-function filterEventsByTournament(events, state) {
+function filterEventsByTournament(events, tournamentFilter) {
+  if (!tournamentFilter) return events;
+
   return events.filter(e => {
-    return  !state.eventsTournamentFilter || e.tournament === state.eventsTournamentFilter;
+    // In case there is a tournament selected, we filter by the tournament
+    return  e.tournament === tournamentFilter;
   });  
 }
 
@@ -62,9 +69,11 @@ const actions = {
         wagerrRPC.client
           .listEvents(state.eventsSportFilter)
           .then(function(resp) {
-            let events = filterEventsByStartingTime(resp.result);
+            // We filter events and update the cache
+            let events = filterEventsForCache(resp.result);
             dispatch('updateEventsDataCache', events, { root: true });
-            events = filterEventsByTournament(events, state);
+            // We filter events that will be shown to the user
+            events = filterEventsByTournament(events, state.eventsTournamentFilter);
             commit('setEventsList', events);
             resolve();
           })
@@ -76,9 +85,11 @@ const actions = {
         wagerrRPC.client
           .listEvents()
           .then(function(resp) {
-            let events = filterEventsByStartingTime(resp.result);
+            // We filter events jand update the cache
+            let events = filterEventsForCache(resp.result);            
             dispatch('updateEventsDataCache', events, { root: true });
-            events = filterEventsByTournament(events, state);
+            // We filter events that will be shown to the user
+            events = filterEventsByTournament(events, state.eventsTournamentFilter);
             commit('setEventsList', events);
             resolve();
           })
