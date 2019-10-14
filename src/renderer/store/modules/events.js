@@ -31,7 +31,7 @@ function filterEventsByStartingTime(events) {
     return  e.starting - 12 * 60 > moment().unix() &&
             e.starting < moment().add(13, 'days').unix();
 
-  }).sort((x, y) => { x.starting - y.starting });  
+  }).sort((x, y) => x.starting - y.starting);  
 }
 
 function filterEventsByTournament(events, state) {
