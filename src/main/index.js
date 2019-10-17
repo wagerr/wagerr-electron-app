@@ -88,33 +88,59 @@ async function createMainWindow() {
       // mainWindow instead.
       if (daemon && !global.restarting) {
         // Prevent the default close action before daemon is completely stopped.
-        closeWindowFlag = true;
         event.preventDefault();
 
-        // Make the progress bar to show the status of close actions.
-        closeProgressBar = new ProgressBar({
-          text: 'Closing the Window...',
-          detail: 'Stopping Wagerr daemon...',
-          closeOnComplete: true
+        // Request renderer process if there are txs that haven't been confirmed
+        mainWindow.webContents.send('unconfirmed-txs-request');
+
+        // Receive answer from renderer process about unconfirmed txs
+        ipcMain.once('unconfirmed-txs-reply', async (event, hasUnconfirmedTxs) => {
+          if (!hasUnconfirmedTxs) {
+            closeWallet();
+
+          } else {
+            // In case of unconfirmed txs, request the user
+            const confirm = dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
+              type: 'question',
+              buttons: ['Confirm', 'Cancel'],
+              message: 'Are you sure?',
+              defaultId: 0,
+              cancelId: 1,
+              detail: `There are transactions that haven't been confirmed yet.`
+            }) === 0;
+
+            if (confirm) closeWallet();
+          }
         });
-
-        // Close the devtools window.
-        closeProgressBar._window.webContents.closeDevTools();
-
-        // Send the `stop` command to the daemon and wait for to shutdown.
-        await daemon.stop();
-
-        // Notify the user the daemon has shutdown.
-        closeProgressBar.detail = 'Wagger daemon stopped...';
-
-        // Close the shutdown progress bar window and quit the app.
-        setTimeout(() => {
-          closeProgressBar.close();
-          app.quit();
-        }, 1000);
       }
     }
   });
+
+  async function closeWallet() {
+    closeWindowFlag = true;
+
+    // Make the progress bar to show the status of close actions.
+    closeProgressBar = new ProgressBar({
+      text: 'Closing the Window...',
+      detail: 'Stopping Wagerr daemon...',
+      closeOnComplete: true
+    });
+
+    // Close the devtools window.
+    closeProgressBar._window.webContents.closeDevTools();
+
+    // Send the `stop` command to the daemon and wait for to shutdown.
+    await daemon.stop();
+
+    // Notify the user the daemon has shutdown.
+    closeProgressBar.detail = 'Wagger daemon stopped...';
+
+    // Close the shutdown progress bar window and quit the app.
+    setTimeout(() => {
+      closeProgressBar.close();
+      app.quit();
+    }, 1000);
+  }
 
   // The window is now closed.
   mainWindow.on('closed', async () => {

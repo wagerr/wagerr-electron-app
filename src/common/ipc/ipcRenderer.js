@@ -1,4 +1,5 @@
-const { ipcRenderer } = require('electron');
+import { ipcRenderer } from 'electron';
+import transactionsRPC from '../../renderer/services/api/transactions_rpc';
 
 function log(level, message) {
   ipcRenderer.send('log-message', level, message);
@@ -59,6 +60,11 @@ async function stopDaemon() {
   console.log('Daemon has stopped with res: ' + res);
   return res;
 }
+
+ipcRenderer.on('unconfirmed-txs-request', async (event, arg) => {
+  const hasUnconfirmedTransactions =  await transactionsRPC.hasUnconfirmedTransactions();
+  event.sender.send('unconfirmed-txs-reply', hasUnconfirmedTransactions);
+});
 
 export default {
   log,
