@@ -332,7 +332,7 @@ export default {
           event.show = {
             eventId: e.event_id.toString(),
             tournament: e.tournament,
-            starting: moment(Number(e.starting) * 1000).tz(this.getTimezone).format('dddd, MMM Do h:mm A (Z z)'),
+            starting: moment(Number(e.starting) * 1000).tz(this.getTimezone).format('ddd, MMM Do h:mm A (Z z)'),
             homeTeam: e.teams.home,
             awayTeam: e.teams.away,
             mlHomeOdds: this.convertOdds(e.odds[0].mlHome),
