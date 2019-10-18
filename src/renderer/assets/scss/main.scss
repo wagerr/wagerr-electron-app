@@ -754,6 +754,15 @@ header {
             margin-bottom: 30px;
             line-height: 36px;
             letter-spacing: 0.5px;
+            h6 {
+              color: $wagerr-red;
+              font-size: 11px;
+              text-align: center;
+              letter-spacing: 0.3px;
+              margin-top: 2px;
+              margin-bottom: 0;
+              font-weight: 600;
+            }
             @media screen and (max-width: 1450px) {
               font-size: 22px;
               font-weight: 600;

@@ -10,6 +10,7 @@ const state = function() {
     balance: 0,
     immature: 0,
     pending: 0,
+    lockedBalance: 0,
     zerocoin: 0,
     unlocked: false,
     encrypted: false,
@@ -32,6 +33,10 @@ const getters = {
 
   pending: state => {
     return state.pending;
+  },
+
+  lockedBalance: state => {
+    return state.lockedBalance;
   },
 
   zerocoin: state => {
@@ -96,9 +101,15 @@ const actions = {
     wagerrRPC.client
       .getExtendedBalance()
       .then(function(resp) {
-        commit('setBalance', (resp.result.balance - resp.result.balance_immature));
+        commit(
+          'setBalance',
+          resp.result.balance -
+            resp.result.balance_immature -
+            resp.result.balance_locked
+        );
         commit('setImmature', resp.result.balance_immature);
         commit('setPending', resp.result.balance_unconfirmed);
+        commit('setLockedBalance', resp.result.balance_locked);
         commit('setZerocoin', resp.result.zerocoin_balance);
       })
       .catch(function(err) {
@@ -191,6 +202,10 @@ const mutations = {
 
   setPending(state, pending) {
     state.pending = pending;
+  },
+
+  setLockedBalance(state, lockedBalance) {
+    state.lockedBalance = lockedBalance;
   },
 
   setZerocoin(state, zerocoin) {
