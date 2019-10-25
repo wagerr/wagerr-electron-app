@@ -82,7 +82,6 @@ export default {
       'syncWallet',
       'updateInfo',
       'updateBlocks',
-      'walletBalance',
       'updateInitText',
       'updateNetworkType',
       'updateWalletLoaded',

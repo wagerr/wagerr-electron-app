@@ -73,7 +73,10 @@
                 </div>
               </div>
 
-              <div :id="'bet-warning-' + index" class="bet-warning display-none"></div>
+              <div
+                :id="'bet-warning-' + index"
+                class="bet-warning display-none"
+              ></div>
 
               <div class="bet-returns">
                 <span class="pull-left potential-returns-headline">
@@ -108,7 +111,7 @@
 <script>
 import moment from 'moment';
 import { mapActions, mapGetters } from 'vuex';
-import wagerrRPC from '../../../services/api/wagerrRPC'
+import wagerrRPC from '../../../services/api/wagerrRPC';
 import { bettingParams } from '../../../../main/constants/constants';
 
 export default {
@@ -117,6 +120,7 @@ export default {
   computed: {
     ...mapGetters([
       'balance',
+      'immature',
       'pending',
       'betSlip',
       'getNumBets',
@@ -154,7 +158,9 @@ export default {
     },
 
     showBetWarning: function(betStake, index) {
-      const placeBetButton = document.getElementById('place-bet-button-' + index)
+      const placeBetButton = document.getElementById(
+        'place-bet-button-' + index
+      );
       const warningElem = document.getElementById('bet-warning-' + index);
       const wagerrCode = this.getNetworkType === 'Testnet' ? ' tWGR' : ' WGR';
       let showWarning = false;
@@ -163,25 +169,46 @@ export default {
         placeBetButton.classList.add('disabled');
         warningElem.classList.add('display-none');
         showWarning = true;
-      } else if(isNaN(betStake)) {
+      } else if (isNaN(betStake)) {
         placeBetButton.classList.add('disabled');
         warningElem.classList.remove('display-none');
-        warningElem.innerText = 'Bet stake must be a number.'
+        warningElem.innerText = 'Bet stake must be a number.';
         showWarning = true;
       } else if (this.balance < betStake && this.pending > betStake) {
         placeBetButton.classList.add('disabled');
         warningElem.classList.remove('display-none');
-        warningElem.innerText = 'Available balance too low. Please wait for your pending balance of ' + this.pending + ' ' + wagerrCode + ' to be confirmed.'
+        warningElem.innerText =
+          'Available balance too low. Please wait for your pending balance of ' +
+          this.pending +
+          ' ' +
+          wagerrCode +
+          ' to be confirmed.';
         showWarning = true;
-      } else if (betStake < bettingParams.MIN_BET_AMOUNT || betStake > bettingParams.MAX_BET_AMOUNT) {
+      } else if (this.balance < betStake && this.immature > betStake) {
         placeBetButton.classList.add('disabled');
         warningElem.classList.remove('display-none');
-        warningElem.innerText = 'Incorrect bet amount. Please ensure your bet is between 25 - 10000 ' + wagerrCode + ' inclusive.'
+        warningElem.innerText =
+          'Available balance too low. Please wait for your immature balance of ' +
+          this.immature +
+          ' ' +
+          wagerrCode +
+          ' to be confirmed.';
+        showWarning = true;
+      } else if (
+        betStake < bettingParams.MIN_BET_AMOUNT ||
+        betStake > bettingParams.MAX_BET_AMOUNT
+      ) {
+        placeBetButton.classList.add('disabled');
+        warningElem.classList.remove('display-none');
+        warningElem.innerText =
+          'Incorrect bet amount. Please ensure your bet is between 25 - 10000 ' +
+          wagerrCode +
+          ' inclusive.';
         showWarning = true;
       } else if (this.balance < betStake) {
         placeBetButton.classList.add('disabled');
         warningElem.classList.remove('display-none');
-        warningElem.innerText = 'Available balance too low.'
+        warningElem.innerText = 'Available balance too low.';
         showWarning = true;
       } else {
         placeBetButton.classList.remove('disabled');

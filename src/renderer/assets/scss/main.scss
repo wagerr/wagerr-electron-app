@@ -1,6 +1,6 @@
 // Configuration
 @import 'variables';
-@import "utilities";
+@import 'utilities';
 
 // Fonts & Icons
 @import 'fonts';
@@ -498,6 +498,9 @@ header {
       margin-bottom: 15px;
       overflow: hidden;
       .event-tournament {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         background: $wagerr-red;
         color: $white;
         border: none;
@@ -508,9 +511,13 @@ header {
         line-height: 20px;
         .sport {
           padding-left: 10px;
+          padding-right: 10px;
+          flex-grow: 1;
         }
         .date {
+          padding-left: 10px;
           padding-right: 10px;
+          flex-shrink: 0;
         }
       }
       .event-details {
@@ -747,6 +754,15 @@ header {
             margin-bottom: 30px;
             line-height: 36px;
             letter-spacing: 0.5px;
+            h6 {
+              color: $wagerr-red;
+              font-size: 11px;
+              text-align: center;
+              letter-spacing: 0.3px;
+              margin-top: 2px;
+              margin-bottom: 0;
+              font-weight: 600;
+            }
             @media screen and (max-width: 1450px) {
               font-size: 22px;
               font-weight: 600;

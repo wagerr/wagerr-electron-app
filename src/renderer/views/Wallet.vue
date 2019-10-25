@@ -9,6 +9,7 @@
             <div class="col s12 text-center total-balance">
               {{ walletLoaded ? balance : 'Loading...' }}
               {{ getNetworkType === 'Testnet' ? 'tWGR' : 'WGR' }}
+              <h6>Currently Available</h6>
             </div>
 
             <div class="col s6 right-align">Pending:</div>
@@ -22,6 +23,13 @@
 
             <div class="col s6">
               {{ walletLoaded ? immature : 'Loading...' }}
+              {{ getNetworkType === 'Testnet' ? 'tWGR' : 'WGR' }}
+            </div>
+
+            <div class="col s6 right-align">Locked:</div>
+
+            <div class="col s6">
+              {{ walletLoaded ? lockedBalance : 'Loading...' }}
               {{ getNetworkType === 'Testnet' ? 'tWGR' : 'WGR' }}
             </div>
 
@@ -79,6 +87,7 @@ export default {
       'balance',
       'immature',
       'pending',
+      'lockedBalance',
       'zerocoin',
       'walletLoaded',
       'accountAddress',
