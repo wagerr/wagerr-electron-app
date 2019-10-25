@@ -109,7 +109,7 @@ const actions = {
         console.error(err);
       });
   },
-
+// betTransactionlistLength is the limit asked for - same as length
   getPLBetTransactionList({ dispatch, commit, getters }, {length, rexg, from, betTransactionlistLength}) {
     wagerrRPC.client
       .listBets(rexg, length, from)
@@ -120,9 +120,17 @@ const actions = {
         if (getters.plBetTransactionList.length === 0 || getters.plBetTransactionList.length < betTransactionlistLength) commit('setTransactionMax', getters.betTransactionsPaginated.length + getters.plBetTransactionList.length);
         // Update the first page of bets.
         // Assuming no more bets made from first page since. Update rest of bets?
-        if ((from === 0) && (getters.plBetTransactionList.length >= length)) {
-          commit('setFirstPageBetTransactionsPaginated', length);
+        // on load of first page, show a different first page or slice the paginated list
+        if (from === 0) {
+          console.log("from 0 new first page")
+          console.log("list", getters.plBetTransactionList)
+          // commit('setFirstPageBetTransactionsPaginated', length);
+          // commit('setFirstPageBetTransactionsPaginated', getters.plBetTransactionList, length);
+          //Todo here fix - first page being added not replaced
+          // Todo: problem with asyn selecting the page, after
+          commit('setBetTransactionsPaginated', getters.plBetTransactionList);
         } else {
+          console.log("from is ", from);
           commit('setBetTransactionsPaginated', getters.betTransactionsPaginated.concat(getters.plBetTransactionList));
         }
       })

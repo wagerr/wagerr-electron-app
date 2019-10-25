@@ -70,7 +70,7 @@
       </tr>
     </thead>
 
-    <tbody>
+  <tbody>
       <tr v-for="tx in pagedList" :key="tx.id">
         <td class="hide-on-small-only">{{ tx['event-id'] }}</td>
 
@@ -142,11 +142,13 @@ export default {
     ]),
     pageCounted: function() {
       this.pageCount = Math.round(this.betTransactionsPaginated.length / this.limit);
-      if ((this.pageCount * this.limit) < this.betTransactionsPaginated.length) this.pageCount += 1;
+      if (this.betTransactionsPaginated.length > (this.pageCount * this.limit)) this.pageCount += 1;
       return this.pageCount
     },
     pagedList: function() {
-      if (this.pageSelected === 0) {
+      // didn't go in on init
+      if (this.pageSelected === 0) { // on init
+        console.log("first page")
         return this.betTransactionsPaginated
       } else {
         let start = 0;
@@ -211,19 +213,21 @@ export default {
       shell.openExternal(explorerUrl + '/#/tx/' + txId);
     },
 
-    loadPagination: function(pageNum = -1) {
-      let from = this.betTransactionsPaginated.length === 0 ? 0 : this.betTransactionsPaginated.length;
-      if (pageNum > -1) {
-        from = pageNum;
-      }
-      let length = this.limit
+    // for initial load and further page retrievals
+      loadPagination: function(pageNum = -1) {
+        let from = 0;
+        if (pageNum > -1) {
+        from = pageNum; // asumming pagenum 3,6,100+
+        }
+
       this.getPLBetTransactionList({
-        length: length,
+        length: this.limit,
         rexg: '*',
-        from: from,
+        from: (from),
         filter: '',
         betTransactionlistLength: this.limit
       })
+        this.setPage(pageNum)
     }
   },
 
@@ -263,7 +267,8 @@ export default {
   },
 
   async created() {
-    await this.loadPagination(0);
+    await this.loadPagination(0)
+    console.log("created this set page")
     await this.setPage(1);
   },
 
