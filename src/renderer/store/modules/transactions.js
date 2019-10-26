@@ -93,6 +93,9 @@ const actions = {
 
         commit('setWGRTransactionRecords', updatedTxList);
       })
+      .then(function() {
+          commit('setWGRTransactionRecordsPaginated', getters.wgrTransactionRecords);
+      })
       .catch(function(err) {
         // TODO Handle error correctly.
         console.error(err);
@@ -157,14 +160,6 @@ const mutations = {
   },
   setWGRTransactionRecordsPaginated(state, paginated) {
     state.wgrTransactionRecordsPaginated = paginated;
-  },
-  setFirstPageBetTransactionsPaginated(state, length) {
-    state.betTransactionsPaginated.splice(0, length, ...state.plBetTransactionList);
-    state.betTransactionsPaginated;
-  },
-  setFirstPageWGRTransactionsPaginated(state, length) {
-    state.wgrTransactionRecordsPaginated.splice(0, length, ...state.wgrTransactionRecords);
-    state.wgrTransactionRecordsPaginated;
   },
 };
 
