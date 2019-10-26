@@ -9,7 +9,7 @@
 
 <div v-else>
   <div class="row">
-    <div class="input-field col s1">
+    <div class="input-field col s2">
       <select
         v-model="limit"
         >
@@ -31,14 +31,6 @@
       :pageClass="'waves-effect'"
       :hide-prev-next="true">
     </paginate>
-    <ul class="pagination">
-      <li>
-        <a v-if="transactionMax === -1 && (pageSelected === pageCount)"
-           tabIndex="0"
-           @click="nextLot"
-           >Next</a>
-      </li>
-    </ul>
   </div>
   <table class="main-table card z-depth-2">
     <thead>
@@ -250,33 +242,14 @@ export default {
     setPage: function(pageNum) {
       this.pageSelected = pageNum;
     },
-
-    nextLot: function() {
-      if (this.transactionMax === -1) {
-        this.loadPagination();
-        if (this.transactionMax === -1 && (this.pageSelected === this.pageCount)) {
-          this.pageSelected = this.pageCount + 1;
-        } else {
-          this.pageSelected = this.pageCount;
-        }
-        this.setPage(this.pageSelected);
-      }
-    },
-
+                                          
     loadPagination: function(pageNum = -1) {
-      let from = this.wgrTransactionRecordsPaginated.length === 0 ? 0 : this.wgrTransactionRecordsPaginated.length;
-      if (pageNum > -1) {
-        from = pageNum;
-      }
-      let length = this.limit
       this.getWGRTransactionRecords({
-        length: length,
+        length:  this.initialLoad,
         rexg: '*',
-        from: from,
-        filter: '',
-        betTransactionlistLength: this.limit
+        from: 0,
+        filter: ''
       })
-      console.log("got some tx", this.wgrTransactionRecordsPaginated)
     },
   },
 
@@ -284,39 +257,30 @@ export default {
     return {
       timeout: 0,
       tlist: [],
-      limit: 3,
+      limit: 10,
       limits: [
-        {text: '3', value: '3'},
-        {text: '6', value: '6'},
+        {text: '10', value: '10'},
+        {text: '50', value: '50'},
         {text: '100', value: '100'},
-        {text: '10000', value: '10000'}
+        {text: '500', value: '500'}
       ],
       pageCount: 0,
-      pageSelected: 0
+      pageSelected: 0,
+      initialLoad: 4000 // Hard limit for list viewable transactions, still able to search
     };
   },
 
   watch: {
     limit: function(val) {
-      // fix selected page
+      // show first page for change of pages limit
       this.pageSelected = 0;
       this.setPage(1)
       this.limit
     },
-    transactionMax: function(val) {
-      if (val !== -1) {
-        if (this.wgrTransactionRecords.length === 0 )
-          this.pageSelected = this.pageCount;
-        else {
-          this.pageSelected = this.pageCount + 1;
-        }
-      }
-    }
   },
 
   async created() {
     await this.loadPagination(0);
-    await this.setPage(1);
   },
 
   mounted() {
@@ -331,7 +295,7 @@ export default {
       function() {
         // this.getWGRTransactionRecords(100);
       }.bind(this),
-      200000
+      2000
     );
   },
 
@@ -391,6 +355,9 @@ tbody tr {
     cursor: pointer;
 }
 
+ul.pagination {
+    display: inline-block;
+}
 ul.pagination {
     display: inline-block;
 }
