@@ -94,7 +94,7 @@ const actions = {
         commit('setWGRTransactionRecords', updatedTxList);
       })
       .then(function() {
-          commit('setWGRTransactionRecordsPaginated', getters.wgrTransactionRecords);
+          commit('setWGRTransactionRecordsPaginated', (getters.wgrTransactionRecords));
       })
       .catch(function(err) {
         // TODO Handle error correctly.

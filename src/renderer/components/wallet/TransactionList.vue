@@ -4,7 +4,33 @@
     v-if="wgrTransactionRecords.length === 0 && wgrTransactionRecordsPaginated.length === 0"
     class="no-transactions z-depth-2 text-center"
   >
-    <p>Currently, your wallet has no Wagerr transactions to list...</p>
+  <p>Currently, your wallet has no Wagerr transactions to list...</p>
+</div>
+
+<div v-else>
+  <div class="row">
+    <div class="input-field col s2">
+      <select
+        v-model="limit"
+        >
+        <option v-for="limitt in limits" v-bind:value="parseInt(limitt.value)">
+          {{ limitt.text }}
+        </option>
+   </select>
+      </select>
+      <label>List</label>
+    </div>
+    <paginate
+      v-model="pageSelected"
+      :pageCount="pageCounted"
+      :pageRange="limit"
+      :clickHandler="setPage"
+      :prevText="'Prev'"
+      :nextText="'Next'"
+      :containerClass="'pagination'"
+      :pageClass="'waves-effect'"
+      :hide-prev-next="true">
+    </paginate>
   </div>
 
   <div v-else>
@@ -196,7 +222,7 @@ export default {
       let start = 0;
       start = this.limit * this.pageSelected;
       start -= this.limit;
- 
+
       return this.wgrTransactionRecordsPaginated.slice(start, start + this.limit);
     }
   },
@@ -232,28 +258,28 @@ export default {
 
     loadPagination: function(pageNum = -1) {
       this.getWGRTransactionRecords({
-        length: this.initialLoad,
-        rexg: "*",
+        length:  this.initialLoad,
+        rexg: '*',
         from: 0,
-        filter: ""
-      });
-    }
+        filter: ''
+      })
+    },
   },
 
   data() {
     return {
       timeout: 0,
+      tlist: [],
       limit: 10,
-      bt: [],
       limits: [
-        { text: "10", value: "10" },
-        { text: "50", value: "50" },
-        { text: "100", value: "100" },
-        { text: "500", value: "500" }
+        {text: '10', value: '10'},
+        {text: '50', value: '50'},
+        {text: '100', value: '100'},
+        {text: '500', value: '500'}
       ],
       pageCount: 0,
-      pageSelected: 1,
-      initialLoad: 4000 // Hard limit for list viewable transactions
+      pageSelected: 0,
+      initialLoad: 4000 // Hard limit for list viewable transactions, still able to search
     };
   },
 
@@ -261,9 +287,9 @@ export default {
     limit: function(val) {
       // show first page for change of pages limit
       this.pageSelected = 0;
-      this.setPage(1);
-      this.limit;
-    }
+      this.setPage(1)
+      this.limit
+    },
   },
 
   async created() {
@@ -344,5 +370,8 @@ ul.pagination {
 }
 ul.pagination {
   display: inline-block;
+}
+ul.pagination {
+    display: inline-block;
 }
 </style>
