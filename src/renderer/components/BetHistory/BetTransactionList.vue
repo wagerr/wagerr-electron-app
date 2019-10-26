@@ -38,14 +38,6 @@
       :pageClass="'waves-effect'"
       :hide-prev-next="true">
     </paginate>
-    <ul class="pagination">
-      <li>
-        <a v-if="transactionMax === -1 && (pageSelected === pageCount)"
-           tabIndex="0"
-           @click="nextLot"
-           >Next</a>
-      </li>
-    </ul>
   </div>
   <table class="main-table card z-depth-2">
     <thead>
@@ -148,7 +140,6 @@ export default {
     pagedList: function() {
       // didn't go in on init
       if (this.pageSelected === 0) { // on init
-        console.log("first page")
         return this.betTransactionsPaginated
       } else {
         let start = 0;
@@ -158,7 +149,7 @@ export default {
       }
     }
   },
-
+  
   methods: {
     ...Vuex.mapActions([
       'getAccountAddress',
@@ -167,18 +158,6 @@ export default {
 
     setPage: function(pageNum) {
       this.pageSelected = pageNum;
-    },
-
-    nextLot: function() {
-      if (this.transactionMax === -1) {
-        this.loadPagination();
-        if (this.transactionMax === -1 && (this.pageSelected === this.pageCount)) {
-          this.pageSelected = this.pageCount + 1;
-        } else {
-          this.pageSelected = this.pageCount;
-        }
-        this.setPage(this.pageSelected);
-      }
     },
 
     // Convert the interger
@@ -214,20 +193,13 @@ export default {
     },
 
     // for initial load and further page retrievals
-      loadPagination: function(pageNum = -1) {
-        let from = 0;
-        if (pageNum > -1) {
-        from = pageNum; // asumming pagenum 3,6,100+
-        }
-
+    loadPagination: function() {
       this.getPLBetTransactionList({
-        length: this.limit,
-        rexg: '*',
-        from: (from),
-        filter: '',
-        betTransactionlistLength: this.limit
+        length: this.initialLoad,
+        regx: '*',
+        from: 0,
+        filter: ''
       })
-        this.setPage(pageNum)
     }
   },
 
@@ -235,46 +207,31 @@ export default {
     return {
       timeout: 0,
       tlist: [],
-      limit: 3,
+      limit: 10,
       limits: [
-        {text: '3', value: '3'},
-        {text: '6', value: '6'},
+        {text: '10', value: '10'},
+        {text: '50', value: '50'},
         {text: '100', value: '100'},
-        {text: '10000', value: '10000'}
+        {text: '500', value: '500'}
       ],
       pageCount: 0,
-      pageSelected: 0
+      pageSelected: 0,
+      initialLoad: 4000 // Hard limit for list viewable transactions, still able to search
     };
   },
 
   watch: {
     limit: function(val) {
-      // fix selected page
-      console.log("limit change", val)
+      // show first page for change of pages limit
       this.pageSelected = 0;
       this.setPage(1)
       this.limit
     },
-    transactionMax: function(val) {
-      if (val !== -1) {
-        if (this.plBetTransactionList.length === 0 )
-          this.pageSelected = this.pageCount;
-        else {
-          this.pageSelected = this.pageCount + 1;
-        }
-      }
-    }
   },
 
   async created() {
-    await this.loadPagination(0)
-    console.log("created this set page")
-    await this.setPage(1);
+    this.loadPagination()
   },
-
-  // mounted: function() {
-  //   M.AutoInit();
-  // },
 
   mounted() {
     window.setTimeout(
@@ -284,10 +241,6 @@ export default {
       400
     );
 
-    // Ping the get bets RPC method every 5 secs to show any new bet transactions.
-    // let electronStore = new ElectronStore()
-    // this.transactionsPaginated = electronStore.get('betTransactions');
-    // Initialise the Material JS so modals, drop down menus etc function.
     this.timeout = setInterval(
       async function() {
         // Todo: add filter and then retrieve
