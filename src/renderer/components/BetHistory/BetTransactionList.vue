@@ -32,7 +32,7 @@
         :hide-prev-next="true"
       ></paginate>
       <div class="input-field col s1">
-        <input v-model="search" v-on:keyup.enter="searchTransactionList" type="text" />
+        <input v-model="search" type="text" />
         <label>Search</label>
       </div>
     </div>
@@ -123,12 +123,14 @@ export default {
       "betTransactionsPaginated",
       "transactionMax"
     ]),
+      
     pageCounted: function() {
       this.pageCount = Math.round(this.bt.length / this.limit);
       if (this.bt.length > this.pageCount * this.limit) this.pageCount += 1;
       if (this.pageCount === 1) this.setPage(1);
       return this.pageCount;
     },
+      
     pagedList: function() {
       const re = new RegExp(this.search, "i");
       let start = 0;
@@ -229,7 +231,7 @@ export default {
       pageCount: 0,
       pageSelected: 1,
       initialLoad: 4000, // Hard limit for list viewable transactions, still able to search
-      search: ""
+      search: ''
     };
   },
 
