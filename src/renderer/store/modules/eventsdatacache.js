@@ -18,9 +18,9 @@ const getters = {
 };
 
 const actions = {
-  updateEventsDataCache({commit}, events) {
+  updateEventsDataCache({ commit }, events) {
     commit('updateEventsDataCache', events);
-  }  
+  }
 };
 
 const mutations = {
@@ -33,32 +33,41 @@ const mutations = {
       treatSport(event, nEventsBySport);
     });
 
-    state.tournamentsBySport = new Map([...state.tournamentsBySport, ...tournamentsBySport]);
-    state.nEventsBySport = new Map([...state.nEventsBySport, ...nEventsBySport]);
+    state.tournamentsBySport = new Map([
+      ...state.tournamentsBySport,
+      ...tournamentsBySport
+    ]);
+    nEventsBySport = new Map([...state.nEventsBySport, ...nEventsBySport]);
+    nEventsBySport.set('', calculateTotalEvents(nEventsBySport));
+
+    state.nEventsBySport = new Map([...nEventsBySport]);
   }
 };
 
+function calculateTotalEvents(nEventsBySport) {
+  let totalEvents = 0;
+  nEventsBySport.forEach((value, key) => {
+    if (key !== '') totalEvents += value;
+  });
+  return totalEvents;
+}
+
 function treatTournament(event, tournamentsBySport) {
   let tournaments = tournamentsBySport.get(event.sport);
-      
+
   if (tournaments) {
     tournaments.add(event.tournament);
   } else {
     tournaments = new Set([event.tournament]);
   }
 
-  tournamentsBySport.set(event.sport, new Set([...tournaments].sort()));      
+  tournamentsBySport.set(event.sport, new Set([...tournaments].sort()));
 }
 
 function treatSport(event, nEventsBySport) {
   let nEvents = nEventsBySport.get(event.sport);
-  let totalEvents = nEventsBySport.get('');
-  
-  nEvents = nEvents ? nEvents+1 : 1;
-  totalEvents = totalEvents ? totalEvents+1 : 1;
-
-  nEventsBySport.set(event.sport, nEvents);      
-  nEventsBySport.set('', totalEvents);      
+  nEvents = nEvents ? nEvents + 1 : 1;
+  nEventsBySport.set(event.sport, nEvents);
 }
 
 export default {
