@@ -127,11 +127,13 @@ export default {
     filterEventsBySport: async function(sportFilter) {
       await this.updateEventsSportFilter(sportFilter);
       await this.listEvents();
+      this.$emit('needsScroll');
     },
 
     filterEventsByTournament: async function(tournamentFilter) {
       await this.updateEventsTournamentFilter(tournamentFilter);
       await this.listEvents();
+      this.$emit('needsScroll');
     },
 
     resolveSportId: sport => {
