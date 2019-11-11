@@ -274,6 +274,8 @@ export default {
     // Set the network.
     let blockchainInfo = await blockchainRPC.getBlockchainInfo();
     let network = blockchainInfo.chain === 'test' ? 'Testnet' : 'Mainnet';
+    // load User Config - could use methods access, instead of store.dispatch
+    await this.loadUserSettings(network);
     await this.updateNetworkType(network);
 
     // If Wallet not synced show time behind text.
@@ -285,9 +287,6 @@ export default {
     await this.getWGRTransactionRecords(100);
     await this.getPLBetTransactionList(50);
     await this.getCGBetTransactionList(25);
-
-    // load User Config - could use methods access, instead of store.dispatch
-    await this.loadUserSettings(network);
   }
 };
 </script>
