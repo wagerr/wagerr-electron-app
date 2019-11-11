@@ -17,8 +17,10 @@ const OddsFormat = {
 
 const state = function() {
   return {
-    timezone: moment.tz.guess(),
     oddsFormat: OddsFormat.decimal,
+    timezoneOption: 'auto',
+    timezone: moment.tz.guess(),
+    fixedTimezone: moment.tz.guess(),
     showNetworkShare: false,
     accountList: [],
     receivingAddressList: [],
@@ -40,8 +42,14 @@ const displayOdds = function(state, val) {
 };
 
 const getters = {
+  getTimezoneOption: state => {
+    return state.timezoneOption;
+  },
   getTimezone: state => {
     return state.timezone;
+  },
+  getFixedTimezone: state => {
+    return state.fixedTimezone;
   },
   getOddsFormat: state => {
     return state.oddsFormat;
@@ -78,6 +86,20 @@ const actions = {
     preferencesStore.set('oddsFormat', state.oddsFormat);
   },
 
+  updateTimezoneOption({ commit, state }, timezoneOption) {
+    commit('setTimezoneOption', timezoneOption);
+    preferencesStore.set('timezoneOption', state.timezoneOption);
+  },
+
+  updateTimezone({ commit, state }, timezone) {
+    commit('setTimezone', timezone);
+    preferencesStore.set('timezone', state.timezone);
+  },
+  updateFixedTimezone({ commit, state }, fixedTimezone) {
+    commit('setFixedTimezone', fixedTimezone);
+    preferencesStore.set('fixedTimezone', state.fixedTimezone);
+  },
+
   // Loaded on Splash screen
   loadUserSettings({ dispatch, getters }, networkType) {
     const network = networkType === 'Testnet' ? '_testnet' : '';
@@ -86,6 +108,15 @@ const actions = {
     });
     if (preferencesStore.has('oddsFormat')) {
       dispatch('updateOddsFormat', Number(preferencesStore.get('oddsFormat')));
+    }
+    if (preferencesStore.has('timezoneOption')) {
+      dispatch('updateTimezoneOption', preferencesStore.get('timezoneOption'));
+    }
+    if (preferencesStore.has('timezone')) {
+      dispatch('updateTimezone', preferencesStore.get('timezone'));
+    }
+    if (preferencesStore.has('fixedTimezone')) {
+      dispatch('updateFixedTimezone', preferencesStore.get('fixedTimezone'));
     }
     if (preferencesStore.has('showNetworkShare')) {
       dispatch(
@@ -214,7 +245,15 @@ const mutations = {
   setOddsFormat(state, format) {
     state.oddsFormat = format;
   },
-
+  setTimezoneOption(state, timezoneOption) {
+    state.timezoneOption = timezoneOption;
+  },
+  setTimezone(state, timezone) {
+    state.timezone = timezone;
+  },
+  setFixedTimezone(state, fixedTimezone) {
+    state.fixedTimezone = fixedTimezone;
+  },
   setShowNetworkShare(state, value) {
     state.showNetworkShare = value;
     preferencesStore.set('showNetworkShare', state.showNetworkShare);
