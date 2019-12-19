@@ -54,6 +54,10 @@ export const SPORTS_AVAILABLE = [
     icon: 'icon-football'
   },
   {
+    name: 'Boxing',
+    icon: 'icon-walk'
+  },
+  {
     name: 'Cricket',
     icon: 'icon-baseball'
   },
