@@ -17,8 +17,9 @@ const OddsFormat = {
 
 const state = function() {
   return {
-    timezone: moment.tz.guess(),
     oddsFormat: OddsFormat.decimal,
+    timezoneOption: 'auto',
+    timezone: moment.tz.guess(),
     showNetworkShare: false,
     accountList: [],
     receivingAddressList: [],
@@ -40,6 +41,9 @@ const displayOdds = function(state, val) {
 };
 
 const getters = {
+  getTimezoneOption: state => {
+    return state.timezoneOption;
+  },
   getTimezone: state => {
     return state.timezone;
   },
@@ -78,6 +82,16 @@ const actions = {
     preferencesStore.set('oddsFormat', state.oddsFormat);
   },
 
+  updateTimezoneOption({ commit, state }, timezoneOption) {
+    commit('setTimezoneOption', timezoneOption);
+    preferencesStore.set('timezoneOption', state.timezoneOption);
+  },
+
+  updateTimezone({ commit, state }, timezone) {
+    commit('setTimezone', timezone);
+    preferencesStore.set('timezone', state.timezone);
+  },
+
   // Loaded on Splash screen
   loadUserSettings({ dispatch, getters }, networkType) {
     const network = networkType === 'Testnet' ? '_testnet' : '';
@@ -86,6 +100,21 @@ const actions = {
     });
     if (preferencesStore.has('oddsFormat')) {
       dispatch('updateOddsFormat', Number(preferencesStore.get('oddsFormat')));
+    }
+    if (preferencesStore.has('timezone')) {
+      dispatch('updateTimezone', preferencesStore.get('timezone'));
+    }
+    if (preferencesStore.has('timezoneOption')) {
+      // On launch and after setting the timezone value from the preferences
+      // file, check if the timezone option preference is set to 'auto'. If it
+      // is update the timezone value with a new guess at which timezone the
+      // user is in. This solves the problem of a laptop user moving across
+      // timezones or DST starting/ending.
+      let tzOption = preferencesStore.get('timezoneOption');
+      dispatch('updateTimezoneOption', tzOption);
+      if (tzOption === 'auto') {
+        dispatch('updateTimezone', moment.tz.guess());
+      }
     }
     if (preferencesStore.has('showNetworkShare')) {
       dispatch(
@@ -214,7 +243,12 @@ const mutations = {
   setOddsFormat(state, format) {
     state.oddsFormat = format;
   },
-
+  setTimezoneOption(state, timezoneOption) {
+    state.timezoneOption = timezoneOption;
+  },
+  setTimezone(state, timezone) {
+    state.timezone = timezone;
+  },
   setShowNetworkShare(state, value) {
     state.showNetworkShare = value;
     preferencesStore.set('showNetworkShare', state.showNetworkShare);
