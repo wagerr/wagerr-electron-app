@@ -20,7 +20,6 @@ const state = function() {
     oddsFormat: OddsFormat.decimal,
     timezoneOption: 'auto',
     timezone: moment.tz.guess(),
-    fixedTimezone: moment.tz.guess(),
     showNetworkShare: false,
     accountList: [],
     receivingAddressList: [],
@@ -47,9 +46,6 @@ const getters = {
   },
   getTimezone: state => {
     return state.timezone;
-  },
-  getFixedTimezone: state => {
-    return state.fixedTimezone;
   },
   getOddsFormat: state => {
     return state.oddsFormat;
@@ -95,10 +91,6 @@ const actions = {
     commit('setTimezone', timezone);
     preferencesStore.set('timezone', state.timezone);
   },
-  updateFixedTimezone({ commit, state }, fixedTimezone) {
-    commit('setFixedTimezone', fixedTimezone);
-    preferencesStore.set('fixedTimezone', state.fixedTimezone);
-  },
 
   // Loaded on Splash screen
   loadUserSettings({ dispatch, getters }, networkType) {
@@ -112,8 +104,6 @@ const actions = {
     if (preferencesStore.has('timezone')) {
       dispatch('updateTimezone', preferencesStore.get('timezone'));
     }
-    if (preferencesStore.has('fixedTimezone')) {
-      dispatch('updateFixedTimezone', preferencesStore.get('fixedTimezone'));
     if (preferencesStore.has('timezoneOption')) {
       // On launch and after setting the timezone value from the preferences
       // file, check if the timezone option preference is set to 'auto'. If it
@@ -258,9 +248,6 @@ const mutations = {
   },
   setTimezone(state, timezone) {
     state.timezone = timezone;
-  },
-  setFixedTimezone(state, fixedTimezone) {
-    state.fixedTimezone = fixedTimezone;
   },
   setShowNetworkShare(state, value) {
     state.showNetworkShare = value;

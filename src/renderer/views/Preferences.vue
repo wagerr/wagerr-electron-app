@@ -155,11 +155,33 @@ import moment from 'moment';
 export default {
   name: 'Preferences',
 
+  data: function() {
+    return {
+      confPath: getWagerrConfPath()
+    };
+  },
+
+  computed: {
+    ...mapGetters([
+      'getOddsFormats',
+      'getOddsFormat',
+      'getTimezoneOption',
+      'getTimezone',
+      'getShowNetworkShare'
+    ]),
+
+    'timezones': function() {
+      return moment.tz.names();
+    }
+  },
+
   methods: {
     ...mapActions(['updateOddsFormat', 'toggleShowNetworkShare']),
+
     changeOddsFormat: function(event) {
       this.$store.dispatch('updateOddsFormat', Number(event.target.value));
     },
+
     changeTimezoneOption: function(event) {
       const timezoneOption = event.target.value;
       this.$store.dispatch('updateTimezoneOption', timezoneOption);
@@ -167,15 +189,13 @@ export default {
       if (timezoneOption === 'auto') {
         this.$store.dispatch('updateTimezone', moment.tz.guess());
       } else if (timezoneOption === 'fixed') {
-        this.$store.dispatch('updateTimezone', this.getFixedTimezone);
+        this.$store.dispatch('updateTimezone', this.getTimezone);
       }
     },
+
     changeTimezone: function(event) {
       const newTimezone = event.target.value;
       this.$store.dispatch('updateTimezone', newTimezone);
-      if (this.getTimezoneOption === 'fixed') {
-        this.$store.dispatch('updateFixedTimezone', newTimezone);
-      }
     },
 
     oddsFormatChecked: function(format) {
@@ -214,19 +234,6 @@ export default {
           });
       }
     }
-  },
-
-  computed: {
-    ...mapGetters(['getOddsFormats', 'getOddsFormat', 'getTimezoneOption', 'getTimezone', 'getFixedTimezone', 'getShowNetworkShare']),
-    'timezones': function() {
-      return moment.tz.names();
-    }
-  },
-
-  data: function() {
-    return {
-      confPath: getWagerrConfPath()
-    };
   }
 };
 </script>
