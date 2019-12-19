@@ -23,55 +23,68 @@ export const SPORTS_AVAILABLE = [
   {
     name: 'All Events',
     id: '',
-    icon: 'icon-calendar-check'
+    icon: 'icon-calendar-check',
+    favorite: true
   },
   {
     name: 'Soccer',
-    icon: 'icon-soccer'
+    icon: 'icon-soccer',
+    favorite: true
   },
   {
     name: 'Esports',
-    icon: 'icon-headphones'
-  },
-  {
-    name: 'Baseball',
-    icon: 'icon-baseball'
+    icon: 'icon-headphones',
+    favorite: true
   },
   {
     name: 'Basketball',
-    icon: 'icon-basketball'
+    icon: 'icon-basketball',
+    favorite: true
   },
   {
     name: 'Football',
-    icon: 'icon-football'
+    icon: 'icon-football',
+    favorite: true
   },
   {
     name: 'Hockey',
-    icon: 'icon-hockey'
+    icon: 'icon-hockey',
+    favorite: true
   },
   {
     name: 'Aussie Rules',
-    icon: 'icon-football'
+    icon: 'icon-football',
+    favorite: false
+  },
+  {
+    name: 'Baseball',
+    icon: 'icon-baseball',
+    favorite: false
   },
   {
     name: 'Boxing',
-    icon: 'icon-walk'
+    icon: 'icon-walk',
+    favorite: false
   },
   {
     name: 'Cricket',
-    icon: 'icon-baseball'
+    icon: 'icon-baseball',
+    favorite: false
   },
   {
     name: 'MMA',
     id: 'Mixed Martial Arts',
-    icon: 'icon-bench-press'
+    icon: 'icon-bench-press',
+    favorite: false
   },
   {
     name: 'Rugby League',
-    icon: 'icon-football'
+    icon: 'icon-football',
+    favorite: false
   },
   {
     name: 'Rugby Union',
-    icon: 'icon-football'
+    icon: 'icon-football',
+    favorite: false
   }
 ];

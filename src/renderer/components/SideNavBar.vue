@@ -1,9 +1,9 @@
 <template>
   <nav>
-    <h5>Filter By Sport</h5>
+    <h5>Top Sports</h5>
     <ul class="side-nav">
       <li
-        v-for="sport in sportsAvailable"
+        v-for="sport in topSports"
         :key="sport.name"
         v-bind:class="{ on: getEventsSportFilter === resolveSportId(sport) }"
       >
@@ -17,8 +17,46 @@
             >
               <small>({{ getNEvents(resolveSportId(sport)) }})</small>
             </span>
+          </a>
+        </div>
+        <ul
+          class="tournaments-dropdown"
+          v-if="
+            getEventsSportFilter === resolveSportId(sport) &&
+              hasTournaments(sport.name)
+          "
+        >
+          <li
+            v-for="tournament in getTournaments(sport.name)"
+            :key="tournament"
+            @click="filterEventsByTournament(tournament)"
+            v-bind:class="{ on: getEventsTournamentFilter === tournament }"
+          >
+            <div class="tournament" :title="tournament">
+              <span>{{ tournament }}</span>
+            </div>
+          </li>
+        </ul>
+      </li>
+    </ul>
 
-            <!-- <i class="icon-chevron-down pull-right"></i> -->
+    <h5>A-Z Sports</h5>
+    <ul class="side-nav">
+      <li
+        v-for="sport in otherSports"
+        :key="sport.name"
+        v-bind:class="{ on: getEventsSportFilter === resolveSportId(sport) }"
+      >
+        <div class="parent">
+          <a @click="filterEventsBySport(resolveSportId(sport))">
+            <i :class="sport.icon"></i>
+            <span>{{ sport.name }}</span>
+            <span
+              v-if="getNEvents(resolveSportId(sport)) > 0"
+              class="pull-right n-events"
+            >
+              <small>({{ getNEvents(resolveSportId(sport)) }})</small>
+            </span>
           </a>
         </div>
         <ul
@@ -50,6 +88,13 @@ import { SPORTS_AVAILABLE } from '../../main/constants/constants';
 
 export default {
   name: 'SideNavBar',
+
+  data: () => {
+    return {
+      sportsAvailable: [...SPORTS_AVAILABLE]
+    };
+  },
+
   computed: {
     ...Vuex.mapGetters([
       'getEventsSportFilter',
@@ -57,28 +102,38 @@ export default {
       'getTournaments',
       'hasTournaments',
       'getNEvents'
-    ])
+    ]),
+
+    topSports: function() {
+      return this.sportsAvailable.filter(function(s) {
+        return s.favorite;
+      });
+    },
+
+    otherSports: function() {
+      return this.sportsAvailable.filter(function(s) {
+        return !s.favorite;
+      });
+    }
   },
-  data: () => {
-    return {
-      sportsAvailable: [...SPORTS_AVAILABLE]
-    };
-  },
+
   methods: {
     ...Vuex.mapActions([
       'updateEventsSportFilter',
       'updateEventsTournamentFilter',
       'listEvents'
     ]),
+
     filterEventsBySport: async function(sportFilter) {
       await this.updateEventsSportFilter(sportFilter);
-      // await this.$store.dispatch("eventsSportFilter", sportFilter);
       await this.listEvents();
     },
+
     filterEventsByTournament: async function(tournamentFilter) {
       await this.updateEventsTournamentFilter(tournamentFilter);
       await this.listEvents();
     },
+
     resolveSportId: sport => {
       return sport.id === '' || sport.id ? sport.id : sport.name;
     }
@@ -91,7 +146,9 @@ export default {
 
 .side-nav {
   margin-top: 7px;
+  display: table;
 }
+
 nav {
   position: fixed;
   top: 0px;
