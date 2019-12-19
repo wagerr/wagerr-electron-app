@@ -3,8 +3,6 @@
     <div class="row">
       <div class="betting-sidebar">
         <div class="betting-sidebar-container">
-          <div class="sidebar-branding"></div>
-
           <side-nav-bar></side-nav-bar>
         </div>
       </div>

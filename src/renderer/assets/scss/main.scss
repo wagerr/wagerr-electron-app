@@ -331,17 +331,6 @@ header {
     position: fixed;
     box-sizing: border-box;
     margin: -20px 0 0 -10px;
-    .sidebar-branding {
-      background-image: url(../images/logo-sidenav-footer.svg);
-      background-position: center bottom;
-      background-repeat: no-repeat;
-      background-size: contain;
-      width: 80%;
-      margin: 0 10%;
-      height: 100px;
-      position: absolute;
-      bottom: 10px;
-    }
     nav {
       width: 200px;
       background: transparent;
@@ -466,6 +455,7 @@ header {
       text-transform: uppercase;
       padding-left: 50px;
       letter-spacing: 1px;
+      margin: 20px 0 20px 0;
     }
   }
   .betting-main {
