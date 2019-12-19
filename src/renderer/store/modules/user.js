@@ -109,14 +109,22 @@ const actions = {
     if (preferencesStore.has('oddsFormat')) {
       dispatch('updateOddsFormat', Number(preferencesStore.get('oddsFormat')));
     }
-    if (preferencesStore.has('timezoneOption')) {
-      dispatch('updateTimezoneOption', preferencesStore.get('timezoneOption'));
-    }
     if (preferencesStore.has('timezone')) {
       dispatch('updateTimezone', preferencesStore.get('timezone'));
     }
     if (preferencesStore.has('fixedTimezone')) {
       dispatch('updateFixedTimezone', preferencesStore.get('fixedTimezone'));
+    if (preferencesStore.has('timezoneOption')) {
+      // On launch and after setting the timezone value from the preferences
+      // file, check if the timezone option preference is set to 'auto'. If it
+      // is update the timezone value with a new guess at which timezone the
+      // user is in. This solves the problem of a laptop user moving across
+      // timezones or DST starting/ending.
+      let tzOption = preferencesStore.get('timezoneOption');
+      dispatch('updateTimezoneOption', tzOption);
+      if (tzOption === 'auto') {
+        dispatch('updateTimezone', moment.tz.guess());
+      }
     }
     if (preferencesStore.has('showNetworkShare')) {
       dispatch(
