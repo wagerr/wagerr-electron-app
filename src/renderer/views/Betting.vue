@@ -3,7 +3,7 @@
     <div class="row">
       <div class="betting-sidebar">
         <div class="betting-sidebar-container">
-          <side-nav-bar></side-nav-bar>
+          <side-nav-bar @needsScroll="scrollToTop"></side-nav-bar>
         </div>
       </div>
 
@@ -38,6 +38,11 @@ export default {
   components: { SideNavBar, bettingNav, EventList, BetSlip },
   computed: {
     ...mapGetters(['getOddsFormats', 'getOddsFormat'])
+  },
+  methods: {
+    scrollToTop: function() {
+      window.scrollTo(0,0);
+    }
   }
 };
 </script>
