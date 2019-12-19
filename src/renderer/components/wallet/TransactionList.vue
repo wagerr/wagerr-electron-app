@@ -164,6 +164,12 @@ import {
 export default {
   name: 'TransactionList',
 
+  data() {
+    return {
+      materializeInit: false
+    };
+  },
+
   computed: {
     ...Vuex.mapGetters([
       'getTimezone',
@@ -171,6 +177,18 @@ export default {
       'wgrTransactionRecords',
       'getNetworkType'
     ])
+  },
+
+  watch: {
+    wgrTransactionRecords: function(newValue, oldValue) {
+      if (!this.materializeInit) {
+        this.materializeInit = true;
+        this.$nextTick(() => {
+          // Initialise the Material JS so modals, drop down menus etc function.
+          M.AutoInit();
+        });
+      }
+    }
   },
 
   methods: {
