@@ -22,9 +22,9 @@
         </div>
       </div>
 
-      <download-snapshot 
-        v-if="mayDownloadSnapshot"
-        :sync-method="syncMethod" 
+      <download-snapshot
+        v-if="mayDownloadSnapshot && getNetworkType !== 'Testnet'"
+        :sync-method="syncMethod"
         :time-behind-text="timeBehindText"
         v-on:update-sync-method="updateSyncMethod"
       />
@@ -84,6 +84,7 @@ export default {
   computed: {
     ...mapGetters([
       'balance',
+      'getNetworkType',
       'initText',
       'walletLoaded',
       'walletSynced',
@@ -136,7 +137,7 @@ export default {
     },
 
     getTimeBehindText: function(durationBehind) {
-      let timeBehindText;      
+      let timeBehindText;
 
       if (durationBehind.asDays() < 2) {
         timeBehindText = `${Math.ceil(durationBehind.asHours())} hours behind`;
@@ -231,11 +232,11 @@ export default {
 
           } else {
             this.timeBehindText = this.getTimeBehindText(durationBehind);
-            
+
             this.updateInitText(this.timeBehindText + ', Scanning block ' + bestBlockHeight);
 
             let weeksBehind = Math.ceil(durationBehind.asWeeks());
-            this.mayDownloadSnapshot = weeksBehind > blockchainSnapshot.TRESHOLD_IN_WEEKS;            
+            this.mayDownloadSnapshot = weeksBehind > blockchainSnapshot.TRESHOLD_IN_WEEKS;
           }
         }
 
