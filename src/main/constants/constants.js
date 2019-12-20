@@ -32,11 +32,6 @@ export const SPORTS_AVAILABLE = [
     favorite: true
   },
   {
-    name: 'Esports',
-    icon: 'icon-headphones',
-    favorite: true
-  },
-  {
     name: 'Basketball',
     icon: 'icon-basketball',
     favorite: true
@@ -49,6 +44,11 @@ export const SPORTS_AVAILABLE = [
   {
     name: 'Hockey',
     icon: 'icon-hockey',
+    favorite: true
+  },
+  {
+    name: 'Esports',
+    icon: 'icon-headphones',
     favorite: true
   },
   {
