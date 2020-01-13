@@ -577,7 +577,7 @@ export default {
   'Delete local blockchain so wallet synchronises from scratch.': 'Eliminar el blockchain local, así la cartera puede sincronizar desde cero.',
   'Restart the Wagerr Wallet.': 'Reiniciar la Cartera Wagerr',
   //updater.js
-  'There was an error while updating the app': 'Se ha producido un error al actualizar la app',\
+  'There was an error while updating the app': 'Se ha producido un error al actualizar la app',
   'Wagerr Electron App - Update Available': 'Wagerr Electron App - Actualización disponible',
   'Update downloaded, application will now quit for update.': 'Actualización descargada, la aplicación se va a cerrar para actualizarse',
   'An update is available, do you want to update now?': 'Hay disponible una actualización, quieres actualizar ahora?',
