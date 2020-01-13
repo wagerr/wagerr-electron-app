@@ -7,31 +7,31 @@
     <div class="masternode-modal">
       <el-row class="modal-text text-center">
         <h4 class="modal-font">
-          Step 6
-          <br />Finish and Restart.
+          {{ $t('Step 6') }}
+          <br />
+          {{ $t('Finish and Restart.') }}
         </h4>
       </el-row>
 
       <el-row class="button-container">
         <a class="btn" @click.prevent="onOpenWalletFile()">
-          Open Wallet Config File
+          {{ $t('Open Wallet Config File') }}
         </a>
         <a class="btn" @click.prevent="onOpenMasternodeFile()">
-          Open Masternode Config File
+          {{ $t('Open Masternode Config File') }}
         </a>
       </el-row>
       <div class="step-subtitle">
-        Your settings have been saved to your Configuration files. You can view
-        them here if you like, or just restart your wallet to start your
-        masternode.
+        {{ $t('Your settings have been saved to your Configuration files.') }}
+        {{ $t('You can view them here if you like, or just restart your wallet to start your masternode.') }}
       </div>
 
       <el-row slot="footer" class="button-container options">
         <a class="btn green finish-button" @click.prevent="onFinish()">
-          Finish
+          {{ $t('Finish') }}
         </a>
         <a class="btn blue restart-button" @click.prevent="onRestart()">
-          Restart Wallet
+          {{ $t('Restart Wallet') }}
         </a>
       </el-row>
     </div>

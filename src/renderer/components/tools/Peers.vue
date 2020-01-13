@@ -1,17 +1,17 @@
 <template>
   <div id="peers" class="settings-sub-section">
-    <h4>Peers</h4>
+    <h4>{{ $t('Peers') }}</h4>
 
     <table
       class="col-12 col-sm-12 col-md-12 col-lg-8 main-table card z-depth-2"
     >
       <thead>
         <tr>
-          <th>Address:Port</th>
+          <th>{{ $t('Address:Port') }}</th>
 
-          <th>Version</th>
+          <th>{{ $t('Version') }}</th>
 
-          <th>Ping Time</th>
+          <th>{{ $t('Ping Time') }}</th>
         </tr>
       </thead>
 
@@ -27,18 +27,18 @@
     </table>
 
     <div v-if="getBannedInfo">
-      <h3 class="text-center">Banned</h3>
+      <h3 class="text-center">{{ $t('Banned') }}</h3>
 
       <table
         class="col-12 col-sm-12 col-md-12 col-lg-8 main-table card z-depth-2"
       >
         <thead>
           <tr>
-            <th>Address:Port</th>
+            <th>{{ $t('Address:Port') }}</th>
 
-            <th>Version</th>
+            <th>{{ $t('Version') }}</th>
 
-            <th>Ping Time</th>
+            <th>{{ $t('Ping Time') }}</th>
           </tr>
         </thead>
 

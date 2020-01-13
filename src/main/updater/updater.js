@@ -2,6 +2,7 @@ import { app, dialog } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import { init } from '../index';
 import { spawnLogger } from '../logger/logger';
+import i18n from '../../common/i18n/i18n';
 
 const ProgressBar = require('electron-progressbar');
 
@@ -15,7 +16,7 @@ autoUpdater.autoDownload = false;
 
 // Show and log any error when going through the update process.
 autoUpdater.on('error', error => {
-  logger.error('There was an error while updating the app');
+  logger.error(i18n.t('There was an error while updating the app'));
   dialog.showErrorBox(
     'Error: ',
     error == null ? 'unknown' : (error.stack || error).toString()
@@ -32,17 +33,17 @@ autoUpdater.on('update-available', () => {
   dialog.showMessageBox(
     {
       type: 'info',
-      title: 'Wagerr Electron App - Update Available',
-      message: 'An update is available, do you want to update now?',
-      buttons: ['Yes', 'No']
+      title: i18n.t('Wagerr Electron App - Update Available'),
+      message: i18n.t('An update is available, do you want to update now?'),
+      buttons: [i18n.t('Yes'), i18n.t('No')]
     },
     async buttonIndex => {
       // If the user selects 'Yes', download the update.
       if (buttonIndex === 0) {
         // Show a progress bar of the update status
         downloadProgressBar = new ProgressBar({
-          title: 'Wagerr Electron App - Update Available',
-          text: 'Downloading the update...',
+          title: i18n.t('Wagerr Electron App - Update Available'),
+          text: i18n.t('Downloading the update...'),
           closeOnComplete: true
         });
 
@@ -78,7 +79,7 @@ autoUpdater.on('download-progress', downloadProgress => {
 
   // Set a custom message that updates the download values when the
   // `download-progress` event is emitted.
-  let downloadStatsMessage = `Downloaded ${MBTransferred} MB out of ${MBTotal} MB`;
+  let downloadStatsMessage = i18n.t('Downloaded {0} MB out of {1} MB',  [MBTransferred, MBTotal]);
   downloadStatsMessage += ` (${downloadProgress.percent.toFixed(2)}%)`;
   downloadStatsMessage += ` @ ${Mbps} Mbps`;
 
@@ -99,8 +100,8 @@ autoUpdater.on('update-downloaded', () => {
 
   dialog.showMessageBox(
     {
-      title: 'Wagerr Electron App - Update Available',
-      message: 'Update downloaded, application will now quit for update.'
+      title: i18n.t('Wagerr Electron App - Update Available'),
+      message: i18n.t('Update downloaded, application will now quit for update.')
     },
     () => {
       setImmediate(() => autoUpdater.quitAndInstall());

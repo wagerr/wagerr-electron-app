@@ -3,10 +3,10 @@
 
     <div class="row search-row">
       <div class="col s4 offset-s4">
-        <p class="n-events pull-right">Showing {{nEvents}} events</p>
+        <p class="n-events pull-right">{{ $t('Showing {0} events', [nEvents]) }}</p>
       </div>
       <div class="col s4 ">
-        <input v-model="searchTermInput" type="text" placeholder="Search..." />
+        <input v-model="searchTermInput" type="text" :placeholder="$t('Search...')" />
       </div>
     </div>          
 
@@ -15,7 +15,7 @@
         <li v-for="event in events" :key="event.event_id" class="card">
           <div class="event-tournament">
             <span class="sport">
-              <span v-html="event.show.tournament" /> (Event ID: <span v-html="event.show.eventId" />)
+              <span v-html="event.show.tournament" /> ({{ $t('Event ID:') }} <span v-html="event.show.eventId" />)
             </span>
             <span class="date pull-right">
               <span v-html="event.show.starting" />
@@ -29,15 +29,15 @@
             <div class="col s12 m8 event-headers">
               <div class="row event-header">
                 <div class="col s12 m4 text-center">
-                  <div>Money Line</div>
+                  <div>{{ $t('Money Line')}}</div>
                 </div>
 
                 <div class="col s12 m4 text-center">
-                  <div>Spread</div>
+                  <div>{{ $t('Spread') }}</div>
                 </div>
 
                 <div class="col s12 m4 text-center">
-                  <div>Total</div>
+                  <div>{{ $t('Total') }}</div>
                 </div>
               </div>
             </div>
@@ -54,7 +54,7 @@
               </div>
 
               <div class="teams">
-                <div class="team-name">Draw</div>
+                <div class="team-name">{{ $t('Draw') }}</div>
               </div>
             </div>
             <div class="col s12 m8 event-odds">
@@ -109,7 +109,7 @@
                         createBet(
                           event.event_id,
                           3,
-                          'Draw',
+                          $t('Draw'),
                           event.odds[0].mlDraw
                         )
                       "
@@ -152,7 +152,7 @@
                           event.teams.home,
                           event.odds[1].spreadHome,
                           'spread',
-                          `Handicap ${
+                          `${$t('Handicap')} ${
                             event.odds[0].mlHome > event.odds[0].mlAway
                               ? '+'
                               : '-'
@@ -184,7 +184,7 @@
                           event.teams.away,
                           event.odds[1].spreadAway,
                           'spread',
-                          `Handicap ${
+                          `${$t('Handicap')} ${
                             event.odds[0].mlAway > event.odds[0].mlHome
                               ? '+'
                               : '-'
@@ -235,12 +235,12 @@
                           event.odds[2].totalsOver,
                           'total',
                           null,
-                          `Over${event.odds[2].totalsPoints / 10}`
+                          `${$t('Over')}${event.odds[2].totalsPoints / 10}`
                         )
                       "
                     >
                       <span class="totalnum">
-                        (O<span v-html="event.show.totalsPointsOdds" />)
+                        ({{$t('O')}}<span v-html="event.show.totalsPointsOdds" />)
                       </span>
 
                       <span class="totalodds">
@@ -259,12 +259,12 @@
                           event.odds[2].totalsUnder,
                           'total',
                           null,
-                          `Under${event.odds[2].totalsPoints / 10}`
+                          `${$t('Under')}${event.odds[2].totalsPoints / 10}`
                         )
                       "
                     >
                       <span class="totalnum">
-                        (U<span v-html="event.show.totalsPointsOdds" />)
+                        ({{$t('U')}}<span v-html="event.show.totalsPointsOdds" />)
                       </span>
 
                       <span class="totalodds">
@@ -297,7 +297,7 @@
 
     <div v-else class="text-center no-events no-transactions">
       <p>
-        Currently, there are no events available for betting for this sport.
+        {{ $t('Currently, there are no events available for betting for this sport.') }}
       </p>
     </div>
   </div>
@@ -332,7 +332,8 @@ export default {
           event.show = {
             eventId: e.event_id.toString(),
             tournament: e.tournament,
-            starting: moment(Number(e.starting) * 1000).tz(this.getTimezone).format('ddd, MMM Do h:mm A (Z z)'),
+            starting: moment(Number(e.starting) * 1000).tz(this.getTimezone).format('lll'),
+            // starting: moment(Number(e.starting) * 1000).tz(this.getTimezone).format('ddd, MMM Do h:mm A (Z z)'),
             homeTeam: e.teams.home,
             awayTeam: e.teams.away,
             mlHomeOdds: this.convertOdds(e.odds[0].mlHome),
@@ -556,6 +557,9 @@ input::placeholder {
   color: #555
 }
 
+.totalnum {
+  text-transform: none;
+}
 .n-events {
   color: #999; 
   font-size: 14px;

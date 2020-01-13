@@ -7,8 +7,9 @@
     <div class="masternode-modal">
       <el-row class="modal-text text-center">
         <h4 class="modal-font">
-          Step 5
-          <br />Choose Masternode Transaction.
+          {{ $t('Step 5') }}
+          <br />
+          {{ $t('Choose Masternode Transaction.') }}
         </h4>
       </el-row>
 
@@ -17,9 +18,9 @@
       >
         <thead>
           <tr>
-            <th>txhash</th>
+            <th>{{ $t('txhash') }}</th>
 
-            <th>outputidx</th>
+            <th>{{ $t('outputidx') }}</th>
           </tr>
         </thead>
 
@@ -39,8 +40,12 @@
       </table>
 
       <el-row slot="footer" class="button-container options">
-        <a class="btn green" @click.prevent="onNext()">Next</a>
-        <a class="btn" @click.prevent="onBack()">Back</a>
+        <a class="btn green" @click.prevent="onNext()">
+          {{ $t('Next') }}
+        </a>
+        <a class="btn" @click.prevent="onBack()">
+          {{ $t('Back') }}
+        </a>
       </el-row>
     </div>
   </el-dialog>

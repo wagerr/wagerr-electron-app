@@ -5,7 +5,7 @@
         <i class="icon-pencil editing" :class="{ active: editingActions }"></i>
         <label
           v-text="
-            receivingAddress.label ? receivingAddress.label : '( No Label )'
+            receivingAddress.label ? receivingAddress.label : $t('( No Label )')
           "
           @click="editing = true"
           @mouseover="editingActions = true"
@@ -22,13 +22,15 @@
           v-show="editing"
           v-focus="editing"
           class="update-address-label"
-          placeholder="(no label)"
+          :placeholder="$t('(no label)')"
           :value="receivingAddress.label"
           @keyup.enter="doneEditLabel"
           @keyup.esc="cancelEdit"
           @keydown.tab="cancelEdit"
         />
-        <button class="update" @click="doneEditLabel"></button>
+        <button class="update" @click="doneEditLabel">
+          {{ $t('Update') }}
+        </button>
       </div>
     </td>
     <td class="number">{{ receivingAddress.address }}</td>
@@ -73,7 +75,7 @@ export default {
         });
         M.toast({
           html:
-            '<span class="toast__bold-font">Updated Label to ' +
+            '<span class="toast__bold-font">' + this.$t('Updated Label to: ') +
             labelVal +
             '&nbsp;</span>',
           classes: 'green'
@@ -162,9 +164,6 @@ button.update:hover {
   color: $white;
   transition: color 0.2s ease-out;
   background-color: $wagerr-red-dark;
-}
-button.update:after {
-  content: 'update';
 }
 button.update {
   display: inline-block;

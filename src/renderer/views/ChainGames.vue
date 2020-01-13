@@ -11,12 +11,12 @@
           <!-- Lotto Info Modal -->
           <LottoInfoModal></LottoInfoModal>
 
-          <h2 class=""><span></span>Lotto Jackpot</h2>
+          <h2 class=""><span></span>{{ $t('Lotto Jackpot') }}</h2>
 
           <div class="cg-dates text-center clearfix">
-            <h6>Game Start:</h6>
+            <h6>{{ $t('Game Start:') }}</h6>
             {{ loadingCGEvent ? '-' : getLottoStartTime() }}
-            <h6>Game End:</h6>
+            <h6>{{ $t('Game End:') }}</h6>
             {{ loadingCGEvent ? '-' : getLottoEndTime() }}
           </div>
 
@@ -26,14 +26,14 @@
               data-target="confirm-lotto-entry"
               v-bind:class="{ disabled: loadingCGEvent }"
             >
-              Buy Ticket
+              {{ $t('Buy Ticket') }}
             </button>
 
             <!-- Confirm Lotto Entry Modal -->
             <ConfirmLottoEntryModal></ConfirmLottoEntryModal>
 
             <span class="cost">
-              (Entry Fee: {{ entryFee }}
+              ({{ $t('Entry Fee') }}: {{ entryFee }}
               <span class="currency">
                 {{ getNetworkType === 'Testnet' ? 'tWGR' : 'WGR' }}
               </span>
@@ -47,7 +47,7 @@
           </div>
 
           <div v-else class="cg-jackpot text-center">
-            <h3>Current Jackpot</h3>
+            <h3>{{ $t('Current Jackpot') }}</h3>
             {{ potSize }}
             <span class="currency">{{
               getNetworkType === 'Testnet' ? 'tWGR' : 'WGR'
@@ -56,7 +56,7 @@
 
           <div class="all-stats">
             <div class="col s4 text-center stats">
-              <h6>Winner's Prize</h6>
+              <h6>{{ $t('Winner\'s Prize') }}</h6>
 
               <div v-if="loadingCGEvent">
                 <spinner></spinner>
@@ -71,7 +71,7 @@
             </div>
 
             <div class="col s4 text-center  stats">
-              <h6>Masternode Reward</h6>
+              <h6>{{ $t('Masternode Reward') }}</h6>
 
               <div v-if="loadingCGEvent">
                 <spinner></spinner>
@@ -86,7 +86,7 @@
             </div>
 
             <div class="col s4 text-center stats">
-              <h6>Burn</h6>
+              <h6>{{ $t('Burn') }}</h6>
 
               <div v-if="loadingCGEvent">
                 <spinner></spinner>
@@ -103,7 +103,7 @@
 
           <div class="all-stats bottom-row">
             <div class="col s4 text-center stats">
-              <h6>Lotto ID</h6>
+              <h6>{{ $t('Lotto ID') }}</h6>
 
               <div v-if="loadingCGEvent">
                 <spinner></spinner>
@@ -113,7 +113,7 @@
             </div>
 
             <div class="col s4 text-center  stats">
-              <h6>Tickets Sold</h6>
+              <h6>{{ $t('Tickets Sold') }}</h6>
 
               <div v-if="loadingCGEvent">
                 <spinner></spinner>
@@ -123,7 +123,7 @@
             </div>
 
             <div class="col s4 text-center stats">
-              <h6>Ticket Price</h6>
+              <h6>{{ $t('Ticket Price') }}</h6>
 
               <div v-if="loadingCGEvent">
                 <spinner></spinner>
@@ -141,7 +141,7 @@
       </div>
 
       <div class="table-container">
-        <h4>CG Lotto Bet History</h4>
+        <h4>{{ $t('CG Lotto Bet History') }}</h4>
 
         <ChainGamesTransactionHistory></ChainGamesTransactionHistory>
       </div>
@@ -190,11 +190,11 @@ export default {
     ...mapActions(['listChainGamesEvents']),
 
     getLottoStartTime: function() {
-      return moment.unix(this.gameStartTime).format('MMM Do YYYY hh:mm A');
+      return moment.unix(this.gameStartTime).format('LLL');
     },
 
     getLottoEndTime: function() {
-      return moment.unix(this.gameEndTime).format('MMM Do YYYY hh:mm A');
+      return moment.unix(this.gameEndTime).format('LLL');
     },
 
     getCGWinnings(potAmount, rewardType) {

@@ -7,8 +7,9 @@
     <div class="masternode-modal">
       <el-row class="modal-text text-center">
         <h4 class="modal-font">
-          Step 3
-          <br />Enter your IP Address.
+          {{ $t('Step 3') }}
+          <br />
+          {{ $t('Enter your IP Address.') }}
         </h4>
       </el-row>
       <div class="input-field col s12">
@@ -20,23 +21,29 @@
           id="ip"
           name="ip"
           type="text"
-          placholder="Enter desired IP Address"
+          :placeholder="$t('Enter desired IP Address')"
           autofocus
         />
 
-        <label for="ip">Ip:</label>
+        <label for="ip">
+          {{ $t('Ip:') }}
+        </label>
 
         <span v-if="errors.has('ip')" class="form-error">{{
           errors.first('ip')
         }}</span>
-        <span class="step-three-subtitle"
-          >For hosting on the current system you can just google "whats my IP"
-          and it will tell your current IP.</span
+        <span class="step-three-subtitle">
+          {{ $t('For hosting on the current system you can just google "whats my IP" and it will tell your current IP.') }}
+        </span
         >
       </div>
       <el-row slot="footer" class="button-container options">
-        <a class="btn green" @click.prevent="onNext()">Next</a>
-        <a class="btn" @click.prevent="onBack()">Back</a>
+        <a class="btn green" @click.prevent="onNext()">
+          {{ $t('Next') }}
+        </a>
+        <a class="btn" @click.prevent="onBack()">
+          {{ $t('Back') }}
+        </a>
       </el-row>
     </div>
   </el-dialog>
@@ -84,7 +91,7 @@ export default {
       if (isValid) {
         this.$emit('next');
       } else {
-        this.$message.error('Ip address not valid');
+        this.$message.error(this.$t('Ip address not valid'));
       }
     }
   }

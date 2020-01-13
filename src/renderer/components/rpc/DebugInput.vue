@@ -1,7 +1,7 @@
 <template>
   <div class="debug-container">
     <div class="debug-toolbar">
-      <div class="rpctitle">WAGERR RPC Console</div>
+      <div class="rpctitle">{{ $t('WAGERR RPC Console') }}</div>
       <a @click="clearRecHistoryList">
         <i class="icon-trash" />
       </a>
@@ -45,11 +45,11 @@
         class="command"
         v-model="command"
         :fetch-suggestions="querySearch"
-        placeholder="Type a Command"
+        :placeholder="this.$t('Type a Command')"
         :trigger-on-focus="false"
         @keyup.enter.native="onRunCommand"
       ></el-autocomplete>
-      <div @click="onRunCommand" class="button">Enter</div>
+      <div @click="onRunCommand" class="button">{{ $t('Enter') }}</div>
     </div>
   </div>
 </template>
@@ -77,7 +77,7 @@ export default {
   },
   created() {
     if (this.getrecHistoryList.length === 0) {
-      this.addCommand('Welcome to WAGERR RPC Console.');
+      this.addCommand(this.$t('Welcome to WAGERR RPC Console.'));
     }
   },
   beforeCreate: function() {
@@ -94,7 +94,7 @@ export default {
     ]),
     addCommand(cmd, message = '') {
       this.updateCommands({
-        date: moment().format('hh:mm:ss'),
+        date: moment().format('HH:mm:ss'),
         command: cmd,
         message: message
       });

@@ -1,21 +1,21 @@
 <template>
   <div class="second-nav tools-types">
-    <h5>Tools &amp; Info</h5>
+    <h5>{{ $t('Tools & Info') }}</h5>
     <ul class="row">
       <router-link class="col s4" tag="li" to="/tools/info">
-        <a>Info</a>
+        <a>{{ $t('Info') }}</a>
       </router-link>
 
       <router-link class="col s4" tag="li" to="/tools/peers">
-        <a>Peers</a>
+        <a>{{ $t('Peers') }}</a>
       </router-link>
 
       <router-link class="col s4" tag="li" to="/tools/address_book" exact>
-        <a>Address Book</a>
+        <a>{{ $t('Address Book') }}</a>
       </router-link>
 
       <router-link class="col s4" tag="li" to="/tools/masternode_setup">
-        <a>Masternode Setup</a>
+        <a>{{ $t('Masternode Setup') }}</a>
       </router-link>
 
       <router-link
@@ -24,11 +24,11 @@
         to="/tools/sign_verify_message"
         exact
       >
-        <a>Sign/Verify Message</a>
+        <a>{{ $t('Sign/Verify Message') }}</a>
       </router-link>
 
       <router-link class="col s4" tag="li" to="/tools/wallet_repair">
-        <a>Wallet Repair</a>
+        <a>{{ $t('Wallet Repair') }}</a>
       </router-link>
     </ul>
   </div>

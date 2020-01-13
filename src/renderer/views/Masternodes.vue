@@ -1,11 +1,11 @@
 <template>
   <div class="page-masternodes">
     <div class="col-title">
-      <span class="masternode-title">Masternode</span>
+      <span class="masternode-title">{{ $t('Masternode') }}</span>
       <a
         class="waves-effect waves-red wallet-action btn modal-trigger wagerr-red-bg z-depth-2 setup-button"
         @click="gotoSettingsMasternode"
-        >Setup Masternode</a
+        >{{ $t('Setup Masternode') }}</a
       >
     </div>
 
@@ -14,15 +14,12 @@
     >
       <thead>
         <tr>
-          <th>Alias</th>
-
-          <th>Address</th>
-
-          <th>Status</th>
-          <th>Active</th>
+          <th>{{ $t('Alias') }}</th>
+          <th>{{ $t('Address') }}</th>
+          <th>{{ $t('Status') }}</th>
+          <th>{{ $t('Active') }}</th>
         </tr>
       </thead>
-
       <tbody>
         <tr
           v-for="masternode in masternodesRows"
@@ -33,9 +30,7 @@
           ]"
         >
           <td>{{ masternode.alias }}</td>
-
           <td>{{ masternode.address }}</td>
-
           <td>{{ masternode.status }}</td>
           <td>{{ masternode.active }}</td>
         </tr>
@@ -46,27 +41,27 @@
       <a
         class="waves-effect waves-red wallet-action btn modal-trigger wagerr-red-bg z-depth-2"
         @click="onStartMasternodeAlias"
-        >Start Alias</a
+        >{{ $t('Start Alias') }}</a
       >
       <a
         class="waves-effect waves-red wallet-action btn modal-trigger wagerr-red-bg z-depth-2"
         @click="onStartMasternodeMany"
-        >Start Many</a
+        >{{ $t('Start Many') }}</a
       >
       <a
         class="waves-effect waves-red wallet-action btn modal-trigger wagerr-red-bg z-depth-2"
         @click="onStartMasternodeMissing"
-        >Start Missing</a
+        >{{ $t('Start Missing') }}</a
       >
       <a
         class="waves-effect waves-red wallet-action btn modal-trigger wagerr-red-bg z-depth-2"
         @click="getMasternodeStatus"
-        >update status</a
+        >{{ $t('Update Status') }}</a
       >
       <a
         class="waves-effect waves-red wallet-action btn modal-trigger wagerr-red-bg z-depth-2"
         @click="showingMasternodeConf"
-        >Masternode.conf</a
+        >{{ $t('Masternode.conf') }}</a
       >
     </div>
   </div>
@@ -97,7 +92,7 @@ export default {
   },
   methods: {
     async getMasternodeStatus() {
-      console.log('getMasternodeStatus');
+      // console.log('getMasternodeStatus');
       try {
         await this.getNetworkMasternodeStatus();
         let result = await masternode_rpc.getMasternodeConfigSync();
@@ -143,7 +138,7 @@ export default {
           }
         });
 
-        console.log(this.masternodesRows);
+        // console.log(this.masternodesRows);
 
         // if (this.selectedRow && this.$refs.myTable) {
         //     let findSelected = this.masternodesRows.filter(item => {
@@ -179,7 +174,7 @@ export default {
             });
           }
         }
-        console.log("I'm from network Masternode status");
+        // console.log("I'm from network Masternode status");
         this.masternodesNetworkRows = rows;
       } catch (e) {
         console.log(e);

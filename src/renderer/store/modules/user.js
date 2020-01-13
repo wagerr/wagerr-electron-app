@@ -1,12 +1,8 @@
 // Import the required libs.
 import moment from 'moment';
-import ElectronStore from 'electron-store';
+import store from '../../../common/store/store';
 import oddsConverter from '@/utils/oddsConverter';
 import addressesRPC from '@/services/api/addresses_rpc';
-import blockchainRPC from '@/services/api/blockchain_rpc';
-
-let preferencesStore = null;
-let addressBookStore = null;
 
 // Current odds formats for Wagerr.
 const OddsFormat = {
@@ -18,6 +14,8 @@ const OddsFormat = {
 const state = function() {
   return {
     oddsFormat: OddsFormat.decimal,
+    languageLocale: '',
+    formatLocale: '',
     timezoneOption: 'auto',
     timezone: moment.tz.guess(),
     showNetworkShare: false,
@@ -41,6 +39,12 @@ const displayOdds = function(state, val) {
 };
 
 const getters = {
+  getLanguageLocale: state => {
+    return state.languageLocale;
+  },
+  getFormatLocale: state => {
+    return state.formatLocale;
+  },
   getTimezoneOption: state => {
     return state.timezoneOption;
   },
@@ -77,49 +81,63 @@ const getters = {
 };
 
 const actions = {
+  updateFormatLocale({ commit, state }, {formatLocale}) {
+    moment.locale(formatLocale);
+    commit('setFormatLocale', formatLocale);
+    store.preferences.set('formatLocale', state.formatLocale);
+  },
+
+  updateLanguageLocale({ commit, state }, {languageLocale, vm}) {
+    vm.$i18n.locale = languageLocale;
+    commit('setLanguageLocale', languageLocale);
+    store.preferences.set('languageLocale', state.languageLocale);
+  },
+
   updateOddsFormat({ commit, state }, format) {
     commit('setOddsFormat', format);
-    preferencesStore.set('oddsFormat', state.oddsFormat);
+    store.preferences.set('oddsFormat', state.oddsFormat);
   },
 
   updateTimezoneOption({ commit, state }, timezoneOption) {
     commit('setTimezoneOption', timezoneOption);
-    preferencesStore.set('timezoneOption', state.timezoneOption);
+    store.preferences.set('timezoneOption', state.timezoneOption);
   },
 
   updateTimezone({ commit, state }, timezone) {
     commit('setTimezone', timezone);
-    preferencesStore.set('timezone', state.timezone);
+    store.preferences.set('timezone', state.timezone);
   },
 
   // Loaded on Splash screen
-  loadUserSettings({ dispatch, getters }, networkType) {
-    const network = networkType === 'Testnet' ? '_testnet' : '';
-    preferencesStore = new ElectronStore({
-      name: `preferences${network}`
-    });
-    if (preferencesStore.has('oddsFormat')) {
-      dispatch('updateOddsFormat', Number(preferencesStore.get('oddsFormat')));
+  loadUserSettings({ dispatch, getters }, vm) {
+    if (store.preferences.has('oddsFormat')) {
+      dispatch('updateOddsFormat', Number(store.preferences.get('oddsFormat')));
     }
-    if (preferencesStore.has('timezone')) {
-      dispatch('updateTimezone', preferencesStore.get('timezone'));
+    if (store.preferences.has('formatLocale')) {
+      dispatch('updateFormatLocale', {formatLocale: store.preferences.get('formatLocale')});
     }
-    if (preferencesStore.has('timezoneOption')) {
+    if (store.preferences.has('languageLocale')) {
+      dispatch('updateLanguageLocale', {languageLocale: store.preferences.get('languageLocale'), vm});
+    }
+    if (store.preferences.has('timezone')) {
+      dispatch('updateTimezone', store.preferences.get('timezone'));
+    }
+    if (store.preferences.has('timezoneOption')) {
       // On launch and after setting the timezone value from the preferences
       // file, check if the timezone option preference is set to 'auto'. If it
       // is update the timezone value with a new guess at which timezone the
       // user is in. This solves the problem of a laptop user moving across
       // timezones or DST starting/ending.
-      let tzOption = preferencesStore.get('timezoneOption');
+      let tzOption = store.preferences.get('timezoneOption');
       dispatch('updateTimezoneOption', tzOption);
       if (tzOption === 'auto') {
         dispatch('updateTimezone', moment.tz.guess());
       }
     }
-    if (preferencesStore.has('showNetworkShare')) {
+    if (store.preferences.has('showNetworkShare')) {
       dispatch(
         'updateShowNetworkShare',
-        Number(preferencesStore.get('showNetworkShare'))
+        Number(store.preferences.get('showNetworkShare'))
       );
     }
   },
@@ -134,17 +152,8 @@ const actions = {
 
   // Loaded on created
   loadAddressbook({ dispatch, getters }) {
-    async function doall(dispatch, getters) {
-      const blockchainInfo = await blockchainRPC.getBlockchainInfo();
-      const network = blockchainInfo.chain === 'test' ? '_testnet' : '';
-      addressBookStore = new ElectronStore({
-        name: `address_book${network}`
-      });
-    }
-    doall().then(function() {
-      dispatch('getWGRAcountList');
-      dispatch('getStoredSendingAddressList');
-    });
+    dispatch('getWGRAcountList');
+    dispatch('getStoredSendingAddressList');
   },
 
   getWGRAcountList({ commit, state }) {
@@ -178,20 +187,20 @@ const actions = {
           // expects addresses to exist from result
 
           // on load before calling this mutating action perhaps
-          if (addressBookStore.has('receiving_addresses')) {
+          if (store.addressBook.has('receiving_addresses')) {
             commit(
               'setReceivingAddressList',
-              addressBookStore.get('receiving_addresses')
+              store.addressBook.get('receiving_addresses')
             );
           }
 
           if (state.receivingAddressList.length == 0) {
             commit('setReceivingAddressList', result);
-            addressBookStore.set('receiving_addresses', result);
+            store.addressBook.set('receiving_addresses', result);
           } else {
             // add addresses if missing
             commit('appendReceivingAddressList', result);
-            addressBookStore.set(
+            store.addressBook.set(
               'receiving_addresses',
               state.receivingAddressList
             );
@@ -213,11 +222,11 @@ const actions = {
   getStoredSendingAddressList({ commit, getters }) {
     if (
       getters.getSendingAddressList.length === 0 &&
-      addressBookStore.has('sending_addresses')
+      store.addressBook.has('sending_addresses')
     ) {
       commit(
         'setSendingAddressList',
-        addressBookStore.get('sending_addresses')
+        store.addressBook.get('sending_addresses')
       );
     }
   },
@@ -243,6 +252,12 @@ const mutations = {
   setOddsFormat(state, format) {
     state.oddsFormat = format;
   },
+  setLanguageLocale(state, languageLocale) {
+    state.languageLocale = languageLocale;
+  },
+  setFormatLocale(state, formatLocale) {
+    state.formatLocale = formatLocale;
+  },
   setTimezoneOption(state, timezoneOption) {
     state.timezoneOption = timezoneOption;
   },
@@ -251,7 +266,7 @@ const mutations = {
   },
   setShowNetworkShare(state, value) {
     state.showNetworkShare = value;
-    preferencesStore.set('showNetworkShare', state.showNetworkShare);
+    store.preferences.set('showNetworkShare', state.showNetworkShare);
   },
   setAccountList(state, list) {
     state.accountList = list;
@@ -298,17 +313,17 @@ const mutations = {
     { receivingAddress, label = receivingAddress.label }
   ) {
     receivingAddress.label = label;
-    addressBookStore.set('receiving_addresses', state.receivingAddressList);
+    store.addressBook.set('receiving_addresses', state.receivingAddressList);
   },
 
   setSendingAddressList(state, addresses) {
     state.sendingAddressList = addresses;
-    addressBookStore.set('sending_addresses', state.sendingAddressList);
+    store.addressBook.set('sending_addresses', state.sendingAddressList);
   },
 
   addSendingAddress(state, sendingAddress) {
     state.sendingAddressList.push(sendingAddress);
-    addressBookStore.set('sending_addresses', state.sendingAddressList);
+    store.addressBook.set('sending_addresses', state.sendingAddressList);
   },
 
   // editSendingaddress
@@ -322,7 +337,7 @@ const mutations = {
   ) {
     sendingAddress.label = label;
     sendingAddress.address = address;
-    addressBookStore.set('sending_addresses', state.sendingAddressList);
+    store.addressBook.set('sending_addresses', state.sendingAddressList);
   },
 
   removeSendingAddress(state, sendingAddress) {
@@ -330,7 +345,7 @@ const mutations = {
       state.sendingAddressList.indexOf(sendingAddress),
       1
     );
-    addressBookStore.set('sending_addresses', state.sendingAddressList);
+    store.addressBook.set('sending_addresses', state.sendingAddressList);
   }
 };
 

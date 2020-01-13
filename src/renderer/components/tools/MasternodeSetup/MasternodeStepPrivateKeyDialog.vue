@@ -7,8 +7,9 @@
     <div class="masternode-modal">
       <el-row class="modal-text text-center">
         <h4 class="modal-font">
-          Step 4
-          <br />Generate Pairing Key.
+          {{ $t('Step 4') }}
+          <br />
+          {{ $t('Generate Pairing Key.') }}
         </h4>
       </el-row>
       <div class="input-field col s12">
@@ -20,21 +21,29 @@
           id="privateKey"
           ref="privateKey"
           type="text"
-          placholder="Your Pairing Key"
+          :placeholder="$t('Your Pairing Key')"
         />
 
-        <label for="ip">Paring Key:</label>
+        <label for="ip">
+          {{ $t('Paring Key:') }}
+        </label>
 
         <span v-if="errors.has('privateKey')" class="form-error">{{
-          errors.first('privateKey')
+          $t(errors.first('privateKey'))
         }}</span>
       </div>
       <el-row class="button-container">
-        <a class="btn green" @click.prevent="onGenerate()">Generate</a>
+        <a class="btn green" @click.prevent="onGenerate()">
+          {{ $t('Generate') }}
+        </a>
       </el-row>
       <el-row slot="footer" class="button-container options">
-        <a class="btn green" @click.prevent="onNext()">Next</a>
-        <a class="btn" @click.prevent="onBack()">Back</a>
+        <a class="btn green" @click.prevent="onNext()">
+          {{ $t('Next') }}
+        </a>
+        <a class="btn" @click.prevent="onBack()">
+          {{ $t('Back') }}
+        </a>
       </el-row>
     </div>
   </el-dialog>

@@ -7,8 +7,9 @@
     <div class="masternode-modal">
       <el-row class="modal-text text-center">
         <h4 class="modal-font">
-          Step 2
-          <br />Assign a Name for your Masternode.
+          {{ $t('Step 2') }}
+          <br />
+          {{ $t('Assign a Name for your Masternode.') }}
         </h4>
       </el-row>
       <div class="input-field col s12">
@@ -23,15 +24,21 @@
           autofocus
         />
 
-        <label for="alias">Alias:</label>
+        <label for="alias">
+          {{ $t('Alias:') }}
+        </label>
 
         <span v-if="errors.has('alias')" class="form-error">{{
           errors.first('alias')
         }}</span>
       </div>
       <el-row slot="footer" class="button-container options">
-        <a class="btn green" @click.prevent="onNext()">Next</a>
-        <a class="btn" @click.prevent="onBack()">Back</a>
+        <a class="btn green" @click.prevent="onNext()">
+          {{ $t('Next') }}
+        </a>
+        <a class="btn" @click.prevent="onBack()">
+          {{ $t('Back') }}
+        </a>
       </el-row>
     </div>
   </el-dialog>

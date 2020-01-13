@@ -1,16 +1,15 @@
 <template>
   <div id="bet-slip">
     <h4 v-if="betSlip.length > 0">
-      Bet slip
+      {{ $t('Bet slip') }}
       <button
         class="btn pull-right waves-effect waves-light"
         @click="clearBetSlip"
       >
-        Clear Slip
+        {{ $t('Clear Slip') }}
       </button>
     </h4>
-    <h4 v-else>Bet slip</h4>
-
+    <h4 v-else>{{ $t('Bet slip') }}</h4>
     <div class="bet-list-scroll">
       <div class="bet-list" v-if="betSlip.length > 0">
         <ul>
@@ -31,7 +30,7 @@
               <div class="clearfix"></div>
 
               <div class="selection">
-                <h6>Your Pick:</h6>
+                <h6>{{ $t('Your Pick:') }}</h6>
                 <span v-if="bet.betType != 'total'" class="winner">
                   {{ bet.winner }}
                 </span>
@@ -68,7 +67,7 @@
                     class="pull-right btn disabled"
                     @click="placeBet(bet.betId)"
                   >
-                    Bet
+                    {{ $t('Bet') }}
                   </button>
                 </div>
               </div>
@@ -80,7 +79,7 @@
 
               <div class="bet-returns">
                 <span class="pull-left potential-returns-headline">
-                  Potential Returns:
+                  {{ $t('Potential Returns:') }}
                 </span>
 
                 <span
@@ -99,9 +98,9 @@
 
       <div v-else class="bet-list">
         <div class="empty-slip-message">
-          <p>Your bet slip is empty.</p>
+          <p>{{ $t('Your bet slip is empty.') }}</p>
 
-          <p>Please make one or more selections in order to place bets.</p>
+          <p>{{ $t('Please make one or more selections in order to place bets.') }}</p>
         </div>
       </div>
     </div>
@@ -134,7 +133,7 @@ export default {
     ...mapActions(['addToBetSlip', 'removeBetFromSlip', 'clearBetSlip']),
 
     inputBetPlaceholder: function(bet) {
-      return bet.availability === true ? 'Enter Bet Stake' : 'Not Available';
+      return bet.availability === true ? this.$t('Enter Bet Stake') : this.$t('Not Available');
     },
 
     // Calculate the potential winnings of a bet.
@@ -156,7 +155,6 @@ export default {
         returnsElem.innerText = netWinnings.toFixed(8) + ' ' + wagerrCode;
       }
     },
-
     showBetWarning: function(betStake, index) {
       const placeBetButton = document.getElementById(
         'place-bet-button-' + index
@@ -172,27 +170,19 @@ export default {
       } else if (isNaN(betStake)) {
         placeBetButton.classList.add('disabled');
         warningElem.classList.remove('display-none');
-        warningElem.innerText = 'Bet stake must be a number.';
+        warningElem.innerText = this.$t('Bet stake must be a number.');
         showWarning = true;
       } else if (this.balance < betStake && this.pending > betStake) {
         placeBetButton.classList.add('disabled');
         warningElem.classList.remove('display-none');
-        warningElem.innerText =
-          'Available balance too low. Please wait for your pending balance of ' +
-          this.pending +
-          ' ' +
-          wagerrCode +
-          ' to be confirmed.';
+        warningElem.innerText = `${this.$t('Available balance too low.')}
+          ${this.$t('Please wait for your pending balance of {0} {1} to be confirmed.', [this.pending, wagerrCode])}`;
         showWarning = true;
       } else if (this.balance < betStake && this.immature > betStake) {
         placeBetButton.classList.add('disabled');
         warningElem.classList.remove('display-none');
-        warningElem.innerText =
-          'Available balance too low. Please wait for your immature balance of ' +
-          this.immature +
-          ' ' +
-          wagerrCode +
-          ' to be confirmed.';
+        warningElem.innerText = `${this.$t('Available balance too low.')}
+        ${this.$t('Please wait for your immature balance of {0} {1} to be confirmed.', [this.inmature, wagerrCode])}`;
         showWarning = true;
       } else if (
         betStake < bettingParams.MIN_BET_AMOUNT ||
@@ -200,15 +190,13 @@ export default {
       ) {
         placeBetButton.classList.add('disabled');
         warningElem.classList.remove('display-none');
-        warningElem.innerText =
-          'Incorrect bet amount. Please ensure your bet is between 25 - 10000 ' +
-          wagerrCode +
-          ' inclusive.';
+        warningElem.innerText = `${this.$t('Incorrect bet amount.')}
+        ${this.$t('Please ensure your bet is between 25 - 10000 {0} inclusive', [wagerrCode])}`;
         showWarning = true;
       } else if (this.balance < betStake) {
         placeBetButton.classList.add('disabled');
         warningElem.classList.remove('display-none');
-        warningElem.innerText = 'Available balance too low.';
+        warningElem.innerText = this.$t('Available balance too low.');
         showWarning = true;
       } else {
         placeBetButton.classList.remove('disabled');
@@ -233,7 +221,7 @@ export default {
           if (resp.error !== 'null') {
             M.toast({
               html:
-                '<span class="toast__bold-font">Success &nbsp;</span> your bet has been placed: ' +
+                '<span class="toast__bold-font">' + self.$t('Success') + ' &nbsp;</span> ' + self.$t('your bet has been placed:') +
                 resp.result,
               classes: 'green'
             });
@@ -244,7 +232,7 @@ export default {
           else {
             M.toast({
               html:
-                '<span class="toast__bold-font">Error &nbsp;</span> ' +
+                '<span class="toast__bold-font">' + self.$t('Error') + ' &nbsp;</span> ' +
                 resp.result,
               classes: 'wagerr-red-bg'
             });
@@ -278,8 +266,7 @@ export default {
         newBets.forEach(function(newBet, index) {
           if (newBet.availability === false) {
             document.getElementById(newBet.betId).value = '';
-            document.getElementById('bet-warning-' + index).innerText =
-              'Sorry, you can not make a bet within 12 minutes of the Event.';
+            document.getElementById('bet-warning-' + index).innerText = this.$t('Sorry, you can not make a bet within 12 minutes of the Event.');
             document
               .getElementById('bet-warning-' + index)
               .classList.remove('hide');
@@ -438,14 +425,14 @@ export default {
             }
             .bet-stake-container {
               color: $gray-900;
-              padding: 0;
+              padding: 0 10px;
               display: flex;
               justify-content: center;
               margin-bottom: 0;
               .stake-input {
-                width: 120px;
                 position: relative;
                 margin-right: 0;
+                max-width: 120px;
                 label {
                   left: 0;
                   top: 0;
@@ -463,7 +450,7 @@ export default {
                   font-size: 18px;
                   font-weight: 700;
                   text-align: center;
-                  width: 120px;
+                  max-width: 120px;
                   background: #eee;
                   margin-bottom: 0;
                   height: 33px;

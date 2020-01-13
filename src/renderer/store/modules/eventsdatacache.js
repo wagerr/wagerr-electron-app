@@ -4,15 +4,15 @@ const state = {
 };
 
 const getters = {
-  getTournaments: state => sport => {
-    return [...state.tournamentsBySport.get(sport)];
+  getTournaments: state => sportId => {
+    return [...state.tournamentsBySport.get(sportId)];
   },
-  hasTournaments: state => sport => {
-    const tournamentsSet = state.tournamentsBySport.get(sport);
+  hasTournaments: state => sportId => {
+    const tournamentsSet = state.tournamentsBySport.get(sportId);
     return tournamentsSet && tournamentsSet.size > 0;
   },
-  getNEvents: state => sport => {
-    const nEvents = state.nEventsBySport.get(sport);
+  getNEvents: state => sportId => {
+    const nEvents = state.nEventsBySport.get(sportId);
     return nEvents === undefined ? 0 : nEvents;
   }
 };

@@ -3,16 +3,16 @@
     v-if="cgBetTransactionList.length === 0"
     class="no-transactions text-center"
   >
-    <p>No Chain Games transactions to list. Buy a ticket to enter the lotto.</p>
+    <p>{{ $t('No Chain Games transactions to list. Buy a ticket to enter the lotto.' )}}</p>
   </div>
 
   <div v-else>
     <table class="main-table card z-depth-2">
       <thead>
         <tr>
-          <th class="col s10">Transaction ID</th>
+          <th class="col s10">{{ $t('Transaction ID') }}</th>
 
-          <th class="col s2">Event ID</th>
+          <th class="col s2">{{ $t('Event ID') }}</th>
         </tr>
       </thead>
 

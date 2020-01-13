@@ -1,5 +1,6 @@
 import wagerrRPC from '@/services/api/wagerrRPC';
 import walletRPC from '@/services/api/wallet_rpc';
+import i18n from '../../../common/i18n/i18n';
 import * as blockchain from '../../../main/blockchain/blockchain';
 
 const packageJSON = require('../../../../package.json');
@@ -15,7 +16,7 @@ const state = function() {
     unlocked: false,
     encrypted: false,
     synced: false,
-    initWalletText: 'Initialising Electron App Wallet...',
+    initWalletText: '',
     walletVersion: `v${packageJSON.version}`,
     txCount: 0,
     dataDir: blockchain.getWagerrDataPath()
@@ -126,7 +127,8 @@ const actions = {
           commit('setWalletUnlocked', true);
           M.toast({
             html:
-              '<span class="toast__bold-font">Success &nbsp;</span> Wallet unlocked',
+              `<span class="toast__bold-font">${i18n.t('Success')} &nbsp;</span>
+              ${i18n.t('Wallet unlocked')}`,
             classes: 'green'
           });
 
@@ -148,7 +150,8 @@ const actions = {
         commit('setWalletUnlocked', false);
         M.toast({
           html:
-            '<span class="toast__bold-font">Success &nbsp;</span> Wallet locked',
+            `<span class="toast__bold-font">${i18n.t('Success')} &nbsp;</span>
+            ${i18n.t('Wallet locked')}`,
           classes: 'green'
         });
       })

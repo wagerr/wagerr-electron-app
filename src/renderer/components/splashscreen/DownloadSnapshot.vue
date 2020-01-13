@@ -5,7 +5,7 @@
         class="waves-effect waves-light btn transparent"
         @click="onDownloadSnapshot"
       >
-        Download Snapshot
+        {{ $t('Download Snapshot') }}
       </button>       
     </div>
     <div v-else-if="this.syncMethod === this.syncMethods.DOWNLOAD_SNAPSHOT && this.isDownloading">
@@ -13,7 +13,7 @@
         class="waves-effect waves-light btn transparent"
         @click="onCancelDownload"
       >
-        Cancel download
+        {{ $t('Cancel download') }}
       </button>
     </div>
   </div>
@@ -48,11 +48,11 @@ export default {
   mounted() {
     const isDownloadSnapshot = remote.dialog.showMessageBox(remote.BrowserWindow.getFocusedWindow(), {
         type: 'question',
-        buttons: ['Yes, download snapshot', 'No, sync normally'],
-        message: `Your Wagerr wallet is ${this.timeBehindText}. \n\nDo you want us to download a snapshot of the blockchain to speed things up?\n`,
+        buttons: [this.$t('Yes, download snapshot'), this.$t('No, sync normally')],
+        message: `${this.$t('Your Wagerr wallet is {0}.', [this.timeBehindText])} \n\n${this.$t('Do you want us to download a snapshot of the blockchain to speed things up?')}\n`,
         cancelId: 1,
         defaultId: 0,
-        detail: 'You can change your snapshot preferences in the settings section'
+        detail: this.$t('You can change your snapshot preferences in the settings section')
     }) === 0;
 
     if (isDownloadSnapshot) {
@@ -63,7 +63,7 @@ export default {
     ...mapActions(['updateInitText']),
     onDownloadSnapshot(){
       this.$emit('update-sync-method', '');
-      this.updateInitText('Stopping daemon...');
+      this.updateInitText(this.$t('Stopping daemon...'));
       
       // Without the timeout the app freezes before updating the init text to 'Stopping dameon...' 
       setTimeout(async function() { 
@@ -87,11 +87,11 @@ export default {
     onCancelDownload() {
       const confirmCancelDownload = remote.dialog.showMessageBox(remote.BrowserWindow.getFocusedWindow(), {
         type: 'question',
-        buttons: ['Confirm', 'Cancel'],
-        message: 'Are you sure you want to cancel the download?',
+        buttons: [this.$t('Confirm'), this.$t('Cancel')],
+        message: this.$t('Are you sure you want to cancel the download?'),
         cancelId: 1,
         defaultId: 0,
-        detail: 'This will restart the Wagerr Wallet.'
+        detail: this.$t('This will restart the Wagerr Wallet.')
       }) === 0;
 
       if (confirmCancelDownload) {
@@ -105,7 +105,7 @@ export default {
       }
     },
     updateProgressPercentageText() {
-      this.updateInitText(`Downloading blockchain snapshot: ${Math.round(this.progressPercentage)}%`);
+      this.updateInitText(`${this.$t('Downloading blockchain snapshot:')} ${Math.round(this.progressPercentage)}%`);
     },
     _getFilenameFromHeaderResponse(response) {
       let contentDisposition = response.headers['content-disposition'];
@@ -151,7 +151,7 @@ export default {
           // If not accessed through 'window' it doesn't clear the interval
           window.clearInterval(interval);
           this.isDownloading = false;
-          this.updateInitText('Unzipping and copying files');          
+          this.updateInitText(this.$t('Unzipping and copying files'));
           this.unzipSnapshot();
           
         } catch (e) { this.handleSnapshotDownloadError(e); }
@@ -212,10 +212,10 @@ export default {
 
       remote.dialog.showMessageBox(remote.BrowserWindow.getFocusedWindow(), {
         type: 'error',
-        title: 'Wagerr Error',
-        buttons: ['Ok'],
-        message: `An error occurred while trying to download the snapshot.`,
-        detail: 'The Wagerr Wallet will restart'
+        title: this.$t('Wagerr Error'),
+        buttons: [this.$t('Ok')],
+        message: this.$t('An error occurred while trying to download the snapshot.'),
+        detail: this.$t('The Wagerr Wallet will restart')
       });
 
       ipcRenderer.restartWalletForce();

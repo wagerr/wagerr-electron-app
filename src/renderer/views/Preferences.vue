@@ -1,7 +1,7 @@
 <template>
   <div id="preferences" class="content row">
     <div class="col s12">
-      <h4>Preferences</h4>
+      <h4>{{ $t('Preferences') }}</h4>
 
       <div class="row text-center">
         <div class="col s12">
@@ -9,7 +9,7 @@
             <table class="main-table card z-depth-2">
               <tbody>
                 <tr class="info-row">
-                  <td>Odds Display</td>
+                  <td>{{ $t('Odds Display') }}</td>
                   <td class="aligncenter">
                     <div class="inline">
                         <p>
@@ -24,7 +24,7 @@
                                 oddsFormatChecked(getOddsFormats.decimal)
                               "
                             />
-                            <span>Decimal</span>
+                            <span>{{ $t('Decimal') }}</span>
                           </label>
                         </p>
                         <p>
@@ -39,7 +39,7 @@
                                 oddsFormatChecked(getOddsFormats.fraction)
                               "
                             />
-                            <span>Fraction</span>
+                            <span>{{ $t('Fraction') }}</span>
                           </label>
                         </p>
                         <p>
@@ -54,7 +54,7 @@
                                 oddsFormatChecked(getOddsFormats.american)
                               "
                             />
-                            <span>American</span>
+                            <span>{{ $t('American') }}</span>
                           </label>
                         </p>
                       <br />
@@ -62,7 +62,63 @@
                   </td>
                 </tr>
                 <tr class="info-row">
-                  <td>Timezone</td>
+                  <td>
+                    {{ $t('Language') }}
+                  </td>
+                  <td class="aligncenter">
+                    <select
+                      class="browser-default preference"
+                      @change="changeLanguageLocale"
+                    >
+                        <option
+                          v-for="language in languageLocales"
+                          :selected="language.code === getLanguageLocale"
+                          :key="language.code"
+                          :value="language.code"
+                        >
+                          {{ language.name }}
+                        </option>
+                    </select>
+                  </td>
+                </tr>
+                <tr class="info-row">
+                  <td>
+                    {{ $t('Formats') }}
+                    <small>
+                      {{ $t('(Dates, times and numbers)') }}
+                    </small>
+                  </td>
+                  <td class="aligncenter">
+                    <select
+                      class="browser-default preference"
+                      @change="changeFormatLocale"
+                    >
+                        <option
+                          v-for="format in formatLocales"
+                          :selected="format.code === getFormatLocale"
+                          :key="format.code"
+                          :value="format.code"
+                        >
+                          {{ format.name }}
+                        </option>
+                    </select>
+                    <p class="locale-formats">
+                      <small>
+                        <span class="format-subject">
+                          {{ $t('Dates and Times:') }}
+                        </span>
+                        {{ new Date() | moment('LLL') }}
+                        &nbsp; &nbsp;
+                        <span class="format-subject">
+                          {{ $t('Numbers:') }}
+                        </span>
+                        {{ $n(9999.99, 'decimal', getFormatLocale)}}
+                      </small>
+                    </p>
+                  </td>
+                </tr>
+                <tr class="info-row">
+                  <td>{{ $t('Timezone') }}</td>
                   <td class="aligncenter">
                     <div class="inline">
                         <p>
@@ -74,7 +130,7 @@
                               @change="changeTimezoneOption"
                               :checked="getTimezoneOption === 'auto'"
                             />
-                            <span>Auto-detect</span>
+                            <span>{{ $t('Auto-detect') }}</span>
                           </label>
                         </p>
                         <p>
@@ -86,17 +142,17 @@
                               @change="changeTimezoneOption"
                               :checked="getTimezoneOption === 'fixed'"
                             />
-                            <span>Fixed</span>
+                            <span>{{ $t('Fixed') }}</span>
                           </label>
                         </p>
                         <select
-                          class="browser-default timezone"
+                          class="browser-default preference"
                           :disabled="getTimezoneOption === 'auto'"
                           @change="changeTimezone"
                         >
-                            <option v-for="tz in timezones" :selected="tz === getTimezone" :key="tz">
-                              {{ tz }}
-                            </option>
+                          <option v-for="tz in timezones" :selected="tz === getTimezone" :key="tz">
+                            {{ tz }}
+                          </option>
                         </select>
                       <br />
                     </div>
@@ -104,7 +160,7 @@
                 </tr>
                 <tr class="info-row">
                   <td>
-                    Include Wagerr network share in betting odds? (Experimental)
+                    {{ $t('Include Wagerr network share in betting odds? (Experimental)') }}
                   </td>
                   <td class="aligncenter">
                     <div id="show-network-share-choice">
@@ -126,14 +182,14 @@
                   </td>
                 </tr>
                 <tr class="info-row">
-                  <td>Open wagerr.conf file</td>
+                  <td>{{ $t('Open wagerr.conf file') }}</td>
 
-                  <button class="btn" @click="onOpenConf">Open</button>
+                  <button class="btn" @click="onOpenConf">{{ $t('Open') }}</button>
                 </tr>
                 <tr class="info-row">
-                  <td>Backup wallet</td>
+                  <td>{{ $t('Backup wallet') }}</td>
 
-                  <button class="btn" @click="backupWallet">Export</button>
+                  <button class="btn" @click="backupWallet">{{ $t('Export') }}</button>
                 </tr>
               </tbody>
             </table>
@@ -151,6 +207,9 @@ import { mapGetters, mapActions } from 'vuex';
 import wagerrRPC from '@/services/api/wagerrRPC';
 import { getWagerrConfPath } from '../../main/blockchain/blockchain';
 import moment from 'moment';
+import { FORMAT_LOCALES_I18N } from '../constants/constants';
+import { LANGUAGE_LOCALES } from '../../common/constants/constants';
+import ipcRenderer from '../../common/ipc/ipcRenderer';
 
 export default {
   name: 'Preferences',
@@ -163,14 +222,17 @@ export default {
 
   computed: {
     ...mapGetters([
+      'getLanguageLocale',
+      'getFormatLocale',
       'getOddsFormats',
       'getOddsFormat',
       'getTimezoneOption',
       'getTimezone',
       'getShowNetworkShare'
     ]),
-
-    'timezones': function() {
+    languageLocales: () => LANGUAGE_LOCALES,
+    formatLocales: () => FORMAT_LOCALES_I18N(),
+    timezones: function() {
       return moment.tz.names();
     }
   },
@@ -196,6 +258,20 @@ export default {
     changeTimezone: function(event) {
       const newTimezone = event.target.value;
       this.$store.dispatch('updateTimezone', newTimezone);
+    },
+
+    changeLanguageLocale: function(event) {
+      let lang = event.target.value;
+
+      // Change language in main process
+      ipcRenderer.changeLanguage(lang);
+      // Save new language preference in the store
+      this.$store.dispatch('updateLanguageLocale', {languageLocale: lang, vm: this});
+    },
+
+    changeFormatLocale: function(event) {
+      const format = event.target.value;
+      this.$store.dispatch('updateFormatLocale', {formatLocale: format});
     },
 
     oddsFormatChecked: function(format) {
@@ -270,6 +346,14 @@ export default {
         #show-network-share-choice span {
           text-decoration: line-through;
         }
+        .locale-formats {
+          margin-top: 5px;
+          margin-bottom: 0px;
+          font-weight: normal;
+          .format-subject {
+            color: #666
+          }
+        }
       }
     }
   }
@@ -299,7 +383,7 @@ export default {
     display: inline-block;
     padding: 0 10px;
   }
-  select.timezone {
+  select.preference {
     max-width: 300px;
     margin: auto;
   }

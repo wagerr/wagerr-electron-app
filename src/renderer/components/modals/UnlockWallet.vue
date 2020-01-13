@@ -6,13 +6,12 @@
       <form @submit.prevent="handleSubmit">
         <div class="row">
           <div class="modal-header">
-            <h4>Unlock Wallet</h4>
+            <h4>{{ $t('Unlock Wallet') }}</h4>
           </div>
 
           <div class="modal-text">
             <p class="modal-font">
-              Enter wallet passphrase to unlock wallet and enable sending WGR
-              and betting.
+              {{ $t('Enter wallet passphrase to unlock wallet and enable sending WGR and betting.') }}
             </p>
           </div>
 
@@ -31,11 +30,11 @@
             />
 
             <label id="unlock-passphrase-label" for="unlock-passphrase">
-              Wallet Passphrase
+              {{ $t('Wallet Passphrase') }}
             </label>
 
             <span v-if="errors.has('unlock-passphrase')" class="form-error">
-              {{ errors.first('unlock-passphrase') }}
+              {{ $t(errors.first('unlock-passphrase')) }}
             </span>
           </div>
 
@@ -44,19 +43,19 @@
               @click="clearForm()"
               class="modal-close waves-effect waves-light btn wagerr-red-bg"
             >
-              Cancel
+              {{ $t('Cancel') }}
             </a>
             <a
               @click="unlockAnonymizeOnly = true; handleSubmit();"
               class="waves-effect waves-light btn blue"
             >
-              Unlock for Staking Only
+              {{ $t('Unlock for Staking Only') }}
             </a>
             <a
               @click="handleSubmit()"
               class="waves-effect waves-light btn green"
             >
-              Unlock
+              {{ $t('Unlock') }}
             </a>
           </div>
         </div>

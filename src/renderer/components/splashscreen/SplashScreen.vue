@@ -31,23 +31,23 @@
 
       <div class="splash-wallet-repair text-center">
         <div>
-          <a href="#" @click="restartWallet">Restart Wallet</a>
+          <a href="#" @click="restartWallet">{{ $t('Restart Wallet') }}</a>
         </div>
 
         <div>
-          <a href="#" @click="rescanBlockchain">Rescan Blockchain Files</a>
+          <a href="#" @click="rescanBlockchain">{{ $t('Rescan Blockchain Files') }}</a>
         </div>
 
         <div>
-          <a href="#" @click="reindexBlockchain">Reindex Blockchain</a>
+          <a href="#" @click="reindexBlockchain">{{ $t('Reindex Blockchain') }}</a>
         </div>
 
         <div>
-          <a href="#" @click="resyncBlockchain">Resync Blockchain</a>
+          <a href="#" @click="resyncBlockchain">{{ $t('Resync Blockchain') }}</a>
         </div>
 
         <div>
-          <a href="#" @click="onOpenConf">Wagerr.Conf</a>
+          <a href="#" @click="onOpenConf">{{ $t('Wagerr.Conf') }}</a>
         </div>
       </div>
     </div>
@@ -66,7 +66,7 @@ import ipcRenderer from '../../../common/ipc/ipcRenderer';
 import { getWagerrConfPath } from '../../../main/blockchain/blockchain';
 import DownloadSnapshot from './DownloadSnapshot.vue';
 import { blockchainSnapshot, syncMethods } from '../../../main/constants/constants';
-
+import store from '../../../common/store/store';
 
 export default {
   name: 'SplashScreen',
@@ -140,17 +140,17 @@ export default {
       let timeBehindText;
 
       if (durationBehind.asDays() < 2) {
-        timeBehindText = `${Math.ceil(durationBehind.asHours())} hours behind`;
+        timeBehindText = `${Math.ceil(durationBehind.asHours())} ${this.$t('hours behind')}`;
 
       } else if (durationBehind.asWeeks() < 2) {
-        timeBehindText = `${Math.ceil(durationBehind.asDays())} days behind`;
+        timeBehindText = `${Math.ceil(durationBehind.asDays())} ${this.$t('days behind')}`;
 
       } else if (durationBehind.asYears() < 1) {
-        timeBehindText = `${Math.ceil((durationBehind.asWeeks()))}  weeks behind`;
+        timeBehindText = `${Math.ceil((durationBehind.asWeeks()))}  ${this.$t('weeks behind')}`;
 
       } else {
         const weeksBehind = Math.ceil(durationBehind.asWeeks() - moment.duration(durationBehind.years(), 'years').asWeeks());
-        timeBehindText = `${durationBehind.years()} year and ${weeksBehind} weeks behind`;
+        timeBehindText = `${durationBehind.years()} ${this.$t('year and')} ${weeksBehind} ${this.$t('weeks behind')}`;
       }
 
       return timeBehindText;
@@ -166,7 +166,7 @@ export default {
       let connections = 0;
       let peersFound = false;
 
-      this.updateInitText('Connecting to peers... this may take some time!');
+      this.updateInitText(this.$t('Connecting to peers... this may take some time!'));
       ipcRenderer.log('info', 'Waiting for daemon to find peers');
 
       // While no peers have connected to the daemon keep looping.
@@ -233,7 +233,7 @@ export default {
           } else {
             this.timeBehindText = this.getTimeBehindText(durationBehind);
 
-            this.updateInitText(this.timeBehindText + ', Scanning block ' + bestBlockHeight);
+            this.updateInitText(`${this.timeBehindText}, ${this.$t('Scanning block')} ${bestBlockHeight}`);
 
             let weeksBehind = Math.ceil(durationBehind.asWeeks());
             this.mayDownloadSnapshot = weeksBehind > blockchainSnapshot.TRESHOLD_IN_WEEKS;
@@ -265,28 +265,30 @@ export default {
   },
 
   async mounted() {
+    // Check if we are in testnet from params passed by main process
+    const isTestnet = process.argv.splice(-1)[0] === 'true';
+    // Initialize store in renderer process with the network info
+    await store.initialize(isTestnet);
+    // We need to load user settings before showing any text message
+    await this.loadUserSettings(this);
+
+    this.updateInitText(this.$t('Initialising Electron App Wallet...'));
     // On some computers (especially Windows) the daemon is taking a while to
     // launch. If we start hitting it with RPC calls too early the app might
     // fail to launch in some instances. Dirty workaround to allow 10 seconds
     // before moving to the RPC calls.
     // TODO: Implement a cleaner solution.
     await this.sleep(10000);
-
+    
     // Check if connected to the Wagerr network and if we have peers.
     await this.checkPeerStatus();
-
     // Set the network.
-    let blockchainInfo = await blockchainRPC.getBlockchainInfo();
-    let network = blockchainInfo.chain === 'test' ? 'Testnet' : 'Mainnet';
-    // load User Config - could use methods access, instead of store.dispatch
-    await this.loadUserSettings(network);
-    await this.updateNetworkType(network);
+    await this.updateNetworkType(isTestnet ? 'Testnet' : 'Mainnet');
 
     // If Wallet not synced show time behind text.
     await this.syncBlockchainStatus();
 
     // After connecting to peers get some blockchain info.
-    this.updateInitText('Fetching wallet information...');
     await this.walletExtendedBalance();
     await this.getWGRTransactionRecords(100);
     await this.getPLBetTransactionList(50);

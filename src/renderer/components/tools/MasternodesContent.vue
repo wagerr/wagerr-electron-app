@@ -34,14 +34,12 @@
       @back="onStepSixBack"
     ></masternode-step-six-dialog>
 
-    <h4>Masternode Setup (BETA)</h4>
+    <h4>{{ $t('Masternode Setup (BETA)') }}</h4>
 
     <p>
-      This screen provides a helpful interactive process that guides you through
-      setting up a Wagerr masternode. While this interactive guide has been
-      tested and there are no known major issues, we are still actively
-      developing this feature so please use at your own risk or alternatively
-      you can use the RPC CLI window in the Settings menu.
+      {{ $t('This screen provides a helpful interactive process that guides you through setting up a Wagerr masternode.') }}
+      {{ $t('While this interactive guide has been tested and there are no known major issues, we are still actively developing this feature.') }}
+      {{ $t('So please use at your own risk or alternatively you can use the RPC CLI window in the Settings menu.') }}
     </p>
 
     <div class="row button-container">
@@ -50,7 +48,7 @@
         :is-light="true"
         @click="onStartSetup"
       >
-        START SETUP
+        {{ $t('START SETUP') }}
       </a>
       <a
         class="waves-effect waves-red wallet-action btn-large modal-trigger wagerr-red-bg z-depth-2"
@@ -64,28 +62,52 @@
     <div class="row list-masternode">
       <ul class="collection">
         <li class="collection-item">
-          <span class="red darken-4 btn">STEP ONE:</span>
-          <span class="command">Send 25,000 Wagerr</span>
+          <span class="red darken-4 btn">
+            {{ $t('STEP ONE:') }}
+          </span>
+          <span class="command">
+            {{ $t('Send 25,000 Wagerr') }}
+          </span>
         </li>
         <li class="collection-item">
-          <span class="red darken-4 btn">STEP TWO:</span>
-          <span class="command">Name Masternode</span>
+          <span class="red darken-4 btn">
+            {{ $t('STEP TWO:') }}
+          </span>
+          <span class="command">
+            {{ $t('Name Masternode') }}
+          </span>
         </li>
         <li class="collection-item">
-          <span class="red darken-4 btn">STEP THREE:</span>
-          <span class="command">Enter IP Address</span>
+          <span class="red darken-4 btn">
+            {{ $t('STEP THREE:') }}
+          </span>
+          <span class="command">
+            {{ $t('Enter IP Address') }}
+          </span>
         </li>
         <li class="collection-item">
-          <span class="red darken-4 btn">STEP FOUR:</span>
-          <span class="command">Generate Pairing Key</span>
+          <span class="red darken-4 btn">
+            {{ $t('STEP FOUR:') }}
+          </span>
+          <span class="command">
+            {{ $t('Generate Pairing Key') }}
+          </span>
         </li>
         <li class="collection-item">
-          <span class="red darken-4 btn">STEP FIVE:</span>
-          <span class="command">Choose Output</span>
+          <span class="red darken-4 btn">
+            {{ $t('STEP FIVE:') }}
+          </span>
+          <span class="command">
+            {{ $t('Choose Output') }}
+          </span>
         </li>
         <li class="collection-item">
-          <span class="red darken-4 btn">STEP SIX:</span>
-          <span class="command">Accept and Restart</span>
+          <span class="red darken-4 btn">
+            {{ $t('STEP SIX:') }}
+          </span>
+          <span class="command">
+            {{ $t('Accept and Restart') }}
+          </span>
         </li>
       </ul>
     </div>
@@ -164,14 +186,14 @@ export default {
 
     onStepAliasFinish() {
       if (!this.alias || this.alias.length === 0) {
-        this.$message.error('Alias can not be empty');
+        this.$message.error(this.$t('Alias can not be empty'));
         return;
       }
       if (!_.find(this.configOutputs, { alias: this.alias })) {
         this.showStepAlias = false;
         this.showStepIp = true;
       } else {
-        this.$message.error('Alias already exist');
+        this.$message.error(this.$t('Alias already exists'));
       }
     },
 
@@ -182,14 +204,14 @@ export default {
 
     onStepIpFinish() {
       if (!this.ip || this.ip.length === 0) {
-        this.$message.error('Ip can not be empty');
+        this.$message.error(this.$t('Ip can not be empty'));
         return;
       }
       if (!_.find(this.configOutputs, { ip: `${this.ip}:${this.port}` })) {
         this.showStepIp = false;
         this.showStepPrivateKey = true;
       } else {
-        this.$message.error('Ip already exist');
+        this.$message.error(this.$t('Ip already exist'));
       }
       console.log('alias is:', this.alias, 'ip is:', this.ip);
     },
@@ -201,14 +223,14 @@ export default {
 
     onStepPrivateKeyFinish() {
       if (!this.privateKey || this.privateKey.length === 0) {
-        this.$message.error('PrivateKey can not be empty');
+        this.$message.error(this.$t('PrivateKey can not be empty'));
         return;
       }
       if (!_.find(this.configOutputs, { pubkey: this.privateKey })) {
         this.showStepPrivateKey = false;
         this.showStepOutput = true;
       } else {
-        this.$message.error('PrivateKey already exist');
+        this.$message.error(this.$t('PrivateKey already exist'));
       }
     },
 
@@ -220,7 +242,7 @@ export default {
     async onStepOutputFinish() {
       console.log(this.outputSelection);
       if (!this.outputSelection) {
-        this.$message.error('Output can not be empty');
+        this.$message.error(this.$t('Output can not be empty'));
         return;
       }
       if (
@@ -228,7 +250,7 @@ export default {
           txhash: this.outputSelection.txhash
         })
       ) {
-        this.$message.error('Output already exist');
+        this.$message.error(this.$t('Output already exist'));
         return;
       }
       try {

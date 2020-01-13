@@ -14,6 +14,17 @@ import { spawnLogger } from './logger/logger';
 import menu from './menu/menu';
 import { checkForUpdates } from './updater/updater';
 import { version as appVersion } from '../../package.json';
+import i18n from '../common/i18n/i18n';
+import store from '../common/store/store';
+
+const isTestnet = testnet === 1;
+
+// We initialize the store in the main process with the network info
+store.initialize(isTestnet).then( () => {
+  // Set the language of vue-i18n library
+  // In main process we dont use date/times or numbers yet, so no formatLocale is needed
+  changeLanguage(store.preferences.get('languageLocale'));
+});
 
 const logger = spawnLogger();
 
@@ -63,7 +74,9 @@ async function createMainWindow() {
     autoHideMenuBar: true,
     backgroundColor: '#2B2C2D',
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      // We pass to the renderer process wether we are in testnet or mainnet
+      additionalArguments: [isTestnet.toString()]
     }
   };
 
@@ -89,8 +102,8 @@ async function createMainWindow() {
 
         // Make the progress bar to show the status of close actions.
         closeProgressBar = new ProgressBar({
-          text: 'Closing the Window...',
-          detail: 'Stopping Wagerr daemon...',
+          text: i18n.t('Closing the Window...'),
+          detail: i18n.t('Stopping Wagerr daemon...'),
           closeOnComplete: true
         });
 
@@ -101,7 +114,7 @@ async function createMainWindow() {
         await daemon.stop();
 
         // Notify the user the daemon has shutdown.
-        closeProgressBar.detail = 'Wagger daemon stopped...';
+        closeProgressBar.detail = i18n.t('Wagger daemon stopped...');
 
         // Close the shutdown progress bar window and quit the app.
         setTimeout(() => {
@@ -126,7 +139,7 @@ async function createMainWindow() {
   // Once electron app is ready then display the vue UI.
   mainWindow.once('ready-to-show', () => {
     const network = testnet === 1 ? ' - Testnet' : '';
-    const title = `Wagerr Electron App${network}`;
+    const title = `${i18n.t('Wagerr Electron App')}${network}`;
 
     mainWindow.setTitle(title);
     mainWindow.show();
@@ -243,6 +256,13 @@ ipcMain.on('runCommand', async (event, arg) => {
   event.returnValue = await daemon.runCommand(arg);
 });
 
+ipcMain.on('change-language', (event, arg) => {  
+  changeLanguage(arg);
+});
+
+function changeLanguage(languageLocale) {
+  i18n.locale = languageLocale;
+}
 /**
  * Encrypt wallet IPC handlers
  */
@@ -259,11 +279,11 @@ ipcMain.on('encrypt-wallet', async (event, arg) => {
 ipcMain.on('salvage-wallet', async (event, arg) => {
   const cancel = dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
     type: 'question',
-    buttons: ['Confirm', 'Cancel'],
-    message: 'Are you sure?',
+    buttons: [i18n.t('Confirm'), i18n.t('Cancel')],
+    message: i18n.t('Are you sure?'),
     cancelId: 1,
     defaultId: 0,
-    detail: 'Attempt to recover private keys from corrupt wallet.dat file.'
+    detail: i18n.t('Attempt to recover private keys from corrupt wallet.dat file.')
   });
 
   if (!cancel) {
@@ -281,11 +301,11 @@ ipcMain.on('salvage-wallet', async (event, arg) => {
 ipcMain.on('rescan-blockchain', async (event, arg) => {
   const cancel = dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
     type: 'question',
-    buttons: ['Confirm', 'Cancel'],
-    message: 'Are you sure?',
+    buttons: [i18n.t('Confirm'), i18n.t('Cancel')],
+    message: i18n.t('Are you sure?'),
     cancelId: 1,
     defaultId: 0,
-    detail: 'Rescan the block chain for missing transactions.'
+    detail: i18n.t('Rescan the blockchain for missing transactions.')
   });
 
   if (!cancel) {
@@ -303,12 +323,12 @@ ipcMain.on('rescan-blockchain', async (event, arg) => {
 ipcMain.on('recover-tx-1', async (event, arg) => {
   const cancel = dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
     type: 'question',
-    buttons: ['Confirm', 'Cancel'],
-    message: 'Are you sure?',
+    buttons: [i18n.t('Confirm'), i18n.t('Cancel')],
+    message: i18n.t('Are you sure?'),
     cancelId: 1,
     defaultId: 0,
     detail:
-      'Recover transactions from block chain, keep meta-data e.g. Account Owner.'
+      i18n.t('Recover transactions from blockchain, keep meta-data e.g. Account Owner.')
   });
 
   if (!cancel) {
@@ -326,11 +346,11 @@ ipcMain.on('recover-tx-1', async (event, arg) => {
 ipcMain.on('recover-tx-2', async (event, arg) => {
   const cancel = dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
     type: 'question',
-    buttons: ['Confirm', 'Cancel'],
-    message: 'Are you sure?',
+    buttons: [i18n.t('Confirm'), i18n.t('Cancel')],
+    message: i18n.t('Are you sure?'),
     cancelId: 1,
     defaultId: 0,
-    detail: 'Recover transactions from block chain, drop meta-data.'
+    detail: i18n.t('Recover transactions from blockchain, drop meta-data.')
   });
 
   if (!cancel) {
@@ -348,11 +368,11 @@ ipcMain.on('recover-tx-2', async (event, arg) => {
 ipcMain.on('upgrade-wallet', async (event, arg) => {
   const cancel = dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
     type: 'question',
-    buttons: ['Confirm', 'Cancel'],
-    message: 'Are you sure?',
+    buttons: [i18n.t('Confirm'), i18n.t('Cancel')],
+    message: i18n.t('Are you sure?'),
     cancelId: 1,
     defaultId: 0,
-    detail: 'Upgrade wallet to latest format on startup.'
+    detail: i18n.t('Upgrade wallet to latest format on startup.')
   });
 
   if (!cancel) {
@@ -370,11 +390,11 @@ ipcMain.on('upgrade-wallet', async (event, arg) => {
 ipcMain.on('reindex-blockchain', async (event, arg) => {
   const cancel = dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
     type: 'question',
-    buttons: ['Confirm', 'Cancel'],
-    message: 'Are you sure?',
+    buttons: [i18n.t('Confirm'), i18n.t('Cancel')],
+    message: i18n.t('Are you sure?'),
     cancelId: 1,
     defaultId: 0,
-    detail: 'Rebuild block chain index from current blk000??.dat files'
+    detail: i18n.t('Rebuild blockchain index from current blk000??.dat files')
   });
 
   if (!cancel) {
@@ -392,11 +412,11 @@ ipcMain.on('reindex-blockchain', async (event, arg) => {
 ipcMain.on('resync-blockchain', async (event, arg) => {
   const cancel = dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
     type: 'question',
-    buttons: ['Confirm', 'Cancel'],
-    message: 'Are you sure?',
+    buttons: [i18n.t('Confirm'), i18n.t('Cancel')],
+    message: i18n.t('Are you sure?'),
     cancelId: 1,
     defaultId: 0,
-    detail: 'Delete local block chain so wallet synchronises from scratch.'
+    detail: i18n.t('Delete local blockchain so wallet synchronises from scratch.')
   });
 
   if (!cancel) {
@@ -414,11 +434,11 @@ ipcMain.on('resync-blockchain', async (event, arg) => {
 ipcMain.on('restart-wagerrd', async (event, arg) => {
   const cancel = dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
     type: 'question',
-    buttons: ['Confirm', 'Cancel'],
-    message: 'Are you sure?',
+    buttons: [i18n.t('Confirm'), i18n.t('Cancel')],
+    message: i18n.t('Are you sure?'),
     cancelId: 1,
     defaultId: 0,
-    detail: 'Restart the Wagerr Wallet.'
+    detail: i18n.t('Restart the Wagerr Wallet.')
   });
 
   if (!cancel) {

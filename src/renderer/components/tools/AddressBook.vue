@@ -1,15 +1,15 @@
 <template>
   <div id="address-book" class="row">
     <div class="col s12">
-      <h4>Address Book</h4>
+      <h4>{{ $t('Address Book') }}</h4>
 
       <div class="row text-center">
-        <div class="col s6 offset-s3">
+        <div class="col s10 offset-s1">
           <button class="btn" v-on:click="filterRecievingAddresses">
-            Receiving Addresses
+            {{ $t('Receiving Addresses') }}
           </button>
           <button class="btn" v-on:click="filterSendingAddresses">
-            Sending Addresses
+            {{ $t('Sending Addresses') }}
           </button>
         </div>
       </div>
@@ -27,7 +27,6 @@
                   <th colspan="2">{{ receivingAccount.account_name }}</th>
                 </tr>
               </thead>
-
               <tbody>
                 <ReceivingAddressItem
                   v-for="receivingAddress in receivingAccount.addresses"
@@ -46,7 +45,7 @@
             <table class="main-table card z-depth-2 highlight">
               <thead>
                 <tr class="info-row sendingbar">
-                  <th colspan="2">Your Sending Addresses</th>
+                  <th colspan="2">{{ $t('Your Sending Addresses') }}</th>
                   <a
                     v-if="addingNewSendingAddress === false"
                     class="btn-small black darken-4 add-btn"
@@ -76,7 +75,7 @@
                       autofocus
                       autocomplete="off"
                       id="newSendingAddressLabel"
-                      placeholder="Enter New Label"
+                      :placeholder="$t('Enter New Label')"
                       @keyup.enter="toEnterAddress"
                     />
                   </td>
@@ -86,14 +85,14 @@
                       ref="newSendingAddress"
                       autocomplete="off"
                       id="newSendingAddress"
-                      placeholder="Enter New Address"
+                      :placeholder="$t('Enter New Address')"
                       @keyup.enter="addNewAddress"
                     />
                     <a
                       class="btn-small waves-effect waves-light red darken-4"
                       @click="addNewAddress"
                     >
-                      Add
+                      {{ $t('Add') }}
                     </a>
                   </td>
                 </tr>
@@ -158,7 +157,7 @@ export default {
         var updatedAddressDetail = labelVal.length > 0 ? labelVal : addressVal;
         M.toast({
           html:
-            '<span class="toast__bold-font">Added Sending Address ' +
+            '<span class="toast__bold-font">' + this.$t('Added Sending Address: ') +
             updatedAddressDetail +
             '&nbsp;</span>',
           classes: 'green'
@@ -166,7 +165,7 @@ export default {
       } else {
         M.toast({
           html:
-            '<span class="toast__bold-font">No Address Entered &nbsp;</span>',
+            '<span class="toast__bold-font">' + this.$t('No Address Entered') + '&nbsp;</span>',
           classes: 'red'
         });
       }
