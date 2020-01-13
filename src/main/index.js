@@ -1,4 +1,4 @@
-import { BrowserWindow, Menu, app, dialog, ipcMain } from 'electron';
+import { BrowserWindow, app, dialog, ipcMain } from 'electron';
 import ProgressBar from 'electron-progressbar';
 import fs from 'fs';
 import path from 'path';
@@ -11,7 +11,6 @@ import {
 } from './blockchain/blockchain';
 import Daemon from './blockchain/daemon';
 import { spawnLogger } from './logger/logger';
-import menu from './menu/menu';
 import { checkForUpdates } from './updater/updater';
 import { version as appVersion } from '../../package.json';
 
@@ -71,9 +70,6 @@ async function createMainWindow() {
 
   // Load the main browser window with the Wagerr vue application.
   mainWindow.loadURL(winURL);
-
-  // Add the main application menu to the UI.
-  Menu.setApplicationMenu(menu);
 
   // Prepare for the window to be closed.
   mainWindow.on('close', async event => {
