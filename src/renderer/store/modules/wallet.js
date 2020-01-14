@@ -85,18 +85,6 @@ const actions = {
     commit('setWalletLoaded', walletLoaded);
   },
 
-  updateWalletSynced({ commit }) {
-    wagerrRPC.client
-      .getStakingStatus()
-      .then(function(resp) {
-        commit('setWalletSynced', resp.result.mnsync);
-      })
-      .catch(function(err) {
-        commit('setWalletSynced', false);
-        console.error(err);
-      });
-  },
-
   walletExtendedBalance({ commit }) {
     wagerrRPC.client
       .getExtendedBalance()

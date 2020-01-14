@@ -83,29 +83,18 @@ export default {
 
   computed: {
     ...mapGetters([
-      'balance',
       'getNetworkType',
       'initText',
-      'walletLoaded',
-      'walletSynced',
-      'walletUnlocked',
       'walletVersion'
     ])
   },
 
   methods: {
-    ...mapActions([
-      'syncWallet',
-      'updateInfo',
-      'updateBlocks',
+    ...mapActions([      
       'updateInitText',
       'updateNetworkType',
       'updateWalletLoaded',
-      'updateWalletSynced',
-      'updateNumMasternodes',
-      'updateNumConnections',
       'walletExtendedBalance',
-      'getWGRTransactionList',
       'getPLBetTransactionList',
       'getCGBetTransactionList',
       'getWGRTransactionRecords',
