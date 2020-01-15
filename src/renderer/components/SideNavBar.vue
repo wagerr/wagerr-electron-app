@@ -146,84 +146,64 @@ export default {
 <style lang="scss" scoped>
 @import '../assets/scss/_variables.scss';
 
-.side-nav {
-  margin-top: 7px;
-  display: table;
-}
-
 nav {
   position: fixed;
   top: 0px;
   left: 0px;
-  width: 160px;
   height: 100%;
   background-color: $gray-900;
   padding-top: 60px;
   z-index: 1;
-}
 
-nav ul {
-  margin: 0px;
-  padding: 0px;
-}
+  ul {
+    margin: 0px;
+    padding: 0px;
 
-nav ul li {
-  .n-events {
-    margin-right: 8px !important;
+    &.side-nav {
+      margin-top: 7px;
+      overflow: hidden;
+
+      i {
+        color: $wagerr-red;
+        font-size: 20px;
+        vertical-align: middle;
+        width: 30px;
+        margin-left: 10px;
+      }
+
+      .n-events {
+        margin-right: 8px !important;
+      }
+    }
+
+    li {
+      margin: 0px;
+      padding: 0px;
+      list-style: none;
+      color: #fff;
+      font-size: 12px;
+      line-height: 18px;
+      border-top: solid 1px #414141;
+      cursor: pointer;
+
+      span {
+        display: inline-block;
+        vertical-align: middle;
+        padding: 10px 0px;
+        cursor: pointer;
+      }
+
+      ul li {
+        padding-left: 40px;
+
+        div.tournament {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          padding-right: 10px;
+        }
+      }
+    }
   }
-
-  margin: 0px;
-  padding: 0px;
-  list-style: none;
-  color: #fff;
-  font-size: 12px;
-  line-height: 18px;
-  border-top: solid 1px #414141;
-  display: block;
-  cursor: pointer;
-}
-
-nav ul li {
-  span {
-    display: inline-block;
-    vertical-align: middle;
-    padding: 10px 0px;
-    cursor: pointer;
-  }
-
-  div.tournament {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding-right: 10px;
-  }
-}
-
-nav ul li i {
-  color: $wagerr-red;
-  font-size: 20px;
-  vertical-align: middle;
-  width: 30px;
-  display: inline-block;
-  margin-left: 10px;
-}
-
-nav ul li i.pull-right {
-  font-size: 13px;
-  color: #686869;
-  display: none;
-}
-
-nav ul li.selected i.pull-right {
-  display: block;
-}
-
-nav ul li ul {
-  display: none;
-}
-
-nav ul li ul li {
-  display: block;
-  padding-left: 40px;
 }
 </style>
