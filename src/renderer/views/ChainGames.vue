@@ -214,6 +214,7 @@ export default {
   },
 
   mounted() {
+    this.$initMaterialize();
     this.listChainGamesEvents();
 
     this.listChainGamesEventsIID = setInterval(

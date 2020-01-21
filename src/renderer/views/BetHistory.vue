@@ -24,8 +24,7 @@ export default {
   components: { BetTransactionList },
 
   mounted: function() {
-    // Initialise the Material JS so modals, drop down menus etc function.
-    M.AutoInit();
+    this.$initMaterialize();
   }
 };
 </script>

@@ -82,7 +82,7 @@ export default {
     );
 
     // Initialise the Material JS so modals, drop down menus etc function.
-    M.AutoInit();
+    this.$initMaterialize();
   },
 
   destroyed() {
