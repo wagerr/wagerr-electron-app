@@ -59,7 +59,7 @@ const actions = {
   },
 
   getWGRTransactionRecords({ commit }, length) {
-    wagerrRPC.client
+    return wagerrRPC.client
       .listTransactionRecords('*', length)
       .then(async function(resp) {
         const txRecords = resp.result.reverse();
@@ -85,7 +85,7 @@ const actions = {
   },
 
   getPLBetTransactionList({ commit }, length) {
-    wagerrRPC.client
+    return wagerrRPC.client
       .listBets('*', length)
       .then(function(resp) {
         commit('setPLBetTransactionList', resp.result.reverse());
@@ -97,7 +97,7 @@ const actions = {
   },
 
   getCGBetTransactionList({ commit }, length) {
-    wagerrRPC.client
+    return wagerrRPC.client
       .listChainGamesBets('*', length)
       .then(function(resp) {
         commit('setCGBetTransactionList', resp.result.reverse());

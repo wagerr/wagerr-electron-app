@@ -1,6 +1,6 @@
 <template>
   <!-- Unlock Wallet Modal -->
-  <div id="unlock-wallet-modal" class="modal bg-gradient">
+  <div id="unlock-wallet-modal" class="modal bg-gradient no-auto-init">
     <div class="modal-content">
       <!-- Prevent the submit event from reloading the page -->
       <form @submit.prevent="handleSubmit">
@@ -37,6 +37,19 @@
             <span v-if="errors.has('unlock-passphrase')" class="form-error">
               {{ errors.first('unlock-passphrase') }}
             </span>
+
+            <p v-if="isStartup" class="pwd-startup-checkbox">
+              <label>
+                <input
+                  name="passwordOnStartup"
+                  type="checkbox"
+                  id="passwordOnStartup"
+                  :checked="getPasswordOnStartup"
+                  @click="togglePasswordOnStartup()"
+                />
+                <span style="">Always ask for password on startup</span>
+              </label>
+            </p>
           </div>
 
           <div class="options">
@@ -70,9 +83,10 @@ import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'UnlockWallet',
-
+  props: ['isStartup'],
   data() {
     return {
+      checked: false,
       unlockPassphrase: null,
       unlockTimeout: '0',
       unlockAnonymizeOnly: false
@@ -80,11 +94,11 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['walletLoaded', 'walletUnlocked'])
+    ...mapGetters(['walletLoaded', 'walletUnlocked', 'getPasswordOnStartup'])
   },
 
   methods: {
-    ...mapActions(['lockWallet', 'unlockWallet']),
+    ...mapActions(['lockWallet', 'unlockWallet', 'togglePasswordOnStartup']),
 
     // Handle the unlock wallet from validation and id valid unlock the wallet.
     handleSubmit: function() {
@@ -93,16 +107,18 @@ export default {
           return;
         }
 
-        // If the form is valid then attempt to unlock the wallet.
-        await this.unlockWallet([
-          this.unlockPassphrase,
-          this.unlockTimeout,
-          this.unlockAnonymizeOnly
-        ]).catch(() => {
+        try {
+          // If the form is valid then attempt to unlock the wallet.
+          await this.unlockWallet([
+            this.unlockPassphrase,
+            this.unlockTimeout,
+            this.unlockAnonymizeOnly
+          ]);
+        } catch {
           // If there is an error in unlocking the wallet clear the form and
           // reset all the values back to default.
           this.clearForm();
-        });
+        };
 
         if (this.walletUnlocked) {
           // Clear any errors after successful wallet unlock.
@@ -133,12 +149,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../../assets/scss/_variables.scss';
+
 .modal {
   overflow-y: inherit;
 }
 
-.input-field span {
-  margin-left: 45px;
+.input-field {
+  span {
+    margin-left: 45px;
+  }
+
+  .pwd-startup-checkbox {
+    text-align: right;
+  }
 }
 
 .modal-content .options {
@@ -155,4 +179,9 @@ export default {
 .row {
   margin-bottom: 0;
 }
+
+[type='checkbox']:checked + span:not(.lever):before {
+    border-right: 2px solid $wagerr-red;
+    border-bottom: 2px solid $wagerr-red;
+  }
 </style>

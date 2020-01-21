@@ -151,9 +151,6 @@ export default {
   },
 
   mounted() {
-    // Initialise the Material JS so modals, drop down menus etc function.
-    M.AutoInit();
-
     // Reset the form validation after opening the modal
     this.$validator.reset();
   }

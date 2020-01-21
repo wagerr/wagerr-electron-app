@@ -1,6 +1,7 @@
 import wagerrRPC from '@/services/api/wagerrRPC';
 import walletRPC from '@/services/api/wallet_rpc';
 import * as blockchain from '../../../main/blockchain/blockchain';
+import {walletState} from '@/constants/constants';
 
 const packageJSON = require('../../../../package.json');
 
@@ -12,7 +13,7 @@ const state = function() {
     pending: 0,
     lockedBalance: 0,
     zerocoin: 0,
-    unlocked: false,
+    state: '',
     encrypted: false,
     synced: false,
     initWalletText: 'Initialising Electron App Wallet...',
@@ -47,8 +48,20 @@ const getters = {
     return state.loaded;
   },
 
-  walletUnlocked: state => {
-    return state.unlocked;
+  walletLocked: state => {
+    return state.state === walletState.LOCKED;
+  },
+
+  walletUnlocked: (state, getters) => {
+    return getters.walletUnlockedFully || getters.walletUnlockedOnlyStaking;
+  },
+
+  walletUnlockedFully: state => {
+    return state.state === walletState.UNLOCKED;
+  },
+
+  walletUnlockedOnlyStaking: state => {
+    return state.state === walletState.UNLOCKED_STAKING;
   },
 
   walletEncrypted: state => {
@@ -81,12 +94,13 @@ const getters = {
 };
 
 const actions = {
+
   updateWalletLoaded({ commit }, walletLoaded) {
     commit('setWalletLoaded', walletLoaded);
   },
 
   walletExtendedBalance({ commit }) {
-    wagerrRPC.client
+    return wagerrRPC.client
       .getExtendedBalance()
       .then(function(resp) {
         commit(
@@ -106,12 +120,12 @@ const actions = {
       });
   },
 
-  unlockWallet({ commit }, [passphrase, timeout, anonymizeonly]) {
+  unlockWallet({ dispatch, commit }, [passphrase, timeout, anonymizeonly]) {
     return new Promise((resolve, reject) => {
       wagerrRPC.client
         .walletPassphrase(passphrase, timeout, anonymizeonly)
-        .then(function(resp) {
-          commit('setWalletUnlocked', true);
+        .then(async function(resp) {
+          await dispatch('walletInfo');
           M.toast({
             html:
               '<span class="toast__bold-font">Success &nbsp;</span> Wallet unlocked',
@@ -121,7 +135,6 @@ const actions = {
           resolve();
         })
         .catch(function(err) {
-          commit('setWalletUnlocked', false);
           M.toast({ html: err, classes: 'wagerr-red-bg' });
           console.log(err);
           reject();
@@ -133,7 +146,7 @@ const actions = {
     wagerrRPC.client
       .walletLock()
       .then(function(resp) {
-        commit('setWalletUnlocked', false);
+        commit('setWalletState', walletState.LOCKED);
         M.toast({
           html:
             '<span class="toast__bold-font">Success &nbsp;</span> Wallet locked',
@@ -147,24 +160,27 @@ const actions = {
   },
 
   walletInfo({ commit }) {
-    walletRPC
-      .getWalletInfo()
-      .then(function(resp) {
-        commit('setTXCount', resp.txcount);
+    // TODO once bug #198 in wagerr core has been resolved, call to getStakingStatus can be removed and just use walletinfo resp
+    // Url bug: https://github.com/wagerr/wagerr/issues/198
+    return Promise.all([walletRPC.getWalletInfo(), wagerrRPC.client.getStakingStatus()])
+      .then((resp) => {
+        const walletInfoResp = resp[0];
+        const stakingStatusResp = resp[1];
+        commit('setTXCount', walletInfoResp.txcount);
 
-        switch (resp.encryption_status) {
-          case 'unencrypted':
-            commit('setWalletUnlocked', true);
-            commit('setWalletEncrypted', false);
-            break;
-          case 'locked':
-            commit('setWalletUnlocked', false);
-            commit('setWalletEncrypted', true);
-            break;
-          case 'unlocked':
-            commit('setWalletUnlocked', true);
-            commit('setWalletEncrypted', true);
-            break;
+        if (walletInfoResp.encryption_status === 'unencrypted') {
+          commit('setWalletEncrypted', false);
+          commit('setWalletState', '');
+
+        } else {
+          commit('setWalletEncrypted', true);
+
+          if (!stakingStatusResp.result.walletunlocked) {
+            commit('setWalletState', walletState.LOCKED);
+
+          } else {
+            commit('setWalletState', walletInfoResp.encryption_status);
+          }
         }
       })
       .catch(function(err) {
@@ -204,8 +220,12 @@ const mutations = {
     state.loaded = true;
   },
 
-  setWalletUnlocked(state, unlocked) {
-    state.unlocked = unlocked;
+  setWalletState(state, walletState)  {
+    state.state = walletState;
+  },
+
+  setOnlyStaking(state, onlyStaking) {
+    state.onlyStaking = onlyStaking;
   },
 
   setWalletEncrypted(state, encrypted) {
