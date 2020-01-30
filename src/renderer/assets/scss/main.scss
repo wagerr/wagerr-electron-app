@@ -5,6 +5,7 @@
 // Fonts & Icons
 @import 'fonts';
 @import '../css/icons';
+@import 'perfect_scrollbar';
 
 body {
   margin: 0;
@@ -320,7 +321,6 @@ header {
 
 #betting {
   .betting-sidebar-container {
-    padding-top: 23px;
     font-size: 0;
     background-image: url(../images/bg-vector-black-d50.png);
     background-position: left bottom;
@@ -331,16 +331,7 @@ header {
     position: fixed;
     box-sizing: border-box;
     margin: -20px 0 0 -10px;
-    nav {
-      width: 200px;
-      background: transparent;
-      position: relative;
-      top: auto;
-      left: auto;
-      height: auto;
-      padding-top: 0;
-      box-shadow: none;
-    }
+
     .betting-types {
       padding-top: 20px;
       ul {
@@ -371,91 +362,6 @@ header {
           }
         }
       }
-    }
-    ul.side-nav {
-      h5 {
-        padding-top: 10px;
-      }
-      > li {
-        border-top: none;
-        border-left: 3px solid transparent;
-        a {
-          font-size: 15px;
-          font-weight: 600;
-          padding: 6px 0;
-          i {
-            font-weight: 600;
-            width: 44px;
-            padding: 0;
-            margin: 0;
-            display: inline-block;
-            text-align: center;
-            height: auto;
-            color: $gray-600;
-            font-size: 18px;
-            &.icon-chevron-down {
-              font-size: 14px;
-              padding-top: 3px;
-              display: none;
-              &::before {
-                font-weight: 700;
-              }
-            }
-          }
-          span {
-            font-size: 14px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            padding: 0;
-            margin: 0;
-          }
-        }
-        &:hover,
-        &.open,
-        &.on {
-          background-color: $black;
-          border-left: 3px solid $wagerr-red-light;
-          cursor: pointer;
-          i {
-            color: $wagerr-red-light;
-          }
-        }
-        &.open {
-          a {
-            padding-bottom: 6px;
-          }
-        }
-        .tournaments-dropdown {
-          display: block;
-          padding-left: 50px;
-          padding-bottom: 5px;
-          li {
-            float: none;
-            padding: 0;
-            line-height: 12px;
-            span {
-              font-size: 13px;
-              font-weight: 600;
-              color: $gray-600;
-            }
-            &:hover,
-            &.on {
-              span {
-                color: $wagerr-red-light;
-              }
-            }
-          }
-        }
-      }
-    }
-    h5 {
-      font-size: 11px;
-      font-weight: 700;
-      color: $wagerr-red-light;
-      text-transform: uppercase;
-      padding-left: 50px;
-      letter-spacing: 1px;
-      margin: 20px 0 20px 0;
     }
   }
   .betting-main {
