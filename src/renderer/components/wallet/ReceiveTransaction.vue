@@ -18,50 +18,47 @@
 
         <div class="options text-center">
           <div class="circle-icon">
-            <span
-              class="inner-circle tooltipped"
-              data-position="bottom"
-              data-tooltip="Copy"
-            >
-              <a
-                v-clipboard="accountAddress"
-                @click="copiedAlert()"
-                class="circle-icon-link"
-              >
-                <i class="far fa-copy"></i>
-              </a>
-            </span>
+            <el-tooltip content="Copy">
+              <span class="inner-circle">
+                <a
+                  v-clipboard="accountAddress"
+                  @click="copiedAlert()"
+                  class="circle-icon-link"
+                >
+                  <i class="far fa-copy"></i>
+                </a>
+              </span>
+            </el-tooltip>
           </div>
 
           <div class="circle-icon">
-            <span
-              class="inner-circle tooltipped"
-              data-position="bottom"
-              data-tooltip="Email"
-            >
-              <a
-                class="circle-icon-link"
-                :href="
-                  'mailto:wagerr@example.com?Subject=Wagerr Wallet Address&Body=My Wagerr address is: ' +
-                    accountAddress
-                "
-                target="_top"
-              >
-                <i class="far fa-envelope"></i>
-              </a>
-            </span>
+            <el-tooltip content="Email">
+              <span class="inner-circle">
+                <a
+                  class="circle-icon-link"
+                  :href="
+                    'mailto:wagerr@example.com?Subject=Wagerr Wallet Address&Body=My Wagerr address is: ' +
+                      accountAddress
+                  "
+                  target="_top"
+                >
+                  <i class="far fa-envelope"></i>
+                </a>
+              </span>
+            </el-tooltip>
           </div>
 
           <div class="circle-icon">
-            <span
-              class="inner-circle tooltipped"
-              data-position="bottom"
-              data-tooltip="Open in block explorer"
-            >
-              <a class="circle-icon-link" @click="blockExplorerUrl">
-                <i class="fas fa-link"></i>
-              </a>
-            </span>
+            <el-tooltip content="Open in block explorer">
+              <span class="inner-circle">
+                <a
+                  @click="blockExplorerUrl"
+                  class="circle-icon-link"
+                >
+                  <i class="fas fa-link"></i>
+                </a>
+              </span>
+            </el-tooltip>
           </div>
         </div>
       </div>
