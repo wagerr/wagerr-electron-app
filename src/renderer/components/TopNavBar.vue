@@ -34,42 +34,38 @@
       </router-link>
 
       <li>
-        <!-- Dropdown Trigger -->
-        <div class="dropdown-trigger" data-target="settings-dropdown">
-          <i class="navico-gear"></i>
-          <h6>Settings</h6>
-        </div>
-
-        <!-- Dropdown Structure -->
-        <ul id="settings-dropdown" class="dropdown-content">
-          <li v-if="!walletEncrypted">
-            <a class="modal-trigger" data-target="encrypt-wallet">
-              <i class="icon-file-lock"></i>
-              Encrypt Wallet
-            </a>
-          </li>
-
-          <li>
-            <a class="modal-trigger" data-target="change-wallet-password">
-              <i class="icon-user-lock"></i>
-              Change Password
-            </a>
-          </li>
-
-          <li>
-            <a @click="updadteConsoleVisible">
-              <i class="icon-cli"></i>
-              RPC CLI Tool
-            </a>
-          </li>
-
-          <router-link tag="li" to="/preferences" exact>
-            <a>
-              <i class="icon-cog"></i>
-              Preferences
-            </a>
-          </router-link>
-        </ul>
+        <el-dropdown trigger="click" placement="bottom-start">
+          <div>
+            <i class="navico-gear"></i>
+            <h6>Settings</h6>
+          </div>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item v-if="!walletEncrypted">
+              <a @click="openModal('encrypt-wallet')">
+                <i class="icon-file-lock"></i>
+                Encrypt Wallet
+              </a>
+            </el-dropdown-item>
+            <el-dropdown-item>
+              <a @click="openModal('change-wallet-password')">
+                <i class="icon-user-lock"></i>
+                Change Password
+              </a>
+            </el-dropdown-item>
+            <el-dropdown-item>
+              <a @click="updadteConsoleVisible">
+                <i class="icon-cli"></i>
+                RPC CLI Tool
+              </a>
+            </el-dropdown-item>
+            <el-dropdown-item>
+              <router-link tag="a" to="/preferences" exact>
+                <i class="icon-cog"></i>
+                Preferences
+              </router-link>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
       </li>
 
       <!-- Settings Modals -->
@@ -136,7 +132,12 @@ export default {
   },
 
   methods: {
-    ...Vuex.mapActions(['lockWallet', 'updadteConsoleVisible', 'walletInfo'])
+    ...Vuex.mapActions(['lockWallet', 'updadteConsoleVisible', 'walletInfo']),
+    openModal(modalId) {
+      let modal = document.getElementById(modalId);
+      M.Modal.getInstance(modal).open();
+
+    }
   },
 
   async mounted() {
@@ -183,16 +184,36 @@ export default {
   background-color: $gray-900;
 }
 
-.dropdown-content li a {
+.el-dropdown {
+  width: 100%;
   color: white;
+  height: 100%;
 }
 
-.dropdown-content li a i {
-  color: $wagerr-red;
-  font-size: 1.3em;
-}
+ul.el-dropdown-menu {
+  background-color: #212529;
+  margin-top: 0;
+  border: 0;
+  border-radius: 0;
 
-.dropdown-content li:hover {
-  background-color: rgba(0, 0, 0, 0.1);
+  li.el-dropdown-menu__item {
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    a {
+      font-size: 13px;
+      padding: 8px 16px;
+      color: white;
+
+      i {
+        color: #b40101;
+        font-size: 1.3em;
+        margin: 10px 0 0 0 !important;
+        font-weight: 600;
+        float: left;
+      }
+    }
+  }
 }
 </style>
