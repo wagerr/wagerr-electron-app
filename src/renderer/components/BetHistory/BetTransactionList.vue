@@ -4,38 +4,38 @@
     v-if="plBetTransactionList.length === 0"
     class="no-transactions z-depth-2 text-center"
   >
-    <p>Looks like a new wallet, no betting transactions to list!</p>
+    <p>{{ $t('Looks like a new wallet, no betting transactions to list!') }}</p>
 
-    <p>
-      Jump to the
-      <router-link class="router-link" tag="a" to="/betting"
-        >betting tab</router-link
-      >
-      and start placing bets.
-    </p>
+    <i18n path="Jump to the {tab} and start placing bets" tag="p">
+      <template v-slot:tab>
+        <router-link class="router-link" tag="a" to="/betting">
+          {{ $t('betting tab') }}
+        </router-link>
+      </template>
+    </i18n>
   </div>
 
   <div v-else>
     <table class="main-table card z-depth-2">
       <thead>
         <tr>
-          <th class="hide-on-small-only">Event ID</th>
+          <th class="hide-on-small-only">{{ $t('Event ID') }}</th>
 
-          <th class="hide-on-med-and-down">Transaction ID</th>
+          <th class="hide-on-med-and-down">{{ $t('Transaction ID') }}</th>
 
-          <th class="">Start Time</th>
+          <th class="">{{ $t('Start Time') }}</th>
 
-          <th class="hide-on-med-and-down show-on-large">Bet Outcome</th>
+          <th class="hide-on-med-and-down show-on-large">{{ $t('Bet Outcome') }}</th>
 
-          <th class="">Home</th>
+          <th class="">{{ $t('Home') }}</th>
 
-          <th class="">Away</th>
+          <th class="">{{ $t('Away') }}</th>
 
           <th class="">
-            {{ getNetworkType === 'Testnet' ? 'tWGR' : 'WGR' }} Amount
+            {{ getNetworkType === 'Testnet' ? $t('tWGR Amount') : $t('WGR Amount') }}
           </th>
 
-          <th class="">Result</th>
+          <th class="">{{ $t('Result') }}</th>
         </tr>
       </thead>
 
@@ -49,7 +49,7 @@
               @click="copiedAlert()"
               class="transaction-list-link tooltipped"
               data-position="bottom"
-              data-tooltip="Copy"
+              :data-tooltip="$t('Copy')"
             >
               <i class="far fa-copy"></i>
             </a>
@@ -58,7 +58,7 @@
               @click="blockExplorerUrl(tx['tx-id'])"
               class="transaction-list-link tooltipped"
               data-position="bottom"
-              data-tooltip="Open in block explorer"
+              :data-tooltip="$t('Open in block explorer')"
             >
               <i class="fas fa-link"></i>
             </a>
@@ -78,7 +78,7 @@
 
           <td class="">{{ tx.amount }}</td>
 
-          <td class="hide-on-small-only">{{ tx['result'] }}</td>
+          <td class="hide-on-small-only">{{ $t(tx['result']) }}</td>
         </tr>
       </tbody>
     </table>
@@ -110,19 +110,19 @@ export default {
     outcomeToText: function(outcome) {
       switch (outcome) {
         case 1:
-          return 'Money Line Home';
+          return this.$t('Money Line Home');
         case 2:
-          return 'Money Line Away';
+          return this.$t('Money Line Away');
         case 3:
-          return 'Money Line Draw';
+          return this.$t('Money Line Draw');
         case 4:
-          return 'Home to Cover Spread';
+          return this.$t('Home to Cover Spread');
         case 5:
-          return 'Away to Cover Spread';
+          return this.$t('Away to Cover Spread');
         case 6:
-          return 'Total Over';
+          return this.$t('Total Over');
         case 7:
-          return 'Total Under';
+          return this.$t('Total Under');
         default:
           return outcome;
       }

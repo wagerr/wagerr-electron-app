@@ -2,12 +2,12 @@
   <div id="bet_history" class="content row">
     <div class="col s12">
       <h4>
-        Bet Transaction History
+        {{ $t('Bet Transaction History') }}
         <small>
           <i
             class="far fa-question-circle tooltipped"
             data-position="right"
-            data-tooltip="Your most recent bets will appear after a short time."
+            :data-tooltip="$t('Your most recent bets will appear after a short time.')"
           ></i>
         </small>
       </h4>

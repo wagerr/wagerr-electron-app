@@ -6,7 +6,9 @@
       <div class="modal-content">
         <div class="row">
           <div class="modal-text text-center">
-            <p class="modal-font">Enter the address and amount to send WGR.</p>
+            <p class="modal-font">
+              {{ $t('Enter the address and amount to send WGR.') }}
+            </p>
           </div>
 
           <div class="input-field col s12">
@@ -21,11 +23,13 @@
               autofocus
             />
 
-            <label for="send-address">Pay To</label>
+            <label for="send-address">
+              {{ $t('Pay To') }}
+            </label>
 
-            <span v-if="errors.has('send-address')" class="form-error">{{
-              errors.first('send-address')
-            }}</span>
+            <span v-if="errors.has('send-address')" class="form-error">
+              {{ $t(errors.first('send-address')) }}
+            </span>
           </div>
 
           <div class="input-field col s12">
@@ -39,14 +43,16 @@
               type="text"
             />
 
-            <label for="label">Label</label>
+            <label for="label">
+              {{ $t('Label') }}
+            </label>
 
-            <span v-if="errors.has('label')" class="form-error">{{
-              errors.first('label')
-            }}</span>
+            <span v-if="errors.has('label')" class="form-error">
+              {{ $t(errors.first('label')) }}
+            </span>
           </div>
 
-          <div class="input-field col s10">
+          <div class="input-field col s9">
             <i class="fas fa-money-bill prefix"></i>
 
             <input
@@ -57,14 +63,16 @@
               type="text"
             />
 
-            <label for="amount">Amount</label>
+            <label for="amount">
+              {{ $t('Amount') }}
+            </label>
 
             <div v-if="errors.has('amount')" class="form-error amount-margin">
-              {{ errors.first('amount') }}
+              {{ $t(errors.first('amount')) }}
             </div>
           </div>
 
-          <div class="input-field col s2">
+          <div class="input-field col s3">
             <input
               v-model="txFee"
               v-validate="'required|decimal:5|min_value:0'"
@@ -73,10 +81,12 @@
               type="text"
             />
 
-            <label for="fee" class="active">TX Fee</label>
+            <label for="fee" class="active">
+              {{ $t('TX Fee') }}
+            </label>
 
             <div v-if="errors.has('fee')" class="form-error">
-              {{ errors.first('fee') }}
+              {{ $t(errors.first('fee')) }}
             </div>
           </div>
         </div>
@@ -85,7 +95,7 @@
           <button
             class="send waves-effect waves-red wallet-action btn-large modal-trigger wagerr-red-bg z-depth-2"
           >
-            Send
+            {{ $t('Send') }}
           </button>
         </div>
 
@@ -123,7 +133,7 @@ export default {
 
     // Send a Wagerr transaction.
     sendTransaction: function() {
-      let that = this;
+      let self = this;
       this.getAccountAddress();
 
       // Retrieve the wallet UTXOs (unspent outputs)
@@ -138,17 +148,20 @@ export default {
             UTXOAmount += resp.result[i].amount;
             utxos.push(resp.result[i]);
 
-            if (UTXOAmount > that.amount) {
+            if (UTXOAmount > self.amount) {
               utxos = JSON.stringify(utxos);
               break;
             }
           }
 
           // Ensure we have enough Wagerr to cover the TX.
-          if (UTXOAmount < that.amount) {
+          if (UTXOAmount < self.amount) {
             M.toast({
               html:
-                '<span class="toast__bold-font">Error &nbsp;</span> Not enough WGR to send transaction.',
+                `<span class="toast__bold-font">
+                  ${self.$t('Error')} &nbsp;
+                </span>
+                ${self.$t('Not enough WGR to send transaction.')}`,
               classes: 'wagerr-red-bg'
             });
             return;
@@ -156,13 +169,13 @@ export default {
 
           let json =
             '{"' +
-            that.sendAddress +
+            self.sendAddress +
             '":' +
-            that.amount +
+            self.amount +
             ', "' +
-            that.accountAddress +
+            self.accountAddress +
             '":' +
-            (UTXOAmount - that.txFee - that.amount) +
+            (UTXOAmount - self.txFee - self.amount) +
             '}';
 
           // Create the raw send transaction.
@@ -184,13 +197,16 @@ export default {
                       // Sent transaction succesfully.
                       M.toast({
                         html:
-                          '<span class="toast__bold-font">Success &nbsp;</span> Transaction sent ' +
-                          resp.result,
+                          `<span class="toast__bold-font">
+                            ${self.$t('Success')} &nbsp;
+                          </span>
+                          ${self.$t('Transaction sent')}
+                          ${resp.result}`,
                         classes: 'green'
                       });
 
                       // Clear the sent TX form data and any errors.
-                      that.clearForm();
+                      self.clearForm();
                     })
                     .catch(function(err) {
                       M.toast({ html: err, classes: 'wagerr-red-bg' });

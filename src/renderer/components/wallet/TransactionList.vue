@@ -4,7 +4,7 @@
     v-if="wgrTransactionRecords.length === 0"
     class="no-transactions z-depth-2 text-center"
   >
-    <p>Currently, your wallet has no Wagerr transactions to list...</p>
+    <p>{{ $t('Currently, your wallet has no Wagerr transactions to list...') }}</p>
   </div>
 
   <div v-else>
@@ -13,17 +13,17 @@
         <tr>
           <th></th>
 
-          <th class="hide-on-med-and-down">Date</th>
+          <th class="hide-on-med-and-down">{{ $t('Date') }}</th>
 
-          <th class="hide-on-small-only">Trans<span>action</span> ID</th>
+          <th class="hide-on-small-only">{{ $t('Transaction ID') }}</th>
 
-          <th class="hide-on-small-only">Type</th>
+          <th class="hide-on-small-only">{{ $t('Type') }}</th>
 
           <!--<th class="hide-on-med-and-down show-on-large">Blockhash</th>-->
 
-          <th class="">Address</th>
+          <th class="">{{ $t('Address') }}</th>
 
-          <th class="">Amount</th>
+          <th class="">{{ $t('Amount') }}</th>
         </tr>
       </thead>
 
@@ -36,7 +36,7 @@
             <a
               class="tooltipped"
               data-position="bottom"
-              :data-tooltip="tx.confirmations + ' confirmations'"
+              :data-tooltip="$t('{number} confirmations', {number: tx.confirmations})"
             >
               <i class="far fa-times-circle"></i>
             </a>
@@ -49,7 +49,7 @@
             <a
               class="tooltipped"
               data-position="bottom"
-              :data-tooltip="tx.confirmations + ' confirmations'"
+              :data-tooltip="$t('{number} confirmations', {number: tx.confirmations})"
             >
               <i class="far fa-question-circle"></i>
             </a>
@@ -62,7 +62,7 @@
             <a
               class="tooltipped"
               data-position="bottom"
-              :data-tooltip="tx.confirmations + ' confirmations'"
+              :data-tooltip="$t('{number} confirmations', {number: tx.confirmations})"
             >
               <div class="timer-loader"></div>
             </a>
@@ -72,7 +72,7 @@
             <a
               class="tooltipped"
               data-position="bottom"
-              :data-tooltip="tx.confirmations + ' confirmations'"
+              :data-tooltip="$t('{number} confirmations', {number: tx.confirmations})"
             >
               <i class="far fa-check-circle"></i>
             </a>
@@ -94,7 +94,7 @@
               @click="copiedAlert()"
               class="transaction-list-link tooltipped"
               data-position="bottom"
-              data-tooltip="Copy"
+              :data-tooltip="$t('Copy')"
             >
               <i class="far fa-copy"></i>
             </a>
@@ -103,7 +103,7 @@
               @click="blockExplorerUrl(tx.transactionid)"
               class="transaction-list-link tooltipped"
               data-position="bottom"
-              data-tooltip="Open in block explorer"
+              :data-tooltip="$t('Open in block explorer')"
             >
               <i class="fas fa-link"></i>
             </a>
@@ -113,7 +113,7 @@
             class="hide-on-small-only"
             :class="{ 'confirmation-conflicted': tx.confirmations === -1 }"
           >
-            {{ tx.type }}
+            {{ $t(tx.type) }}
           </td>
 
           <!--<td class="hide-on-med-and-down show-on-large">{{tx.blockhash}}</td>-->
@@ -130,7 +130,7 @@
             class=""
             :class="{ 'confirmation-conflicted': tx.confirmations === -1 }"
           >
-            {{ tx.debit }} {{ getNetworkType === 'Testnet' ? 'tWGR' : 'WGR' }}
+            {{ $n(tx.debit, 'decimal') }} {{ getNetworkType === 'Testnet' ? 'tWGR' : 'WGR' }}
           </td>
 
           <td
@@ -138,7 +138,7 @@
             class=""
             :class="{ 'confirmation-conflicted': tx.confirmations === -1 }"
           >
-            {{ tx.credit }} {{ getNetworkType === 'Testnet' ? 'tWGR' : 'WGR' }}
+            {{ $n(tx.credit, 'decimal') }} {{ getNetworkType === 'Testnet' ? 'tWGR' : 'WGR' }}
           </td>
 
           <td
@@ -146,7 +146,7 @@
             class=""
             :class="{ 'confirmation-conflicted': tx.confirmations === -1 }"
           >
-            <small>Error: Could not determine amount.</small>
+            <small>{{ $t('Error: Could not determine amount.') }}</small>
           </td>
         </tr>
       </tbody>

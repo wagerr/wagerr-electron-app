@@ -6,13 +6,12 @@
       <div class="modal-content">
         <div class="row">
           <div class="modal-header">
-            <h4>Change Password</h4>
+            <h4>{{ $t('Change Password') }}</h4>
           </div>
 
           <div class="modal-text">
             <p class="modal-font">
-              Enter the old and new password to update the password used to
-              unlock the wallet.
+              {{ $t('Enter the old and new password to update the password used to unlock the wallet.') }}
             </p>
           </div>
 
@@ -26,10 +25,10 @@
               autofocus
             />
 
-            <label for="old-password">Old Password</label>
+            <label for="old-password">{{ $t('Old Password') }}</label>
 
             <span v-if="errors.has('old-password')" class="form-error">{{
-              errors.first('old-password')
+              $t(errors.first('old-password'))
             }}</span>
           </div>
 
@@ -43,10 +42,10 @@
               type="password"
             />
 
-            <label for="new-password">New Password</label>
+            <label for="new-password">{{ $t('New Password') }}</label>
 
             <span v-if="errors.has('new-password')" class="form-error">{{
-              errors.first('new-password')
+              $t(errors.first('new-password'))
             }}</span>
           </div>
 
@@ -59,10 +58,10 @@
               type="password"
             />
 
-            <label for="conf-password">Confirm Password</label>
+            <label for="conf-password">{{ $t('Confirm Password') }}</label>
 
             <span v-if="errors.has('conf-password')" class="form-error">{{
-              errors.first('conf-password')
+              $t(errors.first('conf-password'))
             }}</span>
           </div>
 
@@ -70,11 +69,11 @@
             <a
               @click="clearForm()"
               class="modal-close waves-effect waves-light btn wagerr-red-bg"
-              >CANCEL</a
+              >{{ $t('CANCEL') }}</a
             >
 
             <button type="submit" class="waves-effect waves-light btn green">
-              UPDATE
+              {{ $t('UPDATE') }}
             </button>
           </div>
         </div>
@@ -111,7 +110,7 @@ export default {
         .then(function(resp) {
           M.toast({
             html:
-              '<span class="toast__bold-font">Success &nbsp;</span> Wallet password has been updated.',
+              '<span class="toast__bold-font">' + self.$t('Success') + '&nbsp;</span>' + self.$t('Wallet password has been updated.'),
             classes: 'green'
           });
 

@@ -1,6 +1,6 @@
 <template>
   <div id="information">
-    <h4>Wagerr Wallet &amp; Network Info</h4>
+    <h4 v-html="$t('Wagerr Wallet &amp; Network Info')"></h4>
 
     <div class="row text-center">
       <div class="col s6">
@@ -8,19 +8,18 @@
           <table class="main-table card z-depth-2">
             <thead>
               <tr>
-                <th colspan="2">Wallet Info</th>
+                <th colspan="2">{{ $t('Wallet Info') }}</th>
               </tr>
             </thead>
-
             <tbody>
               <tr class="info-row">
-                <th>Wallet Version</th>
+                <th>{{ $t('Wallet Version') }}</th>
 
                 <td class="number">{{ walletVersion }}</td>
               </tr>
 
               <tr class="info-row">
-                <th>Daemon Version</th>
+                <th>{{ $t('Daemon Version') }}</th>
 
                 <td class="number">
                   {{ formatNetworkVersion(getNetworkVersion) }}
@@ -28,13 +27,13 @@
               </tr>
 
               <tr class="info-row">
-                <th>Transactions</th>
+                <th>{{ $t('Transactions') }}</th>
 
-                <td class="number">{{ getTxCount }}</td>
+                <td class="number">{{ $n(getTxCount, 'integer') }}</td>
               </tr>
 
               <tr class="info-row">
-                <th>DataDir</th>
+                <th>{{ $t('DataDir') }}</th>
 
                 <td class="datadir">{{ dataDir }}</td>
               </tr>
@@ -48,32 +47,28 @@
           <table class="main-table card z-depth-2">
             <thead>
               <tr>
-                <th colspan="2">Blockchain Info</th>
+                <th colspan="2">{{ $t('Blockchain Info') }}</th>
               </tr>
             </thead>
 
             <tbody>
               <tr class="info-row">
-                <th>Block Count</th>
-
-                <td class="number">{{ getBlocks }}</td>
+                <th>{{ $t('Block Count') }}</th>
+                <td class="number">{{ $n(getBlocks, 'integer') }}</td>
               </tr>
 
               <tr class="info-row">
-                <th>Last Block</th>
-
+                <th>{{ $t('Last Block') }}</th>
                 <td class="date">{{ this.lastBlockTime }}</td>
               </tr>
 
               <tr class="info-row">
-                <th>Money Supply</th>
-
-                <td class="number">{{ Number(getMoneySupply.toFixed(2)) }}</td>
+                <th>{{ $t('Money Supply') }}</th>
+                <td class="number">{{ $n(getMoneySupply, 'decimalShort') }}</td>
               </tr>
 
               <tr class="info-row">
-                <th>Blockchain Synced</th>
-
+                <th>{{ $t('Blockchain Synced') }}</th>
                 <td class="blockchain-synced">
                   <i
                     :class="[
@@ -96,25 +91,25 @@
           <table class="main-table card z-depth-2">
             <thead>
               <tr>
-                <th colspan="2">Network Info</th>
+                <th colspan="2">{{ $t('Network Info') }}</th>
               </tr>
             </thead>
 
             <tbody>
               <tr class="info-row">
-                <th>Network</th>
+                <th>{{ $t('Network') }}</th>
 
                 <td class="words">{{ getNetworkType }}</td>
               </tr>
 
               <tr class="info-row">
-                <th>Peers</th>
+                <th>{{ $t('Peers') }}</th>
 
-                <td class="number">{{ getNumConnections }}</td>
+                <td class="number">{{ $n(getNumConnections, 'integer') }}</td>
               </tr>
 
               <tr class="info-row">
-                <th>Protocol Version</th>
+                <th>{{ $t('Protocol Version') }}</th>
 
                 <td class="number">{{ getProtocolVersion }}</td>
               </tr>
@@ -128,19 +123,19 @@
           <table class="main-table card z-depth-2">
             <thead>
               <tr>
-                <th colspan="2">MasterNode Info</th>
+                <th colspan="2">{{ $t('MasterNode Info') }}</th>
               </tr>
             </thead>
 
             <tbody>
               <tr class="info-row">
-                <th>Masternodes</th>
+                <th>{{ $t('Masternodes') }}</th>
 
-                <td class="number">{{ getNumMasternodes }}</td>
+                <td class="number">{{ $n(getNumMasternodes, 'integer') }}</td>
               </tr>
 
               <tr class="info-row">
-                <th>Staking Status</th>
+                <th>{{ $t('Staking Status') }}</th>
 
                 <td class="words">
                   <i
@@ -154,7 +149,7 @@
               </tr>
 
               <tr class="info-row">
-                <th>MN Sync Status</th>
+                <th>{{ $t('MN Sync Status') }}</th>
 
                 <td class="words">
                   <i
@@ -251,7 +246,8 @@ export default {
 
         if (this.blockCount !== this.getBlocks) {
           this.blockCount = this.getBlocks;
-          this.lastBlockTime = moment().format('MMM Do YYYY, h:mm:ss a');
+          // TODO this just shows current date, not last block time
+          this.lastBlockTime = moment().format('lll');
         }
       }.bind(this),
       3000
@@ -262,7 +258,7 @@ export default {
     return {
       timeout: 0,
       blockCount: 0,
-      lastBlockTime: moment().format('MMM Do YYYY, h:mm:ss a')
+      lastBlockTime: moment().format('lll')
     };
   },
 

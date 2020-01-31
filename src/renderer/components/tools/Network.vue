@@ -1,6 +1,6 @@
 <template>
   <div id="network" class="settings-sub-section">
-    <h3 class="text-center">Network</h3>
+    <h3 class="text-center">{{ $t('Network') }}</h3>
   </div>
 </template>
 

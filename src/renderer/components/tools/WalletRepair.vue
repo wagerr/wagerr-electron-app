@@ -1,10 +1,10 @@
 <template>
   <div id="wallet-repair" class="settings-sub-section">
-    <h4>Wallet Repair Options</h4>
+    <h4>{{ $t('Wallet Repair Options') }}</h4>
 
     <p>
-      The buttons below will restart the Wagerr wallet with some command line
-      options. Please ensure you back up your wallet.dat before proceeding.
+      {{ $t('The buttons below will restart the Wagerr wallet with some command line  options.') }}
+      {{ $t('Please ensure you back up your wallet.dat before proceeding.') }}
     </p>
 
     <ul class="collection">
@@ -13,12 +13,12 @@
           class="waves-effect waves-light red darken-4 btn"
           @click="salvageWallet"
         >
-          Salvage Wallet
+          {{ $t('Salvage Wallet') }}
         </button>
 
         <span class="command">-salvagewallet</span>
         <span class="desc"
-          >Attempt to recover private keys from corrupt wallet.dat file.</span
+          >{{ $t('Attempt to recover private keys from corrupt wallet.dat file.') }}</span
         >
       </li>
 
@@ -27,12 +27,13 @@
           class="waves-effect waves-light red darken-4 btn"
           @click="rescanBlockchain"
         >
-          Rescan Blockchain Files
+          {{ $t('Rescan Blockchain Files') }}
         </button>
 
         <span class="command">-rescan</span>
-        <span class="desc"
-          >Rescan the block chain for missing transactions.</span
+        <span class="desc">
+          {{ $t('Rescan the blockchain for missing transactions.') }}
+        </span
         >
       </li>
 
@@ -41,13 +42,13 @@
           class="waves-effect waves-light red darken-4 btn"
           @click="recoverTxes1"
         >
-          Recover Transactions 1
+          {{ $t('Recover Transactions 1') }}
         </button>
 
         <span class="command">-zapwallettxes=1</span>
-        <span class="desc"
-          >Recover transactions from block chain, keep meta-data e.g. Account
-          Owner.</span
+        <span class="desc">
+          {{ $t('Recover transactions from blockchain, keep meta-data e.g. Account Owner.') }}
+        </span
         >
       </li>
 
@@ -56,12 +57,13 @@
           class="waves-effect waves-light red darken-4 btn"
           @click="recoverTxes2"
         >
-          Recover Transactions 2
+          {{ $t('Recover Transactions 2') }}
         </button>
 
         <span class="command">-zapwallettxes=2</span>
-        <span class="desc"
-          >Recover transactions from block chain, drop meta-data.</span
+        <span class="desc">
+          {{ $t('Recover transactions from blockchain, drop meta-data.') }}
+        </span
         >
       </li>
 
@@ -70,11 +72,13 @@
           class="waves-effect waves-light red darken-4 btn"
           @click="upgradeWallet"
         >
-          Upgrade Wallet Format
+          {{ $t('Upgrade Wallet Format') }}
         </button>
 
         <span class="command">-upgradewallet</span>
-        <span class="desc">Upgrade wallet to latest format on startup.</span>
+        <span class="desc">
+          {{ $t('Upgrade wallet to latest format on startup.') }}
+        </span>
       </li>
 
       <li class="collection-item">
@@ -82,12 +86,13 @@
           class="waves-effect waves-light  red darken-4 btn"
           @click="reindexBlockchain"
         >
-          Rebuild Index
+          {{ $t('Rebuild Index') }}
         </button>
 
         <span class="command">-reindex</span>
-        <span class="desc"
-          >Rebuild block chain index from current blk000??.dat files.</span
+        <span class="desc">
+          {{ $t('Rebuild blockchain index from current blk000??.dat files.') }}
+        </span
         >
       </li>
 
@@ -96,14 +101,13 @@
           class="waves-effect waves-light red darken-4 btn"
           @click="resyncBlockchain"
         >
-          Delete Block Chain Folders
+          {{ $t('Delete Blockchain') }}
         </button>
 
         <span class="command">-resync</span>
-        <span class="desc"
-          >Delete all local block chain so wallet synchronises from
-          scratch.</span
-        >
+        <span class="desc">
+          {{ $t('Delete all local blockchain so wallet synchronises from scratch.') }}
+        </span>
       </li>
     </ul>
   </div>
@@ -149,3 +153,10 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+  .desc {
+    // In case of long description, this avoids unbalanced column width between rows
+    flex-shrink: 1000;
+  }
+</style>

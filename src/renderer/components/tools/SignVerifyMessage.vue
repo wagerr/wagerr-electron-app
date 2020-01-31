@@ -1,25 +1,28 @@
 <template>
   <div id="sign-verify-message" class="row">
     <div class="col s12">
-      <h4>Sign/Verify Message</h4>
+      <h4>{{ $t('Sign/Verify Message') }}</h4>
       <div class="row content">
         <ul class="tabs">
           <li class="tab col s4 offset-s2 active">
-            <a class="active" href="#sign-message-form">Sign Message</a>
+            <a class="active" href="#sign-message-form">
+              {{ $t('Sign Message') }}
+            </a>
           </li>
 
           <li class="tab col s4">
-            <a href="#verify-message-form">Verify Message</a>
+            <a href="#verify-message-form">
+              {{ $t('Verify Message') }}
+            </a>
           </li>
         </ul>
 
         <div id="sign-message-form" class="sign-message">
           <div>
             <p>
-              You can sign messages with your addresses to prove you own them.
-              Be careful not to sign anything vague, as phishing attacks may try
-              to trick you into signing your identity over to them. Only sign
-              fully-detailed statements you agreed to.
+              {{ $t('You can sign messages with your addresses to prove you own them.') }}
+              {{ $t('Be careful not to sign anything vague, as phishing attacks may try to trick you into signing your identity over to them.') }}
+              {{ $t('Only sign fully-detailed statements you agreed to.') }}
             </p>
           </div>
 
@@ -35,7 +38,9 @@
                 type="text"
               />
 
-              <label for="sign-address">WGR Address</label>
+              <label for="sign-address">
+                {{ $t('WGR Address') }}
+              </label>
 
               <span
                 v-if="errors.has('sign-form.sign-address')"
@@ -55,7 +60,7 @@
                 type="text"
               />
 
-              <label for="sign-message">Message</label>
+              <label for="sign-message">{{ $t('Message') }}</label>
 
               <span
                 v-if="errors.has('sign-form.sign-message')"
@@ -72,11 +77,13 @@
                 id="signed-signature"
                 name="signed-signature"
                 type="text"
-                placeholder="Click sign message to generate a signature"
+                :placeholder="$t('Click sign message to generate a signature')"
                 readonly
               />
 
-              <label for="signed-signature" class="active">Signature</label>
+              <label for="signed-signature" class="active">
+                {{ $t('Signature') }}
+              </label>
             </div>
 
             <div class="col s1">
@@ -93,11 +100,11 @@
               <a
                 @click="clearForms()"
                 class="waves-effect waves-light btn wagerr-red-bg"
-                >Clear Form</a
+                >{{ $t('Clear Form') }}</a
               >
 
               <button type="submit" class="waves-effect waves-light btn green">
-                Sign Message
+                {{ $t('Sign Message') }}
               </button>
             </div>
           </form>
@@ -106,11 +113,8 @@
         <div id="verify-message-form" class="verify-message">
           <div>
             <p>
-              Enter the signing address, message (ensure you copy line breaks,
-              spaces, tabs, etc. exactly) and signature below to verify the
-              message. Be careful not to read more into the signature than what
-              is in the signed message itself, to avoid being tricked by a
-              man-in-the-middle attack.
+              {{ $t('Enter the signing address, message (ensure you copy line breaks, spaces, tabs, etc. exactly) and signature below to verify the message.') }}
+              {{ $t('Be careful not to read more into the signature than what is in the signed message itself, to avoid being tricked by a man-in-the-middle attack.') }}
             </p>
           </div>
 
@@ -129,7 +133,7 @@
                 type="text"
               />
 
-              <label for="verify-address">WGR Address</label>
+              <label for="verify-address">{{ $t('WGR Address') }}</label>
 
               <span
                 v-if="errors.has('verify-form.verify-address')"
@@ -149,7 +153,7 @@
                 type="text"
               />
 
-              <label for="verify-message">Message</label>
+              <label for="verify-message">{{ $t('Message') }}</label>
 
               <span
                 v-if="errors.has('verify-form.verify-message')"
@@ -169,7 +173,7 @@
                 type="text"
               />
 
-              <label for="verified-signature">Signature</label>
+              <label for="verified-signature">{{ $t('Signature') }}</label>
 
               <span
                 v-if="errors.has('verify-form.verified-signature')"
@@ -182,11 +186,11 @@
               <a
                 @click="clearForms()"
                 class="waves-effect waves-light btn wagerr-red-bg"
-                >Clear Form</a
+                >{{ $t('Clear Form') }}</a
               >
 
               <button type="submit" class="waves-effect waves-light btn green">
-                Verify Message
+                {{ $t('Verify Message') }}
               </button>
             </div>
           </form>
@@ -230,22 +234,22 @@ export default {
 
     // Sign a message using wallet private key.
     signTheMessage: function() {
-      let that = this;
+      let self = this;
 
       wagerrRPC.client
         .signMessage(this.signAddress, this.signMessage)
         .then(function(resp) {
           if (resp.error !== 'null') {
-            that.signedSignature = resp.result;
+            self.signedSignature = resp.result;
             M.toast({
               html:
-                '<span class="toast__bold-font">Success &nbsp;</span> Message signed.',
+                '<span class="toast__bold-font">' + self.$t('Success') + '&nbsp;</span> ' + self.$t('Message signed.'),
               classes: 'green'
             });
           } else {
             M.toast({
               html:
-                '<span class="toast__bold-font">Error &nbsp;</span> ' +
+                '<span class="toast__bold-font">' + self.$t('Error') + '&nbsp;</span> ' +
                 resp.error,
               classes: 'wagerr-red-bg'
             });
@@ -259,6 +263,8 @@ export default {
 
     // Verify a message using wallet public key.
     verifyTheMessage: function() {
+      let self = this;
+
       wagerrRPC.client
         .verifyMessage(
           this.verifyAddress,
@@ -269,13 +275,13 @@ export default {
           if (resp.result === true) {
             M.toast({
               html:
-                '<span class="toast__bold-font">Success &nbsp;</span> Message Verified.',
+                '<span class="toast__bold-font">' + self.$t('Success') + ' &nbsp;</span> ' + self.$t('Message Verified.'),
               classes: 'green'
             });
           } else {
             M.toast({
               html:
-                '<span class="toast__bold-font">Error &nbsp;</span> Message could not be verified.',
+                '<span class="toast__bold-font">' + self.$t('Error') + ' &nbsp;</span> ' + self.$t('Message could not be verified.'),
               classes: 'wagerr-red-bg'
             });
           }
@@ -300,7 +306,7 @@ export default {
     copiedAlert() {
       M.toast({
         html:
-          '<span class="toast__bold-font">Success &nbsp;</span> Signed signature copied to clipboard.',
+          '<span class="toast__bold-font">' + this.$t('Success') + '&nbsp;</span> ' + this.$t('Signed signature copied to clipboard.'),
         classes: 'green'
       });
     }

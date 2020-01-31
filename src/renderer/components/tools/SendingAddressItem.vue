@@ -11,7 +11,7 @@
           :class="{ active: editingLabelActions }"
         ></i>
         <label
-          v-text="sendingAddress.label ? sendingAddress.label : '( No Label )'"
+          v-text="sendingAddress.label ? sendingAddress.label : $t('( No Label )')"
           @click="editingLabel = true"
           @mouseover="editingLabelActions = true"
           @mouseleave="editingLabelActions = false"
@@ -26,13 +26,15 @@
         <input
           v-focus="editingLabel"
           class="update-address-label"
-          placeholder="(no label)"
+          :placeholder="$t('(no label)')"
           :value="sendingAddress.label"
           @keyup.enter="doneEditSendingAddress"
           @keyup.esc="cancelEdit"
           @keydown.tab="cancelEdit"
         />
-        <button class="update" @click="doneEditSendingAddress"></button>
+        <button class="update" @click="doneEditSendingAddress">
+          {{ $t('Update') }}
+        </button>
       </div>
     </td>
     <td class="number" :class="{ editing: editingHash }">
@@ -43,7 +45,7 @@
         ></i>
         <span
           v-text="
-            sendingAddress.address ? sendingAddress.address : '( No Address )'
+            sendingAddress.address ? sendingAddress.address : this.$t('( No Address )')
           "
           @click="editingHash = true"
           @mouseover="editingAddressActions = true"
@@ -70,7 +72,9 @@
           @keyup.esc="cancelEdit"
           @keydown.tab="cancelEdit"
         />
-        <button class="update" @click="doneEditSendingAddress"></button>
+        <button class="update" @click="doneEditSendingAddress">
+          {{ $t('Update') }}
+        </button>
       </div>
     </td>
   </tr>
@@ -109,7 +113,7 @@ export default {
         address.label > 0 ? address.label : address.address;
       M.toast({
         html:
-          '<span class="toast__bold-font">Removed Sending Address ' +
+          '<span class="toast__bold-font">' + this.$t('Removed Sending Address: ') +
           updatedAddressDetail +
           '&nbsp;</span>',
         classes: 'red'
@@ -146,7 +150,7 @@ export default {
       var updatedAddressDetail = labelVal.length > 0 ? labelVal : hashVal;
       M.toast({
         html:
-          '<span class="toast__bold-font">Updated Sending Address ' +
+          '<span class="toast__bold-font">' + this.$t('Updated Sending Address: ') +
           updatedAddressDetail +
           '&nbsp;</span>',
         classes: 'green'
@@ -252,9 +256,6 @@ button.update:hover {
   color: $white;
   transition: color 0.2s ease-out;
   background-color: $wagerr-red-dark;
-}
-button.update:after {
-  content: 'update';
 }
 button.update {
   display: inline-block;

@@ -1,4 +1,4 @@
-import { stat } from 'fs';
+import i18n from '../../../common/i18n/i18n';
 import moment from 'moment';
 
 const oddsForBet = {
@@ -77,15 +77,15 @@ const mutations = {
         4: event => (event.odds[0].mlHome > event.odds[0].mlAway ? '+' : '-'),
         5: event => (event.odds[0].mlAway > event.odds[0].mlHome ? '+' : '-')
       };
-      const handicap = `Handicap ${handicap_calc[betItem.outcome](
+      const handicap = `${i18n.t('Handicap')} ${handicap_calc[betItem.outcome](
         eventDetails
       )}${eventDetails.odds[1].spreadPoints / 10}`;
       betItem.handicap = handicap;
     }
     if (betItem.betType === 'total') {
       const total_calc = {
-        6: `Over${eventDetails.odds[2].totalsPoints / 10}`,
-        7: `Under${eventDetails.odds[2].totalsPoints / 10}`
+        6: `${i18n.t('Over')} ${eventDetails.odds[2].totalsPoints / 10}`,
+        7: `${i18n.t('Under')} ${eventDetails.odds[2].totalsPoints / 10}`
       };
       betItem.totalValue = total_calc[betItem.outcome];
     }

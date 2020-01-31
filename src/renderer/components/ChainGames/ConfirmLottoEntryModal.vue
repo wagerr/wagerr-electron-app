@@ -4,16 +4,16 @@
       <div class="modal-content">
         <div class="row">
           <div class="modal-header">
-            <h4>Confirm Lotto Entry</h4>
+            <h4>{{ $t('Confirm Lotto Entry') }}</h4>
           </div>
 
           <div class="options">
             <a class="modal-close waves-effect waves-light btn wagerr-red-bg">
-              Cancel
+              {{ $t('Cancel') }}
             </a>
 
             <button type="submit" class="waves-effect waves-light btn green">
-              Buy Ticket
+              {{ $t('Buy Ticket') }}
             </button>
           </div>
         </div>
@@ -43,15 +43,18 @@ export default {
 
     // Purchase a lotto entry for the given event.
     placeCGLottoBet: function() {
+      let self = this;
+
       wagerrRPC.client
-        .placeChainGamesBet(this.gameID, this.entryFee)
+        .placeChainGamesBet(self.gameID, self.entryFee)
         .then(function(resp) {
           // If bet was successful then display bet  to the user.
           if (resp.error !== 'null') {
             M.toast({
               html:
-                '<span class="toast__bold-font">Success &nbsp;</span> your bet has been placed: ' +
-                resp.result,
+                `<span class="toast__bold-font">${self.$t('Success')}</span>&nbsp;
+                ${self.$t('Your bet has been placed:')}&nbsp;
+                ${resp.result}`,
               classes: 'green'
             });
 
@@ -64,7 +67,7 @@ export default {
           else {
             M.toast({
               html:
-                '<span class="toast__bold-font">Error &nbsp;</span> ' +
+                '<span class="toast__bold-font">' + self.$t('Error') + '&nbsp;</span> ' +
                 resp.result,
               classes: 'wagerr-red-bg'
             });

@@ -11,7 +11,9 @@
         </div>
 
         <div class="col s12 text-center">
-          <h5 class="wagerr-red address-label">YOUR WAGERR ADDRESS</h5>
+          <h5 class="wagerr-red address-label">
+            {{ $t('YOUR WAGERR ADDRESS') }}
+          </h5>
 
           <h5 class="address">{{ accountAddress }}</h5>
         </div>
@@ -21,7 +23,7 @@
             <span
               class="inner-circle tooltipped"
               data-position="bottom"
-              data-tooltip="Copy"
+              :data-tooltip="$t('Copy')"
             >
               <a
                 v-clipboard="accountAddress"
@@ -37,13 +39,13 @@
             <span
               class="inner-circle tooltipped"
               data-position="bottom"
-              data-tooltip="Email"
+              :data-tooltip="$t('Email')"
             >
               <a
                 class="circle-icon-link"
                 :href="
-                  'mailto:wagerr@example.com?Subject=Wagerr Wallet Address&Body=My Wagerr address is: ' +
-                    accountAddress
+                  `mailto:wagerr@example.com?Subject=${this.$t('Wagerr Wallet Address')}
+                  &Body=${this.$t('My Wagerr address is:')} ${accountAddress}`
                 "
                 target="_top"
               >
@@ -56,7 +58,7 @@
             <span
               class="inner-circle tooltipped"
               data-position="bottom"
-              data-tooltip="Open in block explorer"
+              :data-tooltip="$t('Open in block explorer')"
             >
               <a class="circle-icon-link" @click="blockExplorerUrl">
                 <i class="fas fa-link"></i>
@@ -91,7 +93,10 @@ export default {
     copiedAlert: function() {
       M.toast({
         html:
-          '<span class="toast__bold-font">Success &nbsp;</span> Address copied to your clipboard.',
+          `<span class="toast__bold-font">
+            ${this.$t('Success')} &nbsp;
+          </span>
+          ${this.$t('Address copied to your clipboard.')}`,
         classes: 'green'
       });
     },

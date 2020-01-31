@@ -11,8 +11,8 @@
         <el-row>
           <div class="modal-text text-center">
             <h4 class="modal-font">
-              Step 1
-              <br />Enter the address to send 25,000 WGR.
+              {{ $t('Step 1') }}
+              <br />{{ $t('Enter the address to send 25,000 WGR.') }}
             </h4>
           </div>
 
@@ -28,10 +28,10 @@
               autofocus
             />
 
-            <label for="send-address">Pay To</label>
+            <label for="send-address">{{ $t('Pay To') }}</label>
 
             <span v-if="errors.has('send-address')" class="form-error">{{
-              errors.first('send-address')
+              $t(errors.first('send-address'))
             }}</span>
           </div>
 
@@ -46,7 +46,7 @@
               type="text"
             />
 
-            <label for="label">Label</label>
+            <label for="label">{{ $t('Label') }}</label>
 
             <span v-if="errors.has('label')" class="form-error">{{
               errors.first('label')
@@ -58,10 +58,10 @@
             type="submit"
             class="send waves-effect waves-red wallet-action btn modal-trigger wagerr-red-bg z-depth-2"
           >
-            Send
+            {{ $t('Send') }}
           </button>
-          <a class="btn" @click="clearForm()">CLEAR</a>
-          <a class="btn" @click="onSkip()">SKIP</a>
+          <a class="btn" @click="clearForm()">{{ $t('CLEAR') }}</a>
+          <a class="btn" @click="onSkip()">{{ $t('SKIP') }}</a>
         </el-row>
       </form>
     </div>
@@ -123,7 +123,7 @@ export default {
 
     // Send a Wagerr transaction.
     sendTransaction: function() {
-      let that = this;
+      let self = this;
       this.getAccountAddress();
 
       // Retrieve the wallet UTXOs (unspent outputs)
@@ -138,17 +138,20 @@ export default {
             UTXOAmount += resp.result[i].amount;
             utxos.push(resp.result[i]);
 
-            if (UTXOAmount > that.amount) {
+            if (UTXOAmount > self.amount) {
               utxos = JSON.stringify(utxos);
               break;
             }
           }
 
           // Ensure we have enough Wagerr to cover the TX.
-          if (UTXOAmount < that.amount) {
+          if (UTXOAmount < self.amount) {
             M.toast({
               html:
-                '<span class="toast__bold-font">Error &nbsp;</span> Not enough WGR to send transaction.',
+                `<span class="toast__bold-font">
+                  ${ self.$t('Error') } &nbsp;
+                </span>
+                ${ self.$t('Not enough WGR to send transaction.') }`,
               classes: 'wagerr-red-bg'
             });
             return;
@@ -156,13 +159,13 @@ export default {
 
           let json =
             '{"' +
-            that.sendAddress +
+            self.sendAddress +
             '":' +
-            that.amount +
+            self.amount +
             ', "' +
-            that.accountAddress +
+            self.accountAddress +
             '":' +
-            (UTXOAmount - that.txFee - that.amount) +
+            (UTXOAmount - self.txFee - self.amount) +
             '}';
 
           // Create the raw send transaction.
@@ -184,16 +187,18 @@ export default {
                       // Sent transaction succesfully.
                       M.toast({
                         html:
-                          '<span class="toast__bold-font">Success &nbsp;</span> Transaction sent ' +
-                          resp.result,
+                          `<span class="toast__bold-font">
+                            ${ self.$t('Success') } &nbsp;
+                          </span>
+                          ${ self.$t('Transaction sent {0}', resp.result) }`,
                         classes: 'green'
                       });
 
                       // Clear the sent TX form data and any errors.
-                      that.clearForm();
+                      self.clearForm();
                     })
                     .then(function() {
-                      that.onSkip();
+                      self.onSkip();
                     })
                     .catch(function(err) {
                       M.toast({

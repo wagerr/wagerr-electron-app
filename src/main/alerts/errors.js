@@ -1,14 +1,15 @@
-const { app, dialog, BrowserWindow } = require('electron');
+import { app, dialog, BrowserWindow } from 'electron';
+import i18n from '../../common/i18n/i18n';
 
 function deamonRunningError() {
   dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
     type: 'error',
-    title: 'Wagerr daemon already running!',
-    buttons: ['Confirm'],
-    message: 'Wagerr daemon already running!',
+    title: i18n.t('Warning'),
+    buttons: [i18n.t('Confirm')],
+    message: i18n.t('Wagerr daemon already running!'),
     defaultId: 0,
     detail:
-      'Detected a running wagerrd process! \n\n Warning: Running this wallet with an already running deamon can cause inconsistent behaviour.'
+      i18n.t('Detected a running wagerrd process!') + '\n\n' + i18n.t('Warning: Running this wallet with an already running deamon can cause inconsistent behaviour.')
   });
   app.quit();
 }
@@ -16,11 +17,12 @@ function deamonRunningError() {
 function noPeersConnectionError() {
   dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
     type: 'error',
-    title: 'Wagerr Network Error',
-    buttons: ['Confirm'],
-    message: 'Could not connect to the Wagerr network!',
+    title: i18n.t('Wagerr Network Error'),
+    buttons: [i18n.t('Confirm')],
+    message: i18n.t('Could not connect to the Wagerr network!'),
     detail:
-      'No peers found. \n\nWarning: Some wallet features may not work without a Wagerr network connection.'
+      `${i18n.t('No peers found.')}
+      ${i18n.t('Warning: Some wallet features may not work without a Wagerr network connection.')}`
   });
 }
 
@@ -37,9 +39,9 @@ function wagerrdStopped() {
 function wagerrdError(err) {
   dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
     type: 'error',
-    title: 'Wagerr daemon error!',
-    buttons: ['OK'],
-    message: 'Wagerr Daemon Error!',
+    title: i18n.t('Error!'),
+    buttons: [i18n.t('OK')],
+    message: i18n.t('Wagerr Daemon Error!'),
     detail: err.toString()
   });
 }
@@ -49,10 +51,10 @@ function wagerrdUnresponsive() {
     BrowserWindow.getFocusedWindow(),
     {
       type: 'warning',
-      buttons: ['Wait', 'Quit'],
-      title: 'Wagerr Unresponsive',
+      buttons: [i18n.t('Wait'), i18n.t('Quit')],
+      title: i18n.t('Wagerr Unresponsive'),
       defaultId: 1,
-      message: 'WAGERR is not responding. Would you like to quit?',
+      message: i18n.t('Wagerr is not responding. Would you like to quit?'),
       cancelId: 0
     },
     buttonIndex => {

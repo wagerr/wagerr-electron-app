@@ -6,16 +6,16 @@
       <div class="modal-content">
         <div class="row">
           <div class="modal-header">
-            <h4>Encrypt Wallet</h4>
+            <h4>{{ $t('Encrypt Wallet') }}</h4>
           </div>
 
           <div class="modal-text">
             <p class="modal-font">
-              Enter the new password which will be used to unlock your wallet.
+              {{ $t('Enter the new password which will be used to unlock your wallet.') }}
             </p>
 
             <p class="gray">
-              (Please use a secure password of seven or more random characters.)
+              {{ $t('(Please use a secure password of seven or more random characters.)') }}
             </p>
           </div>
 
@@ -31,10 +31,10 @@
               type="password"
             />
 
-            <label for="password">Password</label>
+            <label for="password">{{ $t('Password') }}</label>
 
             <span v-if="errors.has('password')" class="form-error">{{
-              errors.first('password')
+              $t(errors.first('password'))
             }}</span>
           </div>
 
@@ -49,10 +49,10 @@
               type="password"
             />
 
-            <label for="confirm-password">Confirm Password</label>
+            <label for="confirm-password">{{ $t('Confirm Password') }}</label>
 
             <span v-if="errors.has('confirm-password')" class="form-error">{{
-              errors.first('confirm-password')
+              $t(errors.first('confirm-password'))
             }}</span>
           </div>
 
@@ -60,11 +60,11 @@
             <a
               @click="clearForm"
               class="modal-close waves-effect waves-light btn wagerr-red-bg"
-              >Cancel</a
+              >{{ $t('Cancel') }}</a
             >
 
             <button type="submit" class="waves-effect waves-light btn green">
-              Encrypt
+              {{ $t('Encrypt') }}
             </button>
           </div>
         </div>
@@ -103,7 +103,7 @@ export default {
       // Notify they user that the encryption can take a while.
       M.toast({
         html:
-          '<span class="toast__bold-font">Success &nbsp;</span> Wallet is encrypting, this may take a while.',
+          '<span class="toast__bold-font">' + this.$t('Success') + '&nbsp;</span>' + this.$t('Wallet is encrypting, this may take a while.'),
         classes: 'green'
       });
 
@@ -114,7 +114,7 @@ export default {
           // Notify the user that the encryption was successful and the wallet will restart soon.
           M.toast({
             html:
-              '<span class="toast__bold-font">Success &nbsp;</span> Wallet has been encrypted and will restart in a few seconds.',
+              '<span class="toast__bold-font">' + self.$t('Success') + '&nbsp;</span>' + self.$t('Wallet has been encrypted and will restart in a few seconds.'),
             classes: 'green'
           });
 

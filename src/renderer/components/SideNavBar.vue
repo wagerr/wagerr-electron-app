@@ -5,29 +5,37 @@
       <li
         v-for="sport in topSports"
         :key="sport.name"
-        v-bind:class="{ on: getEventsSportFilter === resolveSportId(sport) }"
+        v-bind:class="{ on: getEventsSportFilter === sport.id }"
       >
-        <div class="parent">
-          <a @click="filterEventsBySport(resolveSportId(sport))">
-            <i :class="sport.icon"></i>
-            <span>{{ sport.name }}</span>
-            <span
-              v-if="getNEvents(resolveSportId(sport)) > 0"
-              class="pull-right n-events"
-            >
-              <small>({{ getNEvents(resolveSportId(sport)) }})</small>
-            </span>
-          </a>
-        </div>
+        <a @click="filterEventsBySport(sport.id)" :title="sport.name">
+          <div class="parent flex-sport">
+            <div>
+              <i :class="sport.icon"></i>
+            </div>
+            <div class="col-sport-name">
+              <div class="sport-name">{{ sport.name }}</div>
+            </div>
+            <div>
+              <span
+                v-if="getNEvents(sport.id) > 0"
+                class="pull-right n-events"
+              >
+                <small>
+                  ({{ getNEvents(sport.id) }})
+                </small>
+              </span>
+            </div>
+          </div>
+        </a>
         <ul
           class="tournaments-dropdown"
           v-if="
-            getEventsSportFilter === resolveSportId(sport) &&
-              hasTournaments(sport.name)
+            getEventsSportFilter === sport.id &&
+              hasTournaments(sport.id)
           "
         >
           <li
-            v-for="tournament in getTournaments(sport.name)"
+            v-for="tournament in getTournaments(sport.id)"
             :key="tournament"
             @click="filterEventsByTournament(tournament)"
             v-bind:class="{ on: getEventsTournamentFilter === tournament }"
@@ -45,29 +53,37 @@
       <li
         v-for="sport in otherSports"
         :key="sport.name"
-        v-bind:class="{ on: getEventsSportFilter === resolveSportId(sport) }"
+        v-bind:class="{ on: getEventsSportFilter === sport.id }"
       >
-        <div class="parent">
-          <a @click="filterEventsBySport(resolveSportId(sport))">
-            <i :class="sport.icon"></i>
-            <span>{{ sport.name }}</span>
-            <span
-              v-if="getNEvents(resolveSportId(sport)) > 0"
-              class="pull-right n-events"
-            >
-              <small>({{ getNEvents(resolveSportId(sport)) }})</small>
-            </span>
-          </a>
-        </div>
+        <a @click="filterEventsBySport(sport.id)" :title="sport.name">
+          <div class="parent flex-sport">
+            <div>
+              <i :class="sport.icon"></i>
+            </div>
+            <div class="col-sport-name">
+              <div class="sport-name">{{ sport.name }}</div>
+            </div>
+            <div>
+              <span
+                v-if="getNEvents(sport.id) > 0"
+                class="pull-right n-events"
+              >
+                <small>
+                  ({{ getNEvents(sport.id) }})
+                </small>
+              </span>
+            </div>
+          </div>
+        </a>
         <ul
           class="tournaments-dropdown"
           v-if="
-            getEventsSportFilter === resolveSportId(sport) &&
-              hasTournaments(sport.name)
+            getEventsSportFilter === sport.id &&
+              hasTournaments(sport.id)
           "
         >
           <li
-            v-for="tournament in getTournaments(sport.name)"
+            v-for="tournament in getTournaments(sport.id)"
             :key="tournament"
             @click="filterEventsByTournament(tournament)"
             v-bind:class="{ on: getEventsTournamentFilter === tournament }"
@@ -84,14 +100,14 @@
 
 <script>
 import Vuex from 'vuex';
-import { SPORTS_AVAILABLE } from '../../main/constants/constants';
+import { SPORTS_AVAILABLE } from '../constants/constants';
 
 export default {
   name: 'SideNavBar',
 
   data: () => {
     return {
-      sportsAvailable: [...SPORTS_AVAILABLE]
+      sportsAvailable: [...SPORTS_AVAILABLE()]
     };
   },
 
@@ -133,12 +149,9 @@ export default {
     filterEventsByTournament: async function(tournamentFilter) {
       await this.updateEventsTournamentFilter(tournamentFilter);
       await this.listEvents();
+
       this.$emit('needsScroll');
     },
-
-    resolveSportId: sport => {
-      return sport.id === '' || sport.id ? sport.id : sport.name;
-    }
   }
 };
 </script>
@@ -146,6 +159,10 @@ export default {
 <style lang="scss" scoped>
 @import '../assets/scss/_variables.scss';
 
+h5 {
+  padding-left: 0 !important;
+  text-align: center;
+}
 .side-nav {
   margin-top: 7px;
   display: table;
@@ -181,6 +198,23 @@ nav ul li {
   border-top: solid 1px #414141;
   display: block;
   cursor: pointer;
+
+  div.flex-sport {
+    display: flex;
+    flex-wrap: wrap;
+
+    .col-sport-name {
+      flex: 1;
+      min-width: 0;
+      padding-right: 5px;
+
+      .sport-name {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
 }
 
 nav ul li {
