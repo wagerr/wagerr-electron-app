@@ -22,10 +22,7 @@ import BetTransactionList from '@/components/BetHistory/BetTransactionList.vue';
 
 export default {
   name: 'BetHistory',
-  components: { BetTransactionList },
 
-  mounted: function() {
-    this.$initMaterialize();
-  }
+  components: { BetTransactionList }
 };
 </script>
