@@ -39,7 +39,7 @@
             <i class="navico-gear"></i>
             <h6>Settings</h6>
           </div>
-          <el-dropdown-menu slot="dropdown">
+          <el-dropdown-menu slot="dropdown" class="topnav-dropdown">
             <el-dropdown-item v-if="!walletEncrypted">
               <a @click="openModal('encrypt-wallet')">
                 <i class="icon-file-lock"></i>
@@ -153,6 +153,11 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+  @import '../assets/scss/element-ui';
+  // Dropdown list
+  @include dropdown(topnav-dropdown, #212529);
+</style>
 
 <style scoped lang="scss">
 @import '@/assets/scss/_variables';
@@ -178,10 +183,6 @@ export default {
       margin-top: 4px;
     }
   }
-}
-
-.dropdown-content {
-  background-color: $gray-900;
 }
 
 .el-dropdown {
@@ -214,6 +215,21 @@ ul.el-dropdown-menu {
         float: left;
       }
     }
+  }
+}
+
+// Dropdown button
+.el-dropdown {
+  width: 100%;
+  color: white;
+  height: 100%;
+
+  // - Fixes behaviour of dropdown div trigger
+  div.el-dropdown-selfdefine {
+    width:100%;
+    height: 100%;
+    position:absolute;
+    outline: none;
   }
 }
 </style>

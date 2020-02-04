@@ -1,23 +1,45 @@
-// Overrides some element-ui css rules
+// Overrides some element-ui css
+@import "variables";
+
 .el-tooltip__popper {
   padding: 10px 8px;
   font-size: 1rem;
   line-height: 120%;
 }
 
-// These rules override dropdown
-// - changes color of arrow on top of dropdown menu
-.el-popper[x-placement^=bottom] .popper__arrow {
-  border-bottom-color: #212529;
-}
-.el-popper[x-placement^=bottom] .popper__arrow::after {
-  border-bottom-color: #212529;
+@mixin dropdown($className, $color) {
+  .#{$className}.el-dropdown-menu {
+    background-color: $color;
+    margin-top: 0;
+    border: 0;
+    border-radius: 0;
 
-}
-// - Fixes behaviour of dropdown div trigger
-div.el-dropdown-selfdefine {
-  width:100%;
-  height: 100%;
-  position:absolute;
-  outline: none;
+    li.el-dropdown-menu__item {
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+
+      a {
+        font-size: 13px;
+        padding: 8px 16px;
+        color: white;
+
+        i {
+          color: $wagerr-red;
+          font-size: 1.3em;
+          margin: 10px 0 0 0 !important;
+          font-weight: 600;
+          float: left;
+        }
+      }
+    }
+
+    &.el-popper[x-placement^=bottom] .popper__arrow {
+      border-bottom-color: $color;
+    }
+
+    &.el-popper[x-placement^=bottom] .popper__arrow::after {
+      border-bottom-color: $color;
+    }
+  }
 }
