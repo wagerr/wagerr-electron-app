@@ -10,7 +10,7 @@
 @mixin dropdown($className, $color) {
   .#{$className}.el-dropdown-menu {
     background-color: $color;
-    margin-top: 0;
+    margin-top: 0 !important;
     border: 0;
     border-radius: 0;
 
