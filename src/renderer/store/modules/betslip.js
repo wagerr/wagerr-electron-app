@@ -10,8 +10,9 @@ const oddsForBet = {
   7: event => event.odds[2].totalsUnder
 };
 
-const state = {
-  betSlip: []
+const initialState = {
+  betSlip: [],
+  betType: 'single' // 'single' | 'multi'
 };
 
 const getters = {
@@ -21,7 +22,9 @@ const getters = {
 
   getNumBets: state => {
     return state.betSlip ? state.betSlip.length : 0;
-  }
+  },
+
+  betType: stateData => stateData.betType
 };
 
 const actions = {
@@ -29,7 +32,7 @@ const actions = {
     commit('addBet', betData);
   },
 
-  removeBetFromSlip({ commit, state }, betId) {
+  removeBetFromSlip({ commit }, betId) {
     commit('removeBet', betId);
   },
 
@@ -39,10 +42,19 @@ const actions = {
 
   updateBet({ commit }, { betItem, eventDetails }) {
     commit('updateBetSlipEventDetails', { betItem, eventDetails });
+  },
+
+  setBetType({ commit }, betType) {
+    commit('setBetType', betType);
+    commit('clearSlip');
   }
 };
 
 const mutations = {
+  setBetType(state, betType) {
+    state.betType = betType;
+  },
+
   addBet(state, betDetails) {
     state.betSlip.push(betDetails);
   },
@@ -55,7 +67,7 @@ const mutations = {
     if (betIndex >= 0) {
       betSlip.splice(betIndex, 1);
     } else {
-      //TODO show a dialog error message and log the error
+      // TODO show a dialog error message and log the error
     }
   },
 
@@ -70,7 +82,7 @@ const mutations = {
     // prob move to another place listenign to changes
     const odds = oddsForBet[betItem.outcome](eventDetails);
     betItem.odds = odds;
-    // Todo: from Eventlist, need refactoring
+    // TODO: from Eventlist, need refactoring
     if (betItem.betType === 'spread') {
       const handicap_calc = {
         4: event => (event.odds[0].mlHome > event.odds[0].mlAway ? '+' : '-'),
@@ -81,6 +93,7 @@ const mutations = {
       )}${eventDetails.odds[1].spreadPoints / 10}`;
       betItem.handicap = handicap;
     }
+
     if (betItem.betType === 'total') {
       const total_calc = {
         6: `Over${eventDetails.odds[2].totalsPoints / 10}`,
@@ -88,8 +101,9 @@ const mutations = {
       };
       betItem.totalValue = total_calc[betItem.outcome];
     }
+
     // copied from eventList filter
-    //TODO centralize this code (also found on events store):
+    // TODO: centralize this code (also found on events store):
     if (
       eventDetails.starting - 12 * 60 > moment().unix() &&
       eventDetails.starting <
@@ -104,7 +118,7 @@ const mutations = {
 };
 
 export default {
-  state,
+  state: initialState,
   getters,
   actions,
   mutations
