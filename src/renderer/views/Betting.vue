@@ -27,21 +27,22 @@
 </template>
 
 <script>
-import bettingNav from '@/components/betting/bettingNav';
-import SideNavBar from '@/components/SideNavBar';
-import BetSlip from '@/components/betting/components/BetSlip';
-import EventList from '@/components/betting/components/EventList';
 import { mapGetters } from 'vuex';
+
+// import bettingNav from '@/components/betting/bettingNav.vue';
+import SideNavBar from '@/components/SideNavBar.vue';
+import BetSlip from '@/components/betting/components/BetSlip.vue';
+import EventList from '@/components/betting/components/EventList.vue';
 
 export default {
   name: 'Betting',
-  components: { SideNavBar, bettingNav, EventList, BetSlip },
+  components: { SideNavBar, /* bettingNav, */ EventList, BetSlip },
   computed: {
     ...mapGetters(['getOddsFormats', 'getOddsFormat'])
   },
   methods: {
-    scrollToTop: function() {
-      window.scrollTo(0,0);
+    scrollToTop() {
+      window.scrollTo(0, 0);
     }
   }
 };

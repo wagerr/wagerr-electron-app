@@ -57,7 +57,7 @@ function noPeers() {
 
 async function stopDaemon() {
   const res = await ipcRenderer.sendSync('stop-daemon');
-  console.log('Daemon has stopped with res: ' + res);
+  console.log(`Daemon has stopped with res: ${res}`);
   return res;
 }
 

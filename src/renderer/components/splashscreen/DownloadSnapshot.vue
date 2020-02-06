@@ -1,15 +1,20 @@
 <template>
   <div class="col s12" style="margin-bottom:10px">
-    <div v-if="this.syncMethod === this.syncMethods.SCAN_BLOCKS">      
-      <button 
+    <div v-if="this.syncMethod === this.syncMethods.SCAN_BLOCKS">
+      <button
         class="waves-effect waves-light btn transparent"
         @click="onDownloadSnapshot"
       >
         Download Snapshot
-      </button>       
+      </button>
     </div>
-    <div v-else-if="this.syncMethod === this.syncMethods.DOWNLOAD_SNAPSHOT && this.isDownloading">
-      <button 
+    <div
+      v-else-if="
+        this.syncMethod === this.syncMethods.DOWNLOAD_SNAPSHOT &&
+          this.isDownloading
+      "
+    >
+      <button
         class="waves-effect waves-light btn transparent"
         @click="onCancelDownload"
       >
@@ -36,13 +41,12 @@ import { getWagerrDataPath } from '../../../main/blockchain/blockchain';
 
 export default {
   name: 'DownloadSnapshot',
-
   props: ['syncMethod', 'timeBehindText'],
 
   data() {
     return {
       progressPercentage: 0,
-      syncMethods: {...syncMethods},
+      syncMethods: { ...syncMethods },
       snapshotPath: '',
       isDownloading: false
     };
@@ -130,7 +134,11 @@ export default {
     },
 
     updateProgressPercentageText() {
-      this.updateInitText(`Downloading blockchain snapshot: ${Math.round(this.progressPercentage)}%`);
+      this.updateInitText(
+        `Downloading blockchain snapshot: ${Math.round(
+          this.progressPercentage
+        )}%`
+      );
     },
 
     async downloadSnapshot(url) {
@@ -147,9 +155,11 @@ export default {
           } else {
             fs.writeFileSync(dest, fileData);
           }
-        });
+        } else {
+          fs.writeFileSync(dest, fileData);
+        }
+      });
     },
-
     unzipSnapshot: async function() {
       const ext = path.extname(this.snapshotPath);
       const filename = path.basename(this.snapshotPath, ext);
@@ -218,10 +228,9 @@ export default {
 <style scoped>
 .btn {
   overflow: hidden;
-
 }
 .btn:hover:before {
-  opacity:1;
+  opacity: 1;
 }
 .btn:before {
   content: '';
@@ -232,7 +241,7 @@ export default {
   height: 100%;
   left: 0;
   top: 0;
-  transition: opacity .2s;
+  transition: opacity 0.2s;
   z-index: -1;
 }
 </style>

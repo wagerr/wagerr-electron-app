@@ -146,7 +146,8 @@ export default class Daemon {
       `-rpcbind=127.0.0.1`,
       `-rpcallowip=127.0.0.1`,
       `-rpcport=${blockchain.rpcPort}`,
-      `-server=1`
+      `-server=1`,
+      `-testnet=${Number(blockchain.testnet)}`
     ];
 
     // Add Supplied args if any.

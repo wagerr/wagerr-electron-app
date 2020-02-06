@@ -25,7 +25,7 @@ const actions = {
 
 const mutations = {
   updateEventsDataCache(state, events) {
-    let tournamentsBySport = new Map();
+    const tournamentsBySport = new Map();
     let nEventsBySport = new Map();
 
     events.forEach(event => {

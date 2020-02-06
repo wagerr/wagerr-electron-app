@@ -116,6 +116,7 @@
     "find-process": "^1.4.4",
     "fs-extra": "^9.0.1",
     "jszip": "^3.5.0",
+    "lodash": "^4.17.15",
     "materialize-css": "^1.0.0",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.32",

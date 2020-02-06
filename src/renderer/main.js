@@ -6,15 +6,16 @@ import VeeValidate from 'vee-validate';
 import VueClipboards from 'vue-clipboards';
 
 import ElementUI from 'element-ui';
-import router from './router';
-import store from './store/index';
-import App from './App';
-import 'element-ui/lib/theme-chalk/index.css';
 import locale from 'element-ui/lib/locale/lang/en';
 
+import router from './router';
+import store from './store';
+import App from './App.vue';
+
 // Import frontend framework
-import 'materialize-css/dist/css/materialize.css'
-import 'materialize-css/dist/js/materialize.js'
+import 'element-ui/lib/theme-chalk/index.css';
+import 'materialize-css/dist/css/materialize.css';
+import 'materialize-css/dist/js/materialize';
 
 import PerfectScrollbar from 'vue2-perfect-scrollbar'
 import 'vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css'
