@@ -1,100 +1,46 @@
 <template>
-  <div id="bet-slip">
-    <h4 v-if="betSlip.length > 0">
-      Bet slip
+  <div id="bet-slip" class="bet-slip">
+    <h4>
+      <span
+        :class="[
+          'bet-slip__bet-type-btn',
+          { 'bet-slip__bet-type-btn--active': betType === 'single' }
+        ]"
+        @click="setBetType('single')"
+      >
+        Single
+      </span>
+      |
+      <span
+        :class="[
+          'bet-slip__bet-type-btn',
+          { 'bet-slip__bet-type-btn--active': betType === 'multi' }
+        ]"
+        @click="setBetType('multi')"
+      >
+        Multi
+      </span>
+
       <button
+        v-if="getNumBets > 0"
         class="btn pull-right waves-effect waves-light"
         @click="clearBetSlip"
       >
         Clear Slip
       </button>
     </h4>
-    <h4 v-else>Bet slip</h4>
 
     <div class="bet-list-scroll">
-      <div class="bet-list" v-if="betSlip.length > 0">
+      <div v-if="getNumBets > 0" class="bet-list">
         <ul>
-          <li v-for="(bet, index) in betSlip" :key="bet.betId" class="card">
-            <div class="bet-details">
-              <div class="bet-slip-pair">
-                {{ bet.eventDetails.teams.home }} vs
-                {{ bet.eventDetails.teams.away }}
-              </div>
-
-              <a
-                class="clear-bet pull-right"
-                @click="removeBetFromSlip(bet.betId)"
-              >
-                <i>&times;</i>
-              </a>
-
-              <div class="clearfix"></div>
-
-              <div class="selection">
-                <h6>Your Pick:</h6>
-                <span v-if="bet.betType != 'total'" class="winner">
-                  {{ bet.winner }}
-                </span>
-                <span v-if="bet.betType == 'total'" class="odds pull-right">
-                  {{ bet.totalValue }}
-                </span>
-                <span v-if="bet.betType == 'spread'" class="odds pull-right">
-                  {{ bet.handicap }}
-                </span>
-                <span class="odds pull-right">{{ convertOdds(bet.odds) }}</span>
-              </div>
-
-              <div class="input-field bet-stake-container">
-                <div class="stake-input">
-                  <input
-                    :id="bet.betId"
-                    class="bet-stake validate"
-                    name="Bet Id"
-                    type="text"
-                    maxlength="10"
-                    :disabled="bet.availability === false"
-                    v-on:input="calcPotentialWinnings($event, bet.odds, index)"
-                    :placeholder="inputBetPlaceholder(bet)"
-                  />
-                  <span
-                    class="helper-text"
-                    data-error="Invalid Stake"
-                    data-success
-                  ></span>
-                </div>
-                <div class="stake-button">
-                  <button
-                    :disabled="isProcessingBet"
-                    :id="'place-bet-button-' + index"
-                    class="pull-right btn disabled"
-                    @click="placeBet(bet.betId)"
-                  >
-                    Bet
-                  </button>
-                </div>
-              </div>
-
-              <div
-                :id="'bet-warning-' + index"
-                class="bet-warning display-none"
-              ></div>
-
-              <div class="bet-returns">
-                <span class="pull-left potential-returns-headline">
-                  Potential Returns:
-                </span>
-
-                <span
-                  :id="'potential-returns-' + index"
-                  class="potential-returns pull-right"
-                >
-                  0 {{ getNetworkType === 'Testnet' ? 'tWGR' : 'WGR' }}
-                </span>
-
-                <div class="clear"></div>
-              </div>
-            </div>
-          </li>
+          <li
+            is="bet-card"
+            v-for="bet in betSlip"
+            :key="bet.betId"
+            :bet="bet"
+            :place-bet="placeBet"
+            :wagerr-code="wagerrCode"
+          ></li>
         </ul>
       </div>
 
@@ -105,6 +51,50 @@
           <p>Please make one or more selections in order to place bets.</p>
         </div>
       </div>
+    </div>
+
+    <div v-if="betType === 'multi'" class="bet-slip__multi-summary">
+      <div>Total Legs: {{ getNumBets }}</div>
+      <div class="input-field">
+        <div class="bet-slip__multi-summary-bet">
+          <label class="bet-slip__multi-summary-bet-label" for="multi-bet">
+            Bet
+          </label>
+          <input
+            id="multi-bet"
+            v-model="multiBet"
+            class="bet-stake validate"
+            name="Bet Id"
+            type="text"
+            maxlength="10"
+            placeholder="Enter Bet"
+          />
+        </div>
+      </div>
+
+      <div
+        :class="[
+          'bet-slip__warning',
+          'bet-slip__warning--light',
+          { 'display-none': showMultiBetWarning.length === 0 }
+        ]"
+      >
+        {{ showMultiBetWarning }}
+      </div>
+
+      <div class="bet-slip__multi-summary-return">
+        To Win: {{ multiPotentialWinnings }} {{ wagerrCode }}
+      </div>
+
+      <button
+        class="btn waves-effect waves-light"
+        :class="{
+          disabled: showMultiBetWarning.length !== 0 || multiBetNumber === 0
+        }"
+        @click.prevent="placeBet()"
+      >
+        Place Bet
+      </button>
     </div>
   </div>
 </template>
@@ -117,9 +107,18 @@ import wagerrRPC from '@/services/api/wagerrRPC';
 import blockchainRPC from '@/services/api/blockchain_rpc';
 import ipcRenderer from '../../../../common/ipc/ipcRenderer';
 import { bettingParams } from '../../../../main/constants/constants';
+import BetCard from '@/components/betting/components/BetCard.vue';
 
 export default {
   name: 'BetSlip',
+
+  components: { BetCard },
+
+  data() {
+    return {
+      multiBet: ''
+    };
+  },
 
   computed: {
     ...mapGetters([
@@ -130,11 +129,9 @@ export default {
       'getNumBets',
       'getNetworkType',
       'convertOdds',
-      'getShowNetworkShare'
-    ]),
-    isProcessingBet() {
-      return this.processingBet;
-    }
+      'getShowNetworkShare',
+      'betType'
+    ])
   },
 
   data() {
@@ -143,189 +140,74 @@ export default {
     }
   },
 
-  methods: {
-    ...mapActions(['addToBetSlip', 'removeBetFromSlip', 'clearBetSlip']),
-
-    inputBetPlaceholder: function(bet) {
-      return bet.availability === true ? 'Enter Bet Stake' : 'Not Available';
+    wagerrCode() {
+      return this.getNetworkType === 'Testnet' ? ' tWGR' : ' WGR';
     },
 
-    // Calculate the potential winnings of a bet.
-    calcPotentialWinnings: function(event, odds, index) {
-      odds = odds / bettingParams.ODDS_DIVISOR;
-      const betFeePercent = bettingParams.NETWORK_SHARE;
-      const betStake = event.target.value;
-      const grossWinnings = odds * betStake;
-      const grossProfit = grossWinnings - betStake;
-      const betFee = grossProfit * betFeePercent;
-      const netWinnings = grossWinnings - betFee;
-      const returnsElem = document.getElementById('potential-returns-' + index);
-      const wagerrCode = this.getNetworkType === 'Testnet' ? ' tWGR' : ' WGR';
+    multiBetNumber() {
+      return this.multiBet.length > 0 ? parseInt(this.multiBet, 10) : 0;
+    },
 
-      // If the bet stake is more than the available balance, disable the bet button and show a warning.
-      if (this.showBetWarning(betStake, index)) {
-        returnsElem.innerText = 0 + ' ' + wagerrCode;
-      } else {
-        returnsElem.innerText = netWinnings.toFixed(8) + ' ' + wagerrCode;
+    showMultiBetWarning() {
+      if (this.betSlip.some(bet => bet.availability === false)) {
+        return 'Sorry, you can not make a bet within 12 minutes of the Event.';
       }
-    },
 
-    showBetWarning: function(betStake, index) {
-      const placeBetButton = document.getElementById(
-        'place-bet-button-' + index
-      );
-      const warningElem = document.getElementById('bet-warning-' + index);
-      const wagerrCode = this.getNetworkType === 'Testnet' ? ' tWGR' : ' WGR';
-      let showWarning = false;
+      if (this.multiBetNumber === 0) {
+        return '';
+      }
 
-      if (betStake.length === 0) {
-        placeBetButton.classList.add('disabled');
-        warningElem.classList.add('display-none');
-        showWarning = true;
-      } else if (isNaN(betStake)) {
-        placeBetButton.classList.add('disabled');
-        warningElem.classList.remove('display-none');
-        warningElem.innerText = 'Bet stake must be a number.';
-        showWarning = true;
-      } else if (this.balance < betStake && this.pending > betStake) {
-        placeBetButton.classList.add('disabled');
-        warningElem.classList.remove('display-none');
-        warningElem.innerText =
-          'Available balance too low. Please wait for your pending balance of ' +
-          this.pending +
-          ' ' +
-          wagerrCode +
-          ' to be confirmed.';
-        showWarning = true;
-      } else if (this.balance < betStake && this.immature > betStake) {
-        placeBetButton.classList.add('disabled');
-        warningElem.classList.remove('display-none');
-        warningElem.innerText =
-          'Available balance too low. Please wait for your immature balance of ' +
-          this.immature +
-          ' ' +
-          wagerrCode +
-          ' to be confirmed.';
-        showWarning = true;
-      } else if (
-        betStake < bettingParams.MIN_BET_AMOUNT ||
-        betStake > bettingParams.MAX_BET_AMOUNT
+      if (
+        this.balance < this.multiBetNumber &&
+        this.pending > this.multiBetNumber
       ) {
-        placeBetButton.classList.add('disabled');
-        warningElem.classList.remove('display-none');
-        warningElem.innerText =
-          'Incorrect bet amount. Please ensure your bet is between 25 - 10000 ' +
-          wagerrCode +
-          ' inclusive.';
-        showWarning = true;
-      } else if (this.balance < betStake) {
-        placeBetButton.classList.add('disabled');
-        warningElem.classList.remove('display-none');
-        warningElem.innerText = 'Available balance too low.';
-        showWarning = true;
-      } else {
-        placeBetButton.classList.remove('disabled');
-        warningElem.classList.add('display-none');
-        showWarning = false;
+        return `Available balance too low. Please wait for your pending balance of ${this.pending} ${this.wagerrCode} to be confirmed.`;
       }
 
-      return showWarning;
-    },
-
-    async isSyncValid() {
-      let durationBehind = await blockchainRPC.getBlockDurationBehind();
-      return durationBehind.asMinutes() < 10;
-    },
-
-    // Place a bet on a given event and sent the tx to the Wagerr blockchain.
-    async placeBet(betId) {
-      this.processingBet = true;
-
-      // Check if wallet is synced (10min behind max)
-      if (!await this.isSyncValid()) {
-        remote.dialog.showMessageBox(remote.BrowserWindow.getFocusedWindow(), {
-          type: 'error',
-          title: 'Error Placing Bet',
-          message: `Your bet could not be placed because your wallet is out of sync`,
-          detail: 'Your wallet will restart to sync',
-          buttons: ['Ok, restart wallet'],
-        });
-
-        ipcRenderer.restartWalletForce();
-        this.processingBet = false;
-
-      } else {
-        let betInfo, betAmount, eventId, self = this;
-
-        betInfo = this.betSlip.find(item => item.betId === betId);
-        betAmount = parseFloat(document.getElementById(betId).value);
-        eventId = parseInt(betInfo.eventDetails.event_id);
-
-        wagerrRPC.client
-          .placeBet(eventId, betInfo.outcome, betAmount)
-          .then(function(resp) {
-            // If bet was successful then display bet TX-ID to the user.
-            if (resp.error !== 'null') {
-              M.toast({
-                html:
-                  '<span class="toast__bold-font">Success &nbsp;</span> your bet has been placed: ' +
-                  resp.result,
-                classes: 'green'
-              });
-
-              self.removeBetFromSlip(betId);
-            }
-            // If bet was unsuccessful then show error to the user.
-            else {
-              M.toast({
-                html:
-                  '<span class="toast__bold-font">Error &nbsp;</span> ' +
-                  resp.result,
-                classes: 'wagerr-red-bg'
-              });
-            }
-          })
-          .catch(function(err) {
-            // TODO Parse the error from the response.
-            M.toast({ html: err, classes: 'wagerr-red-bg' });
-            console.error(err);
-          })
-          .finally(() => {
-            self.processingBet = false;
-          });
+      if (
+        this.balance < this.multiBetNumber &&
+        this.immature > this.multiBetNumber
+      ) {
+        return `Available balance too low. Please wait for your immature balance of ${this.immature} ${this.wagerrCode} to be confirmed.`;
       }
+
+      if (
+        this.multiBetNumber < bettingParams.MIN_BET_AMOUNT ||
+        this.multiBetNumber > bettingParams.MAX_BET_AMOUNT
+      ) {
+        return `Incorrect bet amount. Please ensure your bet is between 25 - 10000 ${this.wagerrCode} inclusive.`;
+      }
+
+      if (this.balance < this.multiBetNumber) {
+        return 'Available balance too low.';
+      }
+
+      return '';
     },
 
-    handleScroll(event) {
-      // Get the bet slip.
-      let navbar = document.getElementById('bet-slip');
-
-      // Get the offset position of the navbar.
-      let sticky = navbar.offsetTop;
-
-      if (window.pageYOffset >= sticky) {
-        navbar.classList.add('sticky');
-      } else {
-        navbar.classList.remove('sticky');
+    multiPotentialWinnings() {
+      if (this.showMultiBetWarning.length !== 0 || this.betSlip.length === 0) {
+        return (0).toFixed(8);
       }
-    }
-  },
+
+      const odds = this.betSlip.reduce(
+        (acc, bet) => acc * (bet.odds / bettingParams.ODDS_DIVISOR),
+        1
+      );
+      const grossWinnings = odds * this.multiBetNumber;
+      const grossProfit = grossWinnings - this.multiBetNumber;
+      const betFee = grossProfit * bettingParams.NETWORK_SHARE;
+
+      return (grossWinnings - betFee).toFixed(8);
+    },
 
   watch: {
-    betSlip: {
-      handler(newBets, oldBets) {
-        newBets.forEach(function(newBet, index) {
-          if (newBet.availability === false) {
-            document.getElementById(newBet.betId).value = '';
-            document.getElementById('bet-warning-' + index).innerText =
-              'Sorry, you can not make a bet within 12 minutes of the Event.';
-            document
-              .getElementById('bet-warning-' + index)
-              .classList.remove('hide');
-          }
-        });
-      },
-      deep: true
+    multiBet: function multiBetWatch(value, oldValue) {
+      if (value !== oldValue && /^\d{0,10}$/g.test(value)) {
+        this.multiBet = value;
+      } else {
+        this.multiBet = oldValue;
+      }
     }
   },
 
@@ -335,12 +217,86 @@ export default {
 
   destroyed() {
     window.removeEventListener('scroll', this.handleScroll);
+  },
+
+  methods: {
+    ...mapActions([
+      'addToBetSlip',
+      'removeBetFromSlip',
+      'clearBetSlip',
+      'setBetType'
+    ]),
+
+    async isSyncValid() {
+      let durationBehind = await blockchainRPC.getBlockDurationBehind();
+      return durationBehind.asMinutes() < 10;
+    },
+
+    // Place a bet on a given event and sent the tx to the Wagerr blockchain.
+    async placeBet(betId, eventId, outcome, betAmount) {
+      // Check if wallet is synced (10min behind max)
+      if (!await this.isSyncValid()) {
+        remote.dialog.showMessageBox(remote.BrowserWindow.getFocusedWindow(), {
+          type: 'error',
+          title: 'Error Placing Bet',
+          message: `Your bet could not be placed because your wallet is out of sync`,
+          detail: 'Your wallet will restart to sync',
+          buttons: ['Ok, restart wallet']
+        });
+      } else {
+        const self = this;
+
+        wagerrRPC.client
+          .placeBet(eventId, outcome, betAmount)
+          .then(resp => {
+            // If bet was successful then display bet TX-ID to the user.
+            if (resp.error !== 'null') {
+              M.toast({
+                html: `<span class="toast__bold-font">Success &nbsp;</span> your bet has been placed: ${resp.result}`,
+                classes: 'green'
+              });
+
+              self.removeBetFromSlip(betId);
+
+              return true;
+            }
+            // If bet was unsuccessful then show error to the user.
+            M.toast({
+              html: `<span class="toast__bold-font">Error &nbsp;</span> ${resp.result}`,
+              classes: 'wagerr-red-bg'
+            });
+
+            return false;
+          })
+          .catch(err => {
+            // TODO Parse the error from the response.
+            M.toast({ html: err, classes: 'wagerr-red-bg' });
+            console.error(err);
+
+            return false;
+          });
+      }
+    },
+
+    handleScroll() {
+      // Get the bet slip.
+      const navbar = document.getElementById('bet-slip');
+
+      // Get the offset position of the navbar.
+      const sticky = navbar.offsetTop;
+
+      if (window.pageYOffset >= sticky) {
+        navbar.classList.add('sticky');
+      } else {
+        navbar.classList.remove('sticky');
+      }
+    }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-@import '../../../assets/scss/_variables.scss';
+@import '~@/assets/scss/variables';
 
 .bet-slip-div {
   margin-top: 25px;
@@ -394,12 +350,6 @@ export default {
         margin: 0;
         padding: 0;
         li.card {
-          background: transparent;
-          color: $gray-900;
-          padding: 0 0 10px;
-          box-shadow: none;
-          border: 2px solid $wagerr-red;
-          margin: 0 0 15px;
           .bet-details {
             padding: 0;
             position: relative;
@@ -435,7 +385,6 @@ export default {
               }
             }
             .selection {
-              color: $gray-900;
               font-weight: 700;
               padding: 15px 10px 10px;
               font-size: 16px;
@@ -583,5 +532,56 @@ export default {
   font-size: 12px;
   margin: 5px;
   padding: 10px;
+}
+
+.bet-slip {
+  display: flex;
+  flex-direction: column;
+
+  &__bet-type-btn {
+    cursor: pointer;
+
+    &--active {
+      color: $wagerr-red-light;
+    }
+  }
+
+  &__multi-summary {
+    background: $gray-900;
+    color: $white;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Montserrat', monospace;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 10px;
+  }
+
+  &__multi-summary-bet {
+    display: flex;
+    align-items: baseline;
+  }
+
+  &__multi-summary-bet-label {
+    margin-right: 1rem;
+  }
+
+  &__multi-summary-return {
+    margin-bottom: 1rem;
+  }
+
+  & /deep/ &__warning {
+    color: $white;
+    background: $gray-900;
+    border-radius: 5px;
+    font-size: 12px;
+    margin: 5px;
+    padding: 10px;
+
+    &--light {
+      color: inherit;
+      background-color: $wagerr-red;
+    }
+  }
 }
 </style>
