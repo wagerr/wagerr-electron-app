@@ -1,6 +1,7 @@
+import * as blockchain from 'src/main/blockchain/blockchain';
+
 import wagerrRPC from '@/services/api/wagerrRPC';
 import walletRPC from '@/services/api/wallet_rpc';
-import * as blockchain from '../../../main/blockchain/blockchain';
 import {walletState} from '@/constants/constants';
 
 const packageJSON = require('../../../../package.json');

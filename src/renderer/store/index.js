@@ -8,12 +8,13 @@ const modulesFiles = require.context('./modules', true, /\.js$/);
 
 // You do not need `import app from './modules/app'` it will auto require all
 // Vuex module from modules file.
-const modules = modulesFiles.keys().reduce((modules, modulePath) => {
+const modules = modulesFiles.keys().reduce((modulesAcc, modulePath) => {
   // set './app.js' => 'app'
   const moduleName = modulePath.replace(/^\.\/(.*)\.\w+$/, '$1');
   const value = modulesFiles(modulePath);
-  modules[moduleName] = value.default;
-  return modules;
+  // eslint-disable-next-line no-param-reassign
+  modulesAcc[moduleName] = value.default;
+  return modulesAcc;
 }, {});
 
 export default new Vuex.Store({

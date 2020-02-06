@@ -12,51 +12,49 @@
                   <td>Odds Display</td>
                   <td class="aligncenter">
                     <div class="inline">
-                        <p>
-                          <label>
-                            <input
-                              name="oddsFormat"
-                              type="radio"
-                              id="odds_choice_decimal"
-                              :value="getOddsFormats.decimal"
-                              @change="changeOddsFormat"
-                              :checked="
-                                oddsFormatChecked(getOddsFormats.decimal)
-                              "
-                            />
-                            <span>Decimal</span>
-                          </label>
-                        </p>
-                        <p>
-                          <label>
-                            <input
-                              name="oddsFormat"
-                              type="radio"
-                              id="odds_choice_fraction"
-                              :value="getOddsFormats.fraction"
-                              @change="changeOddsFormat"
-                              :checked="
-                                oddsFormatChecked(getOddsFormats.fraction)
-                              "
-                            />
-                            <span>Fraction</span>
-                          </label>
-                        </p>
-                        <p>
-                          <label>
-                            <input
-                              name="oddsFormat"
-                              type="radio"
-                              id="odds_choice_american"
-                              :value="getOddsFormats.american"
-                              @change="changeOddsFormat"
-                              :checked="
-                                oddsFormatChecked(getOddsFormats.american)
-                              "
-                            />
-                            <span>American</span>
-                          </label>
-                        </p>
+                      <p>
+                        <label>
+                          <input
+                            name="oddsFormat"
+                            type="radio"
+                            id="odds_choice_decimal"
+                            :value="getOddsFormats.decimal"
+                            @change="changeOddsFormat"
+                            :checked="oddsFormatChecked(getOddsFormats.decimal)"
+                          />
+                          <span>Decimal</span>
+                        </label>
+                      </p>
+                      <p>
+                        <label>
+                          <input
+                            name="oddsFormat"
+                            type="radio"
+                            id="odds_choice_fraction"
+                            :value="getOddsFormats.fraction"
+                            @change="changeOddsFormat"
+                            :checked="
+                              oddsFormatChecked(getOddsFormats.fraction)
+                            "
+                          />
+                          <span>Fraction</span>
+                        </label>
+                      </p>
+                      <p>
+                        <label>
+                          <input
+                            name="oddsFormat"
+                            type="radio"
+                            id="odds_choice_american"
+                            :value="getOddsFormats.american"
+                            @change="changeOddsFormat"
+                            :checked="
+                              oddsFormatChecked(getOddsFormats.american)
+                            "
+                          />
+                          <span>American</span>
+                        </label>
+                      </p>
                       <br />
                     </div>
                   </td>
@@ -65,39 +63,43 @@
                   <td>Timezone</td>
                   <td class="aligncenter">
                     <div class="inline">
-                        <p>
-                          <label>
-                            <input
-                              name="timezoneOption"
-                              type="radio"
-                              value="auto"
-                              @change="changeTimezoneOption"
-                              :checked="getTimezoneOption === 'auto'"
-                            />
-                            <span>Auto-detect</span>
-                          </label>
-                        </p>
-                        <p>
-                          <label>
-                            <input
-                              name="timezoneOption"
-                              type="radio"
-                              value="fixed"
-                              @change="changeTimezoneOption"
-                              :checked="getTimezoneOption === 'fixed'"
-                            />
-                            <span>Fixed</span>
-                          </label>
-                        </p>
-                        <select
-                          class="browser-default timezone"
-                          :disabled="getTimezoneOption === 'auto'"
-                          @change="changeTimezone"
+                      <p>
+                        <label>
+                          <input
+                            name="timezoneOption"
+                            type="radio"
+                            value="auto"
+                            @change="changeTimezoneOption"
+                            :checked="getTimezoneOption === 'auto'"
+                          />
+                          <span>Auto-detect</span>
+                        </label>
+                      </p>
+                      <p>
+                        <label>
+                          <input
+                            name="timezoneOption"
+                            type="radio"
+                            value="fixed"
+                            @change="changeTimezoneOption"
+                            :checked="getTimezoneOption === 'fixed'"
+                          />
+                          <span>Fixed</span>
+                        </label>
+                      </p>
+                      <select
+                        class="browser-default timezone"
+                        :disabled="getTimezoneOption === 'auto'"
+                        @change="changeTimezone"
+                      >
+                        <option
+                          v-for="tz in timezones"
+                          :selected="tz === getTimezone"
+                          :key="tz"
                         >
-                            <option v-for="tz in timezones" :selected="tz === getTimezone" :key="tz">
-                              {{ tz }}
-                            </option>
-                        </select>
+                          {{ tz }}
+                        </option>
+                      </select>
                       <br />
                     </div>
                   </td>
@@ -194,7 +196,7 @@ export default {
       'walletEncrypted'
     ]),
 
-    'timezones': function() {
+    timezones: function() {
       return moment.tz.names();
     }
   },

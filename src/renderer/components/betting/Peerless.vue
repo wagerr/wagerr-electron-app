@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import BetSlip from '@/components/betting/components/BetSlip';
-import EventList from '@/components/betting/components/EventList';
+import BetSlip from '@/components/betting/components/BetSlip.vue';
+import EventList from '@/components/betting/components/EventList.vue';
 
 export default {
   name: 'Peerless',

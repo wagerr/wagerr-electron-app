@@ -112,7 +112,7 @@ const actions = {
       // is update the timezone value with a new guess at which timezone the
       // user is in. This solves the problem of a laptop user moving across
       // timezones or DST starting/ending.
-      let tzOption = preferencesStore.get('timezoneOption');
+      const tzOption = preferencesStore.get('timezoneOption');
       dispatch('updateTimezoneOption', tzOption);
       if (tzOption === 'auto') {
         dispatch('updateTimezone', moment.tz.guess());

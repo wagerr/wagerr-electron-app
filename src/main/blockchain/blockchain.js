@@ -13,20 +13,19 @@ const minTxFee = 0.0001;
 const dustLimit = 0.0000546;
 
 // Define some env values.
-const environment = 
-  {
-    DEVELOPMENT: 'development',
-    TEST: 'test',
-    PRODUCTION: 'production',
-    NETWORK: process.env.NETWORK,
-    PLATFORM: process.platform,
-    ENV: process.env,
-    current: process.env.NODE_ENV,
-    isDev: () => environment.current === environment.DEVELOPMENT,
-    isTest: () => environment.current === environment.TEST,
-    isProduction: () => environment.current === environment.PRODUCTION,
-    isMainnet: () => environment.NETWORK === 'mainnet'
-  };
+const environment = {
+  DEVELOPMENT: 'development',
+  TEST: 'test',
+  PRODUCTION: 'production',
+  NETWORK: process.env.NETWORK,
+  PLATFORM: process.platform,
+  ENV: process.env,
+  current: process.env.NODE_ENV,
+  isDev: () => environment.current === environment.DEVELOPMENT,
+  isTest: () => environment.current === environment.TEST,
+  isProduction: () => environment.current === environment.PRODUCTION,
+  isMainnet: () => environment.NETWORK === 'mainnet'
+};
 
 // If the user has not specified a rpcuser and rpcpassword in their wagerr.conf
 // then generate random RFC4122 version 4 compliant UUIDs for them. Be aware

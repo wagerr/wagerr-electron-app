@@ -65,8 +65,10 @@ import networkRPC from '../../services/api/network_rpc';
 import ipcRenderer from '../../../common/ipc/ipcRenderer';
 import { getWagerrConfPath } from '../../../main/blockchain/blockchain';
 import DownloadSnapshot from './DownloadSnapshot.vue';
-import { blockchainSnapshot, syncMethods } from '../../../main/constants/constants';
-
+import {
+  blockchainSnapshot,
+  syncMethods
+} from '../../../main/constants/constants';
 
 export default {
   name: 'SplashScreen',
@@ -129,15 +131,15 @@ export default {
 
       if (durationBehind.asDays() < 2) {
         timeBehindText = `${Math.ceil(durationBehind.asHours())} hours behind`;
-
       } else if (durationBehind.asWeeks() < 2) {
         timeBehindText = `${Math.ceil(durationBehind.asDays())} days behind`;
-
       } else if (durationBehind.asYears() < 1) {
-        timeBehindText = `${Math.ceil((durationBehind.asWeeks()))}  weeks behind`;
-
+        timeBehindText = `${Math.ceil(durationBehind.asWeeks())}  weeks behind`;
       } else {
-        const weeksBehind = Math.ceil(durationBehind.asWeeks() - moment.duration(durationBehind.years(), 'years').asWeeks());
+        const weeksBehind = Math.ceil(
+          durationBehind.asWeeks() -
+            moment.duration(durationBehind.years(), 'years').asWeeks()
+        );
         timeBehindText = `${durationBehind.years()} year and ${weeksBehind} weeks behind`;
       }
 
