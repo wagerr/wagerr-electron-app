@@ -109,9 +109,8 @@
                     event.teams.home,
                     event.odds[1].spreadHome,
                     'spread',
-                    `Handicap ${
-                      event.odds[0].mlHome > event.odds[0].mlAway ? '+' : '-'
-                    }${event.odds[1].spreadPoints / 10}`,
+                    `Handicap ${mlWinner === 'home' ? '+' : '-'}${event.odds[1]
+                      .spreadPoints / 10}`,
                     null
                   )
                 "
@@ -122,9 +121,9 @@
                 <template v-else>
                   <span class="pull-left">
                     {{
-                      `${
-                        event.odds[0].mlHome > event.odds[0].mlAway ? '+' : '-'
-                      } ${event.show.spreadPointsOdds}`
+                      `${mlWinner === 'home' ? '+' : '-'} ${
+                        event.show.spreadPointsOdds
+                      }`
                     }}
                   </span>
 
@@ -148,9 +147,8 @@
                     event.teams.away,
                     event.odds[1].spreadAway,
                     'spread',
-                    `Handicap ${
-                      event.odds[0].mlAway > event.odds[0].mlHome ? '+' : '-'
-                    }${event.odds[1].spreadPoints / 10}`,
+                    `Handicap ${mlWinner === 'away' ? '+' : '-'}${event.odds[1]
+                      .spreadPoints / 10}`,
                     null
                   )
                 "
@@ -161,9 +159,9 @@
                 <template v-else>
                   <span class="pull-left">
                     {{
-                      `${
-                        event.odds[0].mlAway > event.odds[0].mlHome ? '+' : '-'
-                      } ${event.show.spreadPointsOdds}`
+                      `${mlWinner === 'away' ? '+' : '-'} ${
+                        event.show.spreadPointsOdds
+                      }`
                     }}
                   </span>
 
@@ -249,13 +247,13 @@ import { mapGetters, mapActions } from 'vuex';
 import uniqueId from 'lodash/uniqueId';
 
 const multiDisabled = {
-  1: [1, 2, 3, 5, 7],
-  2: [1, 2, 3, 4, 6],
-  3: [1, 2, 3, 4, 5, 6, 7],
-  4: [2, 3, 4, 5, 7],
-  5: [1, 3, 4, 5, 6],
-  6: [2, 3, 5, 6, 7],
-  7: [1, 3, 4, 6, 7]
+  1: [1, 2, 3],
+  2: [1, 2, 3],
+  3: [1, 2, 3, 4, 5],
+  4: [4, 5],
+  5: [4, 5],
+  6: [6, 7],
+  7: [6, 7]
 };
 
 export default {
@@ -270,6 +268,21 @@ export default {
 
   computed: {
     ...mapGetters(['betType', 'betSlip', 'eventsList']),
+    mlWinner() {
+      const {
+        odds: [{ mlHome, mlAway }]
+      } = this.event;
+
+      if (mlHome > mlAway) {
+        return 'home';
+      }
+
+      if (mlAway > mlHome) {
+        return 'away';
+      }
+
+      return 'equal';
+    },
     disabledButtons() {
       if (this.betType === 'single' || this.betSlip.length === 0) {
         return new Set();
@@ -278,6 +291,14 @@ export default {
       const result = this.betSlip.reduce((set, bet) => {
         if (bet.eventDetails.event_id === this.event.event_id) {
           set.push(...multiDisabled[bet.outcome]);
+
+          if (bet.outcome === 1 && this.mlWinner === 'home') {
+            set.push(5);
+          }
+
+          if (bet.outcome === 2 && this.mlWinner === 'away') {
+            set.push(4);
+          }
         }
 
         return set;
