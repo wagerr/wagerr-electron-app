@@ -156,7 +156,7 @@ export default {
           acc.show[key] = text;
           return acc;
         },
-        { hasSearchTerm: false, show: { ...events.show } }
+        { hasSearchTerm: false, show: { ...event.show } }
       );
     },
 
