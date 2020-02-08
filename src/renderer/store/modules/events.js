@@ -1,7 +1,7 @@
 import moment from 'moment';
 import wagerrRPC from '@/services/api/wagerrRPC';
 
-const state = {
+const initialState = {
   eventsSportFilter: '',
   eventsTournamentFilter: '',
   eventsList: {}
@@ -65,22 +65,22 @@ function treatListEventErr(err) {
 }
 
 const actions = {
-  updateEventsSportFilter({ commit, state }, sport) {
+  updateEventsSportFilter({ commit }, sport) {
     commit('setEventsSportFilter', sport);
   },
-  updateEventsTournamentFilter({ commit, state }, tournament) {
+  updateEventsTournamentFilter({ commit }, tournament) {
     commit('setEventsTournamentFilter', tournament);
   },
 
   // TODO it would be nice to be able to send empty/null parameters to the rpc api, now we have to call twice to the library like below (code duplication):
   // * One option is to modify wagerrd-rpc library so it ignores null/undefined parameters, the only caveat is that all parameters after a null have to be null as well
   // * Another option is to modify the endpoint so it can interpret some string as an empty value
-  listEvents({ dispatch, commit, state }, filter) {
+  listEvents({ dispatch, commit, state }) {
     return new Promise((resolve, reject) => {
       if (state.eventsSportFilter) {
         wagerrRPC.client
           .listEvents(state.eventsSportFilter)
-          .then(function(resp) {
+          .then(resp => {
             // We filter events and update the cache
             let events = filterEventsForCache(resp.result);
             dispatch('updateEventsDataCache', events, { root: true });
@@ -92,14 +92,14 @@ const actions = {
             commit('setEventsList', events);
             resolve();
           })
-          .catch(function(err) {
+          .catch(err => {
             treatListEventErr(err, reject);
             reject(err);
           });
       } else {
         wagerrRPC.client
           .listEvents()
-          .then(function(resp) {
+          .then(resp => {
             // We filter events jand update the cache
             let events = filterEventsForCache(resp.result);
             dispatch('updateEventsDataCache', events, { root: true });
@@ -111,14 +111,14 @@ const actions = {
             commit('setEventsList', events);
             resolve();
           })
-          .catch(function(err) {
+          .catch(err => {
             treatListEventErr(err, reject);
             reject(err);
           });
       }
     });
   },
-  // Todo: remove, used for testing atm, because, no tests
+  // TODO: remove, used for testing atm, because, no tests
   testlistEvents({ commit, state, getters }) {
     // es = new ElectronStore()
     // preferences.set("eventsList", getters.eventsList);
@@ -142,7 +142,7 @@ const mutations = {
 };
 
 export default {
-  state,
+  state: initialState,
   getters,
   actions,
   mutations

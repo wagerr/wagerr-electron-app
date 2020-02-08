@@ -1,4 +1,4 @@
-const state = {
+const initialState = {
   tournamentsBySport: new Map(),
   nEventsBySport: new Map()
 };
@@ -71,7 +71,7 @@ function treatSport(event, nEventsBySport) {
 }
 
 export default {
-  state,
+  state: initialState,
   getters,
   actions,
   mutations
