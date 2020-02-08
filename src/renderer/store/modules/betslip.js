@@ -80,26 +80,25 @@ const mutations = {
     // depending on bet outcome
     betItem.eventDetails = eventDetails;
     // prob move to another place listenign to changes
-    const odds = oddsForBet[betItem.outcome](eventDetails);
-    betItem.odds = odds;
+    betItem.odds = oddsForBet[betItem.outcome](eventDetails);
     // TODO: from Eventlist, need refactoring
     if (betItem.betType === 'spread') {
-      const handicap_calc = {
+      const handicapCalc = {
         4: event => (event.odds[0].mlHome > event.odds[0].mlAway ? '+' : '-'),
         5: event => (event.odds[0].mlAway > event.odds[0].mlHome ? '+' : '-')
       };
-      const handicap = `Handicap ${handicap_calc[betItem.outcome](
+
+      betItem.handicap = `Handicap ${handicapCalc[betItem.outcome](
         eventDetails
       )}${eventDetails.odds[1].spreadPoints / 10}`;
-      betItem.handicap = handicap;
     }
 
     if (betItem.betType === 'total') {
-      const total_calc = {
+      const totalCalc = {
         6: `Over${eventDetails.odds[2].totalsPoints / 10}`,
         7: `Under${eventDetails.odds[2].totalsPoints / 10}`
       };
-      betItem.totalValue = total_calc[betItem.outcome];
+      betItem.totalValue = totalCalc[betItem.outcome];
     }
 
     // copied from eventList filter
@@ -111,6 +110,7 @@ const mutations = {
           .add(13, 'days')
           .unix()
     ) {
+
     } else {
       betItem.availability = false;
     }

@@ -1,12 +1,11 @@
 <template>
   <li class="card event">
     <div class="event__tournament">
-      <span>
-        {{ `${event.show.tournament} (Event ID: ${event.show.eventId})` }}
+      <span
+        v-html="`${event.show.tournament} (Event ID: ${event.show.eventId})`"
+      >
       </span>
-      <span>
-        {{ event.show.starting }}
-      </span>
+      <span v-html="event.show.starting"></span>
     </div>
 
     <div class="event__details">
@@ -30,13 +29,9 @@
 
     <div class="row event__pair">
       <div class="col s12 m4">
-        <div class="event__team">
-          {{ event.show.homeTeam }}
-        </div>
+        <div class="event__team" v-html="event.show.homeTeam"></div>
 
-        <div class="event__team">
-          {{ event.show.awayTeam }}
-        </div>
+        <div class="event__team" v-html="event.show.awayTeam"></div>
 
         <div class="event__team">
           Draw
@@ -59,9 +54,10 @@
                     event.odds[0].mlHome
                   )
                 "
-              >
-                {{ event.odds[0].mlHome === 0 ? '-' : event.show.mlHomeOdds }}
-              </button>
+                v-html="
+                  event.odds[0].mlHome === 0 ? '-' : event.show.mlHomeOdds
+                "
+              ></button>
             </div>
 
             <div class="event__odd">
@@ -76,9 +72,10 @@
                     event.odds[0].mlAway
                   )
                 "
-              >
-                {{ event.odds[0].mlAway === 0 ? '-' : event.show.mlAwayOdds }}
-              </button>
+                v-html="
+                  event.odds[0].mlAway === 0 ? '-' : event.show.mlAwayOdds
+                "
+              ></button>
             </div>
 
             <div class="event__odd">
@@ -88,9 +85,10 @@
                 @click="
                   createBet(event.event_id, 3, 'Draw', event.odds[0].mlDraw)
                 "
-              >
-                {{ event.odds[0].mlDraw === 0 ? '-' : event.show.mlDrawOdds }}
-              </button>
+                v-html="
+                  event.odds[0].mlDraw === 0 ? '-' : event.show.mlDrawOdds
+                "
+              ></button>
             </div>
           </div>
 
@@ -119,17 +117,18 @@
                   -
                 </template>
                 <template v-else>
-                  <span class="pull-left">
-                    {{
+                  <span
+                    class="pull-left"
+                    v-html="
                       `${mlWinner === 'home' ? '+' : '-'} ${
                         event.show.spreadPointsOdds
                       }`
-                    }}
-                  </span>
-
-                  <span class="pull-right">
-                    {{ event.show.spreadHomeOdds }}
-                  </span>
+                    "
+                  ></span>
+                  <span
+                    class="pull-right"
+                    v-html="event.show.spreadHomeOdds"
+                  ></span>
                 </template>
               </button>
             </div>
@@ -157,17 +156,18 @@
                   -
                 </template>
                 <template v-else>
-                  <span class="pull-left">
-                    {{
+                  <span
+                    class="pull-left"
+                    v-html="
                       `${mlWinner === 'away' ? '+' : '-'} ${
                         event.show.spreadPointsOdds
                       }`
-                    }}
-                  </span>
-
-                  <span class="pull-right">
-                    {{ event.show.spreadAwayOdds }}
-                  </span>
+                    "
+                  ></span>
+                  <span
+                    class="pull-right"
+                    v-html="event.show.spreadAwayOdds"
+                  ></span>
                 </template>
               </button>
             </div>
@@ -197,10 +197,11 @@
                   -
                 </template>
                 <template v-else>
-                  <span class="event__button-totalnum">
-                    {{ `(0${event.show.totalsPointsOdds})` }}
-                  </span>
-                  {{ event.show.totalsOverOdds }}
+                  <span
+                    class="event__button-totalnum"
+                    v-html="`(0${event.show.totalsPointsOdds})`"
+                  ></span>
+                  <span v-html="event.show.totalsOverOdds"></span>
                 </template>
               </button>
             </div>
@@ -227,10 +228,11 @@
                   -
                 </template>
                 <template v-else>
-                  <span class="event__button-totalnum">
-                    {{ `(U${event.show.totalsPointsOdds})` }}
-                  </span>
-                  {{ event.show.totalsUnderOdds }}
+                  <span
+                    class="event__button-totalnum"
+                    v-html="`(U${event.show.totalsPointsOdds})`"
+                  ></span>
+                  <span v-html="event.show.totalsUnderOdds"></span>
                 </template>
               </button>
             </div>
