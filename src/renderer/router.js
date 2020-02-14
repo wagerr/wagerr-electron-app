@@ -10,12 +10,12 @@ import Masternodes from './views/Masternodes.vue';
 import Tools from './views/Tools.vue';
 import Preferences from './views/Preferences.vue';
 // Tool Components
-import Information from '@/components/tools/Information';
-import AddressBook from '@/components/tools/AddressBook';
-import SignVerifyMessage from '@/components/tools/SignVerifyMessage';
-import Network from '@/components/tools/Network';
+import Information from '@/components/tools/Information.vue';
+import AddressBook from '@/components/tools/AddressBook.vue';
+import SignVerifyMessage from '@/components/tools/SignVerifyMessage.vue';
+import Network from '@/components/tools/Network.vue';
 import Peers from '@/components/tools/Peers.vue';
-import WalletRepair from '@/components/tools/WalletRepair';
+import WalletRepair from '@/components/tools/WalletRepair.vue';
 import MasternodesContent from '@/components/tools/MasternodesContent.vue';
 
 // Inject the router into the app.
