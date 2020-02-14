@@ -321,16 +321,12 @@ export default {
       handicap = null,
       totalValue = null
     ) {
-      const eventDetails = this.eventsList.find(
-        item => item.event_id === eventId
-      );
-
       const betData = {
-        betId: uniqueId(),
+        betId: uniqueId('bet-id_'),
         outcome,
         winner,
         odds,
-        eventDetails,
+        eventDetails: this.event,
         betType,
         handicap,
         totalValue,

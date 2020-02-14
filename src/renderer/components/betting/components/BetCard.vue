@@ -182,7 +182,16 @@ export default {
       } = this.bet;
       const nEventId = parseInt(eventId, 10);
 
-      this.placeBet(betId, nEventId, outcome, this.betValueNum);
+      this.placeBet(
+        betId,
+        [
+          {
+            eventId: nEventId,
+            outcome
+          }
+        ],
+        this.betValueNum
+      );
     }
   }
 };

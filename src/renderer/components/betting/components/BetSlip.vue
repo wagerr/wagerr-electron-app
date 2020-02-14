@@ -91,7 +91,7 @@
         :class="{
           disabled: showMultiBetWarning.length !== 0 || multiBetNumber === 0
         }"
-        @click.prevent="placeBet()"
+        @click.prevent="placeParlayBet"
       >
         Place Bet
       </button>
@@ -129,7 +129,6 @@ export default {
       'getNumBets',
       'getNetworkType',
       'convertOdds',
-      'getShowNetworkShare',
       'betType'
     ])
   },
@@ -220,12 +219,16 @@ export default {
   },
 
   methods: {
-    ...mapActions([
-      'addToBetSlip',
-      'removeBetFromSlip',
-      'clearBetSlip',
-      'setBetType'
-    ]),
+    ...mapActions(['removeBetFromSlip', 'clearBetSlip', 'setBetType']),
+
+    placeParlayBet() {
+      const events = this.betSlip.map(bet => ({
+        eventId: bet.eventDetails.event_id,
+        outcome: bet.outcome
+      }));
+
+      this.placeBet(null, events, this.multiBetNumber);
+    },
 
     async isSyncValid() {
       let durationBehind = await blockchainRPC.getBlockDurationBehind();
@@ -233,7 +236,9 @@ export default {
     },
 
     // Place a bet on a given event and sent the tx to the Wagerr blockchain.
-    async placeBet(betId, eventId, outcome, betAmount) {
+    async placeBet(betId, events, betAmount) {
+      const self = this;
+
       // Check if wallet is synced (10min behind max)
       if (!await this.isSyncValid()) {
         remote.dialog.showMessageBox(remote.BrowserWindow.getFocusedWindow(), {
@@ -244,37 +249,47 @@ export default {
           buttons: ['Ok, restart wallet']
         });
       } else {
-        const self = this;
+        try {
+          let response;
 
-        wagerrRPC.client
-          .placeBet(eventId, outcome, betAmount)
-          .then(resp => {
-            // If bet was successful then display bet TX-ID to the user.
-            if (resp.error !== 'null') {
-              M.toast({
-                html: `<span class="toast__bold-font">Success &nbsp;</span> your bet has been placed: ${resp.result}`,
-                classes: 'green'
-              });
+          if (betId) {
+            const [{ eventId, outcome }] = events;
+            response = await wagerrRPC.client.placeBet(
+              eventId,
+              outcome,
+              betAmount
+            );
+          } else {
+            response = await wagerrRPC.client.placeParlayBet(events, betAmount);
+          }
 
-              self.removeBetFromSlip(betId);
-
-              return true;
-            }
-            // If bet was unsuccessful then show error to the user.
+          if (response.error !== 'null') {
             M.toast({
-              html: `<span class="toast__bold-font">Error &nbsp;</span> ${resp.result}`,
-              classes: 'wagerr-red-bg'
+              html: `<span class="toast__bold-font">Success &nbsp;</span> your bet has been placed: ${response.result}`,
+              classes: 'green'
             });
 
-            return false;
-          })
-          .catch(err => {
-            // TODO Parse the error from the response.
-            M.toast({ html: err, classes: 'wagerr-red-bg' });
-            console.error(err);
+            if (betId) {
+              self.removeBetFromSlip(betId);
+            } else {
+              self.clearBetSlip();
+            }
 
-            return false;
+            return true;
+          }
+          // If bet was unsuccessful then show error to the user.
+          M.toast({
+            html: `<span class="toast__bold-font">Error &nbsp;</span> ${response.result}`,
+            classes: 'wagerr-red-bg'
           });
+
+          return false;
+        } catch (e) {
+          M.toast({ html: e, classes: 'wagerr-red-bg' });
+          console.error(e);
+
+          return false;
+        }
       }
     },
 
@@ -317,7 +332,7 @@ export default {
       background: $gray-900;
       color: $white;
       border: none;
-      font-family: 'Montserrat';
+      font-family: 'Montserrat', sans-serif;
       font-weight: 700;
       padding: 10px 10px 8px;
       font-size: 15px;
@@ -334,7 +349,7 @@ export default {
         top: 7px;
         right: 10px;
         font-size: 11px;
-        font-family: 'Montserrat';
+        font-family: 'Montserrat', sans-serif;
         font-weight: 700;
         padding: 0 10px;
         &:hover {
@@ -356,7 +371,7 @@ export default {
             .bet-slip-pair {
               color: $white;
               background: $wagerr-red;
-              font-family: 'Montserrat';
+              font-family: 'Montserrat', sans-serif;
               font-weight: 700;
               text-align: left;
               padding: 6px 40px 6px 10px;
@@ -389,7 +404,7 @@ export default {
               padding: 15px 10px 10px;
               font-size: 16px;
               line-height: 22px;
-              font-family: 'Montserrat';
+              font-family: 'Montserrat', sans-serif;
               color: $wagerr-red;
               h6 {
                 color: #aaa;
@@ -398,7 +413,7 @@ export default {
                 width: 100%;
                 text-transform: uppercase;
                 letter-spacing: 1px;
-                font-family: 'Open Sans';
+                font-family: 'Open Sans', sans-serif;
                 font-weight: 600;
                 margin: 0;
                 line-height: 18px;
@@ -440,14 +455,14 @@ export default {
                   position: absolute;
                   color: $gray-900;
                   font-size: 14px;
-                  font-family: 'Open Sans';
+                  font-family: 'Open Sans', sans-serif;
                   font-weight: 600;
                   text-align: center;
                   width: 100%;
                 }
                 input {
                   color: $gray-900;
-                  font-family: 'Open Sans';
+                  font-family: 'Open Sans', sans-serif;
                   font-size: 18px;
                   font-weight: 700;
                   text-align: center;
@@ -498,7 +513,7 @@ export default {
                 display: block;
                 color: $gray-900;
                 font-size: 13px;
-                font-family: 'Open Sans';
+                font-family: 'Open Sans', sans-serif;
                 font-weight: 700;
                 margin-bottom: 2px;
               }
@@ -508,7 +523,7 @@ export default {
                 display: block;
                 color: $wagerr-red;
                 font-size: 12px;
-                font-family: 'Open Sans';
+                font-family: 'Open Sans', sans-serif;
                 font-weight: 700;
                 letter-spacing: 0.5px;
               }

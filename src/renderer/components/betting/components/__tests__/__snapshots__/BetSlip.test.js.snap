@@ -1,0 +1,273 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component: BetSlip should match snapshot 1`] = `
+<div
+  class="bet-slip"
+  id="bet-slip"
+>
+  <h4>
+    <span
+      class="bet-slip__bet-type-btn"
+    >
+
+      Single
+
+    </span>
+
+    |
+
+    <span
+      class="bet-slip__bet-type-btn bet-slip__bet-type-btn--active"
+    >
+
+      Multi
+
+    </span>
+
+    <button
+      class="btn pull-right waves-effect waves-light"
+    >
+
+      Clear Slip
+
+    </button>
+  </h4>
+
+  <div
+    class="bet-list-scroll"
+  >
+    <div
+      class="bet-list"
+    >
+      <ul>
+        <li
+          class="bet-card"
+        >
+          <div
+            class="bet-card__header"
+          >
+            <span
+              class="bet-card__header-text"
+            >
+
+      Levante vs
+      Leganés
+
+            </span>
+
+            <div
+              class="bet-card__clear-btn"
+            >
+              <i>
+                ×
+              </i>
+            </div>
+          </div>
+
+          <div
+            class="bet-card__selection"
+          >
+            <div
+              class="bet-card__selection-title"
+            >
+              Your Pick:
+            </div>
+
+            <span
+              class="bet-card__selection-winner"
+            >
+
+      Levante
+
+            </span>
+
+            <!---->
+
+            <!---->
+
+            <span
+              class="bet-card__selection-odds"
+            >
+
+      1.5
+
+            </span>
+          </div>
+
+          <!---->
+        </li>
+        <li
+          class="bet-card"
+        >
+          <div
+            class="bet-card__header"
+          >
+            <span
+              class="bet-card__header-text"
+            >
+
+      Göztepe vs
+      Çaykur Rizespor
+
+            </span>
+
+            <div
+              class="bet-card__clear-btn"
+            >
+              <i>
+                ×
+              </i>
+            </div>
+          </div>
+
+          <div
+            class="bet-card__selection"
+          >
+            <div
+              class="bet-card__selection-title"
+            >
+              Your Pick:
+            </div>
+
+            <span
+              class="bet-card__selection-winner"
+            >
+
+      Göztepe
+
+            </span>
+
+            <!---->
+
+            <!---->
+
+            <span
+              class="bet-card__selection-odds"
+            >
+
+      1.5
+
+            </span>
+          </div>
+
+          <!---->
+        </li>
+        <li
+          class="bet-card"
+        >
+          <div
+            class="bet-card__header"
+          >
+            <span
+              class="bet-card__header-text"
+            >
+
+      Göztepe vs
+      Çaykur Rizespor
+
+            </span>
+
+            <div
+              class="bet-card__clear-btn"
+            >
+              <i>
+                ×
+              </i>
+            </div>
+          </div>
+
+          <div
+            class="bet-card__selection"
+          >
+            <div
+              class="bet-card__selection-title"
+            >
+              Your Pick:
+            </div>
+
+            <!---->
+
+            <span
+              class="bet-card__selection-odds"
+            >
+
+      Under2.5
+
+            </span>
+
+            <!---->
+
+            <span
+              class="bet-card__selection-odds"
+            >
+
+      1.5
+
+            </span>
+          </div>
+
+          <!---->
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div
+    class="bet-slip__multi-summary"
+  >
+    <div>
+      Total Legs: 2
+    </div>
+
+    <div
+      class="input-field"
+    >
+      <div
+        class="bet-slip__multi-summary-bet"
+      >
+        <label
+          class="bet-slip__multi-summary-bet-label"
+          for="multi-bet"
+        >
+
+          Bet
+
+        </label>
+
+        <input
+          class="bet-stake validate"
+          id="multi-bet"
+          maxlength="10"
+          name="Bet Id"
+          placeholder="Enter Bet"
+          type="text"
+        />
+      </div>
+    </div>
+
+    <div
+      class="bet-slip__warning bet-slip__warning--light display-none"
+    >
+
+
+
+    </div>
+
+    <div
+      class="bet-slip__multi-summary-return"
+    >
+
+      To Win: 0.00000000  tWGR
+
+    </div>
+
+    <button
+      class="btn waves-effect waves-light disabled"
+    >
+
+      Place Bet
+
+    </button>
+  </div>
+</div>
+`;
