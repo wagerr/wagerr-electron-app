@@ -21,3 +21,6 @@ thumbs.db
 !.gitkeep
 .idea
 npm-debug.log.*
+
+# Config files
+*.config.js

@@ -1,5 +1,3 @@
-/* eslint global-require: off */
-
 module.exports = api => {
   // see docs about api at https://babeljs.io/docs/en/config-files#apicache
   api.cache.forever();
@@ -45,6 +43,13 @@ module.exports = api => {
       require('@babel/plugin-syntax-import-meta'),
       [require('@babel/plugin-proposal-class-properties'), { loose: true }],
       require('@babel/plugin-proposal-json-strings')
-    ]
+    ],
+    env: {
+      test: {
+        presets: [
+          [require('@babel/preset-env'), { targets: { node: 'current' } }]
+        ]
+      }
+    }
   };
 };
