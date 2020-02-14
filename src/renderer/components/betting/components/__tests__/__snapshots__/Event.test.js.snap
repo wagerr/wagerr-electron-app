@@ -1,0 +1,199 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component: Event should match snapshot 1`] = `
+<li
+  class="card event"
+>
+  <div
+    class="event__tournament"
+  >
+    <span>
+      Cup (Event ID: 63505)
+    </span>
+
+    <span>
+      Wed, Feb 12th 12:30 AM (+07:00 +07)
+    </span>
+  </div>
+
+  <div
+    class="event__details"
+  >
+    <div
+      class="col s12 m4"
+    />
+
+    <div
+      class="col s12 m8"
+    >
+      <div
+        class="row event__header"
+      >
+        <div
+          class="col s12 m4 text-center"
+        >
+          <div>
+            Money Line
+          </div>
+        </div>
+
+        <div
+          class="col s12 m4 text-center"
+        >
+          <div>
+            Spread
+          </div>
+        </div>
+
+        <div
+          class="col s12 m4 text-center"
+        >
+          <div>
+            Total
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="row event__pair"
+  >
+    <div
+      class="col s12 m4"
+    >
+      <div
+        class="event__team"
+      >
+        Fenerbahçe
+      </div>
+
+      <div
+        class="event__team"
+      >
+        Kirklarelispor
+      </div>
+
+      <div
+        class="event__team"
+      >
+
+        Draw
+
+      </div>
+    </div>
+
+    <div
+      class="col s12 m8"
+    >
+      <div
+        class="row event__odds"
+      >
+        <div
+          class="col s12 m4"
+        >
+          <div
+            class="event__odd"
+          >
+            <button
+              class="btn event__button"
+            >
+              1.17
+            </button>
+          </div>
+
+          <div
+            class="event__odd"
+          >
+            <button
+              class="btn event__button"
+            >
+              18.53
+            </button>
+          </div>
+
+          <div
+            class="event__odd"
+          >
+            <button
+              class="btn event__button"
+            >
+              8.23
+            </button>
+          </div>
+        </div>
+
+        <div
+          class="col s12 m4"
+        >
+          <div
+            class="event__odd"
+          >
+            <button
+              class="btn event__button"
+              disabled="disabled"
+            >
+
+                -
+
+            </button>
+          </div>
+
+          <div
+            class="event__odd"
+          >
+            <button
+              class="btn event__button"
+              disabled="disabled"
+            >
+
+                -
+
+            </button>
+          </div>
+        </div>
+
+        <div
+          class="col s12 m4"
+        >
+          <div
+            class="event__odd"
+          >
+            <button
+              class="btn event__button"
+            >
+              <span
+                class="event__button-totalnum"
+              >
+                (02.5)
+              </span>
+
+              <span>
+                1.35
+              </span>
+            </button>
+          </div>
+
+          <div
+            class="event__odd"
+          >
+            <button
+              class="btn event__button"
+            >
+              <span
+                class="event__button-totalnum"
+              >
+                (U2.5)
+              </span>
+
+              <span>
+                3.51
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</li>
+`;

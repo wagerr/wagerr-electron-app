@@ -1,0 +1,170 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component: BetCard betType multi should equal snapshot 1`] = `
+<li
+  class="bet-card"
+>
+  <div
+    class="bet-card__header"
+  >
+    <span
+      class="bet-card__header-text"
+    >
+
+      Levante vs
+      Leganés
+
+    </span>
+
+    <div
+      class="bet-card__clear-btn"
+    >
+      <i>
+        ×
+      </i>
+    </div>
+  </div>
+
+  <div
+    class="bet-card__selection"
+  >
+    <div
+      class="bet-card__selection-title"
+    >
+      Your Pick:
+    </div>
+
+    <span
+      class="bet-card__selection-winner"
+    >
+
+      Levante
+
+    </span>
+
+    <!---->
+
+    <!---->
+
+    <span
+      class="bet-card__selection-odds"
+    >
+
+      1.5
+
+    </span>
+  </div>
+
+  <!---->
+</li>
+`;
+
+exports[`component: BetCard betType single should equal snapshot 1`] = `
+<li
+  class="bet-card"
+>
+  <div
+    class="bet-card__header"
+  >
+    <span
+      class="bet-card__header-text"
+    >
+
+      Levante vs
+      Leganés
+
+    </span>
+
+    <div
+      class="bet-card__clear-btn"
+    >
+      <i>
+        ×
+      </i>
+    </div>
+  </div>
+
+  <div
+    class="bet-card__selection"
+  >
+    <div
+      class="bet-card__selection-title"
+    >
+      Your Pick:
+    </div>
+
+    <span
+      class="bet-card__selection-winner"
+    >
+
+      Levante
+
+    </span>
+
+    <!---->
+
+    <!---->
+
+    <span
+      class="bet-card__selection-odds"
+    >
+
+      1.5
+
+    </span>
+  </div>
+
+  <div
+    class="input-field bet-card__input-field"
+  >
+    <div
+      class="stake-input bet-card__input-field-wrapper"
+    >
+      <input
+        class="bet-card__input validate"
+        id="1"
+        maxlength="10"
+        name="Bet Id"
+        placeholder="Enter Bet Stake"
+        type="text"
+      />
+    </div>
+
+    <button
+      class="btn bet-card__input-field-btn disabled"
+    >
+
+        Bet
+
+    </button>
+  </div>
+
+  <div
+    class="bet-slip__warning display-none"
+  >
+
+
+
+  </div>
+
+  <div
+    class="bet-card__return bet-returns"
+  >
+    <span
+      class="bet-card__return-title"
+    >
+
+        Potential Returns:
+
+    </span>
+
+    <span
+      class="bet-card__return-value"
+    >
+
+        0.00000000 WGR
+
+    </span>
+  </div>
+</li>
+`;
