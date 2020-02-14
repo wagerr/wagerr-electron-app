@@ -1,7 +1,7 @@
 {
   "root": true,
 
-  "plugins": ["import"],
+  "plugins": ["import", "promise", "jest"],
 
   "env": {
     "browser": true,
@@ -20,9 +20,9 @@
     "airbnb-base",
     "plugin:vue/recommended",
     "plugin:prettier/recommended",
-    "prettier/vue"
+    "prettier/vue",
+    "plugin:jest/all"
   ],
-
   "settings": {
     "import/resolver": {
       "webpack": {
@@ -30,7 +30,11 @@
       }
     }
   },
-
+  "env": {
+    "browser": true,
+    "node": true,
+    "jest/globals": true
+  },
   "rules": {
     "comma-dangle": ["error", "never"],
     "import/order": "error",
@@ -71,6 +75,9 @@
         "$scope", // for Angular 1 scopes
         "staticContext" // for ReactRouter context
       ]
-    }]
+    }],
+    "jest/no-hooks": "off",
+    "jest/prefer-inline-snapshots": "off",
+    "jest/prefer-called-with": "off"
   }
 }
