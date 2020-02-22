@@ -16,8 +16,13 @@ import locale from 'element-ui/lib/locale/lang/en';
 import 'materialize-css/dist/css/materialize.css'
 import 'materialize-css/dist/js/materialize.js'
 
+import PerfectScrollbar from 'vue2-perfect-scrollbar'
+import 'vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css'
+
 // Import global styles
 import './assets/scss/main.scss';
+
+Vue.use(PerfectScrollbar);
 
 Vue.use(ElementUI, { locale });
 
