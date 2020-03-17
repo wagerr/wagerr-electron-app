@@ -64,6 +64,7 @@
                 </div>
                 <div class="stake-button">
                   <button
+                    :disabled="isProcessingBet"
                     :id="'place-bet-button-' + index"
                     class="pull-right btn disabled"
                     @click="placeBet(bet.betId)"
@@ -109,9 +110,12 @@
 </template>
 
 <script>
+import { remote } from 'electron';
 import moment from 'moment';
 import { mapActions, mapGetters } from 'vuex';
-import wagerrRPC from '../../../services/api/wagerrRPC';
+import wagerrRPC from '@/services/api/wagerrRPC';
+import blockchainRPC from '@/services/api/blockchain_rpc';
+import ipcRenderer from '../../../../common/ipc/ipcRenderer';
 import { bettingParams } from '../../../../main/constants/constants';
 
 export default {
@@ -127,7 +131,16 @@ export default {
       'getNetworkType',
       'convertOdds',
       'getShowNetworkShare'
-    ])
+    ]),
+    isProcessingBet() {
+      return this.processingBet;
+    }
+  },
+
+  data() {
+    return {
+      processingBet: false
+    }
   },
 
   methods: {
@@ -219,42 +232,68 @@ export default {
       return showWarning;
     },
 
+    async isSyncValid() {
+      let durationBehind = await blockchainRPC.getBlockDurationBehind();
+      return durationBehind.asMinutes() < 10;
+    },
+
     // Place a bet on a given event and sent the tx to the Wagerr blockchain.
-    placeBet: function(betId) {
-      let betInfo = this.betSlip.find(item => item.betId === betId);
-      let betAmount = parseFloat(document.getElementById(betId).value);
-      let eventId = parseInt(betInfo.eventDetails.event_id);
-      let self = this;
+    async placeBet(betId) {
+      this.processingBet = true;
 
-      wagerrRPC.client
-        .placeBet(eventId, betInfo.outcome, betAmount)
-        .then(function(resp) {
-          // If bet was successful then display bet TX-ID to the user.
-          if (resp.error !== 'null') {
-            M.toast({
-              html:
-                '<span class="toast__bold-font">Success &nbsp;</span> your bet has been placed: ' +
-                resp.result,
-              classes: 'green'
-            });
-
-            self.removeBetFromSlip(betId);
-          }
-          // If bet was unsuccessful then show error to the user.
-          else {
-            M.toast({
-              html:
-                '<span class="toast__bold-font">Error &nbsp;</span> ' +
-                resp.result,
-              classes: 'wagerr-red-bg'
-            });
-          }
-        })
-        .catch(function(err) {
-          // TODO Parse the error from the response.
-          M.toast({ html: err, classes: 'wagerr-red-bg' });
-          console.error(err);
+      // Check if wallet is synced (10min behind max)
+      if (!await this.isSyncValid()) {
+        remote.dialog.showMessageBox(remote.BrowserWindow.getFocusedWindow(), {
+          type: 'error',
+          title: 'Error Placing Bet',
+          message: `Your bet could not be placed because your wallet is out of sync`,
+          detail: 'Your wallet will restart to sync',
+          buttons: ['Ok, restart wallet'],
         });
+
+        ipcRenderer.restartWalletForce();
+        this.processingBet = false;
+
+      } else {
+        let betInfo, betAmount, eventId, self = this;
+
+        betInfo = this.betSlip.find(item => item.betId === betId);
+        betAmount = parseFloat(document.getElementById(betId).value);
+        eventId = parseInt(betInfo.eventDetails.event_id);
+
+        wagerrRPC.client
+          .placeBet(eventId, betInfo.outcome, betAmount)
+          .then(function(resp) {
+            // If bet was successful then display bet TX-ID to the user.
+            if (resp.error !== 'null') {
+              M.toast({
+                html:
+                  '<span class="toast__bold-font">Success &nbsp;</span> your bet has been placed: ' +
+                  resp.result,
+                classes: 'green'
+              });
+
+              self.removeBetFromSlip(betId);
+            }
+            // If bet was unsuccessful then show error to the user.
+            else {
+              M.toast({
+                html:
+                  '<span class="toast__bold-font">Error &nbsp;</span> ' +
+                  resp.result,
+                classes: 'wagerr-red-bg'
+              });
+            }
+          })
+          .catch(function(err) {
+            // TODO Parse the error from the response.
+            M.toast({ html: err, classes: 'wagerr-red-bg' });
+            console.error(err);
+          })
+          .finally(() => {
+            self.processingBet = false;
+          });
+      }
     },
 
     handleScroll(event) {
