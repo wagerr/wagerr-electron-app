@@ -269,7 +269,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['betType', 'betSlip', 'eventsList']),
+    ...mapGetters(['betType', 'betSlip', 'eventsList', 'getNumBets']),
     mlWinner() {
       const {
         odds: [{ mlHome, mlAway }]
@@ -321,6 +321,15 @@ export default {
       handicap = null,
       totalValue = null
     ) {
+      if (this.betType === 'multi' && this.getNumBets === 5) {
+        M.toast({
+          html: `<span class="toast__bold-font">Error &nbsp;</span> you can't add more than 5 legs to one parlay bet`,
+          classes: 'wagerr-red-bg'
+        });
+
+        return;
+      }
+
       const betData = {
         betId: uniqueId('bet-id_'),
         outcome,
