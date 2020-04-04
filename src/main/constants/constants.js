@@ -19,6 +19,10 @@ export const bettingParams = {
   NETWORK_SHARE: 0.06
 };
 
+export const betsmartParams = {
+  HOST: 'https://www.betsmart.app'
+};
+
 export const SPORTS_AVAILABLE = [
   {
     name: 'All Events',
