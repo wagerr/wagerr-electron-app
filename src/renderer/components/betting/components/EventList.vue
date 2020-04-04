@@ -8,12 +8,16 @@
       <div class="col s4 ">
         <input v-model="searchTermInput" type="text" placeholder="Search..." />
       </div>
-    </div>          
+    </div>
 
     <div v-if="events.length > 0">
       <ul class="events-list">
         <li v-for="event in events" :key="event.event_id" class="card">
           <div class="event-tournament">
+            <i
+              class="icon-chart-bars"
+              v-on:click="showOnBetsmart(`event?id=${event.show.eventId}`)"
+            />
             <span class="sport">
               <span v-html="event.show.tournament" /> (Event ID: <span v-html="event.show.eventId" />)
             </span>
@@ -46,11 +50,31 @@
           <div class="event-pair row">
             <div class="col s12 m4 event-teams">
               <div class="teams">
-                <div class="team-name"><span v-html="event.show.homeTeam" /></div>
+                <div class="team-name">
+                  <span v-html="event.show.homeTeam" />
+                  <i
+                    class="icon-chart-bars"
+                    v-on:click="
+                      showOnBetsmart(
+                        `team?name=${event.show.homeTeam}&sport=${event.show.sport}`
+                      )
+                    "
+                  />
+                </div>
               </div>
 
               <div class="teams">
-                <div class="team-name"><span v-html="event.show.awayTeam" /></div>
+                <div class="team-name">
+                  <span v-html="event.show.awayTeam" />
+                  <i
+                    class="icon-chart-bars"
+                    v-on:click="
+                      showOnBetsmart(
+                        `team?name=${event.show.awayTeam}&sport=${event.show.sport}`
+                      )
+                    "
+                  />
+                </div>
               </div>
 
               <div class="teams">
@@ -198,7 +222,7 @@
                           event.odds[0].mlAway > event.odds[0].mlHome
                             ? '+'
                             : '-'
-                        }}<span v-html="event.show.spreadPointsOdds" />                        
+                        }}<span v-html="event.show.spreadPointsOdds" />
                       </span>
 
                       <span class="pull-right">
@@ -307,6 +331,8 @@
 import Vuex from 'vuex';
 import moment from 'moment';
 import _ from 'lodash';
+import { shell } from 'electron';
+import { betsmartParams } from '../../../../main/constants/constants';
 
 
 export default {
@@ -318,19 +344,20 @@ export default {
       'eventsList',
       'getTimezone',
       'convertOdds',
-      'betSlip'      
+      'betSlip'
     ]),
-    'nEvents': function() { 
-      return this.events.length; 
+    'nEvents': function() {
+      return this.events.length;
     },
-    'events': function() {    
+    'events': function() {
       return !Array.isArray(this.eventsList) ? [] :
-        this.eventsList.reduce((acc, e) => {          
+        this.eventsList.reduce((acc, e) => {
           let event = {...e};
           event.teams = {...e.teams};
           event.odds = [...e.odds];
           event.show = {
             eventId: e.event_id.toString(),
+            sport: e.sport,
             tournament: e.tournament,
             starting: moment(Number(e.starting) * 1000).tz(this.getTimezone).format('ddd, MMM Do h:mm A (Z z)'),
             homeTeam: e.teams.home,
@@ -345,7 +372,7 @@ export default {
             totalsUnderOdds: this.convertOdds(e.odds[2].totalsUnder),
             totalsPointsOdds: e.odds[2].totalsPoints / 10,
           };
-                    
+
           if (!this.searchTerm) {
             acc.push(event);
 
@@ -371,11 +398,11 @@ export default {
       'updateBet'
     ]),
 
-    
+
     _maybeMarkBySearchTerm: function(text, hasSearchTerm) {
       text = text.toString();
       const index = text.toLowerCase().indexOf(this.searchTerm.toLowerCase());
-      
+
       if (index >= 0) {
         const endSearchTerm = index + this.searchTerm.length;
         text = `${text.slice(0, index)}<mark>${text.slice(index, endSearchTerm)}</mark>${text.slice(endSearchTerm)}`;
@@ -397,13 +424,17 @@ export default {
           }
 
           acc.show[key] = text;
-          return acc;          
+          return acc;
 
         }, {hasSearchTerm: false, show: {...events.show}});
-    },   
+    },
 
     moment: function() {
       return moment();
+    },
+
+    showOnBetsmart: function(route) {
+      shell.openExternal(`${betsmartParams.HOST}/${route}`);
     },
 
     //Todo: this is where we would determine the odds of the bet,
@@ -503,16 +534,16 @@ export default {
         this.updateBet({ betItem, eventDetails });
       }
     },
-  
-    _debouncedSearch: _.debounce(function(val, oldVal) { 
+
+    _debouncedSearch: _.debounce(function(val, oldVal) {
       if (val !== oldVal) {
-        this.searchTerm = val; 
+        this.searchTerm = val;
       }
     }, 300)
   },
 
   // use watcher on the EventsList if it changes, then update the betslip odds
-  watch: {    
+  watch: {
     eventsList() {
       this.updateBetSlip();
     },
@@ -557,7 +588,7 @@ input::placeholder {
 }
 
 .n-events {
-  color: #999; 
+  color: #999;
   font-size: 14px;
 }
 
@@ -571,6 +602,15 @@ input::placeholder {
 }
 
 .event-tournament {
+  i {
+    margin-left: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    &:hover {
+      color: #212529;
+    }
+  }
+
   background-color: $gray-900;
   border-bottom-width: 1px;
   border-bottom-color: $gray-300;
@@ -596,6 +636,15 @@ input::placeholder {
 }
 
 .event-pair {
+  i {
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    &:hover {
+      color: $wagerr-red;
+    }
+  }
+
   margin-left: 0%;
 }
 
