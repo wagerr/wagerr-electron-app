@@ -102,6 +102,29 @@
                     </div>
                   </td>
                 </tr>
+                <tr v-if="walletEncrypted" class="info-row">
+                  <td>
+                    Always ask for password on startup
+                  </td>
+                  <td class="aligncenter">
+                    <div id="show-network-share-choice">
+                      <p>
+                        <label>
+                          <input
+                            name="passwordOnStartup"
+                            type="checkbox"
+                            id="passwordOnStartup"
+                            :value="getPasswordOnStartup"
+                            @change="togglePasswordOnStartup"
+                            :checked="getPasswordOnStartup"
+                          />
+                          <span style="padding-left: 0px;"></span>
+                        </label>
+                      </p>
+                      <br />
+                    </div>
+                  </td>
+                </tr>
                 <tr class="info-row">
                   <td>
                     Include Wagerr network share in betting odds? (Experimental)
@@ -167,7 +190,9 @@ export default {
       'getOddsFormat',
       'getTimezoneOption',
       'getTimezone',
-      'getShowNetworkShare'
+      'getShowNetworkShare',
+      'getPasswordOnStartup',
+      'walletEncrypted'
     ]),
 
     'timezones': function() {
@@ -176,7 +201,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(['updateOddsFormat', 'toggleShowNetworkShare']),
+    ...mapActions(['updateOddsFormat', 'toggleShowNetworkShare', 'togglePasswordOnStartup']),
 
     changeOddsFormat: function(event) {
       this.$store.dispatch('updateOddsFormat', Number(event.target.value));

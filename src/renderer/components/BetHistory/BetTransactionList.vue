@@ -146,7 +146,9 @@ export default {
   },
 
   mounted() {
-    // Ping the get bets RPC method every 5 secs to show any new bet transactions.
+    this.$initMaterialize(['plBetTransactionList']);
+
+    // Ping the get bets RPC method every 5 secs to show any new bet transactions
     this.timeout = setInterval(
       async function() {
         this.getPLBetTransactionList(50);

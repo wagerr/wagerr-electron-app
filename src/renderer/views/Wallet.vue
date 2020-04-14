@@ -59,13 +59,11 @@
         </div>
       </div>
       <div class="wallet-right col s8">
-        <!-- Include the send & receive modals -->
-        <send-transaction></send-transaction>
-        <receive-transaction></receive-transaction>
-
         <div class="table-container wagerr-transactions">
           <!-- Include the wallet transaction list. -->
           <transaction-list></transaction-list>
+          <send-transaction></send-transaction>
+          <receive-transaction></receive-transaction>
         </div>
       </div>
     </div>
@@ -74,13 +72,13 @@
 
 <script>
 import Vuex from 'vuex';
+import TransactionList from '@/components/wallet/TransactionList';
 import SendTransaction from '@/components/wallet/SendTransaction';
 import ReceiveTransaction from '@/components/wallet/ReceiveTransaction';
-import TransactionList from '@/components/wallet/TransactionList';
 
 export default {
   name: 'Wallet',
-  components: { SendTransaction, ReceiveTransaction, TransactionList },
+  components: { TransactionList, SendTransaction, ReceiveTransaction },
 
   computed: {
     ...Vuex.mapGetters([
@@ -110,8 +108,10 @@ export default {
       timeout: 0
     };
   },
-
+  
   mounted() {
+    this.$initMaterialize('transaction list');
+
     setInterval(
       function() {
         this.walletExtendedBalance();

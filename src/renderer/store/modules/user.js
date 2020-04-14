@@ -18,6 +18,7 @@ const OddsFormat = {
 const state = function() {
   return {
     oddsFormat: OddsFormat.decimal,
+    passwordOnStartup: true,
     timezoneOption: 'auto',
     timezone: moment.tz.guess(),
     showNetworkShare: false,
@@ -61,6 +62,9 @@ const getters = {
       val = val * 0.94 + 10000; // to correct decimal
     }
     return displayOdds(state, val);
+  },
+  getPasswordOnStartup: state => {
+    return !!state.passwordOnStartup;
   },
   getShowNetworkShare: state => {
     return state.showNetworkShare;
@@ -116,6 +120,12 @@ const actions = {
         dispatch('updateTimezone', moment.tz.guess());
       }
     }
+    if (preferencesStore.has('passwordOnStartup')) {
+      dispatch(
+        'updatePasswordOnStartup',
+        Number(preferencesStore.get('passwordOnStartup'))
+      );
+    }
     if (preferencesStore.has('showNetworkShare')) {
       dispatch(
         'updateShowNetworkShare',
@@ -124,8 +134,16 @@ const actions = {
     }
   },
 
+  togglePasswordOnStartup({ commit, state }) {
+    commit('setPasswordOnStartup', !state.passwordOnStartup);
+  },
+
   toggleShowNetworkShare({ commit, state }) {
     commit('setShowNetworkShare', !state.showNetworkShare);
+  },
+
+  updatePasswordOnStartup({ commit, state }, value) {
+    commit('setPasswordOnStartup', value);
   },
 
   updateShowNetworkShare({ commit, state }, value) {
@@ -248,6 +266,10 @@ const mutations = {
   },
   setTimezone(state, timezone) {
     state.timezone = timezone;
+  },
+  setPasswordOnStartup(state, value) {
+    state.passwordOnStartup = value;
+    preferencesStore.set('passwordOnStartup', state.passwordOnStartup);
   },
   setShowNetworkShare(state, value) {
     state.showNetworkShare = value;

@@ -90,7 +90,7 @@ export default {
   },
 
   methods: {
-    ...mapActions([      
+    ...mapActions([
       'updateInitText',
       'updateNetworkType',
       'updateWalletLoaded',
@@ -98,7 +98,8 @@ export default {
       'getPLBetTransactionList',
       'getCGBetTransactionList',
       'getWGRTransactionRecords',
-      'loadUserSettings'
+      'loadUserSettings',
+      'walletInfo'
     ]),
 
     rescanBlockchain: function() {
@@ -215,9 +216,10 @@ export default {
           bestBlockTimeDifference = moment().diff(bestBlockTime * 1000, 'seconds');
           durationBehind = moment.duration(bestBlockTimeDifference, 'seconds');
 
+          // If less than half an hour behind
           if (Math.round(durationBehind.asHours()) === 0) {
             // Wallet is synced enough to allow user access.
-            this.updateWalletLoaded(true);
+            this.loadWallet();
 
           } else {
             this.timeBehindText = this.getTimeBehindText(durationBehind);
@@ -250,6 +252,18 @@ export default {
     onOpenConf: function() {
       ipcRenderer.log('debug', 'Opening wagerr.conf file');
       shell.openItem(this.confPath);
+    },
+
+    async loadWallet() {
+      // After connecting to peers get some blockchain info.
+      this.updateInitText('Fetching wallet information...');
+      await this.walletInfo();
+      await this.getWGRTransactionRecords(100);
+      await this.getPLBetTransactionList(50);
+      await this.getCGBetTransactionList(25);
+      await this.walletExtendedBalance();
+
+      this.updateWalletLoaded(true);
     }
   },
 
@@ -273,13 +287,6 @@ export default {
 
     // If Wallet not synced show time behind text.
     await this.syncBlockchainStatus();
-
-    // After connecting to peers get some blockchain info.
-    this.updateInitText('Fetching wallet information...');
-    await this.walletExtendedBalance();
-    await this.getWGRTransactionRecords(100);
-    await this.getPLBetTransactionList(50);
-    await this.getCGBetTransactionList(25);
   }
 };
 </script>
