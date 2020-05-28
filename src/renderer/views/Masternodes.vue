@@ -117,7 +117,7 @@ export default {
           mn = mn.split(' ');
           for (let n = 0; n < this.masternodesNetworkRows.length; n++) {
             // console.log(`compare ${mn[1]} and ${this.masternodesNetworkRows[n].address}`)
-            if (mn[1] === this.masternodesNetworkRows[n].pubkey) {
+            if (mn[3] === this.masternodesNetworkRows[n].txhash) {
               let useMe = {
                 ...this.masternodesNetworkRows[n],
                 alias: mn[0],
@@ -172,6 +172,7 @@ export default {
             );
             let minutesActive = moment.duration(item['activetime'], 'seconds');
             rows.push({
+              txhash: item['txhash'], 
               status: item['status'],
               lastSeen: lastSeen,
               active: minutesActive.humanize(),
