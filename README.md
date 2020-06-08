@@ -78,17 +78,29 @@ npm run package
 After running the package command the executable will be located in the
 `release` folder.
 
-Code Signing
-------------
+Code Signing / Notarization
+---------------------------
 
-To code sign the packaged app you must set the following environment variables
-before running `npm run package`.
+To code sign the packaged app (as well as notarize the Mac version) you must set the following
+environment variables before running `npm run package`.
 
 macOS:
 
 ```sh
-# macOS - Name of certificate to retrieve from Keychain
+# macOS - Name of signing certificate to retrieve from Keychain.
 export CSC_NAME='Wagerr Limited'
+
+# macOS - An Apple developer ID associated with the signing certificate (used for uploading builds
+#         to the Apple Notary Service for verification and notarization).
+#
+#         Notes:
+#         - We recommend generating an app specific password and do not use your main account
+#           password.
+#         - To see a list of provider short names that your Apple account can access run:
+#           `xcrun altool --list-providers -u <USERNAME> -p <PASSWORD>`
+export APPLE_ID=''
+export APPLE_ID_PASS=''
+export APPLE_PROVIDER_SHORT_NAME=''
 ```
 
 Windows:

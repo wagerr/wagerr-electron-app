@@ -26,6 +26,7 @@
     "postlint-styles-fix": "prettier --ignore-path .eslintignore --single-quote --write '**/*.{css,scss}'"
   },
   "build": {
+    "afterSign": "build/mac/notarize.js",
     "publish": {
       "provider": "github",
       "owner": "wagerr",
@@ -49,7 +50,11 @@
       "output": "release"
     },
     "mac": {
-      "artifactName": "${name}-${version}-${os}.${ext}"
+      "artifactName": "${name}-${version}-${os}.${ext}",
+      "entitlements": "build/mac/entitlements.plist",
+      "entitlementsInherit": "build/mac/entitlements.plist",
+      "gatekeeperAssess": false,
+      "hardenedRuntime": true
     },
     "dmg": {
       "title": "Wagerr Electron App ${version}",
@@ -158,10 +163,12 @@
     "css-loader": "^3.3.0",
     "del": "^5.1.0",
     "devtron": "^1.4.0",
+    "dotenv": "^8.2.0",
     "electron": "^5.0.13",
     "electron-builder": "^21.2.0",
     "electron-debug": "^3.0.1",
     "electron-devtools-installer": "^2.2.4",
+    "electron-notarize": "^0.3.0",
     "eslint": "^6.7.2",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.7.0",
