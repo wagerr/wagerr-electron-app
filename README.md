@@ -86,6 +86,10 @@ environment variables before running `npm run package`.
 
 macOS:
 
+⚠️ **When signing/notarizing the Mac app there can be long delays while the app is being uploaded
+and scanned by the Apple Notary Service. According to the Apple documentation this process
+_"usually takes less than an hour"_...**
+
 ```sh
 # macOS - Name of signing certificate to retrieve from Keychain.
 export CSC_NAME='Wagerr Limited'
