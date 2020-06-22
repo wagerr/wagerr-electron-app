@@ -7,6 +7,7 @@ const state = function() {
     wgrTransactionList: [],
     wgrTransactionRecords: [],
     plBetTransactionList: [],
+    myBetsTransactionList: [],
     cgBetTransactionList: []
   };
 };
@@ -26,6 +27,10 @@ const getters = {
 
   plBetTransactionList: state => {
     return state.plBetTransactionList;
+  },
+
+  myBetsTransactionList: state => {
+    return state.myBetsTransactionList;
   },
 
   cgBetTransactionList: state => {
@@ -96,6 +101,19 @@ const actions = {
       });
   },
 
+  getMyBetsTransactionList({ commit }, length) {
+    return wagerrRPC.client
+      .getMyBets(length)
+      .then(function(resp) {
+        console.log(resp.result);
+        commit('setMyBetsTransactionList', resp.result.reverse());
+      })
+      .catch(function(err) {
+        // TODO Handle error correctly.
+        console.error(err);
+      });
+  },
+
   getCGBetTransactionList({ commit }, length) {
     return wagerrRPC.client
       .listChainGamesBets('*', length)
@@ -124,6 +142,10 @@ const mutations = {
 
   setPLBetTransactionList(state, txList) {
     state.plBetTransactionList = txList;
+  },
+
+  setMyBetsTransactionList(state, txList) {
+    state.myBetsTransactionList = txList;
   },
 
   setCGBetTransactionList(state, txList) {
