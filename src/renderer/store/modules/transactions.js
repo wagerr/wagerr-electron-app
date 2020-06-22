@@ -89,6 +89,7 @@ const actions = {
       });
   },
 
+  // * Seems like it has been replaced by getMyBets and it is not used anymore
   getPLBetTransactionList({ commit }, length) {
     return wagerrRPC.client
       .listBets('*', length)
@@ -105,7 +106,6 @@ const actions = {
     return wagerrRPC.client
       .getMyBets(length)
       .then(function(resp) {
-        console.log(resp.result);
         commit('setMyBetsTransactionList', resp.result.reverse());
       })
       .catch(function(err) {
