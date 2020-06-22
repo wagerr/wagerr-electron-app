@@ -25,11 +25,7 @@
 
           <th class="">Start Time</th>
 
-          <th class="hide-on-med-and-down show-on-large">Bet Outcome</th>
-
-          <th class="">Home</th>
-
-          <th class="">Away</th>
+          <th>Bets</th>
 
           <th class="">
             {{ getNetworkType === 'Testnet' ? 'tWGR' : 'WGR' }} Amount
@@ -40,13 +36,17 @@
       </thead>
 
       <tbody>
-        <tr v-for="tx in plBetTransactionList" :key="tx.id">
-          <td class="hide-on-small-only">{{ tx['event-id'] }}</td>
+        <tr v-for="tx in myBetsTransactionList" :key="tx.id">
+          <td class="hide-on-small-only">
+            <div v-for="bet in tx.legs">
+            {{ bet['event-id'] }}
+            </div>
+          </td>
 
           <td class="hide-on-small-only">
             <el-tooltip
               content="Copy"
-              v-clipboard="tx['tx-id']"
+              v-clipboard="tx.betTxHash"
               class="transaction-list-link"
             >
               <i class="far fa-copy" @click="copiedAlert()"></i>
@@ -56,25 +56,67 @@
               content="Open in block explorer"
               class="transaction-list-link"
             >
-              <i class="fas fa-link" @click="blockExplorerUrl(tx['tx-id'])"></i>
+              <i class="fas fa-link" @click="blockExplorerUrl(tx.betTxHash)"></i>
             </el-tooltip>
           </td>
 
           <td class="hide-on-small-only">
-            {{ Number(tx.starting) | moment('timezone', getTimezone, 'LLL') }}
+            {{ startingTime(tx) | moment('timezone', getTimezone, 'LLL') }}
+            <span
+              v-if="tx.legs.length > 1"
+              class="tooltipped"
+              data-tooltip="Start time of first event"
+            >
+              *
+            </span>
           </td>
 
-          <td class="hide-on-med-and-down show-on-large">
-            {{ outcomeToText(tx['team-to-win']) }}
+          <td>
+            <div v-for="bet in tx.legs">
+              <el-popover
+                placement="bottom"
+                width="500"
+                trigger="hover">
+
+                <div class="bet-outcome" slot="reference">
+                  {{ betToText(bet) }}
+                </div>
+                <div>
+                  <div>
+                    <strong>Event Id: </strong> {{ bet['event-id'] }}
+                    <span class="pull-right">
+                      <strong>Start Time: </strong>
+                      {{ startingTime(tx) | moment('timezone', getTimezone, 'LLL') }}
+                    </span>
+                  </div>
+                  <div class="popover-body">
+                    <div class="popover-teams-result">
+                      <div class="tournament"><strong>{{ bet.lockedEvent.tournament }}</strong></div>
+                      <div>{{ bet.lockedEvent.home }}</div>
+                      <div class="team-score">
+                        {{ bet.lockedEvent.homeScore === "undefined" ? "-" : bet.lockedEvent.homeScore }}
+                      </div>
+                      <div class="team-score">
+                        {{ bet.lockedEvent.awayScore === "undefined" ? "-" : bet.lockedEvent.awayScore }}
+                      </div>
+                      <div>{{ bet.lockedEvent.away}} </div>
+                    </div>
+                  </div>
+                  <div class="popover-footer">
+                    <strong>
+                      {{ bet.legResultType }}
+                    </strong>
+                  </div>
+                </div>
+              </el-popover>
+            </div>
           </td>
-
-          <td class="hide-on-small-only">{{ tx['home'] }}</td>
-
-          <td class="hide-on-small-only">{{ tx['away'] }}</td>
 
           <td class="">{{ tx.amount }}</td>
 
-          <td class="hide-on-small-only">{{ tx['result'] }}</td>
+          <td class="hide-on-small-only">
+            {{ result(tx) }}
+          </td>
         </tr>
       </tbody>
     </table>
@@ -94,38 +136,76 @@ export default {
   computed: {
     ...Vuex.mapGetters([
       'plBetTransactionList',
+      'myBetsTransactionList',
       'getNetworkType',
-      'getTimezone'
+      'getTimezone',
+      'convertOdds'
     ])
   },
 
   methods: {
-    ...Vuex.mapActions(['getAccountAddress', 'getPLBetTransactionList']),
+    ...Vuex.mapActions(['getAccountAddress', 'getPLBetTransactionList', 'getMyBetsTransactionList']),
+
+    eventIdCol(tx) {
+      if (tx.legs.length === 1) return tx.legs[0]['event-id'];
+      return `#${tx.legs.length} events`;
+    },
+
+    eventIdTooltip(tx) {
+      if (tx.legs.length === 1) return tx.legs[0]['event-id'];
+      return 'Events id: ' + tx.legs.map(l => l['event-id']).join(', ');
+    },
+
+    startingTime(tx) {
+      return Math.min(...tx.legs.map(l => l.lockedEvent.starting));
+    },
+
+    startingTimeTooltip(tx) {
+      if(tx.legs.length > 1) {
+        return `<span>* <span>`;
+      }
+    },
+
+    result(tx) {
+      let results = new Set(tx.legs.map(l => l.legResultType));
+      if (results.has('lose')) return 'Lose';
+      if (results.has('pending')) return 'Pending';
+      return 'Win';
+    },
 
     copiedAlert() {
       M.toast({
-        html: '<span class="toast__bold-font">Success &nbsp;</span> Transaction ID copied to clipboard.',
+        html:
+          '<span class="toast__bold-font">Success &nbsp;</span> Transaction Id copied to clipboard.',
         classes: 'green'
       });
     },
 
-    // Convert the interger
-    outcomeToText: function(outcome) {
-      switch (outcome) {
+    // Convert the interger and odds
+    betToText: function(leg) {
+      switch (leg.outcome) {
         case 1:
-          return 'Money Line Home';
+          return 'Home Win @' + this.convertOdds(leg.lockedEvent.homeOdds);
         case 2:
-          return 'Money Line Away';
+          return 'Away Win @' + this.convertOdds(leg.lockedEvent.awayOdds);
         case 3:
-          return 'Money Line Draw';
+          return 'Draw @' + this.convertOdds(leg.lockedEvent.drawOdds);
         case 4:
-          return 'Home to Cover Spread';
+          let oddsHome = leg.lockedEvent.spreadHomeOdds > leg.lockedEvent.spreadAwayOdds
+                              ? '+'
+                              : '-';
+                              oddsHome += leg.lockedEvent.spreadPoints / 10;
+          return 'Home Spread ' + oddsHome + '@' + this.convertOdds(leg.lockedEvent.spreadHomeOdds);
         case 5:
-          return 'Away to Cover Spread';
+          let oddsAway = leg.lockedEvent.spreadAwayOdds > leg.lockedEvent.spreadHomeOdds
+                              ? '+'
+                              : '-';
+                              oddsAway += leg.lockedEvent.spreadPoints / 10;
+          return 'Away Spread ' + oddsAway + '@' + this.convertOdds(leg.lockedEvent.spreadAwayOdds);
         case 6:
-          return 'Total Over';
+          return 'Total Over ' + leg.lockedEvent.totalPoints / 10 + '@' + this.convertOdds(leg.lockedEvent.totalOverOdds);
         case 7:
-          return 'Total Under';
+          return 'Total Under ' + leg.lockedEvent.totalPoints / 10 + '@' + this.convertOdds(leg.lockedEvent.totalUnderOdds);
         default:
           return outcome;
       }
@@ -155,6 +235,7 @@ export default {
     this.timeout = setInterval(
       async function() {
         this.getPLBetTransactionList(50);
+        this.getMyBetsTransactionList(50);
       }.bind(this),
       5000
     );
@@ -165,3 +246,34 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+strong {
+  font-weight: bold;
+}
+.popover-teams-result {
+  text-align: center;
+}
+
+.popover-body {
+  padding: 30px 0;
+}
+
+.popover-footer {
+  text-transform: capitalize;
+  text-align: right;
+}
+.tournament {
+  margin-bottom: 10px;
+}
+.team-score {
+  border: 1px solid #ccc;
+  background-color: #f6f6f6;
+  padding: 10px;
+  width: 75px;
+  margin: 10px auto;
+}
+.bet-outcome:hover {
+  font-weight: bold;
+}
+</style>
