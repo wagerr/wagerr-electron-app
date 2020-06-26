@@ -195,26 +195,13 @@ export default {
 
     // Show the blockchain sync status information.
     syncBlockchainStatus: async function() {
-      let bestBlockHash;
-      let bestBlockHeight;
-      let bestBlockTime;
-      let bestBlockTimeDifference;
-      let synced = false;
-      let verificationProgress;
-      let durationBehind;
+      let blockchainInfo, durationBehind, synced = false;
       ipcRenderer.log('info', 'Syncing blockchain');
 
       while (!synced) {
         if (this.syncMethod === syncMethods.SCAN_BLOCKS) {
-          let blockchainInfo = await blockchainRPC.getBlockchainInfo();
-          bestBlockHash = blockchainInfo.bestblockhash;
-          bestBlockHeight = blockchainInfo.blocks;
-          verificationProgress = blockchainInfo.verificationprogress;
-
-          let blockInfo = await blockchainRPC.getBlockInfo(bestBlockHash);
-          bestBlockTime = blockInfo.time;
-          bestBlockTimeDifference = moment().diff(bestBlockTime * 1000, 'seconds');
-          durationBehind = moment.duration(bestBlockTimeDifference, 'seconds');
+          blockchainInfo = await blockchainRPC.getBlockchainInfo();
+          durationBehind = await blockchainRPC.getBlockDurationBehind(blockchainInfo.bestblockhash);
 
           // If less than half an hour behind
           if (Math.round(durationBehind.asHours()) === 0) {
@@ -224,7 +211,7 @@ export default {
           } else {
             this.timeBehindText = this.getTimeBehindText(durationBehind);
 
-            this.updateInitText(this.timeBehindText + ', Scanning block ' + bestBlockHeight);
+            this.updateInitText(this.timeBehindText + ', Scanning block ' + blockchainInfo.blocks);
 
             let weeksBehind = Math.ceil(durationBehind.asWeeks());
             this.mayDownloadSnapshot = weeksBehind > blockchainSnapshot.TRESHOLD_IN_WEEKS;
@@ -232,7 +219,7 @@ export default {
         }
 
         // If verification progress is 1 or above it means the daemon is synced.
-        if (verificationProgress >= 1) {
+        if (blockchainInfo.verificationprogress >= 1) {
           synced = true;
           break;
         }
