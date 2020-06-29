@@ -39,12 +39,16 @@ if (process.env.NODE_ENV === 'development') {
 
 // Install defined Electron/Chrome devtools extensions.
 const installExtensions = async () => {
-  const installer = require('electron-devtools-installer');
-  const extensions = ['VUEJS_DEVTOOLS'];
+  logger.debug('Installing Electron/Chrome devtools extensions');
 
-  return Promise.all(
-    extensions.map(name => installer.default(installer[name]))
-  ).catch(console.log);
+  const {
+    default: installExtension,
+    VUEJS_DEVTOOLS,
+  } = require('electron-devtools-installer');
+
+  installExtension(VUEJS_DEVTOOLS)
+    .then((name) => logger.debug(`Added devtools extension:  ${name}`))
+    .catch((err) => logger.error('An error occurred: ', err));
 };
 
 /**
@@ -196,7 +200,6 @@ app.on('ready', async () => {
 
   // If running in development mode, install some Electron/Chrome devtools extensions like vue-devtools.
   if (process.env.NODE_ENV === 'development') {
-    logger.debug('Installing Electron/Chrome devtools extensions');
     await installExtensions();
   }
 

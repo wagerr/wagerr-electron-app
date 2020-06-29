@@ -169,7 +169,6 @@
 
 <script>
 import { remote, shell } from 'electron';
-import Store from 'electron-store';
 import { mapGetters, mapActions } from 'vuex';
 import wagerrRPC from '@/services/api/wagerrRPC';
 import { getWagerrConfPath } from '../../main/blockchain/blockchain';
