@@ -1,6 +1,45 @@
-// Overrides some element-ui css rules
+// Overrides some element-ui css
+@import "variables";
+
 .el-tooltip__popper {
   padding: 10px 8px;
   font-size: 1rem;
   line-height: 120%;
+}
+
+@mixin dropdown($className, $color) {
+  .#{$className}.el-dropdown-menu {
+    background-color: $color;
+    margin-top: 0 !important;
+    border: 0;
+    border-radius: 0;
+
+    li.el-dropdown-menu__item {
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+
+      a {
+        font-size: 13px;
+        padding: 8px 16px;
+        color: white;
+
+        i {
+          color: $wagerr-red;
+          font-size: 1.3em;
+          margin: 10px 0 0 0 !important;
+          font-weight: 600;
+          float: left;
+        }
+      }
+    }
+
+    &.el-popper[x-placement^=bottom] .popper__arrow {
+      border-bottom-color: $color;
+    }
+
+    &.el-popper[x-placement^=bottom] .popper__arrow::after {
+      border-bottom-color: $color;
+    }
+  }
 }
