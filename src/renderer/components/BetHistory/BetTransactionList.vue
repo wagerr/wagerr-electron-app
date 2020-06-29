@@ -44,24 +44,20 @@
           <td class="hide-on-small-only">{{ tx['event-id'] }}</td>
 
           <td class="hide-on-small-only">
-            <a
+            <el-tooltip
+              content="Copy"
               v-clipboard="tx['tx-id']"
-              @click="copiedAlert()"
-              class="transaction-list-link tooltipped"
-              data-position="bottom"
-              data-tooltip="Copy"
+              class="transaction-list-link"
             >
-              <i class="far fa-copy"></i>
-            </a>
+              <i class="far fa-copy" @click="copiedAlert()"></i>
+            </el-tooltip>
 
-            <a
-              @click="blockExplorerUrl(tx['tx-id'])"
-              class="transaction-list-link tooltipped"
-              data-position="bottom"
-              data-tooltip="Open in block explorer"
+            <el-tooltip
+              content="Open in block explorer"
+              class="transaction-list-link"
             >
-              <i class="fas fa-link"></i>
-            </a>
+              <i class="fas fa-link" @click="blockExplorerUrl(tx['tx-id'])"></i>
+            </el-tooltip>
           </td>
 
           <td class="hide-on-small-only">
@@ -105,6 +101,13 @@ export default {
 
   methods: {
     ...Vuex.mapActions(['getAccountAddress', 'getPLBetTransactionList']),
+
+    copiedAlert() {
+      M.toast({
+        html: '<span class="toast__bold-font">Success &nbsp;</span> Transaction ID copied to clipboard.',
+        classes: 'green'
+      });
+    },
 
     // Convert the interger
     outcomeToText: function(outcome) {

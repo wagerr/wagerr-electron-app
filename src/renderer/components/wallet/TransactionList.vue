@@ -31,51 +31,35 @@
         <tr v-for="tx in wgrTransactionRecords" :key="tx.id" class="tx-record">
           <td
             v-if="tx.confirmations === -1"
-            class="confirmations confirmation-conflicted"
+            class="confirmations"
           >
-            <a
-              class="tooltipped"
-              data-position="bottom"
-              :data-tooltip="tx.confirmations + ' confirmations'"
-            >
-              <i class="far fa-times-circle"></i>
-            </a>
+            <el-tooltip :content="tx.confirmations + ' confirmations'">
+              <i class="far fa-times-circle confirmation-conflicted"></i>
+            </el-tooltip>
           </td>
 
           <td
             v-else-if="tx.confirmations === 0"
-            class="confirmations confirmation-pending"
+            class="confirmations"
           >
-            <a
-              class="tooltipped"
-              data-position="bottom"
-              :data-tooltip="tx.confirmations + ' confirmations'"
-            >
-              <i class="far fa-question-circle"></i>
-            </a>
+            <el-tooltip :content="tx.confirmations + ' confirmations'">
+              <i class="far fa-question-circle confirmation-pending"></i>
+            </el-tooltip>
           </td>
 
           <td
-            v-else-if="tx.confirmations > 0 && tx.confirmations < 6"
             class="confirmations"
+            v-else-if="tx.confirmations > 0 && tx.confirmations < 6"
           >
-            <a
-              class="tooltipped"
-              data-position="bottom"
-              :data-tooltip="tx.confirmations + ' confirmations'"
-            >
-              <div class="timer-loader"></div>
-            </a>
+            <el-tooltip :content="tx.confirmations + ' confirmations'">
+              <i class="timer-loader"></i>
+            </el-tooltip>
           </td>
 
-          <td v-else class="confirmations confirmation-success">
-            <a
-              class="tooltipped"
-              data-position="bottom"
-              :data-tooltip="tx.confirmations + ' confirmations'"
-            >
-              <i class="far fa-check-circle"></i>
-            </a>
+          <td v-else class="confirmations">
+            <el-tooltip :content="tx.confirmations + ' confirmations'">
+              <i class="far fa-check-circle confirmation-success"></i>
+            </el-tooltip>
           </td>
 
           <td
@@ -89,24 +73,19 @@
             class="hide-on-small-only"
             :class="{ 'confirmation-conflicted': tx.confirmations === -1 }"
           >
-            <a
+            <el-tooltip
+              content="Copy"
               v-clipboard="tx.transactionid"
-              @click="copiedAlert()"
-              class="transaction-list-link tooltipped"
-              data-position="bottom"
-              data-tooltip="Copy"
+              class="transaction-list-link"
             >
-              <i class="far fa-copy"></i>
-            </a>
-
-            <a
-              @click="blockExplorerUrl(tx.transactionid)"
-              class="transaction-list-link tooltipped"
-              data-position="bottom"
-              data-tooltip="Open in block explorer"
+              <i class="far fa-copy" @click="copiedAlert()"></i>
+            </el-tooltip>
+            <el-tooltip
+              content="Open in block explorer"
+              class="transaction-list-link"
             >
-              <i class="fas fa-link"></i>
-            </a>
+              <i class="fas fa-link" @click="blockExplorerUrl(tx.transactionid)"></i>
+            </el-tooltip>
           </td>
 
           <td
@@ -184,6 +163,13 @@ export default {
           : mainnetParams.BLOCK_EXPLORER_URL;
 
       shell.openExternal(explorerUrl + '/#/tx/' + txId);
+    },
+
+    copiedAlert() {
+      M.toast({
+        html: '<span class="toast__bold-font">Success &nbsp;</span> Transaction ID copied to clipboard.',
+        classes: 'green'
+      });
     }
   }
 };

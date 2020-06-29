@@ -4,11 +4,12 @@
       <h4>
         Bet Transaction History
         <small>
-          <i
-            class="far fa-question-circle tooltipped"
-            data-position="right"
-            data-tooltip="Your most recent bets will appear after a short time."
-          ></i>
+          <el-tooltip
+            content="Your most recent bets will appear after a short time."
+            placement="right"
+          >
+            <i class="far fa-question-circle"></i>
+          </el-tooltip>
         </small>
       </h4>
       <bet-transaction-list></bet-transaction-list>
@@ -21,10 +22,7 @@ import BetTransactionList from '@/components/BetHistory/BetTransactionList.vue';
 
 export default {
   name: 'BetHistory',
-  components: { BetTransactionList },
 
-  mounted: function() {
-    this.$initMaterialize();
-  }
+  components: { BetTransactionList }
 };
 </script>
