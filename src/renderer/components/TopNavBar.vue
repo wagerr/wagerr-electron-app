@@ -185,39 +185,6 @@ export default {
   }
 }
 
-.el-dropdown {
-  width: 100%;
-  color: white;
-  height: 100%;
-}
-
-ul.el-dropdown-menu {
-  background-color: #212529;
-  margin-top: 0;
-  border: 0;
-  border-radius: 0;
-
-  li.el-dropdown-menu__item {
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.5);
-    }
-
-    a {
-      font-size: 13px;
-      padding: 8px 16px;
-      color: white;
-
-      i {
-        color: #b40101;
-        font-size: 1.3em;
-        margin: 10px 0 0 0 !important;
-        font-weight: 600;
-        float: left;
-      }
-    }
-  }
-}
-
 // Dropdown button
 .el-dropdown {
   width: 100%;
