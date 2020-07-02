@@ -82,24 +82,25 @@ export default {
   div.el-pagination {
     padding-right: 0px !important;
     padding-bottom: 10px !important;
-  }
-  .el-pagination.el-select.el-input {
-    width: 115px !important;
-  }
-  input.el-input__inner {
-    height: 30px !important;
-    margin-bottom: 0 !important;
-    width: 100px !important;
-    padding-right: 0px !important;
-    margin-right: 25px !important;
-  }
-  .el-input__suffix {
-    right: -10px !important;
-    color: #555 !important;
-  }
 
-  i.el-select__caret {
-    color: #606266 !important;
+    .el-pagination.el-select.el-input {
+      width: 115px !important;
+    }
+    input.el-input__inner {
+      height: 30px !important;
+      margin-bottom: 0 !important;
+      width: 100px !important;
+      padding-right: 0px !important;
+      margin-right: 25px !important;
+    }
+    .el-input__suffix {
+      right: -10px !important;
+      color: #555 !important;
+    }
+
+    i.el-select__caret {
+      color: #606266 !important;
+    }
   }
 </style>
 
