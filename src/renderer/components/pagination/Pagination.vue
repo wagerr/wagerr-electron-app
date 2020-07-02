@@ -11,7 +11,7 @@
       layout="sizes, prev, pager, next"
       :total="1000">
     </el-pagination>
-    <el-tooltip class="item" effect="dark" content="Refresh" hide-after="2000">
+    <el-tooltip class="item" effect="dark" content="Refresh" :hide-after="2000">
       <button class="refresh-btn btn btn-small waves-effect waves-red wallet-action" @click="getData()">
         <i class="el-icon-refresh-right" />
       </button>
