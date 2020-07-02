@@ -58,25 +58,31 @@ const actions = {
       });
   },
 
-  getWGRTransactionRecords({ commit }, length) {
+  getWGRTransactionRecords({ commit }, {from, length}) {
     return wagerrRPC.client
-      .listTransactionRecords('*', length)
+      .listTransactionRecords('*', length, from)
       .then(async function(resp) {
         const txRecords = resp.result.reverse();
-        const updatedTxList = [];
+        const updatedTxList = { data: [], total: 0};
 
         // Get the extra tx details for each tx record.
-        for (let i = 0; i < txRecords.length; i++) {
-          const transactionRec = txRecords[i];
-          const transaction = await walletRPC.getTransaction(
-            transactionRec.transactionid
-          );
-          const merged = Object.assign({}, transactionRec, transaction);
+        for (let tx of txRecords) {
+          const transaction = await walletRPC.getTransaction(tx.transactionid);
+          const merged = Object.assign({}, tx, transaction);
 
-          updatedTxList.push(merged);
+          updatedTxList.data.push(merged);
         }
 
+        /* 
+        * TODO update the line of code below according to the response from daemon
+        * Daemon resp should return the total number of txs so we can paginate
+        * Provisionally: 
+        *  - we consider that total number is stored in 'total' response property (could be in a different property)
+        *  - If property doesnt exist, we made up the total of 1000 (remove it once daemon response is implemented)
+        */
+        updatedTxList.total = resp.total ? resp.total : 1000;
         commit('setWGRTransactionRecords', updatedTxList);
+        return updatedTxList;
       })
       .catch(function(err) {
         // TODO Handle error correctly.
@@ -84,9 +90,9 @@ const actions = {
       });
   },
 
-  getPLBetTransactionList({ commit }, length) {
+  getPLBetTransactionList({ commit }, {from, length }) {
     return wagerrRPC.client
-      .listBets('*', length)
+      .listBets('*', length, from)
       .then(function(resp) {
         commit('setPLBetTransactionList', resp.result.reverse());
       })

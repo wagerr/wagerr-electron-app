@@ -1,5 +1,6 @@
 // Configuration
 @import 'variables';
+@import 'element_variables.scss';
 @import 'utilities';
 
 // Fonts & Icons
@@ -98,6 +99,7 @@ body {
     box-shadow: inherit;
   }
 }
+
 .btn-large {
   color: $white;
   background: $wagerr-red;

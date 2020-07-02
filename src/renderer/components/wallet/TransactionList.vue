@@ -1,34 +1,31 @@
 <template>
   <!-- Transaction List -->
   <div
-    v-if="wgrTransactionRecords.length === 0"
+    v-if="wgrTransactionRecords.data.length === 0"
     class="no-transactions z-depth-2 text-center"
   >
     <p>Currently, your wallet has no Wagerr transactions to list...</p>
   </div>
 
   <div v-else>
+    <pagination
+      view="wallet"
+      :get-data-method="getWGRTransactionRecords"
+    ></pagination>
     <table class="main-table card z-depth-2">
       <thead>
         <tr>
           <th></th>
-
           <th class="hide-on-med-and-down">Date</th>
-
           <th class="hide-on-small-only">Trans<span>action</span> ID</th>
-
           <th class="hide-on-small-only">Type</th>
-
-          <!--<th class="hide-on-med-and-down show-on-large">Blockhash</th>-->
-
           <th class="">Address</th>
-
           <th class="">Amount</th>
         </tr>
       </thead>
 
       <tbody>
-        <tr v-for="tx in wgrTransactionRecords" :key="tx.id" class="tx-record">
+        <tr v-for="tx in wgrTransactionRecords.data" :key="tx.id" class="tx-record">
           <td
             v-if="tx.confirmations === -1"
             class="confirmations"
@@ -130,11 +127,14 @@
         </tr>
       </tbody>
     </table>
+    <pagination view="wallet" :get-data-method="getWGRTransactionRecords"></pagination>
+
   </div>
 </template>
 
 <script>
 import Vuex from 'vuex';
+import Pagination from '../pagination/Pagination';
 import {
   testnetParams,
   mainnetParams
@@ -142,18 +142,17 @@ import {
 
 export default {
   name: 'TransactionList',
-
+  components: { Pagination },
   computed: {
     ...Vuex.mapGetters([
       'getTimezone',
-      'wgrTransactionList',
       'wgrTransactionRecords',
       'getNetworkType'
     ])
   },
 
   methods: {
-    ...Vuex.mapActions(['']),
+    ...Vuex.mapActions(['getWGRTransactionRecords']),
 
     blockExplorerUrl(txId) {
       let shell = require('electron').shell;

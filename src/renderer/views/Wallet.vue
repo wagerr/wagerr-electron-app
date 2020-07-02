@@ -89,7 +89,6 @@ export default {
       'zerocoin',
       'walletLoaded',
       'accountAddress',
-      'wgrTransactionList',
       'getNetworkType'
     ])
   },
@@ -97,19 +96,12 @@ export default {
   methods: {
     ...Vuex.mapActions([
       'getAccountAddress',
-      'walletExtendedBalance',
-      'getWGRTransactionList',
-      'getWGRTransactionRecords'
+      'walletExtendedBalance'
     ])
   },
 
-  data() {
-    return {
-      timeout: 0
-    };
-  },
-  
   mounted() {
+    // For modals
     this.$initMaterialize('transaction list');
 
     setInterval(
@@ -118,17 +110,6 @@ export default {
       }.bind(this),
       1000
     );
-
-    this.timeout = setInterval(
-      function() {
-        this.getWGRTransactionRecords(100);
-      }.bind(this),
-      2000
-    );
   },
-
-  destroyed() {
-    clearInterval(this.timeout);
-  }
 };
 </script>
