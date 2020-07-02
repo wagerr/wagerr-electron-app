@@ -245,8 +245,12 @@ export default {
       // After connecting to peers get some blockchain info.
       this.updateInitText('Fetching wallet information...');
       await this.walletInfo();
-      await this.getWGRTransactionRecords(100);
-      await this.getPLBetTransactionList(50);
+
+      // Sometimes the wallet gets stuck calling loadWallet() repeatedly like if it is not synced
+      let paginationParamsWallet = this.$store.getters.getPaginationParams('wallet');
+      let paginationParamsBetHistory = this.$store.getters.getPaginationParams('betHistory');
+      await this.getWGRTransactionRecords(paginationParamsWallet);
+      await this.getPLBetTransactionList(paginationParamsBetHistory);
       await this.getCGBetTransactionList(25);
       await this.walletExtendedBalance();
 

@@ -9,7 +9,6 @@ import ElementUI from 'element-ui';
 import router from './router';
 import store from './store/index';
 import App from './App';
-import 'element-ui/lib/theme-chalk/index.css';
 import locale from 'element-ui/lib/locale/lang/en';
 
 // Import frontend framework
@@ -46,6 +45,14 @@ Vue.prototype.$initMaterialize = function(toWatch) {
   M.Tooltip.init(this.$el.querySelectorAll('.tooltipped'));
   M.Modal.init(modals);
 }
+
+Vue.mixin({
+  methods: {
+    $scrollTo(x, y) {
+      window.scrollTo(x, y);
+    }
+  }
+});
 
 new Vue({
   router,

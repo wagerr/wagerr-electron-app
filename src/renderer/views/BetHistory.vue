@@ -19,10 +19,15 @@
 
 <script>
 import BetTransactionList from '@/components/BetHistory/BetTransactionList.vue';
-
 export default {
   name: 'BetHistory',
 
   components: { BetTransactionList }
 };
 </script>
+
+<style lang="scss" scoped>
+h4 {
+  margin-bottom: 0px !important;
+}
+</style>

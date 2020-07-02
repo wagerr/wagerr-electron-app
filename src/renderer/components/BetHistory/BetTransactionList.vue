@@ -16,21 +16,17 @@
   </div>
 
   <div v-else>
+    <pagination view="betHistory" :get-data-method="getPLBetTransactionList"></pagination>
+
     <table class="main-table card z-depth-2">
       <thead>
         <tr>
           <th class="hide-on-small-only">Event ID</th>
-
           <th class="hide-on-med-and-down">Transaction ID</th>
-
           <th class="">Start Time</th>
-
           <th class="hide-on-med-and-down show-on-large">Bet Outcome</th>
-
           <th class="">Home</th>
-
           <th class="">Away</th>
-
           <th class="">
             {{ getNetworkType === 'Testnet' ? 'tWGR' : 'WGR' }} Amount
           </th>
@@ -78,6 +74,8 @@
         </tr>
       </tbody>
     </table>
+
+    <pagination view="betHistory" :get-data-method="getPLBetTransactionList"></pagination>
   </div>
 </template>
 
@@ -87,10 +85,10 @@ import {
   testnetParams,
   mainnetParams
 } from '../../../main/constants/constants';
+import Pagination from '../pagination/Pagination.vue';
 
 export default {
   name: 'BetTransactionList',
-
   computed: {
     ...Vuex.mapGetters([
       'plBetTransactionList',
@@ -98,7 +96,7 @@ export default {
       'getTimezone'
     ])
   },
-
+  components: { Pagination },
   methods: {
     ...Vuex.mapActions(['getAccountAddress', 'getPLBetTransactionList']),
 
@@ -140,28 +138,6 @@ export default {
 
       shell.openExternal(explorerUrl + '/#/tx/' + txId);
     }
-  },
-
-  data() {
-    return {
-      timeout: 0
-    };
-  },
-
-  mounted() {
-    this.$initMaterialize(['plBetTransactionList']);
-
-    // Ping the get bets RPC method every 5 secs to show any new bet transactions
-    this.timeout = setInterval(
-      async function() {
-        this.getPLBetTransactionList(50);
-      }.bind(this),
-      5000
-    );
-  },
-
-  destroyed() {
-    clearInterval(this.timeout);
   }
 };
 </script>
