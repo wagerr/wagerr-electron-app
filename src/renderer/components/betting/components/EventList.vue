@@ -176,21 +176,13 @@
                           event.teams.home,
                           event.odds[1].spreadHome,
                           'spread',
-                          `Handicap ${
-                            event.odds[0].mlHome > event.odds[0].mlAway
-                              ? '+'
-                              : '-'
-                          }${event.odds[1].spreadPoints / 10}`,
+                          `Handicap ${event.odds[1].spreadPoints / 10}`,
                           null
                         )
                       "
                     >
                       <span class="pull-left">
-                        {{
-                          event.odds[0].mlHome > event.odds[0].mlAway
-                            ? '+'
-                            : '-'
-                        }}<span v-html="event.show.spreadPointsOdds" />
+                        <span v-html="event.show.spreadPointsOdds" />
                       </span>
 
                       <span class="pull-right">
@@ -208,21 +200,13 @@
                           event.teams.away,
                           event.odds[1].spreadAway,
                           'spread',
-                          `Handicap ${
-                            event.odds[0].mlAway > event.odds[0].mlHome
-                              ? '+'
-                              : '-'
-                          }${event.odds[1].spreadPoints / 10}`,
+                          `Handicap ${(event.odds[1].spreadPoints / 10) * -1}`,
                           null
                         )
                       "
                     >
                       <span class="pull-left">
-                        {{
-                          event.odds[0].mlAway > event.odds[0].mlHome
-                            ? '+'
-                            : '-'
-                        }}<span v-html="event.show.spreadPointsOdds" />
+                        <span v-html="event.show.spreadPointsOdds * -1" />
                       </span>
 
                       <span class="pull-right">
