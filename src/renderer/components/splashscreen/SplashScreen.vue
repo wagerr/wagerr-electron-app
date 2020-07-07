@@ -182,14 +182,37 @@ export default {
           return 1;
         }
 
-        // Sleep for 1 second between loops to lessen the burden on contiously making calls to the daemon and updating the UI.
-        await this.sleep(1000);
+        // Sleep for 15 seconds between loops to lessen the burden on contiously making calls to the daemon and updating the UI.
+        await this.sleep(15000);
       }
 
       // Once peers have been found resolve the Promise.
       if (peersFound) {
         ipcRenderer.log('info', 'Connected to network');
         return 1;
+      }
+    },
+
+    // Check for daemon initialized
+    checkDaemonInitialized: async function() {
+      this.updateInitText('Initializing daemon... this may take some time!');
+      ipcRenderer.log('info', 'Waiting for daemon to initialize');
+
+      // wait 50 seconds + 10 previous seconds => 1 minute so daemon can initialize
+      await this.sleep(50000);
+
+      // While no peers have connected to the daemon keep looping.
+      while (true) {
+        let netInfo = (await networkRPC.getInfo()).result;
+
+        // If we have successfully connected to peers break out of the loop.
+        if (netInfo.blocks !== -1) {
+          ipcRenderer.log('info', 'Daemon initialized');
+          break;
+        }
+
+        // Sleep for 20 second between loops to lessen the burden on contiously making calls to the daemon and updating the UI.
+        await this.sleep(20000);
       }
     },
 
@@ -259,8 +282,10 @@ export default {
     // launch. If we start hitting it with RPC calls too early the app might
     // fail to launch in some instances. Dirty workaround to allow 10 seconds
     // before moving to the RPC calls.
-    // TODO: Implement a cleaner solution.
     await this.sleep(10000);
+
+    // Wait for the daemon to be initialized
+    await this.checkDaemonInitialized();
 
     // Check if connected to the Wagerr network and if we have peers.
     await this.checkPeerStatus();
