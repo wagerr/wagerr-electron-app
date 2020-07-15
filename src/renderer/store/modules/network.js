@@ -93,7 +93,7 @@ const actions = {
     commit('setBlocks', blocks);
   },
 
-  updateInfo({ commit }) {
+  getInfo({ commit }) {
     networkRPC
       .getInfo()
       .then(function(resp) {

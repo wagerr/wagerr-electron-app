@@ -205,7 +205,7 @@ export default {
     ...Vuex.mapActions([
       'updateBlocks',
       'walletInfo',
-      'updateInfo',
+      'getInfo',
       'updateStakingStatus',
       'updateNumMasternodes',
       'updateChainSyncStatus'
@@ -242,7 +242,7 @@ export default {
     this.lastBlockTime = await this.getLastBlockTime();
 
     this.walletInfo();
-    this.updateInfo();
+    this.getInfo();
     this.updateStakingStatus();
     this.updateNumMasternodes();
     this.updateChainSyncStatus();
@@ -250,7 +250,7 @@ export default {
     this.timeout = setInterval(
       async function() {
         this.walletInfo();
-        this.updateInfo();
+        this.getInfo();
         this.updateStakingStatus();
         this.updateNumMasternodes();
         this.updateChainSyncStatus();
