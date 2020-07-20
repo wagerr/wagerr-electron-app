@@ -100,16 +100,16 @@ async function createMainWindow() {
 
           } else {
             // In case of unconfirmed txs, request the user
-            const confirm = dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
+            const response = await dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
               type: 'question',
               buttons: ['Confirm', 'Cancel'],
               message: 'Are you sure?',
               defaultId: 0,
               cancelId: 1,
               detail: `There are transactions that haven't been confirmed yet.`
-            }) === 0;
+            });
 
-            if (confirm) closeWallet();
+            if (!response.response) closeWallet();
           }
         });
       }
@@ -286,7 +286,7 @@ ipcMain.on('encrypt-wallet', async (event, arg) => {
  * Wallet repair main IPC handlers
  */
 ipcMain.on('salvage-wallet', async (event, arg) => {
-  const cancel = dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
+  const response = await dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
     type: 'question',
     buttons: ['Confirm', 'Cancel'],
     message: 'Are you sure?',
@@ -295,7 +295,7 @@ ipcMain.on('salvage-wallet', async (event, arg) => {
     detail: 'Attempt to recover private keys from corrupt wallet.dat file.'
   });
 
-  if (!cancel) {
+  if (!response.response) {
     global.restarting = true;
 
     await daemon.stop().catch(function() {
@@ -308,7 +308,7 @@ ipcMain.on('salvage-wallet', async (event, arg) => {
 
 // Handles the render process of rescanning the locally stored blockchain.
 ipcMain.on('rescan-blockchain', async (event, arg) => {
-  const cancel = dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
+  const response = await dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
     type: 'question',
     buttons: ['Confirm', 'Cancel'],
     message: 'Are you sure?',
@@ -317,7 +317,7 @@ ipcMain.on('rescan-blockchain', async (event, arg) => {
     detail: 'Rescan the block chain for missing transactions.'
   });
 
-  if (!cancel) {
+  if (!response.response) {
     global.restarting = true;
 
     await daemon.stop().catch(function() {
@@ -330,7 +330,7 @@ ipcMain.on('rescan-blockchain', async (event, arg) => {
 
 // Handles the render process of recovering transactions while keeping account info.
 ipcMain.on('recover-tx-1', async (event, arg) => {
-  const cancel = dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
+  const response = await dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
     type: 'question',
     buttons: ['Confirm', 'Cancel'],
     message: 'Are you sure?',
@@ -340,7 +340,7 @@ ipcMain.on('recover-tx-1', async (event, arg) => {
       'Recover transactions from block chain, keep meta-data e.g. Account Owner.'
   });
 
-  if (!cancel) {
+  if (!response.response) {
     global.restarting = true;
 
     await daemon.stop().catch(function() {
@@ -353,7 +353,7 @@ ipcMain.on('recover-tx-1', async (event, arg) => {
 
 // Handles the render process of recovering transactions while dropping account info.
 ipcMain.on('recover-tx-2', async (event, arg) => {
-  const cancel = dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
+  const response = await dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
     type: 'question',
     buttons: ['Confirm', 'Cancel'],
     message: 'Are you sure?',
@@ -362,7 +362,7 @@ ipcMain.on('recover-tx-2', async (event, arg) => {
     detail: 'Recover transactions from block chain, drop meta-data.'
   });
 
-  if (!cancel) {
+  if (!response.response) {
     global.restarting = true;
 
     await daemon.stop().catch(function() {
@@ -375,7 +375,7 @@ ipcMain.on('recover-tx-2', async (event, arg) => {
 
 // Handles the render process upgrading the wallet.
 ipcMain.on('upgrade-wallet', async (event, arg) => {
-  const cancel = dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
+  const response = await dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
     type: 'question',
     buttons: ['Confirm', 'Cancel'],
     message: 'Are you sure?',
@@ -384,7 +384,7 @@ ipcMain.on('upgrade-wallet', async (event, arg) => {
     detail: 'Upgrade wallet to latest format on startup.'
   });
 
-  if (!cancel) {
+  if (!response.response) {
     global.restarting = true;
 
     await daemon.stop().catch(function() {
@@ -397,7 +397,7 @@ ipcMain.on('upgrade-wallet', async (event, arg) => {
 
 // Handles the render process of reindexing the locally stored blockchain.
 ipcMain.on('reindex-blockchain', async (event, arg) => {
-  const cancel = dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
+  const response = await dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
     type: 'question',
     buttons: ['Confirm', 'Cancel'],
     message: 'Are you sure?',
@@ -406,7 +406,7 @@ ipcMain.on('reindex-blockchain', async (event, arg) => {
     detail: 'Rebuild block chain index from current blk000??.dat files'
   });
 
-  if (!cancel) {
+  if (!response.response) {
     global.restarting = true;
 
     await daemon.stop().catch(function() {
@@ -419,7 +419,7 @@ ipcMain.on('reindex-blockchain', async (event, arg) => {
 
 // Handles the render process of rescanning the locally stored blockchain.
 ipcMain.on('resync-blockchain', async (event, arg) => {
-  const cancel = dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
+  const response = await dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
     type: 'question',
     buttons: ['Confirm', 'Cancel'],
     message: 'Are you sure?',
@@ -428,7 +428,7 @@ ipcMain.on('resync-blockchain', async (event, arg) => {
     detail: 'Delete local block chain so wallet synchronises from scratch.'
   });
 
-  if (!cancel) {
+  if (!response.response) {
     global.restarting = true;
 
     await daemon.stop().catch(function() {
@@ -441,7 +441,7 @@ ipcMain.on('resync-blockchain', async (event, arg) => {
 
 // Handles the render process of resyncing the blockchain.
 ipcMain.on('restart-wagerrd', async (event, arg) => {
-  const cancel = dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
+  const response = await dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
     type: 'question',
     buttons: ['Confirm', 'Cancel'],
     message: 'Are you sure?',
@@ -450,7 +450,7 @@ ipcMain.on('restart-wagerrd', async (event, arg) => {
     detail: 'Restart the Wagerr Wallet.'
   });
 
-  if (!cancel) {
+  if (!response.response) {
     restartWagerrd(arg);
   }
 });
