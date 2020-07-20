@@ -230,8 +230,8 @@ export default {
       shell.openItem(this.confPath);
     },
 
-    backupWallet: function() {
-      let folderPath = remote.dialog.showOpenDialog({
+    backupWallet: async function() {
+      const folderPath = await remote.dialog.showOpenDialog({
         title: 'Backup Wallet.dat file.',
         buttonLabel: 'Select Folder',
         properties: ['openDirectory'],
@@ -240,15 +240,15 @@ export default {
         defaultId: 0
       });
 
-      if (folderPath) {
+      if (folderPath.filePaths[0]) {
         wagerrRPC.client
-          .backupWallet(folderPath)
+          .backupWallet(folderPath.filePaths[0])
           .then(function(resp) {
             console.log(resp);
             M.toast({
               html:
                 '<span class="toast__bold-font">Success &nbsp;</span> Wallet backup up located here: ' +
-                folderPath,
+                folderPath.filePaths[0],
               classes: 'green'
             });
           })
