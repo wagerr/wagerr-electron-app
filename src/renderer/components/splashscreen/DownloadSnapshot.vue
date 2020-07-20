@@ -45,17 +45,17 @@ export default {
       isDownloading: false
     };
   },
-  mounted() {
-    const isDownloadSnapshot = remote.dialog.showMessageBox(remote.BrowserWindow.getFocusedWindow(), {
+  async mounted() {
+    const response = await remote.dialog.showMessageBox(remote.BrowserWindow.getFocusedWindow(), {
         type: 'question',
         buttons: ['Yes, download snapshot', 'No, sync normally'],
         message: `Your Wagerr wallet is ${this.timeBehindText}. \n\nDo you want us to download a snapshot of the blockchain to speed things up?\n`,
         cancelId: 1,
         defaultId: 0,
         detail: 'You can change your snapshot preferences in the settings section'
-    }) === 0;
+    });
 
-    if (isDownloadSnapshot) {
+    if (!response.response) {
       this.onDownloadSnapshot();
     }
   },
@@ -84,17 +84,17 @@ export default {
         }
       }.bind(this), 100);      
     },
-    onCancelDownload() {
-      const confirmCancelDownload = remote.dialog.showMessageBox(remote.BrowserWindow.getFocusedWindow(), {
+    async onCancelDownload() {
+      const response = await remote.dialog.showMessageBox(remote.BrowserWindow.getFocusedWindow(), {
         type: 'question',
         buttons: ['Confirm', 'Cancel'],
         message: 'Are you sure you want to cancel the download?',
         cancelId: 1,
         defaultId: 0,
         detail: 'This will restart the Wagerr Wallet.'
-      }) === 0;
+      });
 
-      if (confirmCancelDownload) {
+      if (!response.response) {
         source.cancel();
 
         if (fs.existsSync(this.snapshotPath)) {
