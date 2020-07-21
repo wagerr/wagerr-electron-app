@@ -1,19 +1,16 @@
-import { BrowserWindow, Menu, app, dialog, ipcMain } from 'electron';
+import { app, BrowserWindow, dialog, ipcMain, Menu } from 'electron';
 import ProgressBar from 'electron-progressbar';
 import fs from 'fs';
 import path from 'path';
+import axios from 'axios';
 import errors from './alerts/errors';
-import {
-  readWagerrConf,
-  rpcPass,
-  rpcUser,
-  testnet
-} from './blockchain/blockchain';
+import { readWagerrConf, rpcPass, rpcUser, testnet } from './blockchain/blockchain';
 import Daemon from './blockchain/daemon';
 import { spawnLogger } from './logger/logger';
 import menu from './menu/menu';
 import { checkForUpdates } from './updater/updater';
 import { version as appVersion } from '../../package.json';
+import snapshotHandler from './utils/snapshotHandler';
 
 const logger = spawnLogger();
 
@@ -490,4 +487,47 @@ ipcMain.on('no-peers', () => {
 
 ipcMain.on('log-message', (event, ...args) => {
   logger.log(...args);
+});
+
+ipcMain.on('snapshot-download', async (event, url) => {
+  const { CancelToken } = axios;
+  const source = CancelToken.source();
+  let progressPercentage = 0;
+  let snapshotPath = '';
+  let progress = 0;
+  let total = 0;
+
+  const interval = setInterval(function () {
+    mainWindow.webContents.send('snapshot-download-progress', progressPercentage);
+  }, 1000);
+
+  const response = await axios({
+    method: 'get',
+    url,
+    responseType: 'stream',
+    cancelToken: source.token,
+  });
+
+  total = response.headers['content-length'];
+  snapshotPath = snapshotHandler.resolveSnapshotDataPath(response);
+  mainWindow.webContents.send('snapshot-download-path', snapshotPath);
+  response.data.pipe(fs.createWriteStream(snapshotPath));
+
+  response.data.on('data', (chunk) => {
+    progress += chunk.length;
+    progressPercentage = (progress / total) * 100;
+  });
+
+  response.data.on('end', () => {
+    try {
+      clearInterval(interval);
+      mainWindow.webContents.send('snapshot-download-complete');
+    } catch (err) {
+      mainWindow.webContents.send('snapshot-download-error', err);
+    }
+  });
+
+  ipcMain.on('snapshot-download-cancel', () => {
+    source.cancel('Snapshot download canceled by the user.');
+  });
 });

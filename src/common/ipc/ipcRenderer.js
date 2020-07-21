@@ -61,8 +61,16 @@ async function stopDaemon() {
   return res;
 }
 
+function snapshotDownload(url) {
+  ipcRenderer.send('snapshot-download', url);
+}
+
+function snapshotDownloadCancel() {
+  ipcRenderer.send('snapshot-download-cancel');
+}
+
 ipcRenderer.on('unconfirmed-txs-request', async (event, arg) => {
-  const hasUnconfirmedTransactions =  await transactionsRPC.hasUnconfirmedTransactions();
+  const hasUnconfirmedTransactions = await transactionsRPC.hasUnconfirmedTransactions();
   event.sender.send('unconfirmed-txs-reply', hasUnconfirmedTransactions);
 });
 
@@ -80,5 +88,7 @@ export default {
   restartWalletForce,
   noPeers,
   runCommand,
-  stopDaemon
+  stopDaemon,
+  snapshotDownload,
+  snapshotDownloadCancel
 };
