@@ -25,18 +25,20 @@ import jsZip from 'jszip';
 import { remote } from 'electron';
 import fs from 'fs-extra';
 import path from 'path';
-import ipcRenderer from '../../../common/ipc/ipcRenderer';
-import { blockchainSnapshot, syncMethods } from '../../../main/constants/constants';
-import { clearInterval } from 'timers';
 import { mapActions } from 'vuex';
+import { ipcRenderer } from 'electron';
+import ipcRendererHandler from '../../../common/ipc/ipcRenderer';
+import {
+  blockchainSnapshot,
+  syncMethods,
+} from '../../../main/constants/constants';
 import { getWagerrDataPath } from '../../../main/blockchain/blockchain';
 
-const CancelToken = axios.CancelToken;
-const source = CancelToken.source();
-
 export default {
-  name: 'DownloadSnapshot',  
+  name: 'DownloadSnapshot',
+
   props: ['syncMethod', 'timeBehindText'],
+
   data() {
     return {
       progressPercentage: 0,
@@ -45,7 +47,28 @@ export default {
       isDownloading: false
     };
   },
+
   async mounted() {
+    ipcRenderer.on('snapshot-download-path', (event, snapshotPath) => {
+      this.snapshotPath = snapshotPath;
+    });
+
+    ipcRenderer.on('snapshot-download-progress', (event, progressPercentage) => {
+      console.log(progressPercentage);
+      this.progressPercentage = progressPercentage;
+      this.updateProgressPercentageText();
+    });
+
+    ipcRenderer.on('snapshot-download-complete', () => {
+      this.isDownloading = false;
+      this.updateInitText('Unzipping and copying files');
+      this.unzipSnapshot();
+    });
+
+    ipcRenderer.on('snapshot-download-error', (event, errorMessage) => {
+      this.handleSnapshotDownloadError(errorMessage);
+    });
+
     const response = await remote.dialog.showMessageBox(remote.BrowserWindow.getFocusedWindow(), {
         type: 'question',
         buttons: ['Yes, download snapshot', 'No, sync normally'],
@@ -61,29 +84,30 @@ export default {
   },
   methods: {
     ...mapActions(['updateInitText']),
+
     onDownloadSnapshot(){
       this.$emit('update-sync-method', '');
       this.updateInitText('Stopping daemon...');
-      
-      // Without the timeout the app freezes before updating the init text to 'Stopping dameon...' 
-      setTimeout(async function() { 
+
+      // Without the timeout the app freezes before updating the init text to 'Stopping dameon...'
+      setTimeout(async function() {
         try {
-          await ipcRenderer.stopDaemon();  
+          await ipcRendererHandler.stopDaemon();
           this.$emit('update-sync-method', syncMethods.DOWNLOAD_SNAPSHOT);
-          
+
           this.updateProgressPercentageText();
 
-          let latestSnapshotUrl = await this.getLatestSnapshotUrl();
-          
+          const latestSnapshotUrl = await this.getLatestSnapshotUrl();
+
           if (latestSnapshotUrl) {
-            this.isDownloading = true;
-            await this.downloadSnapshot(latestSnapshotUrl);            
+            await this.downloadSnapshot(latestSnapshotUrl);
           }
         } catch(e) {
-          this.handleSnapshotDownloadError(e);          
+          this.handleSnapshotDownloadError(e);
         }
-      }.bind(this), 100);      
+      }.bind(this), 100);
     },
+
     async onCancelDownload() {
       const response = await remote.dialog.showMessageBox(remote.BrowserWindow.getFocusedWindow(), {
         type: 'question',
@@ -95,69 +119,26 @@ export default {
       });
 
       if (!response.response) {
-        source.cancel();
+        await ipcRendererHandler.snapshotDownloadCancel();
 
         if (fs.existsSync(this.snapshotPath)) {
           fs.unlinkSync(this.snapshotPath);
         }
-        
-        ipcRenderer.restartWalletForce();
+
+        ipcRendererHandler.restartWalletForce();
       }
     },
+
     updateProgressPercentageText() {
       this.updateInitText(`Downloading blockchain snapshot: ${Math.round(this.progressPercentage)}%`);
     },
-    _getFilenameFromHeaderResponse(response) {
-      let contentDisposition = response.headers['content-disposition'];
-      
-      if (!contentDisposition) return blockchainSnapshot.DEFAULT_FILENAME;
-      
-      let matches = /filename=(.+)/g.exec(contentDisposition);
-      return matches && matches.length > 1 ? matches[1] : blockchainSnapshot.DEFAULT_FILENAME;
-    },
-    _resolveSnapshotDataPath(response) {
-      const directoryPath = path.join(getWagerrDataPath(), blockchainSnapshot.RELATIVE_DATA_PATH);
-      
-      if (!fs.existsSync(directoryPath)) {
-        fs.mkdirSync(directoryPath);
-      }
 
-      return path.join(directoryPath, this._getFilenameFromHeaderResponse(response));
+    async downloadSnapshot(url) {
+      this.isDownloading = true;
+      await ipcRendererHandler.snapshotDownload(url);
     },
-    
-    downloadSnapshot: async function(url) {
-      let interval = setInterval(this.updateProgressPercentageText, 1000); 
 
-      let progress = 0, total = 0;
-      
-      let response = await axios({
-        method: 'get',
-        url: url,
-        responseType: 'stream',  
-        cancelToken: source.token
-      });
-
-      total = response.headers['content-length'];
-      this.snapshotPath = this._resolveSnapshotDataPath(response);
-      response.data.pipe(fs.createWriteStream(this.snapshotPath));
-      
-      response.data.on('data', chunk => {
-        progress += chunk.length;
-        this.progressPercentage = (progress / total) * 100;
-      });
-      
-      response.data.on('end', function(chunk) {
-        try {
-          // If not accessed through 'window' it doesn't clear the interval
-          window.clearInterval(interval);
-          this.isDownloading = false;
-          this.updateInitText('Unzipping and copying files');          
-          this.unzipSnapshot();
-          
-        } catch (e) { this.handleSnapshotDownloadError(e); }
-      }.bind(this));
-    },
-    handleUnzippedFile (file, dest) {
+    handleUnzippedFile(file, dest) {
       return file.async('nodebuffer').then(function (fileData) {
           if (file.dir) {
             if (!fs.existsSync(dest)) {
@@ -168,7 +149,8 @@ export default {
           }
         });
     },
-    unzipSnapshot: async function() {      
+
+    unzipSnapshot: async function() {
       const ext = path.extname(this.snapshotPath);
       const filename = path.basename(this.snapshotPath, ext);
       const basedir = path.dirname(this.snapshotPath);
@@ -185,30 +167,31 @@ export default {
 
       // Load zipped file
       const zip = await jsZip.loadAsync(contentZipped);
-      
+
       // Unzip and write files to disk to temp folder
       await Promise.all(
         Object.keys(zip.files).map(async function (filename) {
           const dest = path.join(unzippedSnapshotPath, filename);
-          await this.handleUnzippedFile(zip.files[filename], dest);          
+          await this.handleUnzippedFile(zip.files[filename], dest);
         }.bind(this))
       );
-      
+
       // Move files from temp folder to wagerr data folder
       fs.readdirSync(unzippedSnapshotPath).forEach(filename => {
         const unzippedFilePath = path.join(unzippedSnapshotPath, filename);
         const newFilePath = path.join(getWagerrDataPath(), filename);
         fs.moveSync(unzippedFilePath, newFilePath, { overwrite: true });
-      });      
+      });
 
       // Remove snapshot zip and temp folder
       fs.removeSync(this.snapshotPath);
       fs.removeSync(unzippedSnapshotPath);
 
-      ipcRenderer.restartWalletForce();
+      ipcRendererHandler.restartWalletForce();
     },
+
     handleSnapshotDownloadError(err) {
-      ipcRenderer.log('error', `An error occurred while trying to download the snapshot. \n\n ${err} \n\n ${err.stack}`);
+      ipcRendererHandler.log('error', `An error occurred while trying to download the snapshot. \n\n ${err} \n\n ${err.stack}`);
 
       remote.dialog.showMessageBox(remote.BrowserWindow.getFocusedWindow(), {
         type: 'error',
@@ -218,15 +201,15 @@ export default {
         detail: 'The Wagerr Wallet will restart'
       });
 
-      ipcRenderer.restartWalletForce();
+      ipcRendererHandler.restartWalletForce();
     },
-    getLatestSnapshotUrl() {  
-      // Get from github the latest release url    
+    getLatestSnapshotUrl() {
+      // Get from github the latest release url
       return axios({
         method: 'get',
         url: blockchainSnapshot.LATEST_RELEASE_URL_FROM_GITHUB
       }).then(function (response) {
-        return response.data.assets[0].browser_download_url;          
+        return response.data.assets[0].browser_download_url;
       });
     }
   }
