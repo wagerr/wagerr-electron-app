@@ -131,7 +131,7 @@
     "vue2-perfect-scrollbar": "^1.5.0",
     "vuex": "^3.5.1",
     "vuex-electron": "^1.0.3",
-    "wagerrd-rpc": "^0.1.6-beta.1",
+    "wagerrd-rpc": "^0.1.6-beta.3",
     "winston": "^3.3.3"
   },
   "devDependencies": {

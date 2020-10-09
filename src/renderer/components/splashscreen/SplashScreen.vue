@@ -96,6 +96,7 @@ export default {
       'updateWalletLoaded',
       'walletExtendedBalance',
       'getPLBetTransactionList',
+      'getMyBetsTransactionList',
       'getCGBetTransactionList',
       'getWGRTransactionRecords',
       'loadUserSettings',
@@ -270,6 +271,7 @@ export default {
       await this.walletInfo();
       await this.getWGRTransactionRecords(100);
       await this.getPLBetTransactionList(50);
+      await this.getMyBetsTransactionList(50);
       await this.getCGBetTransactionList(25);
       await this.walletExtendedBalance();
 

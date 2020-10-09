@@ -7,16 +7,16 @@ export default {
       wagerrRPC.client
         .listTransactions('*', length)
         .then(function(resp) {
-          resolve(resp.result.resverse());          
+          resolve(resp.result.resverse());
         })
         .catch(function(err) {
           // TODO Handle error correctly.
           console.error(err);
           reject(err);
-        });      
+        });
     });
   },
-  
+
   listTransactionRecords(length) {
     return new Promise((resolve, reject) => {
       wagerrRPC.client
@@ -59,7 +59,7 @@ export default {
       wagerrRPC.client
         .listBets('*', length)
         .then(function(resp) {
-          resolve(resp.result.reverse());          
+          resolve(resp.result.reverse());
         })
         .catch(function(err) {
           // TODO Handle error correctly.
@@ -68,13 +68,28 @@ export default {
         });
     });
   },
-  
+
+  getMyBets(length) {
+    return new Promise((resolve, reject) => {
+      wagerrRPC.client
+        .getMyBets(length)
+        .then(function(resp) {
+          resolve(resp.result.reverse());
+        })
+        .catch(function(err) {
+          // TODO Handle error correctly.
+          console.error(err);
+          reject(err);
+        });
+    });
+  },
+
   listChainGameBets(length) {
     return new Promise((resolve, reject) => {
       wagerrRPC.client
         .listChainGamesBets('*', length)
         .then(function(resp) {
-          resolve(resp.result.reverse());          
+          resolve(resp.result.reverse());
         })
         .catch(function(err) {
           // TODO Handle error correctly.
