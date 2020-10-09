@@ -237,8 +237,9 @@ export default {
 
             this.updateInitText(this.timeBehindText + ', Scanning block ' + blockchainInfo.blocks);
 
-            let weeksBehind = Math.ceil(durationBehind.asWeeks());
-            this.mayDownloadSnapshot = weeksBehind > blockchainSnapshot.TRESHOLD_IN_WEEKS;
+            // TODO: Re-enable after v4 testing.
+            // let weeksBehind = Math.ceil(durationBehind.asWeeks());
+            // this.mayDownloadSnapshot = weeksBehind > blockchainSnapshot.TRESHOLD_IN_WEEKS;
           }
         }
 
