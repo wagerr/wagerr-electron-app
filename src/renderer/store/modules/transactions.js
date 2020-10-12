@@ -6,7 +6,6 @@ const state = function() {
     accountAddress: '',
     wgrTransactionList: [],
     wgrTransactionRecords: [],
-    plBetTransactionList: [],
     myBetsTransactionList: [],
     cgBetTransactionList: []
   };
@@ -23,10 +22,6 @@ const getters = {
 
   wgrTransactionRecords: state => {
     return state.wgrTransactionRecords;
-  },
-
-  plBetTransactionList: state => {
-    return state.plBetTransactionList;
   },
 
   myBetsTransactionList: state => {
@@ -60,13 +55,6 @@ const actions = {
     );
   },
 
-  async getPLBetTransactionList({ commit }, length) {
-    commit(
-      'setPLBetTransactionList',
-      await transactionsRPC.listBets(length)
-    );
-  },
-
   async getMyBetsTransactionList({ commit }, length) {
     commit(
       'setMyBetsTransactionList',
@@ -93,10 +81,6 @@ const mutations = {
 
   setWGRTransactionRecords(state, txList) {
     state.wgrTransactionRecords = txList;
-  },
-
-  setPLBetTransactionList(state, txList) {
-    state.plBetTransactionList = txList;
   },
 
   setMyBetsTransactionList(state, txList) {
