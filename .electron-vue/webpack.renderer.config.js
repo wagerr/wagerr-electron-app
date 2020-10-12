@@ -146,9 +146,11 @@ if (process.env.NODE_ENV === 'production') {
   rendererConfig.devtool = 'cheap-module-source-map';
 
   rendererConfig.plugins.push(
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': '"production"'
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: 'production', // use 'production' unless process.env.NODE_ENV is defined
+      DEBUG_PROD: false
     }),
+
     new webpack.LoaderOptionsPlugin({
       minimize: true
     })

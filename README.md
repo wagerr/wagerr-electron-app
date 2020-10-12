@@ -58,6 +58,12 @@ Run in development mode:
 npm run dev
 ```
 
+Debugging in production mode:
+
+```sh
+DEBUG_PROD=true npm run package
+```
+
 Before submitting a patch we highly recommend running the linting and formatting
 scripts:
 
