@@ -54,21 +54,6 @@ export default {
     });
   },
 
-  listBets(length) {
-    return new Promise((resolve, reject) => {
-      wagerrRPC.client
-        .listBets('*', length)
-        .then(function(resp) {
-          resolve(resp.result.reverse());
-        })
-        .catch(function(err) {
-          // TODO Handle error correctly.
-          console.error(err);
-          reject(err);
-        });
-    });
-  },
-
   getMyBets(length) {
     return new Promise((resolve, reject) => {
       wagerrRPC.client
