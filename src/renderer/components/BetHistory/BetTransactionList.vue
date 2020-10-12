@@ -280,12 +280,12 @@ export default {
   mounted() {
     this.$initMaterialize();
 
-    // Ping the get bets RPC method every 5 secs to show any new bet transactions
+    // Ping the get bets RPC method every 30 secs to show any new bet transactions
     this.timeout = setInterval(
       async function() {
         this.getMyBetsTransactionList(50);
       }.bind(this),
-      5000
+      30000
     );
   },
 
