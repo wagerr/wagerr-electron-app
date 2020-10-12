@@ -59,7 +59,7 @@ export default {
       wagerrRPC.client
         .getMyBets(length)
         .then(function(resp) {
-          resolve(resp.result.reverse());
+          resolve(resp.result);
         })
         .catch(function(err) {
           // TODO Handle error correctly.
