@@ -90,7 +90,7 @@ Code Signing / Notarization
 To code sign the packaged app (as well as notarize the Mac version) you must set the following
 environment variables before running `npm run package`.
 
-macOS:
+**macOS:**
 
 ⚠️ **When signing/notarizing the Mac app there can be long delays while the app is being uploaded
 and scanned by the Apple Notary Service. According to the Apple documentation this process
@@ -113,7 +113,13 @@ export APPLE_ID_PASS=''
 export APPLE_PROVIDER_SHORT_NAME=''
 ```
 
-Windows:
+If you would like to skip notarization step you can set the `NOTARIZE` flag to `false`:
+
+```sh
+NOTARIZE=false npm run package
+```
+
+**Windows:**
 
 ```sh
 # Windows (PowerShell) - Path to *.pfx certificate relative to root of project
