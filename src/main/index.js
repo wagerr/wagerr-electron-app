@@ -30,7 +30,7 @@ let closeProgressBar = null;
 let forcelyQuit = false;
 
 // If in development mode use 'electron-debug' which adds useful debug features to the app.
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
   require('electron-debug')();
 }
 
@@ -76,6 +76,10 @@ async function createMainWindow() {
   // Add the main application menu to the UI.
   Menu.setApplicationMenu(menu);
 
+  if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
+    mainWindow.webContents.openDevTools();
+  }
+
   // Prepare for the window to be closed.
   mainWindow.on('close', async event => {
     if (closeWindowFlag === false && process.platform !== 'darwin') {
@@ -94,7 +98,6 @@ async function createMainWindow() {
         ipcMain.once('unconfirmed-txs-reply', async (event, hasUnconfirmedTxs) => {
           if (!hasUnconfirmedTxs) {
             closeWallet();
-
           } else {
             // In case of unconfirmed txs, request the user
             const response = await dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
@@ -157,6 +160,7 @@ async function createMainWindow() {
 
     mainWindow.setTitle(title);
     mainWindow.show();
+
     setImmediate(() => {
       mainWindow.focus();
     });
@@ -222,7 +226,7 @@ app.on('ready', async () => {
   logger.info('Finished initializing and ready to start');
 
   // If running in development mode, install some Electron/Chrome devtools extensions like vue-devtools.
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
     await installExtensions();
   }
 
