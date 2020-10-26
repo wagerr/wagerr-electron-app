@@ -8,19 +8,11 @@
       </div>
 
       <div class="main-content">
-        <transition name="fade" mode="out-in" v-if="!getConsoleVisibleStatus">
+        <transition v-if="!getConsoleVisibleStatus" name="fade" mode="out-in">
           <router-view></router-view>
         </transition>
 
         <debug-input v-if="getConsoleVisibleStatus"></debug-input>
-        <!--
-            <el-menu class="el-menu-vertical-demo">
-              <template slot="title">
-                <i class="el-icon-location"></i>
-                <span slot="title">Debug Console</span>
-              </template>
-            </el-menu>
-        !-->
       </div>
     </div>
 
@@ -31,42 +23,40 @@
 
 <script>
 import Vuex from 'vuex';
-import TopNavBar from '@/components/TopNavBar.vue';
-import SplashScreen from '@/components/splashscreen/SplashScreen';
-import DebugInput from '@/components/rpc/DebugInput';
-import UnlockWallet from '@/components/modals/UnlockWallet';
+import TopNavBar from './components/TopNavBar.vue';
+import SplashScreen from './components/splashscreen/SplashScreen.vue';
+import DebugInput from './components/rpc/DebugInput.vue';
+import UnlockWallet from './components/modals/UnlockWallet.vue';
 
 export default {
   name: 'App',
-  components: { SplashScreen, TopNavBar, DebugInput, UnlockWallet },
-  methods: {
-    ...Vuex.mapActions([])
 
-  },
+  components: { SplashScreen, TopNavBar, DebugInput, UnlockWallet },
 
   data() {
     return {
       isStartup: true
-    }
-  },
-
-  mounted() {
-    // Initializes some modals
-    this.$initMaterialize('App.vue');
+    };
   },
 
   computed: {
-    ...Vuex.mapGetters(['walletLoaded', 'getConsoleVisibleStatus', 'walletEncrypted', 'getPasswordOnStartup'])
+    ...Vuex.mapGetters([
+      'walletLoaded',
+      'getConsoleVisibleStatus',
+      'walletEncrypted',
+      'getPasswordOnStartup'
+    ])
   },
+
   watch: {
-    walletLoaded: async function(walletLoaded) {
+    async walletLoaded(walletLoaded) {
       if (walletLoaded) {
         // Initialize and launch unlock wallet modal if necessary
-        let elem = document.getElementById('unlock-wallet-modal');
+        const elem = document.getElementById('unlock-wallet-modal');
 
         if (this.walletEncrypted && this.getPasswordOnStartup) {
-          let self = this;
-          let instance = M.Modal.init(elem, { onCloseEnd: () => self.isStartup = false });
+          const self = this;
+          const instance = M.Modal.init(elem, { onCloseEnd: () => self.isStartup = false });
           instance.open();
         } else {
           M.Modal.init(elem);
@@ -74,12 +64,11 @@ export default {
         }
       }
     }
+  },
+
+  mounted() {
+    // Initializes some modals
+    this.$initMaterialize();
   }
 };
 </script>
-<style>
-.el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 200px;
-  min-height: 400px;
-}
-</style>

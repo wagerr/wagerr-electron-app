@@ -13,9 +13,9 @@
             <i class="far fa-address-card prefix"></i>
 
             <input
+              id="send-address"
               v-model="sendAddress"
               v-validate="'required'"
-              id="send-address"
               name="send-address"
               type="text"
               autofocus
@@ -23,36 +23,30 @@
 
             <label for="send-address">Pay To</label>
 
-            <span v-if="errors.has('send-address')" class="form-error">{{
-              errors.first('send-address')
-            }}</span>
+            <span v-if="errors.has('send-address')" class="form-error">
+              {{ errors.first('send-address') }}
+            </span>
           </div>
 
           <div class="input-field col s12">
             <i class="fas fa-tags prefix"></i>
 
-            <input
-              v-model="label"
-              v-validate=""
-              id="label"
-              name="label"
-              type="text"
-            />
+            <input id="label" v-model="label" v-validate="" name="label" type="text" />
 
             <label for="label">Label</label>
 
-            <span v-if="errors.has('label')" class="form-error">{{
-              errors.first('label')
-            }}</span>
+            <span v-if="errors.has('label')" class="form-error">
+              {{ errors.first('label') }}
+            </span>
           </div>
 
           <div class="input-field col s10">
             <i class="fas fa-money-bill prefix"></i>
 
             <input
+              id="amount"
               v-model="amount"
               v-validate="'required|decimal:8|min_value:0'"
-              id="amount"
               name="amount"
               type="text"
             />
@@ -66,9 +60,9 @@
 
           <div class="input-field col s2">
             <input
+              id="fee"
               v-model="txFee"
               v-validate="'required|decimal:5|min_value:0'"
-              id="fee"
               name="fee"
               type="text"
             />
@@ -102,6 +96,16 @@ import wagerrRPC from '@/services/api/wagerrRPC';
 export default {
   name: 'SendTransaction',
 
+  data() {
+    return {
+      sendAddress: '',
+      label: '',
+      amount: '',
+      txFee: 0.001,
+      showModal: false
+    };
+  },
+
   computed: {
     ...Vuex.mapGetters(['accountAddress'])
   },
@@ -110,8 +114,8 @@ export default {
     ...Vuex.mapActions(['getAccountAddress']),
 
     // Handle the send transaction form submit and ensure all inputs are valid.
-    handleSubmit: function() {
-      this.$validator.validate().then(valid => {
+    handleSubmit() {
+      this.$validator.validate().then((valid) => {
         if (!valid) {
           return;
         }
@@ -121,20 +125,25 @@ export default {
       });
     },
 
+    mounted() {
+      // Reset the form validation after opening the modal
+      this.$validator.reset();
+    },
+
     // Send a Wagerr transaction.
-    sendTransaction: function() {
-      let that = this;
+    sendTransaction() {
+      const that = this;
       this.getAccountAddress();
 
       // Retrieve the wallet UTXOs (unspent outputs)
       wagerrRPC.client
         .listUnspent()
-        .then(function(resp) {
+        .then((resp) => {
           let UTXOAmount = 0;
           let utxos = [];
 
           // Only use the UTXO we require to cover the tx amount.
-          for (var i = 0; i < resp.result.length; i++) {
+          for (let i = 0; i < resp.result.length; i += 1) {
             UTXOAmount += resp.result[i].amount;
             utxos.push(resp.result[i]);
 
@@ -154,87 +163,61 @@ export default {
             return;
           }
 
-          let json =
-            '{"' +
-            that.sendAddress +
-            '":' +
-            that.amount +
-            ', "' +
-            that.accountAddress +
-            '":' +
-            (UTXOAmount - that.txFee - that.amount) +
-            '}';
+          const json = `{"${that.sendAddress}":${that.amount}, "${that.accountAddress}":${UTXOAmount - that.txFee - that.amount}}`;
 
           // Create the raw send transaction.
           wagerrRPC.client
             .createRawTransaction(utxos, json)
-            .then(function(resp) {
-              let rawTxHex = resp.result;
+            .then((resp) => {
+              const rawTxHex = resp.result;
 
               // Sign the raw transaction.
               wagerrRPC.client
                 .signRawTransaction(rawTxHex)
-                .then(function(resp) {
-                  let signedHex = resp.result.hex;
+                .then((resp) => {
+                  const signedHex = resp.result.hex;
 
                   // Send the signed tx to the Wagerr blockchain.
                   wagerrRPC.client
                     .sendRawTransaction(signedHex)
-                    .then(function(resp) {
+                    .then((resp) => {
                       // Sent transaction succesfully.
                       M.toast({
-                        html:
-                          '<span class="toast__bold-font">Success &nbsp;</span> Transaction sent ' +
-                          resp.result,
+                        html: `<span class="toast__bold-font">Success &nbsp;</span> Transaction sent ${resp.result}`,
                         classes: 'green'
                       });
 
                       // Clear the sent TX form data and any errors.
                       that.clearForm();
                     })
-                    .catch(function(err) {
+                    .catch((err) => {
                       M.toast({ html: err, classes: 'wagerr-red-bg' });
                       console.log(err);
                     });
                 })
-                .catch(function(err) {
+                .catch((err) => {
                   M.toast({ html: err, classes: 'wagerr-red-bg' });
                   console.log(err);
                 });
             })
-            .catch(function(err) {
+            .catch((err) => {
               M.toast({ html: err, classes: 'wagerr-red-bg' });
               console.log(err);
             });
         })
-        .catch(function(err) {
+        .catch((err) => {
           M.toast({ html: err, classes: 'wagerr-red-bg' });
           console.log(err);
         });
     },
 
     // Clear the form data and errors.
-    clearForm: function() {
+    clearForm() {
       this.sendAddress = '';
       this.amount = '';
       this.label = '';
       this.$validator.reset();
     }
-  },
-
-  data() {
-    return {
-      sendAddress: '',
-      label: '',
-      amount: '',
-      txFee: 0.001,
-      showModal: false
-    };
-  },
-
-  mounted() {
-    // Reset the form validation after opening the modal
-    this.$validator.reset();
   }
 };
 </script>

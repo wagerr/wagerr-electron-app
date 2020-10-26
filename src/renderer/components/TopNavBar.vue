@@ -78,16 +78,17 @@
         <div class="user-balance-flex">
           <i
             v-if="walletEncrypted"
-            @click="!walletLocked ? lockWallet() : ''"
-            :data-target="walletLocked ? 'unlock-wallet-modal': ''"
+            :data-target="walletLocked ? 'unlock-wallet-modal' : ''"
             :class="`lock fa ${lockIcon} tooltipped modal-trigger`"
-            :data-tooltip="lockText">
+            :data-tooltip="lockText"
+            @click="!walletLocked ? lockWallet() : ''"
+          >
           </i>
           <div>
             {{ walletLoaded ? Math.trunc(balance * 10000) / 10000 : 'Loading...' }}
-            <span class="currency">{{
-              getNetworkType === 'Testnet' ? 'tWGR' : 'WGR'
-            }}</span>
+            <span class="currency">
+              {{ getNetworkType === 'Testnet' ? 'tWGR' : 'WGR' }}
+            </span>
             <h6>Currently Available</h6>
           </div>
         </div>
@@ -98,11 +99,12 @@
 
 <script>
 import Vuex from 'vuex';
-import EncryptWallet from '@/components/modals/EncryptWallet.vue';
-import ChangePassword from '@/components/modals/ChangePassword.vue';
+import EncryptWallet from './modals/EncryptWallet.vue';
+import ChangePassword from './modals/ChangePassword.vue';
 
 export default {
   name: 'TopNavBar',
+
   components: {
     EncryptWallet,
     ChangePassword
@@ -119,11 +121,13 @@ export default {
       'walletEncrypted',
       'getNetworkType'
     ]),
+
     lockIcon() {
       if (this.walletLocked) return 'fa-lock';
       if (this.walletUnlockedOnlyStaking) return 'fa-unlock';
       if (this.walletUnlockedFully) return 'fa-lock-open';
     },
+
     lockText() {
       if (this.walletLocked) return 'Wallet Locked';
       if (this.walletUnlockedOnlyStaking) return 'Wallet Unlocked (only staking)';
@@ -131,42 +135,44 @@ export default {
     }
   },
 
-  methods: {
-    ...Vuex.mapActions(['lockWallet', 'updadteConsoleVisible', 'walletInfo']),
-    openModal(modalId) {
-      let modal = document.getElementById(modalId);
-      M.Modal.getInstance(modal).open();
-
-    }
-  },
-
   async mounted() {
     // Initializes modals, dropdown and tooltip
     this.$initMaterialize();
 
-    this.timeout = setInterval(
-      function() {
-        this.walletInfo();
-      }.bind(this),
-      3000
-    );
+    this.timeout = setInterval(() => {
+      this.walletInfo();
+    }, 3000);
+  },
+
+  beforeDestroy() {
+    clearInterval(this.timeout);
+  },
+
+  methods: {
+    ...Vuex.mapActions(['lockWallet', 'updadteConsoleVisible', 'walletInfo']),
+
+    openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      M.Modal.getInstance(modal).open();
+    }
   }
 };
 </script>
 <style lang="scss">
-  @import '../assets/scss/element-ui';
-  // Dropdown list
-  @include dropdown(topnav-dropdown, #212529);
+@import '../assets/scss/element-ui';
+
+// Dropdown list
+@include dropdown(topnav-dropdown, #212529);
 </style>
 
 <style scoped lang="scss">
-@import '@/assets/scss/_variables';
+@import '../assets/scss/_variables';
 
 .user-balance-flex {
   display: flex;
 
   i.lock {
-    margin-left: 0px;
+    margin-left: 0;
     font-size: 1.2em;
     margin-right: 10px;
     margin-top: 2px;
@@ -193,9 +199,9 @@ export default {
 
   // - Fixes behaviour of dropdown div trigger
   div.el-dropdown-selfdefine {
-    width:100%;
+    width: 100%;
     height: 100%;
-    position:absolute;
+    position: absolute;
     outline: none;
   }
 }

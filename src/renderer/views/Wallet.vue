@@ -35,9 +35,7 @@
 
             <div class="label col s6 right-align">Zerocoin:</div>
 
-            <div class="col s6">
-              {{ walletLoaded ? zerocoin : 'Loading...' }} zWGR
-            </div>
+            <div class="col s6">{{ walletLoaded ? zerocoin : 'Loading...' }} zWGR</div>
           </div>
 
           <!--<div class="dashboard-staking"><span class="amount">0</span> staking</div>-->
@@ -51,10 +49,11 @@
 
             <a
               class="waves-effect waves-red wallet-action btn-large modal-trigger wagerr-red-bg z-depth-2"
-              @click="this.getAccountAddress"
               data-target="receive-tx-modal"
-              >Receive</a
+              @click="getAccountAddress"
             >
+              Receive
+            </a>
           </div>
         </div>
       </div>
@@ -72,13 +71,20 @@
 
 <script>
 import Vuex from 'vuex';
-import TransactionList from '@/components/wallet/TransactionList';
-import SendTransaction from '@/components/wallet/SendTransaction';
-import ReceiveTransaction from '@/components/wallet/ReceiveTransaction';
+import TransactionList from '../components/wallet/TransactionList.vue';
+import SendTransaction from '../components/wallet/SendTransaction.vue';
+import ReceiveTransaction from '../components/wallet/ReceiveTransaction.vue';
 
 export default {
   name: 'Wallet',
+
   components: { TransactionList, SendTransaction, ReceiveTransaction },
+
+  data() {
+    return {
+      timeout: null
+    };
+  },
 
   computed: {
     ...Vuex.mapGetters([
@@ -89,46 +95,25 @@ export default {
       'zerocoin',
       'walletLoaded',
       'accountAddress',
-      'wgrTransactionList',
       'getNetworkType'
     ])
   },
 
-  methods: {
-    ...Vuex.mapActions([
-      'getAccountAddress',
-      'walletExtendedBalance',
-      'getWGRTransactionList',
-      'getWGRTransactionRecords'
-    ])
-  },
-
-  data() {
-    return {
-      timeout: 0
-    };
-  },
-  
   mounted() {
-    this.$initMaterialize('transaction list');
+    this.$initMaterialize();
 
-    setInterval(
-      function() {
-        this.walletExtendedBalance();
-      }.bind(this),
-      1000
-    );
-
-    this.timeout = setInterval(
-      function() {
-        this.getWGRTransactionRecords(100);
-      }.bind(this),
-      2000
-    );
+    this.timeout = setInterval(() => {
+      this.walletExtendedBalance();
+      this.getWGRTransactionRecords(100);
+    }, 5000);
   },
 
-  destroyed() {
+  beforeDestroy() {
     clearInterval(this.timeout);
+  },
+
+  methods: {
+    ...Vuex.mapActions(['getAccountAddress', 'walletExtendedBalance', 'getWGRTransactionRecords'])
   }
 };
 </script>

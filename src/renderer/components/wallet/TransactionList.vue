@@ -1,9 +1,6 @@
 <template>
   <!-- Transaction List -->
-  <div
-    v-if="wgrTransactionRecords.length === 0"
-    class="no-transactions z-depth-2 text-center"
-  >
+  <div v-if="wgrTransactionRecords.length === 0" class="no-transactions z-depth-2 text-center">
     <p>Currently, your wallet has no Wagerr transactions to list...</p>
   </div>
 
@@ -29,28 +26,19 @@
 
       <tbody>
         <tr v-for="tx in wgrTransactionRecords" :key="tx.id" class="tx-record">
-          <td
-            v-if="tx.confirmations === -1"
-            class="confirmations"
-          >
+          <td v-if="tx.confirmations === -1" class="confirmations">
             <el-tooltip :content="tx.confirmations + ' confirmations'">
               <i class="far fa-times-circle confirmation-conflicted"></i>
             </el-tooltip>
           </td>
 
-          <td
-            v-else-if="tx.confirmations === 0"
-            class="confirmations"
-          >
+          <td v-else-if="tx.confirmations === 0" class="confirmations">
             <el-tooltip :content="tx.confirmations + ' confirmations'">
               <i class="far fa-question-circle confirmation-pending"></i>
             </el-tooltip>
           </td>
 
-          <td
-            class="confirmations"
-            v-else-if="tx.confirmations > 0 && tx.confirmations < 6"
-          >
+          <td v-else-if="tx.confirmations > 0 && tx.confirmations < 6" class="confirmations">
             <el-tooltip :content="tx.confirmations + ' confirmations'">
               <i class="timer-loader"></i>
             </el-tooltip>
@@ -73,17 +61,10 @@
             class="hide-on-small-only"
             :class="{ 'confirmation-conflicted': tx.confirmations === -1 }"
           >
-            <el-tooltip
-              content="Copy"
-              v-clipboard="tx.transactionid"
-              class="transaction-list-link"
-            >
+            <el-tooltip v-clipboard="tx.transactionid" content="Copy" class="transaction-list-link">
               <i class="far fa-copy" @click="copiedAlert()"></i>
             </el-tooltip>
-            <el-tooltip
-              content="Open in block explorer"
-              class="transaction-list-link"
-            >
+            <el-tooltip content="Open in block explorer" class="transaction-list-link">
               <i class="fas fa-link" @click="blockExplorerUrl(tx.transactionid)"></i>
             </el-tooltip>
           </td>
@@ -97,16 +78,14 @@
               v-if="tx.type === 'BetPlaced' || tx.type === 'BetPayout'"
               :type="tx.type"
               :tx-id="tx.transactionid"
-              :n-out="tx.details[0].vout">
+              :n-out="tx.details[0].vout"
+            >
             </transaction-bet-popover>
           </td>
 
           <!--<td class="hide-on-med-and-down show-on-large">{{tx.blockhash}}</td>-->
 
-          <td
-            class=""
-            :class="{ 'confirmation-conflicted': tx.confirmations === -1 }"
-          >
+          <td class="" :class="{ 'confirmation-conflicted': tx.confirmations === -1 }">
             {{ tx.details[0] ? tx.details[0].address : '' }}
           </td>
 
@@ -126,11 +105,7 @@
             {{ tx.credit }} {{ getNetworkType === 'Testnet' ? 'tWGR' : 'WGR' }}
           </td>
 
-          <td
-            v-else
-            class=""
-            :class="{ 'confirmation-conflicted': tx.confirmations === -1 }"
-          >
+          <td v-else class="" :class="{ 'confirmation-conflicted': tx.confirmations === -1 }">
             <small>Error: Could not determine amount.</small>
           </td>
         </tr>
@@ -141,40 +116,33 @@
 
 <script>
 import Vuex from 'vuex';
-import TransactionBetPopover from './TransactionBetPopover';
-import {
-  testnetParams,
-  mainnetParams
-} from '../../../main/constants/constants';
+import TransactionBetPopover from './TransactionBetPopover.vue';
+import { testnetParams, mainnetParams } from '../../../main/constants/constants';
 
 export default {
   name: 'TransactionList',
-  components: {TransactionBetPopover},
+
+  components: { TransactionBetPopover },
+
   computed: {
-    ...Vuex.mapGetters([
-      'getTimezone',
-      'wgrTransactionList',
-      'wgrTransactionRecords',
-      'getNetworkType'
-    ])
+    ...Vuex.mapGetters(['getTimezone', 'wgrTransactionRecords', 'getNetworkType'])
   },
 
   methods: {
-    ...Vuex.mapActions(['']),
-
     blockExplorerUrl(txId) {
-      let shell = require('electron').shell;
-      let explorerUrl =
+      const { shell } = require('electron');
+      const explorerUrl =
         this.getNetworkType === 'Testnet'
           ? testnetParams.BLOCK_EXPLORER_URL
           : mainnetParams.BLOCK_EXPLORER_URL;
 
-      shell.openExternal(explorerUrl + '/#/tx/' + txId);
+      shell.openExternal(`${explorerUrl}/#/tx/${txId}`);
     },
 
     copiedAlert() {
       M.toast({
-        html: '<span class="toast__bold-font">Success &nbsp;</span> Transaction ID copied to clipboard.',
+        html:
+          '<span class="toast__bold-font">Success &nbsp;</span> Transaction ID copied to clipboard.',
         classes: 'green'
       });
     }
