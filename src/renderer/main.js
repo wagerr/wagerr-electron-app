@@ -39,13 +39,13 @@ Vue.use(VueClipboards);
 Vue.use(VeeValidate);
 
 // Initializes the materializecss components of a Vue component
-Vue.prototype.$initMaterialize = function(toWatch) {
-  let modals = this.$el.querySelectorAll('.modal:not(.no-auto-init)');
+Vue.prototype.$initMaterialize = function () {
+  const modals = this.$el.querySelectorAll('.modal:not(.no-auto-init)');
   M.Tabs.init(this.$el.querySelector('.tabs'));
   M.Dropdown.init(this.$el.querySelectorAll('.dropdown-trigger'));
   M.Tooltip.init(this.$el.querySelectorAll('.tooltipped'));
   M.Modal.init(modals);
-}
+};
 
 new Vue({
   router,

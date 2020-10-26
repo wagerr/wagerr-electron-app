@@ -1,72 +1,66 @@
 <template>
-  <el-popover trigger="hover" v-on:show="show">              
+  <el-popover trigger="hover" @show="show">
     <div class="txbet-popover">
-      <i class="fas fa-spinner fa-spin" v-if="!betInfo"></i>
+      <i v-if="!betInfo" class="fas fa-spinner fa-spin"></i>
       <div v-if="betInfo">
-        <div v-for="bet in betInfo.legs">
-          Event {{ bet['event-id'] }}: 
-          {{ bet.lockedEvent.home }} vs {{ bet.lockedEvent.away }} | 
+        <div v-for="(bet, index) in betInfo.legs" :key="index">
+          Event {{ bet['event-id'] }}: {{ bet.lockedEvent.home }} vs {{ bet.lockedEvent.away }} |
           <bet-to-text :bet="bet"></bet-to-text>
         </div>
       </div>
     </div>
-    <i class="el-icon-info" slot="reference" />
+    <i slot="reference" class="el-icon-info" />
   </el-popover>
 </template>
 
 <script>
 import Vuex from 'vuex';
-import wagerrRPC from '@/services/api/wagerrRPC';
-import BetToText from '../BetHistory/BetText';
+import wagerrRPC from '../../services/api/wagerrRPC';
+import BetToText from '../BetHistory/BetText.vue';
 
 export default {
   name: 'TransactionBetPopover',
+
   components: { BetToText },
+
   props: ['type', 'txId', 'nOut'],
+
   data() {
     return {
       betInfo: null
-    }
-  },
-
-  computed: {
-    ...Vuex.mapGetters([
-      'convertOdds'
-    ])
+    };
   },
 
   methods: {
     show() {
-      let self = this;
-
       if (this.type === 'BetPayout') {
         wagerrRPC.client
-          .getPayoutInfo([{txHash: this.txId, nOut: this.nOut}])
-          .then(function(resp) {
-            self.loadBetData(resp.result[0].payoutInfo.betTxHash);
+          .getPayoutInfo([{ txHash: this.txId, nOut: this.nOut }])
+          .then((resp) => {
+            this.loadBetData(resp.result[0].payoutInfo.betTxHash);
           })
-          .catch(function(err) {
-            self.error(err);
-          })
+          .catch((err) => {
+            this.error(err);
+          });
       } else if (this.type === 'BetPlaced') {
         this.loadBetData(this.txId);
       }
     },
 
     loadBetData(txId) {
-      let self = this;
       wagerrRPC.client
         .getBetByTxId(txId)
-        .then(function(resp) {
-          self.betInfo = resp.result[0];
+        .then((resp) => {
+          this.betInfo = resp.result[0];
         })
-        .catch(function(err) {
-          self.error(err);
-      });
+        .catch((err) => {
+          this.error(err);
+        });
     },
 
     error(err) {
       console.log(err);
+
       M.toast({
         html:
           '<span class="toast__bold-font">Error &nbsp;</span> ' +
@@ -80,15 +74,16 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../assets/scss/_variables.scss';
-  i.el-icon-info {
-    color: $gray-600;
-    &:hover {
-      color: $gray-700;
-    }
-  }
 
-  .txbet-popover {
-    display: flex;
-    justify-content: center;
+i.el-icon-info {
+  color: $gray-600;
+  &:hover {
+    color: $gray-700;
   }
+}
+
+.txbet-popover {
+  display: flex;
+  justify-content: center;
+}
 </style>

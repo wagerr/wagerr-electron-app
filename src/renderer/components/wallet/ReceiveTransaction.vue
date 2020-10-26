@@ -20,11 +20,7 @@
           <div class="circle-icon">
             <el-tooltip content="Copy">
               <span class="inner-circle">
-                <a
-                  v-clipboard="accountAddress"
-                  @click="copiedAlert()"
-                  class="circle-icon-link"
-                >
+                <a v-clipboard="accountAddress" class="circle-icon-link" @click="copiedAlert()">
                   <i class="far fa-copy"></i>
                 </a>
               </span>
@@ -38,7 +34,7 @@
                   class="circle-icon-link"
                   :href="
                     'mailto:wagerr@example.com?Subject=Wagerr Wallet Address&Body=My Wagerr address is: ' +
-                      accountAddress
+                    accountAddress
                   "
                   target="_top"
                 >
@@ -51,10 +47,7 @@
           <div class="circle-icon">
             <el-tooltip content="Open in block explorer">
               <span class="inner-circle">
-                <a
-                  @click="blockExplorerUrl"
-                  class="circle-icon-link"
-                >
+                <a class="circle-icon-link" @click="blockExplorerUrl">
                   <i class="fas fa-link"></i>
                 </a>
               </span>
@@ -69,23 +62,21 @@
 <script>
 import Vuex from 'vuex';
 import QrCode from '../utilities/QrCode.vue';
-
-import {
-  testnetParams,
-  mainnetParams
-} from '../../../main/constants/constants';
+import { testnetParams, mainnetParams } from '../../../main/constants/constants';
 
 export default {
   name: 'RecieveTransaction',
+
+  components: {
+    QrCode
+  },
 
   computed: {
     ...Vuex.mapGetters(['accountAddress', 'getNetworkType'])
   },
 
   methods: {
-    ...Vuex.mapActions(['getAccountAddress']),
-
-    copiedAlert: function() {
+    copiedAlert() {
       M.toast({
         html:
           '<span class="toast__bold-font">Success &nbsp;</span> Address copied to your clipboard.',
@@ -95,18 +86,14 @@ export default {
 
     // Create the Wagerr block explorer URL to view the wallet address.
     blockExplorerUrl() {
-      let shell = require('electron').shell;
-      let explorerUrl =
+      const { shell } = require('electron');
+      const explorerUrl =
         this.getNetworkType === 'Testnet'
           ? testnetParams.BLOCK_EXPLORER_URL
           : mainnetParams.BLOCK_EXPLORER_URL;
 
-      shell.openExternal(explorerUrl + '/#/address/' + this.accountAddress);
+      shell.openExternal(`${explorerUrl}/#/address/${this.accountAddress}`);
     }
-  },
-
-  components: {
-    QrCode
   }
 };
 </script>
