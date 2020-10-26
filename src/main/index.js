@@ -1,4 +1,4 @@
-import { app, BrowserWindow, dialog, ipcMain, Menu } from 'electron';
+import { app, BrowserWindow, dialog, ipcMain, Menu, nativeImage } from 'electron';
 import ProgressBar from 'electron-progressbar';
 import fs from 'fs';
 import path from 'path';
@@ -59,11 +59,12 @@ async function createMainWindow() {
     height: 700,
     minWidth: 1275,
     minHeight: 700,
-    icon: path.join(__dirname, '../renderer/assets/images/icons/png/256.png'),
+    icon: nativeImage.createFromPath(path.join(__dirname, '../renderer/assets/images/icons/png/256.png')),
     show: false,
     autoHideMenuBar: true,
     backgroundColor: '#2B2C2D',
     webPreferences: {
+      enableRemoteModule: true,
       nodeIntegration: true
     }
   };
