@@ -269,7 +269,7 @@ export default {
       this.updateInitText('Fetching wallet information...');
       await this.walletInfo();
       await this.getWGRTransactionRecords(100);
-      await this.getPLBetTransactionList(50);
+      // await this.getPLBetTransactionList(50);
       await this.getCGBetTransactionList(25);
       await this.walletExtendedBalance();
 
