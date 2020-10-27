@@ -1,23 +1,16 @@
 import addressesRPC from '@/services/api/addresses_rpc';
 import transactionsRPC from '@/services/api/transactions_rpc';
 
-const state = function() {
-  return {
-    accountAddress: '',
-    wgrTransactionList: [],
-    wgrTransactionRecords: [],
-    myBetsTransactionList: [],
-    cgBetTransactionList: []
-  };
+const state = {
+  accountAddress: '',
+  wgrTransactionRecords: [],
+  myBetsTransactionList: [],
+  cgBetTransactionList: []
 };
 
 const getters = {
   accountAddress: state => {
     return state.accountAddress;
-  },
-
-  wgrTransactionList: state => {
-    return state.wgrTransactionList;
   },
 
   wgrTransactionRecords: state => {
@@ -38,13 +31,6 @@ const actions = {
     commit(
       'setAccountAddress',
       await addressesRPC.getNewAddress()
-    );
-  },
-
-  async getWGRTransactionList({ commit }, length) {
-    commit(
-      'setWGRTransactionList',
-      await transactionsRPC.listTransactions(length)
     );
   },
 
@@ -73,10 +59,6 @@ const actions = {
 const mutations = {
   setAccountAddress(state, accountAddress) {
     state.accountAddress = accountAddress;
-  },
-
-  setWGRTransactionList(state, txList) {
-    state.wgrTransactionList = txList;
   },
 
   setWGRTransactionRecords(state, txList) {

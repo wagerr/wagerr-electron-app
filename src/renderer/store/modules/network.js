@@ -1,22 +1,20 @@
 import networkRPC from '@/services/api/network_rpc';
 import masternodeRPC from '@/services/api/masternode_rpc';
 
-const state = function() {
-  return {
-    network: '',
-    connections: 0,
-    peersList: {},
-    masternodes: 0,
-    blocks: 0,
-    moneySupply: 0,
-    protocolVersion: 0,
-    networkVersion: '',
-    stakingStatus: false,
-    msyncStatus: false,
-    chainSyncStatus: false,
-    peerInfo: {},
-    bannedInfo: {}
-  };
+const state = {
+  network: '',
+  connections: 0,
+  peersList: {},
+  masternodes: 0,
+  blocks: 0,
+  moneySupply: 0,
+  protocolVersion: 0,
+  networkVersion: '',
+  stakingStatus: false,
+  msyncStatus: false,
+  chainSyncStatus: false,
+  peerInfo: {},
+  bannedInfo: {}
 };
 
 const getters = {

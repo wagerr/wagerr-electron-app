@@ -15,17 +15,15 @@ const OddsFormat = {
   american: 2
 };
 
-const state = function() {
-  return {
-    oddsFormat: OddsFormat.decimal,
-    passwordOnStartup: true,
-    timezoneOption: 'auto',
-    timezone: moment.tz.guess(),
-    showNetworkShare: false,
-    accountList: [],
-    receivingAddressList: [],
-    sendingAddressList: []
-  };
+const state = {
+  oddsFormat: OddsFormat.decimal,
+  passwordOnStartup: true,
+  timezoneOption: 'auto',
+  timezone: moment.tz.guess(),
+  showNetworkShare: false,
+  accountList: [],
+  receivingAddressList: [],
+  sendingAddressList: []
 };
 
 const displayOdds = function(state, val) {

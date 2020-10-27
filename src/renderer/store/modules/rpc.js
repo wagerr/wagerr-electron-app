@@ -1,6 +1,3 @@
-// import networkRPC from "@/services/api/network_rpc";
-// import masternodeRPC from "@/services/api/masternode_rpc";
-
 const state = {
   recHistoryList: [],
   isConsoleVisible: false

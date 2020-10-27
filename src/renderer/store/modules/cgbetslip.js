@@ -7,19 +7,17 @@ import wagerrRPC from '@/services/api/wagerrRPC';
  * @module BetSlip
  * @package Wagerr Electron App
  */
-const state = function() {
-  return {
-    loadingCGEvent: true,
-    loadingCGDetails: true,
-    noOfEntrants: 0,
-    entryFee: 0,
-    gameID: 0,
-    potSize: 0,
-    gameStartBlock: 0,
-    gameStartTime: '',
-    gameEndTime: 0,
-    cgBetList: []
-  };
+const state = {
+  loadingCGEvent: true,
+  loadingCGDetails: true,
+  noOfEntrants: 0,
+  entryFee: 0,
+  gameID: 0,
+  potSize: 0,
+  gameStartBlock: 0,
+  gameStartTime: '',
+  gameEndTime: 0,
+  cgBetList: []
 };
 
 const getters = {
