@@ -78,7 +78,12 @@ async function createMainWindow() {
   Menu.setApplicationMenu(menu);
 
   if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
-    mainWindow.webContents.openDevTools();
+    mainWindow.webContents.on('did-frame-finish-load', () => {
+      mainWindow.webContents.once('devtools-opened', () => {
+        mainWindow.focus();
+      });
+      mainWindow.webContents.openDevTools();
+    });
   }
 
   // Prepare for the window to be closed.
