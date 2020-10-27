@@ -141,7 +141,7 @@ export default {
 
     this.timeout = setInterval(() => {
       this.walletInfo();
-    }, 30000);
+    }, 3000);
   },
 
   beforeDestroy() {
