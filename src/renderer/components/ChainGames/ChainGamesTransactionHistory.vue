@@ -43,7 +43,7 @@ export default {
 
   data() {
     return {
-      getCGBetTransactionListIID: 0
+      intervalHandle: 0
     };
   },
 
@@ -71,22 +71,26 @@ export default {
     }
   },
 
-  mounted() {
-    // Ping the get chain games RPC method every 5 secs to show any new chain
-    // game transactions.
-    this.getCGBetTransactionListIID = setInterval(
-      async function() {
-        this.getCGBetTransactionList(25);
-      }.bind(this),
-      30000
-    );
-
+  async mounted() {
     // Initialise the Material JS so modals, drop down menus etc function.
     this.$initMaterialize();
+
+    await this.getCGBetTransactionList(25);
+
+    // Ping the get chain games RPC method every 5 secs to show any new chain
+    // game transactions.
+    let isRunning = false;
+    this.intervalHandle = setInterval(async () => {
+      if (!isRunning) {
+        isRunning = true;
+        await this.getCGBetTransactionList(25);
+        isRunning = false;
+      }
+    }, 30000);
   },
 
-  destroyed() {
-    clearInterval(this.getCGBetTransactionListIID);
+  beforeDestroy() {
+    clearInterval(this.intervalHandle);
   }
 };
 </script>

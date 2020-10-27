@@ -105,6 +105,12 @@ import ChangePassword from './modals/ChangePassword.vue';
 export default {
   name: 'TopNavBar',
 
+  data() {
+    return {
+      intervalHandle: 0
+    };
+  },
+
   components: {
     EncryptWallet,
     ChangePassword
@@ -135,17 +141,22 @@ export default {
     }
   },
 
-  async mounted() {
+  mounted() {
     // Initializes modals, dropdown and tooltip
     this.$initMaterialize();
 
-    this.timeout = setInterval(() => {
-      this.walletInfo();
+    let isRunning = false;
+    this.intervalHandle = setInterval(async () => {
+      if (!isRunning) {
+        isRunning = true;
+        await this.walletInfo();
+        isRunning = false;
+      }
     }, 3000);
   },
 
   beforeDestroy() {
-    clearInterval(this.timeout);
+    clearInterval(this.intervalHandle);
   },
 
   methods: {

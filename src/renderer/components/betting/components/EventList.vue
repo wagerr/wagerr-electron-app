@@ -554,28 +554,28 @@ export default {
 
   data() {
     return {
-      timeout: 0,
+      intervalHandle: 0,
       searchTermInput: '',
       searchTerm: ''
     };
   },
 
-  created() {
+  mounted() {
     this.listEvents(this.getEventsSportFilter);
-    // this.testlistEvents();
 
     // ping listevents every 5 secs for new and updated events.
-    this.timeout = setInterval(
-      async function() {
-        this.listEvents(this.getEventsSportFilter);
-        // this.testlistEvents();
-      }.bind(this),
-      5000
-    );
+    let isRunning = false;
+    this.intervalHandle = setInterval(async () => {
+      if (!isRunning) {
+        isRunning = true;
+        await this.listEvents(this.getEventsSportFilter);
+        isRunning = false;
+      }
+    }, 5000);
   },
 
-  destroyed() {
-    clearInterval(this.timeout);
+  beforeDestroy() {
+    clearInterval(this.intervalHandle);
   }
 };
 </script>

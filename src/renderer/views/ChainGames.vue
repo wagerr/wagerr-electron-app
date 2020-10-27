@@ -169,7 +169,7 @@ export default {
 
   data() {
     return {
-      listChainGamesEventsIID: 0
+      intervalHandle: 0
     };
   },
 
@@ -217,16 +217,18 @@ export default {
     this.$initMaterialize();
     this.listChainGamesEvents();
 
-    this.listChainGamesEventsIID = setInterval(
-      function() {
-        this.listChainGamesEvents();
-      }.bind(this),
-      60000
-    );
+    let isRunning = false;
+    this.intervalHandle = setInterval(async () => {
+      if (!isRunning) {
+        isRunning = true;
+        await this.listChainGamesEvents();
+        isRunning = false;
+      }
+    }, 60000);
   },
 
-  destroyed() {
-    clearInterval(this.listChainGamesEventsIID);
+  beforeDestroy() {
+    clearInterval(this.intervalHandle);
   }
 };
 </script>

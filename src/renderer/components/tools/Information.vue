@@ -247,33 +247,35 @@ export default {
     this.updateNumMasternodes();
     this.updateChainSyncStatus();
 
-    this.timeout = setInterval(
-      async function() {
-        this.walletInfo();
-        this.getInfo();
-        this.updateStakingStatus();
-        this.updateNumMasternodes();
-        this.updateChainSyncStatus();
+    let isRunning = false;
+    this.intervalHandle = setInterval(async () => {
+      if (!isRunning) {
+        isRunning = true;
+        await this.walletInfo();
+        await this.getInfo();
+        await this.updateStakingStatus();
+        await this.updateNumMasternodes();
+        await this.updateChainSyncStatus();
 
         if (this.blockCount !== this.getBlocks) {
           this.blockCount = this.getBlocks;
-          this.lastBlockTime = await this.getLastBlockTime()
+          this.lastBlockTime = await this.getLastBlockTime();
         }
-      }.bind(this),
-      3000
-    );
+        isRunning = false;
+      }
+    }, 3000);
   },
 
   data() {
     return {
-      timeout: 0,
+      intervalHandle: 0,
       blockCount: 0,
       lastBlockTime: ''
     };
   },
 
-  destroyed() {
-    clearInterval(this.timeout);
+  beforeDestroy() {
+    clearInterval(this.intervalHandle);
   }
 };
 </script>
