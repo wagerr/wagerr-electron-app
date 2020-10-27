@@ -74,13 +74,6 @@
             :class="{ 'confirmation-conflicted': tx.confirmations === -1 }"
           >
             {{ tx.type }}
-            <transaction-bet-popover
-              v-if="tx.type === 'BetPlaced' || tx.type === 'BetPayout'"
-              :type="tx.type"
-              :tx-id="tx.transactionid"
-              :n-out="tx.details[0].vout"
-            >
-            </transaction-bet-popover>
           </td>
 
           <!--<td class="hide-on-med-and-down show-on-large">{{tx.blockhash}}</td>-->
@@ -116,13 +109,10 @@
 
 <script>
 import Vuex from 'vuex';
-import TransactionBetPopover from './TransactionBetPopover.vue';
 import { testnetParams, mainnetParams } from '../../../main/constants/constants';
 
 export default {
   name: 'TransactionList',
-
-  components: { TransactionBetPopover },
 
   computed: {
     ...Vuex.mapGetters(['getTimezone', 'wgrTransactionRecords', 'getNetworkType'])
