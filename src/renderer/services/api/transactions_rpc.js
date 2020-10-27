@@ -54,24 +54,6 @@ export default {
     });
   },
 
-  getMyBets(length) {
-    return new Promise((resolve, reject) => {
-      wagerrRPC.client
-        // TODO: Don't hardcode getMyBets once we resolve issues with Wagerr Core not returning
-        //       all the results.
-        // .getMyBets('*', length)
-        .getMyBets('')
-        .then(function(resp) {
-          resolve(resp.result);
-        })
-        .catch(function(err) {
-          // TODO Handle error correctly.
-          console.error(err);
-          reject(err);
-        });
-    });
-  },
-
   listChainGameBets(length) {
     return new Promise((resolve, reject) => {
       wagerrRPC.client
