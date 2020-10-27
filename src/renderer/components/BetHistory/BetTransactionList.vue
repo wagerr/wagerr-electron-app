@@ -71,20 +71,12 @@
             </span>
           </td>
 
-          <td>
-            <div class="bet-col">
-              <div>
-                <div v-for="bet in tx.legs" :key="bet['event-id']">
-                  <div>
-                    {{ betToText(bet, tx.legs.length) }}
-                  </div>
-                </div>
-              </div>
-              <el-popover
-                placement="bottom"
-                width="570"
-                popper-class="wgr-popover"
-                trigger="hover">
+          <td class="bet-outcome">
+            <el-popover
+              placement="bottom"
+              width="570"
+              popper-class="wgr-popover"
+              trigger="hover">
                 <div>
                   <div class="popover-header">
                     <strong>{{ eventIdPopover(tx) }}</strong>
@@ -137,10 +129,13 @@
                   </div>
                 </div>
                 <div slot="reference">
-                  <i class="el-icon-info" />
+                  <div v-for="bet in tx.legs" :key="bet['event-id']">
+                    <div>
+                      {{ betToText(bet, tx.legs.length) }}
+                    </div>
+                  </div>
                 </div>
               </el-popover>
-            </div>
           </td>
 
           <td class="">{{ tx.amount }}</td>
@@ -314,25 +309,11 @@ export default {
 strong {
   font-weight: bold;
 }
+.bet-outcome:hover {
+  font-weight: bold;
+}
 .align-right {
   text-align: right;
-}
-
-.bet-col {
-  display: flex;
-  align-items: center;
-
-  .el-popover__reference {
-    margin-left: 20px;
-  }
-
-  i.el-icon-info {
-    color: $gray-600;
-
-    &:hover {
-      color: $gray-800;
-    }
-  }
 }
 
 .wgr-popover {
