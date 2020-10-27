@@ -1,12 +1,10 @@
 import moment from 'moment';
 import wagerrRPC from '@/services/api/wagerrRPC';
 
-const state = function() {
-  return {
-    eventsSportFilter: '',
-    eventsTournamentFilter: '',
-    eventsList: {}
-  };
+const state = {
+  eventsSportFilter: '',
+  eventsTournamentFilter: '',
+  eventsList: {}
 };
 
 const getters = {

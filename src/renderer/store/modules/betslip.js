@@ -1,4 +1,3 @@
-import { stat } from 'fs';
 import moment from 'moment';
 
 const oddsForBet = {

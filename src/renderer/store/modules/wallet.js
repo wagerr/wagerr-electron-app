@@ -5,22 +5,20 @@ import {walletState} from '@/constants/constants';
 
 const packageJSON = require('../../../../package.json');
 
-const state = function() {
-  return {
-    loaded: false,
-    balance: 0,
-    immature: 0,
-    pending: 0,
-    lockedBalance: 0,
-    zerocoin: 0,
-    state: '',
-    encrypted: false,
-    synced: false,
-    initWalletText: 'Initialising Electron App Wallet...',
-    walletVersion: `v${packageJSON.version}`,
-    txCount: 0,
-    dataDir: blockchain.getWagerrDataPath()
-  };
+const state = {
+  loaded: false,
+  balance: 0,
+  immature: 0,
+  pending: 0,
+  lockedBalance: 0,
+  zerocoin: 0,
+  state: '',
+  encrypted: false,
+  synced: false,
+  initWalletText: 'Initialising Electron App Wallet...',
+  walletVersion: `v${packageJSON.version}`,
+  txCount: 0,
+  dataDir: blockchain.getWagerrDataPath()
 };
 
 const getters = {
@@ -95,29 +93,29 @@ const getters = {
 
 const actions = {
 
-  updateWalletLoaded({ commit }, walletLoaded) {
+  async updateWalletLoaded({ commit }, walletLoaded) {
     commit('setWalletLoaded', walletLoaded);
   },
 
-  walletExtendedBalance({ commit }) {
-    return wagerrRPC.client
-      .getExtendedBalance()
-      .then(function(resp) {
-        commit(
-          'setBalance',
-          resp.result.balance -
-            resp.result.balance_immature -
-            resp.result.balance_locked
-        );
-        commit('setImmature', resp.result.balance_immature);
-        commit('setPending', resp.result.balance_unconfirmed);
-        commit('setLockedBalance', resp.result.balance_locked);
-        commit('setZerocoin', resp.result.zerocoin_balance);
-      })
-      .catch(function(err) {
-        // TODO - Add better error handling.
-        console.error(err);
-      });
+  async walletExtendedBalance({ commit }) {
+    let resp;
+    try {
+      resp = await wagerrRPC.client.getExtendedBalance();
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
+
+    commit(
+      'setBalance',
+      resp.result.balance - resp.result.balance_immature - resp.result.balance_locked
+    );
+    commit('setImmature', resp.result.balance_immature);
+    commit('setPending', resp.result.balance_unconfirmed);
+    commit('setLockedBalance', resp.result.balance_locked);
+    commit('setZerocoin', resp.result.zerocoin_balance);
+
+    return Promise.resolve();
   },
 
   unlockWallet({ dispatch, commit }, [passphrase, timeout, anonymizeonly]) {
@@ -159,33 +157,34 @@ const actions = {
       });
   },
 
-  walletInfo({ commit }) {
+  async walletInfo({ commit }) {
     // TODO once bug #198 in wagerr core has been resolved, call to getStakingStatus can be removed and just use walletinfo resp
     // Url bug: https://github.com/wagerr/wagerr/issues/198
-    return Promise.all([walletRPC.getWalletInfo(), wagerrRPC.client.getStakingStatus()])
-      .then((resp) => {
-        const walletInfoResp = resp[0];
-        const stakingStatusResp = resp[1];
-        commit('setTXCount', walletInfoResp.txcount);
+    let stakingStatusResp;
+    let walletInfoResp;
 
-        if (walletInfoResp.encryption_status === 'unencrypted') {
-          commit('setWalletEncrypted', false);
-          commit('setWalletState', '');
+    try {
+      walletInfoResp = await walletRPC.getWalletInfo();
+      stakingStatusResp = await wagerrRPC.client.getStakingStatus();
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
 
-        } else {
-          commit('setWalletEncrypted', true);
+    commit('setTXCount', walletInfoResp.txcount);
 
-          if (!stakingStatusResp.result.walletunlocked) {
-            commit('setWalletState', walletState.LOCKED);
+    if (walletInfoResp.encryption_status === 'unencrypted') {
+      commit('setWalletEncrypted', false);
+      commit('setWalletState', '');
+    } else {
+      commit('setWalletEncrypted', true);
 
-          } else {
-            commit('setWalletState', walletInfoResp.encryption_status);
-          }
-        }
-      })
-      .catch(function(err) {
-        console.debug(err);
-      });
+      if (!stakingStatusResp.result.walletunlocked) {
+        commit('setWalletState', walletState.LOCKED);
+      } else {
+        commit('setWalletState', walletInfoResp.encryption_status);
+      }
+    }
   },
 
   updateInitText({ commit }, walletInitText) {
