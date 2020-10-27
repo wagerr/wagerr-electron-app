@@ -70,27 +70,29 @@ export default {
     ...Vuex.mapActions(['updatePeerInfo', 'updateBannedInfo'])
   },
 
-  created() {
+  mounted() {
     this.updatePeerInfo();
     this.updateBannedInfo();
 
-    this.timeout = setInterval(
-      function() {
-        this.updatePeerInfo();
-        this.updateBannedInfo();
-      }.bind(this),
-      3000
-    );
+    let isRunning = false;
+    this.intervalHandle = setInterval(async () => {
+      if (!isRunning) {
+        isRunning = true;
+        await this.updatePeerInfo();
+        await this.updateBannedInfo();
+        isRunning = false;
+      }
+    }, 3000);
   },
 
   data() {
     return {
-      timeout: 0
+      intervalHandle: 0
     };
   },
 
-  destroyed() {
-    clearInterval(this.timeout);
+  beforeDestroy() {
+    clearInterval(this.intervalHandle);
   }
 };
 </script>

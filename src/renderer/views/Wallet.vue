@@ -82,7 +82,7 @@ export default {
 
   data() {
     return {
-      timeout: null
+      intervalHandle: null
     };
   },
 
@@ -102,14 +102,19 @@ export default {
   mounted() {
     this.$initMaterialize();
 
-    this.timeout = setInterval(() => {
-      this.walletExtendedBalance();
-      this.getWGRTransactionRecords(100);
+    let isRunning = false;
+    this.intervalHandle = setInterval(async () => {
+      if (!isRunning) {
+        isRunning = true;
+        await this.walletExtendedBalance();
+        await this.getWGRTransactionRecords(100);
+        isRunning = false;
+      }
     }, 5000);
   },
 
   beforeDestroy() {
-    clearInterval(this.timeout);
+    clearInterval(this.intervalHandle);
   },
 
   methods: {

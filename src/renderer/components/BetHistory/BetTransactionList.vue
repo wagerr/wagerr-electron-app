@@ -273,26 +273,28 @@ export default {
 
   data() {
     return {
-      timeout: 0
+      intervalHandle: 0
     };
   },
 
-  mounted() {
+  async mounted() {
     this.$initMaterialize();
 
-    this.getMyBetsTransactionList(50);
+    await this.getMyBetsTransactionList(50);
 
     // Ping the get bets RPC method every 30 secs to show any new bet transactions
-    this.timeout = setInterval(
-      async function() {
-        this.getMyBetsTransactionList(50);
-      }.bind(this),
-      30000
-    );
+    let isRunning = false;
+    this.intervalHandle = setInterval(async () => {
+      if (!isRunning) {
+        isRunning = true;
+        await this.getMyBetsTransactionList(50);
+        isRunning = false;
+      }
+    }, 30000);
   },
 
-  destroyed() {
-    clearInterval(this.timeout);
+  beforeDestroy() {
+    clearInterval(this.intervalHandle);
   }
 };
 </script>
