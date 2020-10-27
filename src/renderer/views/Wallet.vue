@@ -105,7 +105,7 @@ export default {
     this.timeout = setInterval(() => {
       this.walletExtendedBalance();
       this.getWGRTransactionRecords(100);
-    }, 5000);
+    }, 30000);
   },
 
   beforeDestroy() {
