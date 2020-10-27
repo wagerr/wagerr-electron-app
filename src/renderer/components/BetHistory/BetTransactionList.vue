@@ -196,7 +196,7 @@ export default {
     },
 
     score(score) {
-      return score === 'undefined' ? '-' : score / 10;
+      return score === 'undefined' ? '-' : score;
     },
 
     result(tx) {
