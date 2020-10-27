@@ -233,7 +233,7 @@ app.on('ready', async () => {
 
   // If running in development mode, install some Electron/Chrome devtools extensions like vue-devtools.
   if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
-    await installExtensions();
+    // await installExtensions();
   }
 
   // Check for updates only for the packaged app.
