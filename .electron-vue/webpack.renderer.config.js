@@ -8,11 +8,16 @@ const webpack = require('webpack');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { VueLoaderPlugin } = require('vue-loader');
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const TerserPlugin = require('terser-webpack-plugin');
 
 let rendererConfig = {
   devtool: 'inline-source-map',
+
+  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
+
+  target: 'electron-renderer',
+
   entry: {
     renderer: path.join(__dirname, '../src/renderer/main.js')
   },
@@ -20,20 +25,8 @@ let rendererConfig = {
   module: {
     rules: [
       {
-        test: /\.scss$/,
-        use: ['vue-style-loader', 'css-loader', 'sass-loader']
-      },
-      {
-        test: /\.sass$/,
-        use: ['vue-style-loader', 'css-loader', 'sass-loader?indentedSyntax']
-      },
-      {
-        test: /\.less$/,
-        use: ['vue-style-loader', 'css-loader', 'less-loader']
-      },
-      {
-        test: /\.css$/,
-        use: ['vue-style-loader', 'css-loader']
+        test: /\.vue$/,
+        loader: 'vue-loader'
       },
       {
         test: /\.html$/,
@@ -41,32 +34,111 @@ let rendererConfig = {
       },
       {
         test: /\.js$/,
-        use: 'babel-loader',
-        exclude: /node_modules/
+        loader: 'babel-loader',
+        exclude: file => (
+          /node_modules/.test(file) &&
+          !/\.vue\.js/.test(file)
+        )
       },
       {
         test: /\.node$/,
         use: 'node-loader'
       },
       {
-        test: /\.vue$/,
-        use: {
-          loader: 'vue-loader',
-          options: {
-            extractCSS: process.env.NODE_ENV === 'production',
-            loaders: {
-              sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax=1',
-              scss: 'vue-style-loader!css-loader!sass-loader',
-              less: 'vue-style-loader!css-loader!less-loader'
+        test: /\.css$/,
+        use: [
+          process.env.NODE_ENV !== 'production' ? 'vue-style-loader' :
+            {
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                publicPath: ''
+              }
+            },
+          {
+            loader: 'css-loader',
+            options: {
+              esModule: false,
+              importLoaders: 1,
+              sourceMap: true
             }
           }
-        }
+        ]
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          process.env.NODE_ENV !== 'production' ? 'vue-style-loader' :
+            {
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                publicPath: ''
+              }
+            },
+            {
+            loader: 'css-loader',
+            options: {
+              esModule: false,
+              importLoaders: 1,
+              sourceMap: true
+            }
+          },
+          'sass-loader'
+        ]
+      },
+      {
+        test: /\.sass$/,
+        use: [
+          process.env.NODE_ENV !== 'production' ? 'vue-style-loader' :
+            {
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                publicPath: ''
+              }
+            },
+          {
+            loader: 'css-loader',
+            options: {
+              esModule: false,
+              importLoaders: 1,
+              sourceMap: true
+            }
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sassOptions: {
+                indentedSyntax: true
+              }
+            }
+          }
+        ]
+      },
+      {
+        test: /\.less$/,
+        use: [
+          process.env.NODE_ENV !== 'production' ? 'vue-style-loader' :
+            {
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                publicPath: ''
+              }
+            },
+          {
+            loader: 'css-loader',
+            options: {
+              esModule: false,
+              importLoaders: 1,
+              sourceMap: true
+            }
+          },
+          'less-loader'
+        ]
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         use: {
           loader: 'url-loader',
-          query: {
+          options: {
             limit: 10000,
             name: 'imgs/[name]--[folder].[ext]'
           }
@@ -84,7 +156,7 @@ let rendererConfig = {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
         use: {
           loader: 'url-loader',
-          query: {
+          options: {
             limit: 10000,
             name: 'fonts/[name]--[folder].[ext]'
           }
@@ -98,7 +170,9 @@ let rendererConfig = {
   },
   plugins: [
     new VueLoaderPlugin(),
+
     new MiniCssExtractPlugin({ filename: 'styles.css' }),
+
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: path.resolve(__dirname, '../src/index.ejs'),
@@ -112,14 +186,20 @@ let rendererConfig = {
           ? path.resolve(__dirname, '../node_modules')
           : false
     }),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin()
+
+    new webpack.HotModuleReplacementPlugin({
+      multiStep: true,
+    }),
+
+    new webpack.NoEmitOnErrorsPlugin(),
   ],
+
   output: {
     filename: '[name].js',
     libraryTarget: 'commonjs2',
     path: path.join(__dirname, '../dist')
   },
+
   resolve: {
     alias: {
       '@': path.join(__dirname, '../src/renderer'),
@@ -127,13 +207,11 @@ let rendererConfig = {
     },
     extensions: ['.js', '.vue', '.json', '.css', '.node']
   },
-  target: 'electron-renderer',
+
   optimization: {
     minimizer: [
       new TerserPlugin({
-        parallel: true,
-        sourceMap: true,
-        cache: true
+        parallel: true
       })
     ]
   }
@@ -143,17 +221,13 @@ let rendererConfig = {
  * Adjust rendererConfig for production settings
  */
 if (process.env.NODE_ENV === 'production') {
-  rendererConfig.devtool = 'cheap-module-source-map';
+  rendererConfig.devtool = process.env.DEBUG_PROD === 'true' ? 'source-map' : 'none';
 
   rendererConfig.plugins.push(
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'production', // use 'production' unless process.env.NODE_ENV is defined
       DEBUG_PROD: false
     }),
-
-    new webpack.LoaderOptionsPlugin({
-      minimize: true
-    })
   );
 }
 
