@@ -14,8 +14,8 @@ Make sure you back up your Wagerr `wallet.dat` before developing on this app.
 You need the following prerequisites to be able to build and develop the project
 on your local machine.
 
-- Node.js
-- npm
+- Node.js (v14.x recommended)
+- npm (latest version recommended)
 
 Install
 -------
