@@ -221,7 +221,7 @@ let rendererConfig = {
  * Adjust rendererConfig for production settings
  */
 if (process.env.NODE_ENV === 'production') {
-  rendererConfig.devtool = process.env.DEBUG_PROD === 'true' ? 'source-map' : 'none';
+  rendererConfig.devtool = process.env.DEBUG_PROD === 'true' ? 'source-map' : false;
 
   rendererConfig.plugins.push(
     new webpack.EnvironmentPlugin({
