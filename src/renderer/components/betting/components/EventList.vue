@@ -1,11 +1,10 @@
 <template>
   <div id="events">
-
     <div class="row search-row">
       <div class="col s4 offset-s4">
-        <p class="n-events pull-right">Showing {{nEvents}} events</p>
+        <p class="n-events pull-right">Showing {{ nEvents }} events</p>
       </div>
-      <div class="col s4 ">
+      <div class="col s4">
         <input v-model="searchTermInput" type="text" placeholder="Search..." />
       </div>
     </div>
@@ -14,10 +13,7 @@
       <ul class="events-list">
         <li v-for="event in events" :key="event.event_id" class="card">
           <div class="event-tournament">
-            <i
-              class="icon-chart-bars"
-              v-on:click="showOnBetsmart(`event?id=${event.show.eventId}`)"
-            />
+            <i class="icon-chart-bars" @click="showOnBetsmart(`event?id=${event.show.eventId}`)" />
             <span class="sport">
               <span v-html="event.show.tournament" /> (Event ID: <span v-html="event.show.eventId" />)
             </span>
@@ -54,10 +50,8 @@
                   <span v-html="event.show.homeTeam" />
                   <i
                     class="icon-chart-bars"
-                    v-on:click="
-                      showOnBetsmart(
-                        `team?name=${event.show.homeTeam}&sport=${event.show.sport}`
-                      )
+                    @click="
+                      showOnBetsmart(`team?name=${event.show.homeTeam}&sport=${event.show.sport}`)
                     "
                   />
                 </div>
@@ -68,10 +62,8 @@
                   <span v-html="event.show.awayTeam" />
                   <i
                     class="icon-chart-bars"
-                    v-on:click="
-                      showOnBetsmart(
-                        `team?name=${event.show.awayTeam}&sport=${event.show.sport}`
-                      )
+                    @click="
+                      showOnBetsmart(`team?name=${event.show.awayTeam}&sport=${event.show.sport}`)
                     "
                   />
                 </div>
@@ -89,83 +81,49 @@
                     <button
                       v-if="event.odds[0].mlHome !== 0"
                       class="btn"
-                      @click="
-                        createBet(
-                          event.event_id,
-                          1,
-                          event.teams.home,
-                          event.odds[0].mlHome
-                        )
-                      "
+                      @click="createBet(event.event_id, 1, event.teams.home, event.odds[0].mlHome)"
                     >
                       <span v-html="event.show.mlHomeOdds" />
                     </button>
-                    <button v-else class="btn" disabled>
-                      -
-                    </button>
+                    <button v-else class="btn" disabled>-</button>
                   </div>
                   <div class="odd">
                     <button
                       v-if="event.odds[0].mlAway !== 0"
                       class="btn"
-                      @click="
-                        createBet(
-                          event.event_id,
-                          2,
-                          event.teams.away,
-                          event.odds[0].mlAway
-                        )
-                      "
+                      @click="createBet(event.event_id, 2, event.teams.away, event.odds[0].mlAway)"
                     >
                       <span v-html="event.show.mlAwayOdds" />
                     </button>
 
-                    <button v-else class="btn" disabled>
-                      -
-                    </button>
+                    <button v-else class="btn" disabled>-</button>
                   </div>
 
                   <div class="odd">
                     <button
                       v-if="event.odds[0].mlDraw !== 0"
                       class="btn"
-                      @click="
-                        createBet(
-                          event.event_id,
-                          3,
-                          'Draw',
-                          event.odds[0].mlDraw
-                        )
-                      "
+                      @click="createBet(event.event_id, 3, 'Draw', event.odds[0].mlDraw)"
                     >
                       <span v-html="event.show.mlDrawOdds" />
                     </button>
 
-                    <button v-else class="btn" disabled>
-                      -
-                    </button>
+                    <button v-else class="btn" disabled>-</button>
                   </div>
                 </div>
 
                 <!-- Show money line market closed -->
                 <div v-else class="col s12 m4 odds">
                   <div class="ml">
-                    <button class="btn" disabled>
-                      -
-                    </button>
+                    <button class="btn" disabled>-</button>
                   </div>
                   <div class="ml">
-                    <button class="btn" disabled>
-                      -
-                    </button>
+                    <button class="btn" disabled>-</button>
                   </div>
                 </div>
 
                 <!-- Show Spread odds if market is open for current event. -->
-                <div
-                  v-if="isEventSpreadsOddsSet(event)"
-                  class="col s12 m4 odds"
-                >
+                <div v-if="isEventSpreadsOddsSet(event)" class="col s12 m4 odds">
                   <div class="spread">
                     <button
                       class="btn"
@@ -176,21 +134,16 @@
                           event.teams.home,
                           event.odds[1].spreadHome,
                           'spread',
-                          `Handicap ${
-                            event.odds[0].mlHome > event.odds[0].mlAway
-                              ? '+'
-                              : '-'
-                          }${event.odds[1].spreadPoints / 10}`,
+                          `Handicap ${event.odds[0].mlHome > event.odds[0].mlAway ? '+' : '-'}${
+                            event.odds[1].spreadPoints / 10
+                          }`,
                           null
                         )
                       "
                     >
                       <span class="pull-left">
-                        {{
-                          event.odds[0].mlHome > event.odds[0].mlAway
-                            ? '+'
-                            : '-'
-                        }}<span v-html="event.show.spreadPointsOdds" />
+                        {{ event.odds[0].mlHome > event.odds[0].mlAway ? '+' : '-' }}
+                        <span v-html="event.show.spreadPointsOdds" />
                       </span>
 
                       <span class="pull-right">
@@ -208,21 +161,16 @@
                           event.teams.away,
                           event.odds[1].spreadAway,
                           'spread',
-                          `Handicap ${
-                            event.odds[0].mlAway > event.odds[0].mlHome
-                              ? '+'
-                              : '-'
-                          }${event.odds[1].spreadPoints / 10}`,
+                          `Handicap ${event.odds[0].mlAway > event.odds[0].mlHome ? '+' : '-'}${
+                            event.odds[1].spreadPoints / 10
+                          }`,
                           null
                         )
                       "
                     >
                       <span class="pull-left">
-                        {{
-                          event.odds[0].mlAway > event.odds[0].mlHome
-                            ? '+'
-                            : '-'
-                        }}<span v-html="event.show.spreadPointsOdds" />
+                        {{ event.odds[0].mlAway > event.odds[0].mlHome ? '+' : '-' }}
+                        <span v-html="event.show.spreadPointsOdds" />
                       </span>
 
                       <span class="pull-right">
@@ -235,14 +183,10 @@
                 <!-- Show Spread market closed -->
                 <div v-else class="col s12 m4 odds">
                   <div class="spread">
-                    <button class="btn" disabled>
-                      -
-                    </button>
+                    <button class="btn" disabled>-</button>
                   </div>
                   <div class="spread">
-                    <button class="btn" disabled>
-                      -
-                    </button>
+                    <button class="btn" disabled>-</button>
                   </div>
                 </div>
 
@@ -301,14 +245,10 @@
                 <!-- Show Totals market closed -->
                 <div v-else class="col s12 m4 odds">
                   <div class="total">
-                    <button class="btn" disabled>
-                      -
-                    </button>
+                    <button class="btn" disabled>-</button>
                   </div>
                   <div class="total">
-                    <button class="btn" disabled>
-                      -
-                    </button>
+                    <button class="btn" disabled>-</button>
                   </div>
                 </div>
               </div>
@@ -320,9 +260,7 @@
     </div>
 
     <div v-else class="text-center no-events no-transactions">
-      <p>
-        Currently, there are no events available for betting for this sport.
-      </p>
+      <p>Currently, there are no events available for betting for this sport.</p>
     </div>
   </div>
 </template>
@@ -334,9 +272,16 @@ import _ from 'lodash';
 import { shell } from 'electron';
 import { betsmartParams } from '../../../../main/constants/constants';
 
-
 export default {
   name: 'EventList',
+
+  data() {
+    return {
+      intervalHandle: 0,
+      searchTermInput: '',
+      searchTerm: ''
+    };
+  },
 
   computed: {
     ...Vuex.mapGetters([
@@ -346,200 +291,51 @@ export default {
       'convertOdds',
       'betSlip'
     ]),
-    'nEvents': function() {
+
+    nEvents() {
       return this.events.length;
     },
-    'events': function() {
-      return !Array.isArray(this.eventsList) ? [] :
-        this.eventsList.reduce((acc, e) => {
-          let event = {...e};
-          event.teams = {...e.teams};
-          event.odds = [...e.odds];
-          event.show = {
-            eventId: e.event_id.toString(),
-            sport: e.sport,
-            tournament: e.tournament,
-            starting: moment(Number(e.starting) * 1000).tz(this.getTimezone).format('ddd, MMM Do h:mm A (Z z)'),
-            homeTeam: e.teams.home,
-            awayTeam: e.teams.away,
-            mlHomeOdds: this.convertOdds(e.odds[0].mlHome),
-            mlAwayOdds: this.convertOdds(e.odds[0].mlAway),
-            mlDrawOdds: this.convertOdds(e.odds[0].mlDraw),
-            spreadHomeOdds: this.convertOdds(e.odds[1].spreadHome),
-            spreadAwayOdds: this.convertOdds(e.odds[1].spreadAway),
-            spreadPointsOdds: e.odds[1].spreadPoints / 10,
-            totalsOverOdds: this.convertOdds(e.odds[2].totalsOver),
-            totalsUnderOdds: this.convertOdds(e.odds[2].totalsUnder),
-            totalsPointsOdds: e.odds[2].totalsPoints / 10,
-          };
 
-          if (!this.searchTerm) {
-            acc.push(event);
+    events() {
+      return !Array.isArray(this.eventsList)
+        ? []
+        : this.eventsList.reduce((acc, e) => {
+            const event = { ...e };
+            event.teams = { ...e.teams };
+            event.odds = [...e.odds];
+            event.show = {
+              eventId: e.event_id.toString(),
+              sport: e.sport,
+              tournament: e.tournament,
+              starting: moment(Number(e.starting) * 1000)
+                .tz(this.getTimezone)
+                .format('ddd, MMM Do h:mm A (Z z)'),
+              homeTeam: e.teams.home,
+              awayTeam: e.teams.away,
+              mlHomeOdds: this.convertOdds(e.odds[0].mlHome),
+              mlAwayOdds: this.convertOdds(e.odds[0].mlAway),
+              mlDrawOdds: this.convertOdds(e.odds[0].mlDraw),
+              spreadHomeOdds: this.convertOdds(e.odds[1].spreadHome),
+              spreadAwayOdds: this.convertOdds(e.odds[1].spreadAway),
+              spreadPointsOdds: e.odds[1].spreadPoints / 10,
+              totalsOverOdds: this.convertOdds(e.odds[2].totalsOver),
+              totalsUnderOdds: this.convertOdds(e.odds[2].totalsUnder),
+              totalsPointsOdds: e.odds[2].totalsPoints / 10,
+            };
 
-          } else {
-            let result = this._checkContainsSearchTermAndMark(event);
-            if (result.hasSearchTerm) {
-              event.show = result.show;
+            if (!this.searchTerm) {
               acc.push(event);
+            } else {
+              const result = this._checkContainsSearchTermAndMark(event);
+              if (result.hasSearchTerm) {
+                event.show = result.show;
+                acc.push(event);
+              }
             }
-          }
 
-          return acc;
-        }, []);
+            return acc;
+          }, []);
     }
-  },
-
-  methods: {
-    ...Vuex.mapActions([
-      'listEvents',
-      'addBetToSlip',
-      'clearBetSlip',
-      'testlistEvents',
-      'updateBet'
-    ]),
-
-
-    _maybeMarkBySearchTerm: function(text, hasSearchTerm) {
-      text = text.toString();
-      const index = text.toLowerCase().indexOf(this.searchTerm.toLowerCase());
-
-      if (index >= 0) {
-        const endSearchTerm = index + this.searchTerm.length;
-        text = `${text.slice(0, index)}<mark>${text.slice(index, endSearchTerm)}</mark>${text.slice(endSearchTerm)}`;
-        hasSearchTerm = true;
-      }
-
-      return [hasSearchTerm, text];
-    },
-
-    _checkContainsSearchTermAndMark: function(event) {
-      return Object.entries(event.show).reduce((acc, [key, value]) => {
-          let text = value.toString();
-          const index = text.toLowerCase().indexOf(this.searchTerm.toLowerCase());
-
-          if (index >= 0) {
-            const endSearchTerm = index + this.searchTerm.length;
-            text = `${text.slice(0, index)}<mark>${text.slice(index, endSearchTerm)}</mark>${text.slice(endSearchTerm)}`;
-            acc.hasSearchTerm = true;
-          }
-
-          acc.show[key] = text;
-          return acc;
-
-        }, {hasSearchTerm: false, show: {...events.show}});
-    },
-
-    moment: function() {
-      return moment();
-    },
-
-    showOnBetsmart: function(route) {
-      shell.openExternal(`${betsmartParams.HOST}/${route}`);
-    },
-
-    //Todo: this is where we would determine the odds of the bet,
-    // so that we could use to update the betslip if the event changes.
-    // type being the 'outcome', see const oddsForBet in Betslip.js
-    createOddsFortype: function(type, event) {},
-
-    // Create a unique bet ID.
-    createBetId: function() {
-      return (
-        Math.random()
-          .toString(36)
-          .substring(2, 15) +
-        Math.random()
-          .toString(36)
-          .substring(2, 15)
-      );
-    },
-
-    // Creates bet data and adds to the betslip.
-    createBet: function(
-      eventId,
-      outcome,
-      winner,
-      odds,
-      betType = null,
-      handicap = null,
-      totalValue = null
-    ) {
-      let eventDetails = this.eventsList.find(
-        item => item.event_id === eventId
-      );
-      let betId = this.createBetId();
-
-      let betData = {
-        betId: betId,
-        outcome: outcome,
-        winner: winner,
-        odds: odds,
-        eventDetails: eventDetails,
-        betType: betType,
-        handicap: handicap,
-        totalValue: totalValue,
-        availability: true
-      };
-      console.log('----------Going to create bet placer----------', betData);
-      this.addBetToSlip(betData);
-    },
-
-    checkValidBets: function() {
-      console.log(
-        'checking valid bets, remove bet or warn and prevent confirm'
-      );
-    },
-    // Check if money line odds are available for a given event.
-    isEventMLOddsSet: function(event) {
-      return !(
-        event.odds[0].mlHome === 0 &&
-        event.odds[0].mlAway === 0 &&
-        event.odds[0].mlDraw === 0
-      );
-    },
-
-    // Check if spreads odds are available for a given event.
-    isEventSpreadsOddsSet: function(event) {
-      return !(
-        event.odds[1].spreadHome === 0 && event.odds[1].spreadAway === 0
-      );
-    },
-
-    // Check if the totals odds are available for a given event.
-    isEventTotalsOddsSet: function(event) {
-      return !(
-        event.odds[2].totalsOver === 0 && event.odds[2].totalsUnder === 0
-      );
-    },
-
-    isPulledEvent: function(event) {
-      let mlOddsSet = this.isEventMLOddsSet();
-      let spreadOddsSet = this.isEventSpreadsOddsSet();
-      let totalsOdds = this.isEventTotalsOddsSet();
-
-      return mlOddsSet && spreadOddsSet && totalsOdds;
-    },
-
-    updateBetSlip: function() {
-      // Todo: check if the bets are still available
-      // For each item in betslip - set to unavailable if time restricted
-      // and update odds
-      // console.log("number of betslip",this.betSlip.length);
-      // console.log("number of betslip", this.betSlip)
-
-      for (const betItem of this.betSlip) {
-        let eventDetails = this.eventsList.find(
-          item => item.event_id === betItem.eventDetails.event_id
-        );
-        this.updateBet({ betItem, eventDetails });
-      }
-    },
-
-    _debouncedSearch: _.debounce(function(val, oldVal) {
-      if (val !== oldVal) {
-        this.searchTerm = val;
-      }
-    }, 300)
   },
 
   // use watcher on the EventsList if it changes, then update the betslip odds
@@ -550,14 +346,6 @@ export default {
     searchTermInput(val, oldVal) {
       this._debouncedSearch.call(this, val, oldVal);
     }
-  },
-
-  data() {
-    return {
-      intervalHandle: 0,
-      searchTermInput: '',
-      searchTerm: ''
-    };
   },
 
   mounted() {
@@ -576,6 +364,141 @@ export default {
 
   beforeDestroy() {
     clearInterval(this.intervalHandle);
+  },
+
+  methods: {
+    ...Vuex.mapActions([
+      'listEvents',
+      'addBetToSlip',
+      'clearBetSlip',
+      'testlistEvents',
+      'updateBet'
+    ]),
+
+    _maybeMarkBySearchTerm(text, hasSearchTerm) {
+      text = text.toString();
+      const index = text.toLowerCase().indexOf(this.searchTerm.toLowerCase());
+
+      if (index >= 0) {
+        const endSearchTerm = index + this.searchTerm.length;
+        text = `${text.slice(0, index)}<mark>${text.slice(index, endSearchTerm)}</mark>${text.slice(endSearchTerm)}`;
+        hasSearchTerm = true;
+      }
+
+      return [hasSearchTerm, text];
+    },
+
+    _checkContainsSearchTermAndMark(event) {
+      return Object.entries(event.show).reduce((acc, [key, value]) => {
+          let text = value.toString();
+          const index = text.toLowerCase().indexOf(this.searchTerm.toLowerCase());
+
+          if (index >= 0) {
+            const endSearchTerm = index + this.searchTerm.length;
+            text = `${text.slice(0, index)}<mark>${text.slice(
+              index,
+              endSearchTerm
+            )}</mark>${text.slice(endSearchTerm)}`;
+            acc.hasSearchTerm = true;
+          }
+
+          acc.show[key] = text;
+          return acc;
+
+        }, {hasSearchTerm: false, show: {...events.show}});
+    },
+
+    moment() {
+      return moment();
+    },
+
+    showOnBetsmart(route) {
+      shell.openExternal(`${betsmartParams.HOST}/${route}`);
+    },
+
+    //Todo: this is where we would determine the odds of the bet,
+    // so that we could use to update the betslip if the event changes.
+    // type being the 'outcome', see const oddsForBet in Betslip.js
+    createOddsFortype(type, event) {},
+
+    // Create a unique bet ID.
+    createBetId() {
+      return (
+        Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+      );
+    },
+
+    // Creates bet data and adds to the betslip.
+    createBet(eventId, outcome, winner, odds, betType = null, handicap = null, totalValue = null) {
+      const eventDetails = this.eventsList.find((item) => item.event_id === eventId);
+      const betId = this.createBetId();
+
+      const betData = {
+        betId: betId,
+        outcome: outcome,
+        winner: winner,
+        odds: odds,
+        eventDetails: eventDetails,
+        betType: betType,
+        handicap: handicap,
+        totalValue: totalValue,
+        availability: true
+      };
+      console.log('----------Going to create bet placer----------', betData);
+      this.addBetToSlip(betData);
+    },
+
+    checkValidBets() {
+      console.log('checking valid bets, remove bet or warn and prevent confirm');
+    },
+
+    // Check if money line odds are available for a given event.
+    isEventMLOddsSet(event) {
+      return !(
+        event.odds[0].mlHome === 0 &&
+        event.odds[0].mlAway === 0 &&
+        event.odds[0].mlDraw === 0
+      );
+    },
+
+    // Check if spreads odds are available for a given event.
+    isEventSpreadsOddsSet(event) {
+      return !(event.odds[1].spreadHome === 0 && event.odds[1].spreadAway === 0);
+    },
+
+    // Check if the totals odds are available for a given event.
+    isEventTotalsOddsSet(event) {
+      return !(event.odds[2].totalsOver === 0 && event.odds[2].totalsUnder === 0);
+    },
+
+    isPulledEvent(event) {
+      let mlOddsSet = this.isEventMLOddsSet();
+      let spreadOddsSet = this.isEventSpreadsOddsSet();
+      let totalsOdds = this.isEventTotalsOddsSet();
+
+      return mlOddsSet && spreadOddsSet && totalsOdds;
+    },
+
+    updateBetSlip() {
+      // Todo: check if the bets are still available
+      // For each item in betslip - set to unavailable if time restricted
+      // and update odds
+      // console.log("number of betslip",this.betSlip.length);
+      // console.log("number of betslip", this.betSlip)
+
+      for (const betItem of this.betSlip) {
+        const eventDetails = this.eventsList.find(
+          (item) => item.event_id === betItem.eventDetails.event_id
+        );
+        this.updateBet({ betItem, eventDetails });
+      }
+    },
+
+    _debouncedSearch: _.debounce(function(val, oldVal) {
+      if (val !== oldVal) {
+        this.searchTerm = val;
+      }
+    }, 300)
   }
 };
 </script>
