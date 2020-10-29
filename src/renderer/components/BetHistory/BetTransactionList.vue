@@ -1,16 +1,13 @@
 <template>
   <!-- Peerless bet List -->
-  <div
-    v-if="myBetsTransactionList.length === 0"
-    class="no-transactions z-depth-2 text-center"
-  >
+  <div v-if="isLoading" class="no-transactions z-depth-2 text-center">Loading bet history...</div>
+
+  <div v-else-if="myBetsTransactionList.length === 0" class="no-transactions z-depth-2 text-center">
     <p>Looks like a new wallet, no betting transactions to list!</p>
 
     <p>
       Jump to the
-      <router-link class="router-link" tag="a" to="/betting"
-        >betting tab</router-link
-      >
+      <router-link class="router-link" tag="a" to="/betting">betting tab</router-link>
       and start placing bets.
     </p>
   </div>
@@ -27,9 +24,7 @@
 
           <th>Bets</th>
 
-          <th class="">
-            {{ getNetworkType === 'Testnet' ? 'tWGR' : 'WGR' }} Amount
-          </th>
+          <th class="">{{ getNetworkType === 'Testnet' ? 'tWGR' : 'WGR' }} Amount</th>
 
           <th class="">Result</th>
         </tr>
@@ -42,18 +37,11 @@
           </td>
 
           <td class="hide-on-small-only">
-            <el-tooltip
-              content="Copy"
-              v-clipboard="tx.betTxHash"
-              class="transaction-list-link"
-            >
+            <el-tooltip v-clipboard="tx.betTxHash" content="Copy" class="transaction-list-link">
               <i class="far fa-copy" @click="copiedAlert()"></i>
             </el-tooltip>
 
-            <el-tooltip
-              content="Open in block explorer"
-              class="transaction-list-link"
-            >
+            <el-tooltip content="Open in block explorer" class="transaction-list-link">
               <i class="fas fa-link" @click="blockExplorerUrl(tx.betTxHash)"></i>
             </el-tooltip>
           </td>
@@ -156,25 +144,47 @@
 
 <script>
 import Vuex from 'vuex';
-import {
-  testnetParams,
-  mainnetParams
-} from '../../../main/constants/constants';
+import { testnetParams, mainnetParams } from '../../../main/constants/constants';
+import transactionsRPC from '../../services/api/transactions_rpc';
 
 export default {
   name: 'BetTransactionList',
 
+  data() {
+    return {
+      isLoading: true,
+      intervalHandle: 0,
+      myBetsTransactionList: []
+    };
+  },
+
   computed: {
-    ...Vuex.mapGetters([
-      'myBetsTransactionList',
-      'getNetworkType',
-      'getTimezone',
-      'convertOdds'
-    ])
+    ...Vuex.mapGetters(['getNetworkType', 'getTimezone', 'convertOdds'])
+  },
+
+  async mounted() {
+    this.$initMaterialize();
+
+    this.myBetsTransactionList = await transactionsRPC.getMyBets(50);
+    this.isLoading = false;
+
+    // Ping the get bets RPC method every 30 secs to show any new bet transactions
+    let isRunning = false;
+    this.intervalHandle = setInterval(async () => {
+      if (!isRunning) {
+        isRunning = true;
+        this.myBetsTransactionList = await transactionsRPC.getMyBets(50);
+        isRunning = false;
+      }
+    }, 30000);
+  },
+
+  beforeDestroy() {
+    clearInterval(this.intervalHandle);
   },
 
   methods: {
-    ...Vuex.mapActions(['getAccountAddress', 'getMyBetsTransactionList']),
+    ...Vuex.mapActions(['getAccountAddress']),
 
     eventIdCol(tx) {
       if (tx.legs.length === 1) return tx.legs[0]['event-id'];
@@ -182,13 +192,13 @@ export default {
     },
 
     eventIdPopover(tx) {
-      if (tx.legs.length === 1) return 'Event ' + tx.legs[0]['event-id'];
+      if (tx.legs.length === 1) return `Event ${tx.legs[0]['event-id']}`;
       return `#${tx.legs.length} events`;
     },
 
     eventIdTooltip(tx) {
       if (tx.legs.length === 1) return tx.legs[0]['event-id'];
-      return 'Events id: ' + tx.legs.map(l => l['event-id']).join(', ');
+      return `Events id: ${tx.legs.map((l) => l['event-id']).join(', ')}`;
     },
 
     startingTime(tx) {
@@ -200,7 +210,7 @@ export default {
     },
 
     result(tx) {
-      let results = new Set(tx.legs.map(l => l.legResultType));
+      const results = new Set(tx.legs.map((l) => l.legResultType));
       if (results.has('lose')) return 'Lose';
       if (results.has('pending')) return 'Pending';
       return 'Win';
@@ -215,7 +225,7 @@ export default {
     },
 
     // Convert outcome integer and bet odds to text
-    betToText: function(leg, numLegs) {
+    betToText(leg, numLegs) {
       let text;
 
       switch (leg.outcome) {
@@ -229,16 +239,14 @@ export default {
           text = `Draw @${this.convertOdds(leg.lockedEvent.drawOdds)}`;
           break;
         case 4:
-          let oddsHome = leg.lockedEvent.spreadHomeOdds > leg.lockedEvent.spreadAwayOdds
-                              ? '+'
-                              : '-';
+          let oddsHome =
+            leg.lockedEvent.spreadHomeOdds > leg.lockedEvent.spreadAwayOdds ? '+' : '-';
           oddsHome += leg.lockedEvent.spreadPoints / 10;
           text = `Home Spread ${oddsHome}@${this.convertOdds(leg.lockedEvent.spreadHomeOdds)}`;
           break;
         case 5:
-          let oddsAway = leg.lockedEvent.spreadAwayOdds > leg.lockedEvent.spreadHomeOdds
-                              ? '+'
-                              : '-';
+          let oddsAway =
+            leg.lockedEvent.spreadAwayOdds > leg.lockedEvent.spreadHomeOdds ? '+' : '-';
           oddsAway += leg.lockedEvent.spreadPoints / 10;
           text = `Away Spread ${oddsAway}@${this.convertOdds(leg.lockedEvent.spreadAwayOdds)}`;
           break;
@@ -261,40 +269,14 @@ export default {
     },
 
     blockExplorerUrl(txId) {
-      let shell = require('electron').shell;
-      let explorerUrl =
+      const { shell } = require('electron');
+      const explorerUrl =
         this.getNetworkType === 'Testnet'
           ? testnetParams.BLOCK_EXPLORER_URL
           : mainnetParams.BLOCK_EXPLORER_URL;
 
-      shell.openExternal(explorerUrl + '/#/tx/' + txId);
+      shell.openExternal(`${explorerUrl}/#/tx/${txId}`);
     }
-  },
-
-  data() {
-    return {
-      intervalHandle: 0
-    };
-  },
-
-  async mounted() {
-    this.$initMaterialize();
-
-    await this.getMyBetsTransactionList(50);
-
-    // Ping the get bets RPC method every 30 secs to show any new bet transactions
-    let isRunning = false;
-    this.intervalHandle = setInterval(async () => {
-      if (!isRunning) {
-        isRunning = true;
-        await this.getMyBetsTransactionList(50);
-        isRunning = false;
-      }
-    }, 30000);
-  },
-
-  beforeDestroy() {
-    clearInterval(this.intervalHandle);
   }
 };
 </script>
