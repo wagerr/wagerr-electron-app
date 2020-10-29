@@ -3,17 +3,12 @@ import transactionsRPC from '@/services/api/transactions_rpc';
 
 const state = {
   accountAddress: '',
-  myBetsTransactionList: [],
   cgBetTransactionList: []
 };
 
 const getters = {
   accountAddress: state => {
     return state.accountAddress;
-  },
-
-  myBetsTransactionList: state => {
-    return state.myBetsTransactionList;
   },
 
   cgBetTransactionList: state => {
@@ -29,13 +24,6 @@ const actions = {
     );
   },
 
-  async getMyBetsTransactionList({ commit }, length) {
-    commit(
-      'setMyBetsTransactionList',
-      await transactionsRPC.getMyBets(length)
-    );
-  },
-
   async getCGBetTransactionList({ commit }, length) {
     commit(
       'setCGBetTransactionList',
@@ -47,10 +35,6 @@ const actions = {
 const mutations = {
   setAccountAddress(state, accountAddress) {
     state.accountAddress = accountAddress;
-  },
-
-  setMyBetsTransactionList(state, txList) {
-    state.myBetsTransactionList = txList;
   },
 
   setCGBetTransactionList(state, txList) {

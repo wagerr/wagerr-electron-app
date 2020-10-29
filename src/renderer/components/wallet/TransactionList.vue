@@ -130,7 +130,7 @@ export default {
     return {
       isLoading: true,
       intervalHandle: null,
-      transactionRecords: null
+      transactionRecords: []
     };
   },
 
