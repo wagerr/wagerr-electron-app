@@ -1,6 +1,7 @@
 <template>
-  <!-- Transaction List -->
-  <div v-if="wgrTransactionRecords.length === 0" class="no-transactions z-depth-2 text-center">
+  <div v-if="isLoading" class="no-transactions z-depth-2 text-center">Loading transactions...</div>
+
+  <div v-else-if="transactionRecords.length === 0" class="no-transactions z-depth-2 text-center">
     <p>Currently, your wallet has no Wagerr transactions to list...</p>
   </div>
 
@@ -25,7 +26,7 @@
       </thead>
 
       <tbody>
-        <tr v-for="tx in wgrTransactionRecords" :key="tx.id" class="tx-record">
+        <tr v-for="tx in transactionRecords" :key="tx.id" class="tx-record">
           <td v-if="tx.confirmations === -1" class="confirmations">
             <el-tooltip :content="tx.confirmations + ' confirmations'">
               <i class="far fa-times-circle confirmation-conflicted"></i>
@@ -118,14 +119,43 @@
 import Vuex from 'vuex';
 import TransactionBetPopover from './TransactionBetPopover.vue';
 import { testnetParams, mainnetParams } from '../../../main/constants/constants';
+import transactionsRPC from '../../services/api/transactions_rpc';
 
 export default {
   name: 'TransactionList',
 
   components: { TransactionBetPopover },
 
+  data() {
+    return {
+      isLoading: true,
+      intervalHandle: null,
+      transactionRecords: null
+    };
+  },
+
   computed: {
-    ...Vuex.mapGetters(['getTimezone', 'wgrTransactionRecords', 'getNetworkType'])
+    ...Vuex.mapGetters(['getTimezone', 'getNetworkType'])
+  },
+
+  async mounted() {
+    // Fetch transactions on mount.
+    this.transactionRecords = await transactionsRPC.listTransactionRecords(100);
+    this.isLoading = false;
+
+    // Continue looping for new transactions while mounted.
+    let isRunning = false;
+    this.intervalHandle = setInterval(async () => {
+      if (!isRunning) {
+        isRunning = true;
+        this.transactionRecords = await transactionsRPC.listTransactionRecords(100);
+        isRunning = false;
+      }
+    }, 5000);
+  },
+
+  beforeDestroy() {
+    clearInterval(this.intervalHandle);
   },
 
   methods: {

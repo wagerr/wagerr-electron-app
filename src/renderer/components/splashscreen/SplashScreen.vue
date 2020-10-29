@@ -97,7 +97,6 @@ export default {
       'walletExtendedBalance',
       'getMyBetsTransactionList',
       'getCGBetTransactionList',
-      'getWGRTransactionRecords',
       'loadUserSettings',
       'walletInfo'
     ]),
@@ -269,7 +268,6 @@ export default {
       // After connecting to peers get some blockchain info.
       this.updateInitText('Fetching wallet information...');
       await this.walletInfo();
-      await this.getWGRTransactionRecords(100);
       // TODO: Wagerr Core has a bug where you can't fetch bets until wallet unencrypted. This
       //       causes encrypted wallets to not get passed the loading screen. Disable until fixed
       //       in Core.

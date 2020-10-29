@@ -99,15 +99,16 @@ export default {
     ])
   },
 
-  mounted() {
+  async mounted() {
     this.$initMaterialize();
+
+    await this.walletExtendedBalance();
 
     let isRunning = false;
     this.intervalHandle = setInterval(async () => {
       if (!isRunning) {
         isRunning = true;
         await this.walletExtendedBalance();
-        await this.getWGRTransactionRecords(100);
         isRunning = false;
       }
     }, 5000);
@@ -118,7 +119,7 @@ export default {
   },
 
   methods: {
-    ...Vuex.mapActions(['getAccountAddress', 'walletExtendedBalance', 'getWGRTransactionRecords'])
+    ...Vuex.mapActions(['getAccountAddress', 'walletExtendedBalance'])
   }
 };
 </script>
