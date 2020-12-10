@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import Vuex from 'vuex';
 import wagerrRPC from '../../services/api/wagerrRPC';
 import BetToText from '../BetHistory/BetText.vue';
 
@@ -23,7 +22,7 @@ export default {
 
   components: { BetToText },
 
-  props: ['type', 'txId', 'nOut'],
+  props: ['type', 'txId', 'txDetails'],
 
   data() {
     return {
@@ -33,9 +32,11 @@ export default {
 
   methods: {
     show() {
+      const { vout } = this.txDetails[0];
+
       if (this.type === 'BetPayout') {
         wagerrRPC.client
-          .getPayoutInfo([{ txHash: this.txId, nOut: this.nOut }])
+          .getPayoutInfo([{ txHash: this.txId, nOut: vout }])
           .then((resp) => {
             this.loadBetData(resp.result[0].payoutInfo.betTxHash);
           })

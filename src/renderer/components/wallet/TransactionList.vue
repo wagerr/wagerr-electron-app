@@ -79,7 +79,7 @@
               v-if="tx.type === 'BetPlaced' || tx.type === 'BetPayout'"
               :type="tx.type"
               :tx-id="tx.transactionid"
-              :n-out="tx.details[0].vout"
+              :tx-details="tx.details"
             >
             </transaction-bet-popover>
           </td>
