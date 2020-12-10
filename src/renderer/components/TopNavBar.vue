@@ -150,6 +150,7 @@ export default {
       if (!isRunning) {
         isRunning = true;
         await this.walletInfo();
+        await this.walletExtendedBalance();
         isRunning = false;
       }
     }, 3000);
