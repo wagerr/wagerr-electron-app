@@ -76,7 +76,7 @@
           >
             {{ tx.type }}
             <transaction-bet-popover
-              v-if="tx.type === 'BetPlaced' || tx.type === 'BetPayout'"
+              v-if="(tx.type === 'BetPlaced' || tx.type === 'BetPayout') && tx.confirmations > 0"
               :type="tx.type"
               :tx-id="tx.transactionid"
               :tx-details="tx.details"
