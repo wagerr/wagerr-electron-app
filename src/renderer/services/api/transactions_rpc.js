@@ -57,12 +57,9 @@ export default {
   getMyBets(length) {
     return new Promise((resolve, reject) => {
       wagerrRPC.client
-        // TODO: Don't hardcode getMyBets once we resolve issues with Wagerr Core not returning
-        //       all the results.
-        // .getMyBets('*', length)
-        .getMyBets('')
+        .getMyBets('*', length)
         .then(function(resp) {
-          resolve(resp.result);
+          resolve(resp.result.reverse());
         })
         .catch(function(err) {
           // TODO Handle error correctly.
