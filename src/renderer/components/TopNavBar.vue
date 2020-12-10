@@ -84,13 +84,30 @@
             @click="!walletLocked ? lockWallet() : ''"
           >
           </i>
-          <div>
-            {{ walletLoaded ? Math.trunc(balance * 10000) / 10000 : 'Loading...' }}
-            <span class="currency">
-              {{ getNetworkType === 'Testnet' ? 'tWGR' : 'WGR' }}
-            </span>
-            <h6>Currently Available</h6>
-          </div>
+          <el-tooltip placement="left">
+            <div slot="content">
+              <small>
+                Balance: {{ Math.trunc(balance * 100) / 100 }}
+                <br />
+                Unconfirmed: {{ Math.trunc(pending * 100) / 100 }}
+                <br />
+                Immature: {{ Math.trunc(immature * 100) / 100 }}
+                <br />
+                Locked: {{ Math.trunc(lockedBalance * 100) / 100 }}
+              </small>
+            </div>
+            <el-row>
+              <el-row>
+                {{ walletLoaded ? Math.trunc(balance * 10000) / 10000 : 'Loading...' }}
+                <span class="currency">
+                  {{ getNetworkType === 'Testnet' ? 'tWGR' : 'WGR' }}
+                </span>
+              </el-row>
+              <el-row>
+                <h6>Currently Available</h6>
+              </el-row>
+            </el-row>
+          </el-tooltip>
         </div>
       </span>
     </div>
@@ -105,20 +122,23 @@ import ChangePassword from './modals/ChangePassword.vue';
 export default {
   name: 'TopNavBar',
 
+  components: {
+    EncryptWallet,
+    ChangePassword
+  },
+
   data() {
     return {
       intervalHandle: 0
     };
   },
 
-  components: {
-    EncryptWallet,
-    ChangePassword
-  },
-
   computed: {
     ...Vuex.mapGetters([
       'balance',
+      'immature',
+      'lockedBalance',
+      'pending',
       'walletLoaded',
       'walletLocked',
       'walletUnlocked',
@@ -161,7 +181,12 @@ export default {
   },
 
   methods: {
-    ...Vuex.mapActions(['lockWallet', 'updadteConsoleVisible', 'walletInfo']),
+    ...Vuex.mapActions([
+      'lockWallet',
+      'updadteConsoleVisible',
+      'walletExtendedBalance',
+      'walletInfo'
+    ]),
 
     openModal(modalId) {
       const modal = document.getElementById(modalId);
