@@ -114,12 +114,6 @@ export default {
 
   components: { BetCard },
 
-  data() {
-    return {
-      multiBet: ''
-    };
-  },
-
   computed: {
     ...mapGetters([
       'balance',
@@ -130,14 +124,7 @@ export default {
       'getNetworkType',
       'convertOdds',
       'betType'
-    ])
-  },
-
-  data() {
-    return {
-      processingBet: false
-    }
-  },
+    ]),
 
     wagerrCode() {
       return this.getNetworkType === 'Testnet' ? ' tWGR' : ' WGR';
@@ -198,7 +185,15 @@ export default {
       const betFee = grossProfit * bettingParams.NETWORK_SHARE;
 
       return (grossWinnings - betFee).toFixed(8);
-    },
+    }
+  },
+
+  data() {
+    return {
+      multiBet: '',
+      processingBet: false
+    }
+  },
 
   watch: {
     multiBet: function multiBetWatch(value, oldValue) {
