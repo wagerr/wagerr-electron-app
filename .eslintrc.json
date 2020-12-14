@@ -6,7 +6,8 @@
   "env": {
     "browser": true,
     "node": true,
-    "es6": true
+    "es6": true,
+    "jest/globals": true
   },
 
   "parserOptions": {
@@ -30,11 +31,6 @@
       }
     }
   },
-  "env": {
-    "browser": true,
-    "node": true,
-    "jest/globals": true
-  },
   "rules": {
     "comma-dangle": ["error", "never"],
     "import/order": "error",
@@ -48,14 +44,12 @@
     ],
     "arrow-parens": "off",
     "consistent-return": "off",
-    "comma-dangle": "off",
     "generator-star-spacing": "off",
     "import/no-unresolved": "error",
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
     "no-console": "off",
     "no-use-before-define": "off",
     "no-multi-assign": "off",
-    "prettier/prettier": ["error", { "singleQuote": true }],
     "promise/param-names": "error",
     "promise/always-return": "error",
     "promise/catch-or-return": "error",

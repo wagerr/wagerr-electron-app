@@ -155,9 +155,6 @@ export default {
           } else {
             fs.writeFileSync(dest, fileData);
           }
-        } else {
-          fs.writeFileSync(dest, fileData);
-        }
       });
     },
     unzipSnapshot: async function() {
