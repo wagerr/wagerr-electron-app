@@ -2,26 +2,18 @@ import os from 'os';
 import fs from 'fs';
 import path from 'path';
 import { spawn } from 'child_process';
-import decompress from 'decompress';
 import findProcess from 'find-process';
-import { app, BrowserWindow, dialog } from 'electron';
 import errDialog from '../alerts/errors';
-import constants from '../constants/constants';
 import * as blockchain from './blockchain';
-
-const request = require('request');
-const packageJSON = require('../../../package.json');
 
 export default class Daemon {
   wagerrdProcess;
-
-  constructor() {}
 
   /**
    * Launch the wagerrd process with the given list of command line args.
    */
   runCommand(cmd) {
-    return new Promise(async resolve => {
+    return new Promise(async (resolve) => {
       const cliPath = this.getExecutablePath('wagerr-cli');
       console.log(
         'Confirm the cli params',
@@ -55,7 +47,7 @@ export default class Daemon {
     });
   }
 
-  launch(args) {
+  launch(window, args) {
     const wagerrdPath = this.getExecutablePath('wagerrd');
     const wagerrdArgs = this.getWagerrdArgs(args);
 
@@ -63,21 +55,32 @@ export default class Daemon {
     console.log(`\x1b[32m Following args used: ${wagerrdArgs}\x1b[32m`);
 
     // Change file permissions so we can run the wagerrd.
-    fs.chmod(wagerrdPath, '0777', err => {
+    fs.chmod(wagerrdPath, '0777', (err) => {
       if (err) {
         console.error(err);
       }
 
       // Spawn the wagerrd and attach event callbacks.
       this.wagerrdProcess = spawn(wagerrdPath, wagerrdArgs);
-      this.wagerrdProcess.stdout.on('data', data =>
-        console.log(`Daemon: ${data}`)
-      );
-      this.wagerrdProcess.stderr.on('data', data =>
-        console.error(`Daemon: ${data}`)
-      );
-      this.wagerrdProcess.on('error', data => errDialog.wagerrdError(data));
-      this.wagerrdProcess.on('exit', data => errDialog.wagerrdStopped());
+
+      this.wagerrdProcess.stdout.on('data', (data) => {
+        console.log(`Daemon: ${data}`);
+      });
+
+      this.wagerrdProcess.stderr.on('data', (data) => {
+        if (data.includes('Error loading block database')) {
+          // this.wagerrdProcess.stop();
+          window.webContents.send('wagerr-corrupt-database');
+        } else {
+          console.error(`Daemon: ${data}`);
+        }
+      });
+
+      this.wagerrdProcess.on('error', (data) => {
+        errDialog.wagerrdError(data);
+      });
+
+      this.wagerrdProcess.on('exit', (data) => errDialog.wagerrdStopped());
     });
   }
 

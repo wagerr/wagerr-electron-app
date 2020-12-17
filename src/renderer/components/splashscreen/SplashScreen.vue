@@ -7,13 +7,18 @@
 
       <div class="col s12">
         <transition name="slide-fade" mode="out-in">
-          <div :key="initText">
+          <div v-if="!wagerrCorruptDatabase" :key="initText">
             <h5>{{ initText }}</h5>
+          </div>
+          <div v-else :key="'Corrupt database'">
+            <h5>
+              ⚠️ Error loading block database. This can occur when upgrading, please resync below.️
+            </h5>
           </div>
         </transition>
       </div>
 
-      <div class="col s12 splash-loading-container">
+      <div v-if="!wagerrCorruptDatabase" class="col s12 splash-loading-container">
         <div class="slider">
           <div class="line"></div>
           <div class="break dot1"></div>
@@ -30,15 +35,15 @@
       />
 
       <div class="splash-wallet-repair text-center">
-        <div>
+        <div v-if="!wagerrCorruptDatabase">
           <a href="#" @click="restartWallet">Restart Wallet</a>
         </div>
 
-        <div>
+        <div v-if="!wagerrCorruptDatabase">
           <a href="#" @click="rescanBlockchain">Rescan Blockchain Files</a>
         </div>
 
-        <div>
+        <div v-if="!wagerrCorruptDatabase">
           <a href="#" @click="reindexBlockchain">Reindex Blockchain</a>
         </div>
 
@@ -46,7 +51,7 @@
           <a href="#" @click="resyncBlockchain">Resync Blockchain</a>
         </div>
 
-        <div>
+        <div v-if="!wagerrCorruptDatabase">
           <a href="#" @click="onOpenConf">Wagerr.Conf</a>
         </div>
       </div>
@@ -55,20 +60,15 @@
 </template>
 
 <script>
-import { remote, shell } from 'electron';
+import { ipcRenderer, shell } from 'electron';
 import moment from 'moment';
-import { path } from 'path';
-import fs from 'fs';
 import { mapActions, mapGetters } from 'vuex';
 import blockchainRPC from '../../services/api/blockchain_rpc';
 import networkRPC from '../../services/api/network_rpc';
-import ipcRenderer from '../../../common/ipc/ipcRenderer';
+import ipcRendererHandler from '../../../common/ipc/ipcRenderer';
 import { getWagerrConfPath } from '../../../main/blockchain/blockchain';
 import DownloadSnapshot from './DownloadSnapshot.vue';
-import {
-  blockchainSnapshot,
-  syncMethods
-} from '../../../main/constants/constants';
+import { syncMethods } from '../../../main/constants/constants';
 
 export default {
   name: 'SplashScreen',
@@ -79,7 +79,8 @@ export default {
       confPath: getWagerrConfPath(),
       syncMethod: syncMethods.SCAN_BLOCKS,
       timeBehindText: '',
-      mayDownloadSnapshot: false
+      mayDownloadSnapshot: false,
+      wagerrCorruptDatabase: false
     };
   },
 
@@ -103,23 +104,23 @@ export default {
     ]),
 
     rescanBlockchain: function() {
-      ipcRenderer.rescanBlockchain();
+      ipcRendererHandler.rescanBlockchain();
     },
 
     reindexBlockchain: function() {
-      ipcRenderer.reindexBlockchain();
+      ipcRendererHandler.reindexBlockchain();
     },
 
     resyncBlockchain: function() {
-      ipcRenderer.resyncBlockchain();
+      ipcRendererHandler.resyncBlockchain();
     },
 
     restartWallet: function() {
-      ipcRenderer.restartWallet();
+      ipcRendererHandler.restartWallet();
     },
 
     closeWallet: function() {
-      ipcRenderer.closeWallet();
+      ipcRendererHandler.closeWallet();
     },
 
     updateSyncMethod: function(syncMethod) {
@@ -157,7 +158,7 @@ export default {
       let peersFound = false;
 
       this.updateInitText('Connecting to peers... this may take some time!');
-      ipcRenderer.log('info', 'Waiting for daemon to find peers');
+      ipcRendererHandler.log('info', 'Waiting for daemon to find peers');
 
       // While no peers have connected to the daemon keep looping.
       while (!peersFound) {
@@ -174,11 +175,11 @@ export default {
 
         // Give the daemon an arbitrary 101 loops to find peers. If not show an error to the user.
         if (count === 100) {
-          ipcRenderer.log(
+          ipcRendererHandler.log(
             'warn',
             'No peers could be found, please review your Wagerr Core logs'
           );
-          ipcRenderer.noPeers();
+          ipcRendererHandler.noPeers();
           return 1;
         }
 
@@ -188,7 +189,7 @@ export default {
 
       // Once peers have been found resolve the Promise.
       if (peersFound) {
-        ipcRenderer.log('info', 'Connected to network');
+        ipcRendererHandler.log('info', 'Connected to network');
         return 1;
       }
     },
@@ -196,7 +197,7 @@ export default {
     // Check for daemon initialized
     checkDaemonInitialized: async function() {
       this.updateInitText('Initializing daemon... this may take some time!');
-      ipcRenderer.log('info', 'Waiting for daemon to initialize');
+      ipcRendererHandler.log('info', 'Waiting for daemon to initialize');
 
       // wait 50 seconds + 10 previous seconds => 1 minute so daemon can initialize
       await this.sleep(50000);
@@ -207,7 +208,7 @@ export default {
 
         // If we have successfully connected to peers break out of the loop.
         if (netInfo.blocks !== -1) {
-          ipcRenderer.log('info', 'Daemon initialized');
+          ipcRendererHandler.log('info', 'Daemon initialized');
           break;
         }
 
@@ -219,7 +220,7 @@ export default {
     // Show the blockchain sync status information.
     syncBlockchainStatus: async function() {
       let blockchainInfo, durationBehind, synced = false;
-      ipcRenderer.log('info', 'Syncing blockchain');
+      ipcRendererHandler.log('info', 'Syncing blockchain');
 
       while (!synced) {
         if (this.syncMethod === syncMethods.SCAN_BLOCKS) {
@@ -255,13 +256,13 @@ export default {
 
       // Once peers have been found resolve the Promise.
       if (synced) {
-        ipcRenderer.log('info', 'Blockchain is now synced with network');
+        ipcRendererHandler.log('info', 'Blockchain is now synced with network');
         return 1;
       }
     },
 
     onOpenConf: function() {
-      ipcRenderer.log('debug', 'Opening wagerr.conf file');
+      ipcRendererHandler.log('debug', 'Opening wagerr.conf file');
       shell.openItem(this.confPath);
     },
 
@@ -277,27 +278,33 @@ export default {
   },
 
   async mounted() {
-    // On some computers (especially Windows) the daemon is taking a while to
-    // launch. If we start hitting it with RPC calls too early the app might
-    // fail to launch in some instances. Dirty workaround to allow 10 seconds
-    // before moving to the RPC calls.
-    await this.sleep(10000);
+    ipcRenderer.on('wagerr-corrupt-database', () => {
+      this.wagerrCorruptDatabase = true;
+    });
 
-    // Wait for the daemon to be initialized
-    await this.checkDaemonInitialized();
+    if (!this.wagerrCorruptDatabase) {
+      // On some computers (especially Windows) the daemon is taking a while to
+      // launch. If we start hitting it with RPC calls too early the app might
+      // fail to launch in some instances. Dirty workaround to allow 10 seconds
+      // before moving to the RPC calls.
+      await this.sleep(10000);
 
-    // Check if connected to the Wagerr network and if we have peers.
-    await this.checkPeerStatus();
+      // Wait for the daemon to be initialized
+      await this.checkDaemonInitialized();
 
-    // Set the network.
-    let blockchainInfo = await blockchainRPC.getBlockchainInfo();
-    let network = blockchainInfo.chain === 'test' ? 'Testnet' : 'Mainnet';
-    // load User Config - could use methods access, instead of store.dispatch
-    await this.loadUserSettings(network);
-    await this.updateNetworkType(network);
+      // Check if connected to the Wagerr network and if we have peers.
+      await this.checkPeerStatus();
 
-    // If Wallet not synced show time behind text.
-    await this.syncBlockchainStatus();
+      // Set the network.
+      let blockchainInfo = await blockchainRPC.getBlockchainInfo();
+      let network = blockchainInfo.chain === 'test' ? 'Testnet' : 'Mainnet';
+      // load User Config - could use methods access, instead of store.dispatch
+      await this.loadUserSettings(network);
+      await this.updateNetworkType(network);
+
+      // If Wallet not synced show time behind text.
+      await this.syncBlockchainStatus();
+    }
   }
 };
 </script>
