@@ -45,7 +45,7 @@
             <div class="event__odd">
               <button
                 class="btn event__button"
-                :disabled="event.odds[0].mlHome === 0 || disabledButtons.has(1)"
+                :disabled="event.odds[0].mlHome === 0 || disableButton"
                 @click="
                   createBet(
                     event.event_id,
@@ -63,7 +63,7 @@
             <div class="event__odd">
               <button
                 class="btn event__button"
-                :disabled="event.odds[0].mlAway === 0 || disabledButtons.has(2)"
+                :disabled="event.odds[0].mlAway === 0 || disableButton"
                 @click="
                   createBet(
                     event.event_id,
@@ -81,7 +81,7 @@
             <div class="event__odd">
               <button
                 class="btn event__button"
-                :disabled="event.odds[0].mlDraw === 0 || disabledButtons.has(3)"
+                :disabled="event.odds[0].mlDraw === 0 || disableButton"
                 @click="
                   createBet(event.event_id, 3, 'Draw', event.odds[0].mlDraw)
                 "
@@ -98,7 +98,7 @@
               <button
                 class="btn event__button"
                 :disabled="
-                  event.odds[1].spreadHome === 0 || disabledButtons.has(4)
+                  event.odds[1].spreadHome === 0 || disableButton
                 "
                 @click="
                   createBet(
@@ -137,7 +137,7 @@
               <button
                 class="btn event__button"
                 :disabled="
-                  event.odds[1].spreadAway === 0 || disabledButtons.has(5)
+                  event.odds[1].spreadAway === 0 || disableButton
                 "
                 @click="
                   createBet(
@@ -179,7 +179,7 @@
               <button
                 class="btn event__button"
                 :disabled="
-                  event.odds[2].totalsOver === 0 || disabledButtons.has(6)
+                  event.odds[2].totalsOver === 0 || disableButton
                 "
                 @click="
                   createBet(
@@ -210,7 +210,7 @@
               <button
                 class="btn event__button"
                 :disabled="
-                  event.odds[2].totalsUnder === 0 || disabledButtons.has(7)
+                  event.odds[2].totalsUnder === 0 || disableButton
                 "
                 @click="
                   createBet(
@@ -248,16 +248,6 @@
 import { mapGetters, mapActions } from 'vuex';
 import uniqueId from 'lodash/uniqueId';
 
-const multiDisabled = {
-  1: [1, 2, 3],
-  2: [1, 2, 3],
-  3: [1, 2, 3, 4, 5],
-  4: [4, 5],
-  5: [4, 5],
-  6: [6, 7],
-  7: [6, 7]
-};
-
 export default {
   name: 'Event',
 
@@ -285,28 +275,22 @@ export default {
 
       return 'equal';
     },
-    disabledButtons() {
+
+    // When betting on a parlay you cannot add two bets from the same event. The daemon also blocks
+    // this, but better to stop it on the UI first.
+    disableButton() {
+      let disable = false;
       if (this.betType === 'single' || this.betSlip.length === 0) {
-        return new Set();
+        return disable;
       }
 
-      const result = this.betSlip.reduce((set, bet) => {
+      this.betSlip.forEach((bet) => {
         if (bet.eventDetails.event_id === this.event.event_id) {
-          set.push(...multiDisabled[bet.outcome]);
-
-          if (bet.outcome === 1 && this.mlWinner === 'home') {
-            set.push(5);
-          }
-
-          if (bet.outcome === 2 && this.mlWinner === 'away') {
-            set.push(4);
-          }
+          disable = true;
         }
+      });
 
-        return set;
-      }, []);
-
-      return new Set(result);
+      return disable;
     }
   },
 
