@@ -183,6 +183,9 @@ async function createMainWindow() {
  * @returns {Promise<void>}
  */
 export async function init(args) {
+  // Start main window first so if we catch certain errors on wagerrd launch we show them on the UI.
+  await createMainWindow();
+
   logger.info('Initialising Wagerr Electron App');
   daemon = new Daemon();
 
@@ -211,15 +214,12 @@ export async function init(args) {
 
   // If not then start it.
   if (!isRunning) {
-    daemon.launch(args);
+    daemon.launch(mainWindow, args);
   } else {
     // Show popup warning the users a wagerrd instance is all ready running.
     forcelyQuit = true;
     errors.deamonRunningError();
   }
-
-  // Render the main window.
-  await createMainWindow();
 }
 
 app.on('ready', async () => {
