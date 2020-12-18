@@ -193,7 +193,7 @@ export default {
 
     eventIdPopover(tx) {
       if (tx.legs.length === 1) return `Event ${tx.legs[0]['event-id']}`;
-      return `#${tx.legs.length} events`;
+      return `${tx.legs.length} leg parlay`;
     },
 
     eventIdTooltip(tx) {
