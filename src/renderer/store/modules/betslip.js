@@ -84,13 +84,21 @@ const mutations = {
     // TODO: from Eventlist, need refactoring
     if (betItem.betType === 'spread') {
       const handicapCalc = {
-        4: event => (event.odds[0].mlHome > event.odds[0].mlAway ? '+' : '-'),
-        5: event => (event.odds[0].mlAway > event.odds[0].mlHome ? '+' : '-')
+        4: event => (event.odds[0].mlHome > event.odds[0].mlAway ? '+' : ''),
+        5: event => (event.odds[0].mlAway > event.odds[0].mlHome ? '+' : '')
       };
 
-      betItem.handicap = `Handicap ${handicapCalc[betItem.outcome](
-        eventDetails
-      )}${eventDetails.odds[1].spreadPoints / 10}`;
+      if (betItem.outcome === 4) {
+        betItem.handicap = `Handicap ${handicapCalc[betItem.outcome](
+          eventDetails
+        )}${eventDetails.odds[1].spreadPoints / 10}`;
+      }
+
+      if (betItem.outcome === 5) {
+        betItem.handicap = `Handicap ${handicapCalc[betItem.outcome](
+          eventDetails
+        )}${(eventDetails.odds[1].spreadPoints / 10) * -1}`;
+      }
     }
 
     if (betItem.betType === 'total') {
