@@ -110,7 +110,7 @@
     "axios": "^0.21.1",
     "core-js": "^3.8.2",
     "decompress": "^4.2.1",
-    "electron-progressbar": "Cryptarchist/electron-progressbar#1f49bcb",
+    "electron-progressbar": "2.0.0",
     "electron-store": "^5.2.0",
     "electron-updater": "^4.3.5",
     "element-ui": "^2.14.1",
