@@ -18,10 +18,16 @@
         <h6>Betting</h6>
       </router-link>
 
-      <router-link tag="li" to="/chain_games">
+      <li class="disabled">
         <i class="navico-dice"></i>
-        <h6>Chain Games</h6>
-      </router-link>
+        <h6>
+          Chain Games
+          <br />
+          <small>
+            (Coming soon!)
+          </small>
+        </h6>
+      </li>
 
       <router-link tag="li" to="/masternodes">
         <i class="navico-wrench"></i>
@@ -241,5 +247,18 @@ export default {
     position: absolute;
     outline: none;
   }
+}
+
+.disabled {
+  color: rgba(255,255,255,0.5);
+  cursor: default;
+}
+
+.disabled i {
+  cursor: default;
+}
+
+.disabled:hover {
+  background-color: transparent;
 }
 </style>
