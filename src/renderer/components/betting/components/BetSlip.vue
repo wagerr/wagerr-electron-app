@@ -57,9 +57,7 @@
       <div>Total Legs: {{ getNumBets }}</div>
       <div class="input-field">
         <div class="bet-slip__multi-summary-bet">
-          <label class="bet-slip__multi-summary-bet-label" for="multi-bet">
-            Bet
-          </label>
+          <label class="bet-slip__multi-summary-bet-label" for="multi-bet"> Bet </label>
           <input
             id="multi-bet"
             v-model="multiBet"
@@ -101,18 +99,23 @@
 
 <script>
 import { remote } from 'electron';
-import moment from 'moment';
 import { mapActions, mapGetters } from 'vuex';
 import wagerrRPC from '@/services/api/wagerrRPC';
 import blockchainRPC from '@/services/api/blockchain_rpc';
-import ipcRenderer from '../../../../common/ipc/ipcRenderer';
-import { bettingParams } from '../../../../main/constants/constants';
 import BetCard from '@/components/betting/components/BetCard.vue';
+import { bettingParams } from '../../../../main/constants/constants';
 
 export default {
   name: 'BetSlip',
 
   components: { BetCard },
+
+  data() {
+    return {
+      multiBet: '',
+      processingBet: false
+    };
+  },
 
   computed: {
     ...mapGetters([
@@ -135,7 +138,7 @@ export default {
     },
 
     showMultiBetWarning() {
-      if (this.betSlip.some(bet => bet.availability === false)) {
+      if (this.betSlip.some((bet) => bet.availability === false)) {
         return 'Sorry, you can not make a bet within 12 minutes of the Event.';
       }
 
@@ -143,25 +146,19 @@ export default {
         return '';
       }
 
-      if (
-        this.balance < this.multiBetNumber &&
-        this.pending > this.multiBetNumber
-      ) {
+      if (this.balance < this.multiBetNumber && this.pending > this.multiBetNumber) {
         return `Available balance too low. Please wait for your pending balance of ${this.pending} ${this.wagerrCode} to be confirmed.`;
       }
 
-      if (
-        this.balance < this.multiBetNumber &&
-        this.immature > this.multiBetNumber
-      ) {
+      if (this.balance < this.multiBetNumber && this.immature > this.multiBetNumber) {
         return `Available balance too low. Please wait for your immature balance of ${this.immature} ${this.wagerrCode} to be confirmed.`;
       }
 
       if (
         this.multiBetNumber < bettingParams.MIN_BET_AMOUNT ||
-        this.multiBetNumber > bettingParams.MAX_BET_AMOUNT
+        this.multiBetNumber > bettingParams.MAX_MULTI_BET_AMOUNT
       ) {
-        return `Incorrect bet amount. Please ensure your bet is between 25 - 10000 ${this.wagerrCode} inclusive.`;
+        return `Incorrect bet amount. Please ensure your bet is between ${bettingParams.MIN_BET_AMOUNT} - ${bettingParams.MAX_MULTI_BET_AMOUNT} ${this.wagerrCode} inclusive.`;
       }
 
       if (this.balance < this.multiBetNumber) {
@@ -188,13 +185,6 @@ export default {
     }
   },
 
-  data() {
-    return {
-      multiBet: '',
-      processingBet: false
-    }
-  },
-
   watch: {
     multiBet: function multiBetWatch(value, oldValue) {
       if (value !== oldValue && /^\d{0,10}$/g.test(value)) {
@@ -217,7 +207,7 @@ export default {
     ...mapActions(['removeBetFromSlip', 'clearBetSlip', 'setBetType']),
 
     placeParlayBet() {
-      const events = this.betSlip.map(bet => ({
+      const events = this.betSlip.map((bet) => ({
         eventId: bet.eventDetails.event_id,
         outcome: bet.outcome
       }));
@@ -226,7 +216,7 @@ export default {
     },
 
     async isSyncValid() {
-      let durationBehind = await blockchainRPC.getBlockDurationBehind();
+      const durationBehind = await blockchainRPC.getBlockDurationBehind();
       return durationBehind.asMinutes() < 10;
     },
 
@@ -235,7 +225,7 @@ export default {
       const self = this;
 
       // Check if wallet is synced (10min behind max)
-      if (!await this.isSyncValid()) {
+      if (!(await this.isSyncValid())) {
         remote.dialog.showMessageBox(remote.BrowserWindow.getFocusedWindow(), {
           type: 'error',
           title: 'Error Placing Bet',
@@ -249,11 +239,7 @@ export default {
 
           if (betId) {
             const [{ eventId, outcome }] = events;
-            response = await wagerrRPC.client.placeBet(
-              eventId,
-              outcome,
-              betAmount
-            );
+            response = await wagerrRPC.client.placeBet(eventId, outcome, betAmount);
           } else {
             response = await wagerrRPC.client.placeParlayBet(events, betAmount);
           }
