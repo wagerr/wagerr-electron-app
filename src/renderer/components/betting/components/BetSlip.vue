@@ -11,18 +11,14 @@
         Single
       </span>
       |
-      <!--
-        When parlay betting is available in Core add this click handler.
-        @click="setBetType('multi')"
-      -->
       <span
         :class="[
-          'bet-slip__bet-type-btn disabled',
+          'bet-slip__bet-type-btn',
           { 'bet-slip__bet-type-btn--active': betType === 'multi' }
         ]"
-        style="cursor: unset"
+        @click="setBetType('multi')"
       >
-        Multi <small style="font-size: 50%">(Coming soon!)</small>
+        Multi
       </span>
 
       <button
