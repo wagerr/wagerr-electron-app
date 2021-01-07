@@ -107,8 +107,7 @@
                     event.teams.home,
                     event.odds[1].spreadHome,
                     'spread',
-                    `Handicap ${mlWinner === 'home' ? '+' : '-'}${event.odds[1]
-                      .spreadPoints / 10}`,
+                    `Handicap ${handicapCalc(true, event)}${event.odds[1].spreadPoints / 10}`,
                     null
                   )
                 "
@@ -119,11 +118,7 @@
                 <template v-else>
                   <span
                     class="pull-left"
-                    v-html="
-                      `${mlWinner === 'home' ? '+' : '-'} ${
-                        event.show.spreadPointsOdds
-                      }`
-                    "
+                    v-html="`${handicapCalc(true, event)}${event.odds[1].spreadPoints / 10}`"
                   ></span>
                   <span
                     class="pull-right"
@@ -146,8 +141,7 @@
                     event.teams.away,
                     event.odds[1].spreadAway,
                     'spread',
-                    `Handicap ${mlWinner === 'away' ? '+' : '-'}${event.odds[1]
-                      .spreadPoints / 10}`,
+                    `Handicap ${handicapCalc(false, event)}${(event.odds[1].spreadPoints / 10) * -1}`,
                     null
                   )
                 "
@@ -158,11 +152,7 @@
                 <template v-else>
                   <span
                     class="pull-left"
-                    v-html="
-                      `${mlWinner === 'away' ? '+' : '-'} ${
-                        event.show.spreadPointsOdds
-                      }`
-                    "
+                    v-html="`${handicapCalc(false, event)}${(event.odds[1].spreadPoints / 10) * -1}`"
                   ></span>
                   <span
                     class="pull-right"
@@ -327,6 +317,16 @@ export default {
       };
       console.log('----------Going to create bet placer----------', betData);
       this.addBetToSlip(betData);
+    },
+
+    handicapCalc(homeTeam, event) {
+      if (homeTeam) {
+        return event.odds[0].mlHome > event.odds[0].mlAway ? '+' : '';
+      }
+
+      if (!homeTeam) {
+        return event.odds[0].mlAway > event.odds[0].mlHome ? '+' : '';
+      }
     }
   }
 };
