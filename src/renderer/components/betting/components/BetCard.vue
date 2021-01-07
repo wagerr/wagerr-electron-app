@@ -135,7 +135,7 @@ export default {
 
       if (
         this.betValueNum < bettingParams.MIN_BET_AMOUNT ||
-        this.betValueNum > bettingParams.MAX_BET_AMOUNT
+        this.betValueNum > bettingParams.MAX_SINGLE_BET_AMOUNT
       ) {
         return `Incorrect bet amount. Please ensure your bet is between 25 - 10000 ${this.wagerrCode} inclusive.`;
       }
