@@ -107,7 +107,7 @@
                     event.teams.home,
                     event.odds[1].spreadHome,
                     'spread',
-                    `Handicap ${handicapCalc(true, event)}${event.odds[1].spreadPoints / 10}`,
+                    `Handicap ${handicapCalc(true, event)}${event.odds[1].spreadPoints / 100}`,
                     null
                   )
                 "
@@ -118,7 +118,7 @@
                 <template v-else>
                   <span
                     class="pull-left"
-                    v-html="`${handicapCalc(true, event)}${event.odds[1].spreadPoints / 10}`"
+                    v-html="`${handicapCalc(true, event)}${event.odds[1].spreadPoints / 100}`"
                   ></span>
                   <span
                     class="pull-right"
@@ -141,7 +141,7 @@
                     event.teams.away,
                     event.odds[1].spreadAway,
                     'spread',
-                    `Handicap ${handicapCalc(false, event)}${(event.odds[1].spreadPoints / 10) * -1}`,
+                    `Handicap ${handicapCalc(false, event)}${(event.odds[1].spreadPoints / 100) * -1}`,
                     null
                   )
                 "
@@ -152,7 +152,7 @@
                 <template v-else>
                   <span
                     class="pull-left"
-                    v-html="`${handicapCalc(false, event)}${(event.odds[1].spreadPoints / 10) * -1}`"
+                    v-html="`${handicapCalc(false, event)}${(event.odds[1].spreadPoints / 100) * -1}`"
                   ></span>
                   <span
                     class="pull-right"
@@ -179,7 +179,7 @@
                     event.odds[2].totalsOver,
                     'total',
                     null,
-                    `Over${event.odds[2].totalsPoints / 10}`
+                    `Over${event.odds[2].totalsPoints / 100}`
                   )
                 "
               >
@@ -189,7 +189,7 @@
                 <template v-else>
                   <span
                     class="event__button-totalnum"
-                    v-html="`(0${event.show.totalsPointsOdds})`"
+                    v-html="`(0${event.show.totalsPointsOdds / 10})`"
                   ></span>
                   <span v-html="event.show.totalsOverOdds"></span>
                 </template>
@@ -210,7 +210,7 @@
                     event.odds[2].totalsUnder,
                     'total',
                     null,
-                    `Under${event.odds[2].totalsPoints / 10}`
+                    `Under${event.odds[2].totalsPoints / 100}`
                   )
                 "
               >
@@ -220,7 +220,7 @@
                 <template v-else>
                   <span
                     class="event__button-totalnum"
-                    v-html="`(U${event.show.totalsPointsOdds})`"
+                    v-html="`(U${event.show.totalsPointsOdds / 10})`"
                   ></span>
                   <span v-html="event.show.totalsUnderOdds"></span>
                 </template>
@@ -320,12 +320,23 @@ export default {
     },
 
     handicapCalc(homeTeam, event) {
+      let homeTeamModifier;
+      let awayTeamModifier;
+      console.log(event);
+      if (event.odds[1].spreadPoints > 0) {
+        homeTeamModifier = '+';
+        awayTeamModifier = '';
+      } else {
+        homeTeamModifier = '';
+        awayTeamModifier = '+';
+      }
+
       if (homeTeam) {
-        return event.odds[0].mlHome > event.odds[0].mlAway ? '+' : '';
+        return homeTeamModifier;
       }
 
       if (!homeTeam) {
-        return event.odds[0].mlAway > event.odds[0].mlHome ? '+' : '';
+        return awayTeamModifier;
       }
     }
   }

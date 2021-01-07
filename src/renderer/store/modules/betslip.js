@@ -83,28 +83,29 @@ const mutations = {
     betItem.odds = oddsForBet[betItem.outcome](eventDetails);
     // TODO: from Eventlist, need refactoring
     if (betItem.betType === 'spread') {
-      const handicapCalc = {
-        4: event => (event.odds[0].mlHome > event.odds[0].mlAway ? '+' : ''),
-        5: event => (event.odds[0].mlAway > event.odds[0].mlHome ? '+' : '')
-      };
+      let homeTeamModifier;
+      let awayTeamModifier;
+      if (eventDetails.odds[1].spreadPoints > 0) {
+        homeTeamModifier = '+';
+        awayTeamModifier = '';
+      } else {
+        homeTeamModifier = '';
+        awayTeamModifier = '+';
+      }
 
       if (betItem.outcome === 4) {
-        betItem.handicap = `Handicap ${handicapCalc[betItem.outcome](
-          eventDetails
-        )}${eventDetails.odds[1].spreadPoints / 10}`;
+        betItem.handicap = `Handicap ${homeTeamModifier}${eventDetails.odds[1].spreadPoints / 100}`;
       }
 
       if (betItem.outcome === 5) {
-        betItem.handicap = `Handicap ${handicapCalc[betItem.outcome](
-          eventDetails
-        )}${(eventDetails.odds[1].spreadPoints / 10) * -1}`;
+        betItem.handicap = `Handicap ${awayTeamModifier}${(eventDetails.odds[1].spreadPoints / 100) * -1}`;
       }
     }
 
     if (betItem.betType === 'total') {
       const totalCalc = {
-        6: `Over${eventDetails.odds[2].totalsPoints / 10}`,
-        7: `Under${eventDetails.odds[2].totalsPoints / 10}`
+        6: `Over${eventDetails.odds[2].totalsPoints / 100}`,
+        7: `Under${eventDetails.odds[2].totalsPoints / 100}`
       };
       betItem.totalValue = totalCalc[betItem.outcome];
     }
