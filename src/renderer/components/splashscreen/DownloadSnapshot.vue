@@ -37,7 +37,7 @@ import {
   blockchainSnapshot,
   syncMethods,
 } from '../../../main/constants/constants';
-import { getWagerrDataPath } from '../../../main/blockchain/blockchain';
+import { getWagerrDataPath } from '../../../main/wagerrd/blockchain';
 
 export default {
   name: 'DownloadSnapshot',

@@ -1,4 +1,4 @@
-import * as blockchain from 'src/main/blockchain/blockchain';
+import * as blockchain from 'src/main/wagerrd/blockchain';
 
 import wagerrRPC from '@/services/api/wagerrRPC';
 import walletRPC from '@/services/api/wallet_rpc';

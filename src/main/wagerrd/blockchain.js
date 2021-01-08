@@ -153,8 +153,6 @@ function getCoinMasternodeConfPath() {
   );
 }
 
-readWagerrConf();
-
 export {
   testnet,
   rpcUser,

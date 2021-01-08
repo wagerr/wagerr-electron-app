@@ -105,7 +105,7 @@ import masternode_rpc from '@/services/api/masternode_rpc';
 import {
   getCoinMasternodeConfPath,
   testnet
-} from '../../../main/blockchain/blockchain';
+} from '../../../main/wagerrd/blockchain';
 import {
   testnetParams,
   mainnetParams

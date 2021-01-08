@@ -1,6 +1,6 @@
 import fs from 'fs';
 import wagerrRPC from '@/services/api/wagerrRPC';
-import { getCoinMasternodeConfPath } from '../../../main/blockchain/blockchain';
+import { getCoinMasternodeConfPath } from '../../../main/wagerrd/blockchain';
 
 export default {
   getMasternodeCount() {

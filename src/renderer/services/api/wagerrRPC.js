@@ -1,6 +1,6 @@
 import * as WagerrdRPC from 'wagerrd-rpc';
 import PropertiesReader from 'properties-reader';
-import { getWagerrConfPath } from '../../../main/blockchain/blockchain';
+import { getWagerrConfPath } from '../../../main/wagerrd/blockchain';
 
 const { ipcRenderer } = require('electron');
 

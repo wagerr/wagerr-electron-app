@@ -77,7 +77,7 @@ import Vuex from 'vuex';
 import moment from 'moment';
 import ipcRenderer from '../../common/ipc/ipcRenderer';
 import masternode_rpc from '@/services/api/masternode_rpc';
-import { getCoinMasternodeConfPath } from '../../main/blockchain/blockchain';
+import { getCoinMasternodeConfPath } from '../../main/wagerrd/blockchain';
 
 import { shell } from 'electron';
 export default {
