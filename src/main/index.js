@@ -14,12 +14,6 @@ import snapshotHandler from './utils/snapshotHandler';
 
 const logger = spawnLogger();
 
-// Main app URL.
-const winURL =
-  process.env.NODE_ENV === 'development'
-    ? `http://localhost:9080`
-    : `file://${__dirname}/index.html`;
-
 // Globals
 let daemon;
 let mainWindow = null;
@@ -34,31 +28,42 @@ if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true')
   require('electron-debug')();
 }
 
-// Install defined Electron/Chrome devtools extensions.
-const installExtensions = async () => {
-  logger.debug('Installing Electron/Chrome devtools extensions');
+/**
+ * Install supplied Electron/Chrome devtools extensions.
+ *
+ * @return {Promise<void>}
+ */
+async function installExtensions() {
+  logger.debug('Installing Chrome/Electron devtools extensions');
 
-  const {
-    default: installExtension,
-    VUEJS_DEVTOOLS,
-  } = require('electron-devtools-installer');
+  const installer = require('electron-devtools-installer');
+  const extensions = ['VUEJS_DEVTOOLS'];
 
-  installExtension(VUEJS_DEVTOOLS)
-    .then((name) => logger.debug(`Added devtools extension:  ${name}`))
-    .catch((err) => logger.error('An error occurred: ', err));
-};
+  try {
+    await installer.default(extensions.map((name) => installer[name]));
+    logger.debug('Finished installing Chrome/Electron devtools extensions');
+  } catch (err) {
+    logger.error('An error occurred installing Chrome/Electron devtools extensions: ', err);
+  }
+
+  return Promise.resolve();
+}
 
 /**
  * Render the main window for the Wagerr Electron App.
  */
 async function createMainWindow() {
-  logger.info('Rendering main window');
+  logger.info('Creating main window');
 
-  const windowOptions = {
-    width: 1275,
-    height: 700,
-    minWidth: 1275,
-    minHeight: 700,
+  if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
+    await installExtensions();
+  }
+
+  mainWindow = new BrowserWindow({
+    width: 1280,
+    height: 720,
+    minWidth: 1280,
+    minHeight: 720,
     icon: nativeImage.createFromPath(path.join(__dirname, '../renderer/assets/images/icons/png/256.png')),
     show: false,
     autoHideMenuBar: true,
@@ -67,19 +72,14 @@ async function createMainWindow() {
       enableRemoteModule: true,
       nodeIntegration: true
     }
-  };
-
-  mainWindow = new BrowserWindow(windowOptions);
+  });
 
   // Load the main browser window with the Wagerr vue application.
+  const winURL = process.env.NODE_ENV === 'development' ? `http://localhost:9080` : `file://${__dirname}/index.html`;
   mainWindow.loadURL(winURL);
 
   // Add the main application menu to the UI.
   Menu.setApplicationMenu(menu);
-
-  if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
-    mainWindow.webContents.openDevTools();
-  }
 
   // Prepare for the window to be closed.
   mainWindow.on('close', async event => {
