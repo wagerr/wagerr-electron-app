@@ -4,7 +4,8 @@ import wagerrRPC from '@/services/api/wagerrRPC';
 const initialState = {
   eventsSportFilter: '',
   eventsTournamentFilter: '',
-  eventsList: {}
+  eventsList: {},
+  eventsListFiltered: {}
 };
 
 const getters = {
@@ -17,6 +18,10 @@ const getters = {
 
   eventsList: state => {
     return state.eventsList;
+  },
+
+  eventsListFiltered: state => {
+    return state.eventsListFiltered;
   }
 };
 
@@ -77,45 +82,54 @@ const actions = {
   // * Another option is to modify the endpoint so it can interpret some string as an empty value
   listEvents({ dispatch, commit, state }) {
     return new Promise((resolve, reject) => {
+      // If there is a sport filter we make two calls to the daemon. 1) Fetch the filtered list so
+      // the UI can show just the filtered list. 2) Fetch the full list, because we need to keep
+      // the bet slip updated with the latest odds which could come from an event not in the
+      // filtered list.
       if (state.eventsSportFilter) {
         wagerrRPC.client
           .listEvents(state.eventsSportFilter)
-          .then(resp => {
+          .then((resp) => {
             // We filter events and update the cache
             let events = filterEventsForCache(resp.result);
             dispatch('updateEventsDataCache', events, { root: true });
+
             // We filter events that will be shown to the user
-            events = filterEventsByTournament(
-              events,
-              state.eventsTournamentFilter
-            );
-            commit('setEventsList', events);
+            events = filterEventsByTournament(events, state.eventsTournamentFilter);
+            commit('setEventsListFiltered', events);
+
             resolve();
           })
-          .catch(err => {
-            treatListEventErr(err, reject);
-            reject(err);
-          });
-      } else {
-        wagerrRPC.client
-          .listEvents()
-          .then(resp => {
-            // We filter events jand update the cache
-            let events = filterEventsForCache(resp.result);
-            dispatch('updateEventsDataCache', events, { root: true });
-            // We filter events that will be shown to the user
-            events = filterEventsByTournament(
-              events,
-              state.eventsTournamentFilter
-            );
-            commit('setEventsList', events);
-            resolve();
-          })
-          .catch(err => {
+          .catch((err) => {
             treatListEventErr(err, reject);
             reject(err);
           });
       }
+
+      wagerrRPC.client
+        .listEvents()
+        .then((resp) => {
+          // We filter events and update the cache
+          let events = filterEventsForCache(resp.result);
+
+          if (!state.eventsSportFilter) {
+            dispatch('updateEventsDataCache', events, {root: true});
+          }
+
+          // We filter events that will be shown to the user
+          events = filterEventsByTournament(events, state.eventsTournamentFilter);
+          commit('setEventsList', events);
+
+          if (!state.eventsSportFilter) {
+            commit('setEventsListFiltered', events);
+          }
+
+          resolve();
+        })
+        .catch((err) => {
+          treatListEventErr(err, reject);
+          reject(err);
+        });
     });
   },
   // TODO: remove, used for testing atm, because, no tests
@@ -138,6 +152,10 @@ const mutations = {
 
   setEventsList(state, eventsList) {
     state.eventsList = eventsList;
+  },
+
+  setEventsListFiltered(state, eventsListFiltered) {
+    state.eventsListFiltered = eventsListFiltered;
   }
 };
 

@@ -249,7 +249,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['betType', 'betSlip', 'eventsList', 'getNumBets']),
+    ...mapGetters(['betType', 'betSlip', 'getNumBets']),
     mlWinner() {
       const {
         odds: [{ mlHome, mlAway }]

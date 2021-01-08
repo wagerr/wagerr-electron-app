@@ -51,6 +51,7 @@ export default {
     ...mapGetters([
       'getEventsSportFilter',
       'eventsList',
+      'eventsListFiltered',
       'getTimezone',
       'convertOdds',
       'betSlip'
@@ -59,9 +60,9 @@ export default {
       return this.events.length;
     },
     events() {
-      return !Array.isArray(this.eventsList)
+      return !Array.isArray(this.eventsListFiltered)
         ? []
-        : this.eventsList.reduce((acc, e) => {
+        : this.eventsListFiltered.reduce((acc, e) => {
             const event = { ...e };
             event.teams = { ...e.teams };
             event.odds = [...e.odds];
