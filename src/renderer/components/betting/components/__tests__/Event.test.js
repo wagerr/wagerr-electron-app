@@ -81,7 +81,7 @@ describe('component: Event', () => {
   beforeEach(() => {
     getters = {
       betSlip: () => [],
-      eventsList: () => testEvents,
+      eventsListFiltered: () => testEvents,
       betType: () => 'multi'
     };
 
