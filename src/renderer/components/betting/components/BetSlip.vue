@@ -57,7 +57,7 @@
       <div>Total Legs: {{ getNumBets }}</div>
       <div class="input-field">
         <div class="bet-slip__multi-summary-bet">
-          <label class="bet-slip__multi-summary-bet-label" for="multi-bet"> Bet </label>
+          <label class="bet-slip__multi-summary-bet-label" for="multi-bet">Bet</label>
           <input
             id="multi-bet"
             v-model="multiBet"
@@ -87,7 +87,7 @@
       <button
         class="btn waves-effect waves-light"
         :class="{
-          disabled: showMultiBetWarning.length !== 0 || multiBetNumber === 0
+          disabled: showMultiBetWarning.length !== 0 || multiBetAmount === 0
         }"
         @click.prevent="placeParlayBet"
       >
@@ -133,7 +133,7 @@ export default {
       return this.getNetworkType === 'Testnet' ? ' tWGR' : ' WGR';
     },
 
-    multiBetNumber() {
+    multiBetAmount() {
       return this.multiBet.length > 0 ? parseInt(this.multiBet, 10) : 0;
     },
 
@@ -142,26 +142,30 @@ export default {
         return 'Sorry, you can not make a bet within 12 minutes of the Event.';
       }
 
-      if (this.multiBetNumber === 0) {
+      if (this.multiBetAmount === 0) {
         return '';
       }
 
-      if (this.balance < this.multiBetNumber && this.pending > this.multiBetNumber) {
+      if (this.getNumBets < bettingParams.MIN_MULTI_BET_LEGS) {
+        return `Must have between ${bettingParams.MIN_MULTI_BET_LEGS} and ${bettingParams.MAX_MULTI_BET_LEGS} bets for a multi bet.`;
+      }
+
+      if (this.balance < this.multiBetAmount && this.pending > this.multiBetAmount) {
         return `Available balance too low. Please wait for your pending balance of ${this.pending} ${this.wagerrCode} to be confirmed.`;
       }
 
-      if (this.balance < this.multiBetNumber && this.immature > this.multiBetNumber) {
+      if (this.balance < this.multiBetAmount && this.immature > this.multiBetAmount) {
         return `Available balance too low. Please wait for your immature balance of ${this.immature} ${this.wagerrCode} to be confirmed.`;
       }
 
       if (
-        this.multiBetNumber < bettingParams.MIN_BET_AMOUNT ||
-        this.multiBetNumber > bettingParams.MAX_MULTI_BET_AMOUNT
+        this.multiBetAmount < bettingParams.MIN_BET_AMOUNT ||
+        this.multiBetAmount > bettingParams.MAX_MULTI_BET_AMOUNT
       ) {
         return `Incorrect bet amount. Please ensure your bet is between ${bettingParams.MIN_BET_AMOUNT} - ${bettingParams.MAX_MULTI_BET_AMOUNT} ${this.wagerrCode} inclusive.`;
       }
 
-      if (this.balance < this.multiBetNumber) {
+      if (this.balance < this.multiBetAmount) {
         return 'Available balance too low.';
       }
 
@@ -177,8 +181,8 @@ export default {
         (acc, bet) => acc * (bet.odds / bettingParams.ODDS_DIVISOR),
         1
       );
-      const grossWinnings = odds * this.multiBetNumber;
-      const grossProfit = grossWinnings - this.multiBetNumber;
+      const grossWinnings = odds * this.multiBetAmount;
+      const grossProfit = grossWinnings - this.multiBetAmount;
       const betFee = grossProfit * bettingParams.NETWORK_SHARE;
 
       return (grossWinnings - betFee).toFixed(8);
@@ -212,7 +216,7 @@ export default {
         outcome: bet.outcome
       }));
 
-      this.placeBet(null, events, this.multiBetNumber);
+      this.placeBet(null, events, this.multiBetAmount);
     },
 
     async isSyncValid() {

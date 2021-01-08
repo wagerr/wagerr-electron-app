@@ -14,9 +14,14 @@ export const testnetParams = {
 
 export const bettingParams = {
   ODDS_DIVISOR: 10000,
+
   MIN_BET_AMOUNT: 25,
   MAX_MULTI_BET_AMOUNT: 4000,
   MAX_SINGLE_BET_AMOUNT: 10000,
+
+  MIN_MULTI_BET_LEGS: 2,
+  MAX_MULTI_BET_LEGS: 5,
+
   NETWORK_SHARE: 0.06
 };
 
