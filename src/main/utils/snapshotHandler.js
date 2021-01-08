@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { getWagerrDataPath } from '../blockchain/blockchain';
+import { getWagerrDataPath } from '../wagerrd/blockchain';
 import { blockchainSnapshot } from '../constants/constants';
 
 function getFilenameFromHeaderResponse(response) {

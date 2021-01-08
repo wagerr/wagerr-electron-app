@@ -173,7 +173,7 @@
 import { remote, shell } from 'electron';
 import { mapGetters, mapActions } from 'vuex';
 import wagerrRPC from '@/services/api/wagerrRPC';
-import { getWagerrConfPath } from '../../main/blockchain/blockchain';
+import { getWagerrConfPath } from '../../main/wagerrd/blockchain';
 import moment from 'moment';
 
 export default {

@@ -42,7 +42,7 @@
 import {
   getWagerrConfPath,
   getCoinMasternodeConfPath
-} from '../../../../main/blockchain/blockchain';
+} from '../../../../main/wagerrd/blockchain';
 import { shell } from 'electron';
 import ipcRenderer from '../../../../common/ipc/ipcRenderer';
 
