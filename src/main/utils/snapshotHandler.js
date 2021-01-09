@@ -1,6 +1,5 @@
 import fs from 'fs';
 import path from 'path';
-import { getWagerrDataPath } from '../wagerrd/blockchain';
 import { blockchainSnapshot } from '../constants/constants';
 
 function getFilenameFromHeaderResponse(response) {
@@ -12,8 +11,8 @@ function getFilenameFromHeaderResponse(response) {
   return matches && matches.length > 1 ? matches[1] : blockchainSnapshot.DEFAULT_FILENAME;
 }
 
-function resolveSnapshotDataPath(response) {
-  const directoryPath = path.join(getWagerrDataPath(), blockchainSnapshot.RELATIVE_DATA_PATH);
+function resolveSnapshotDataPath(wagerrDataDir, response) {
+  const directoryPath = path.join(wagerrDataDir, blockchainSnapshot.RELATIVE_DATA_PATH);
 
   if (!fs.existsSync(directoryPath)) {
     fs.mkdirSync(directoryPath);

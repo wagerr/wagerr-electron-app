@@ -4,7 +4,6 @@ import fs from 'fs';
 import path from 'path';
 import axios from 'axios';
 import errors from './alerts/errors';
-import { readWagerrConf, rpcPass, rpcUser, testnet } from './wagerrd/blockchain';
 import Daemon from './wagerrd/daemon';
 import { spawnLogger } from './logger/logger';
 import menu from './menu/menu';
@@ -156,7 +155,7 @@ async function createMainWindow() {
 
   // Once electron app is ready then display the vue UI.
   mainWindow.once('ready-to-show', () => {
-    const network = testnet === 1 ? ' - Testnet' : '';
+    const network = daemon.testnet ? ' - Testnet' : '';
     const title = `Wagerr Electron App${network}`;
 
     mainWindow.setTitle(title);
@@ -200,15 +199,6 @@ export async function init(args) {
     process.exit(1);
   }
 
-  // Check if the wagerr.conf file exists. If not use default values.
-  const confExists = readWagerrConf();
-
-  if (!confExists) {
-    console.error(
-      '\x1b[32mDefault wagerr.conf values used as no file exists\x1b[0m'
-    );
-  }
-
   // Check if the Wagerr daemon is already running.
   const isRunning = await daemon.isWagerrdRunning();
 
@@ -237,7 +227,7 @@ app.on('ready', async () => {
     checkForUpdates();
   } else {
     logger.debug('Skipping update check when running in development mode');
-    await init();
+    await init([]);
   }
 });
 
@@ -270,6 +260,19 @@ app.on('activate', async () => {
 });
 
 // TODO - Move code to more appropriate location or new file.
+ipcMain.handle('wagerrd-start', async (event) => {
+  await daemon.launch(mainWindow, []);
+  return true;
+});
+
+ipcMain.on('stop-daemon', async (event) => {
+  event.returnValue = await daemon.stop();
+});
+
+ipcMain.handle('wagerrd-is-ready', async (event) => {
+  return await daemon.isWagerrdRunning();
+});
+
 ipcMain.on('runCommand', async (event, arg) => {
   event.returnValue = await daemon.runCommand(arg);
 });
@@ -471,20 +474,6 @@ async function restartWagerrd(arg) {
   await init(arg);
 }
 
-ipcMain.on('stop-daemon', async (event, arg) => {
-  event.returnValue = await daemon.stop();
-});
-
-// Send the RPC username to the render process.
-ipcMain.on('rpc-username', event => {
-  event.returnValue = rpcUser;
-});
-
-// Send the RPC password to the render process.
-ipcMain.on('rpc-password', event => {
-  event.returnValue = rpcPass;
-});
-
 // Show error dialog informing user that the wallet could not connect to wagerr network.
 ipcMain.on('no-peers', () => {
   errors.noPeersConnectionError();
@@ -514,7 +503,7 @@ ipcMain.on('snapshot-download', async (event, url) => {
   });
 
   total = response.headers['content-length'];
-  snapshotPath = snapshotHandler.resolveSnapshotDataPath(response);
+  snapshotPath = snapshotHandler.resolveSnapshotDataPath(daemon.getDataDir, response);
   mainWindow.webContents.send('snapshot-download-path', snapshotPath);
   response.data.pipe(fs.createWriteStream(snapshotPath));
 

@@ -175,6 +175,7 @@
 </template>
 
 <script>
+import { ipcRenderer } from 'electron';
 import Vuex from 'vuex';
 import moment from 'moment';
 import blockchainRPC from '@/services/api/blockchain_rpc';
@@ -182,10 +183,18 @@ import blockchainRPC from '@/services/api/blockchain_rpc';
 export default {
   name: 'Information',
 
+  data() {
+    return {
+      intervalHandle: 0,
+      blockCount: 0,
+      dataDir: '',
+      lastBlockTime: ''
+    };
+  },
+
   computed: {
     ...Vuex.mapGetters([
       'daemonVersion',
-      'dataDir',
       'getNetworkType',
       'getNetworkVersion',
       'getNumConnections',
@@ -238,6 +247,8 @@ export default {
   },
 
   async created() {
+    this.dataDir = ipcRenderer.sendSync('wagerrd-data-dir');
+
     this.blockCount = this.getBlocks;
     this.lastBlockTime = await this.getLastBlockTime();
 
@@ -264,14 +275,6 @@ export default {
         isRunning = false;
       }
     }, 3000);
-  },
-
-  data() {
-    return {
-      intervalHandle: 0,
-      blockCount: 0,
-      lastBlockTime: ''
-    };
   },
 
   beforeDestroy() {

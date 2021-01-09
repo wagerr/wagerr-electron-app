@@ -170,10 +170,9 @@
 </template>
 
 <script>
-import { remote, shell } from 'electron';
+import { ipcRenderer, remote, shell } from 'electron';
 import { mapGetters, mapActions } from 'vuex';
 import wagerrRPC from '@/services/api/wagerrRPC';
-import { getWagerrConfPath } from '../../main/wagerrd/blockchain';
 import moment from 'moment';
 
 export default {
@@ -181,7 +180,7 @@ export default {
 
   data: function() {
     return {
-      confPath: getWagerrConfPath()
+      confPath: ipcRenderer.sendSync('wagerrd-config-path')
     };
   },
 

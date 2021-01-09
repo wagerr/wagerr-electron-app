@@ -27,17 +27,15 @@
 <script>
 import axios from 'axios';
 import jsZip from 'jszip';
-import { remote } from 'electron';
+import { ipcRenderer, remote } from 'electron';
 import fs from 'fs-extra';
 import path from 'path';
 import { mapActions } from 'vuex';
-import { ipcRenderer } from 'electron';
 import ipcRendererHandler from '../../../common/ipc/ipcRenderer';
 import {
   blockchainSnapshot,
   syncMethods,
 } from '../../../main/constants/constants';
-import { getWagerrDataPath } from '../../../main/wagerrd/blockchain';
 
 export default {
   name: 'DownloadSnapshot',
@@ -186,7 +184,8 @@ export default {
       // Move files from temp folder to wagerr data folder
       fs.readdirSync(unzippedSnapshotPath).forEach(filename => {
         const unzippedFilePath = path.join(unzippedSnapshotPath, filename);
-        const newFilePath = path.join(getWagerrDataPath(), filename);
+        const wagerrDataDir = ipcRenderer.sendSync('wagerrd-data-dir');
+        const newFilePath = path.join(wagerrDataDir, filename);
         fs.moveSync(unzippedFilePath, newFilePath, { overwrite: true });
       });
 

@@ -1,6 +1,6 @@
+import { ipcRenderer } from 'electron';
 import fs from 'fs';
 import wagerrRPC from '@/services/api/wagerrRPC';
-import { getCoinMasternodeConfPath } from '../../../main/wagerrd/blockchain';
 
 export default {
   getMasternodeCount() {
@@ -60,12 +60,12 @@ export default {
   },
 
   async getMasternodeConfigSync() {
-    const mnConfigFile = getCoinMasternodeConfPath();
+    const mnConfigFile = ipcRenderer.sendSync('wagerrd-masternode-config-path');
     try {
       fs.statSync(mnConfigFile);
     } catch (err) {
       // file doesn't exist so create it
-      fs.writeFileSync(getCoinMasternodeConfPath(), '');
+      fs.writeFileSync(mnConfigFile, '');
     }
 
     return fs.readFileSync(mnConfigFile, 'utf8');
@@ -120,7 +120,8 @@ export default {
     });
 
     if (!dupeLine) mnConfig += confString;
-    fs.writeFileSync(getCoinMasternodeConfPath(), mnConfig);
+    const masternodeConfigPath = ipcRenderer.sendSync('wagerrd-masternode-config-path');
+    fs.writeFileSync(masternodeConfigPath, mnConfig);
   },
 
   masternodeStartAlias(arg) {

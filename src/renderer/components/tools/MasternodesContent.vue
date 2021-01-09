@@ -100,18 +100,9 @@ import MasternodeStepPrivateKeyDialog from './MasternodeSetup/MasternodeStepPriv
 import MasternodeStepOutputDialog from './MasternodeSetup/MasternodeStepOutputDialog';
 import MasternodeStepSixDialog from './MasternodeSetup/MasternodeStepSixDialog';
 
-import ipcRenderer from '../../../common/ipc/ipcRenderer';
 import masternode_rpc from '@/services/api/masternode_rpc';
-import {
-  getCoinMasternodeConfPath,
-  testnet
-} from '../../../main/wagerrd/blockchain';
-import {
-  testnetParams,
-  mainnetParams
-} from '../../../main/constants/constants';
 import _ from 'lodash';
-import { shell } from 'electron';
+import { ipcRenderer, shell } from 'electron';
 
 export default {
   name: 'MasternodesContent',
@@ -144,7 +135,7 @@ export default {
 
   methods: {
     onOpenConfig() {
-      let masternodeConfigPath = getCoinMasternodeConfPath();
+      let masternodeConfigPath = ipcRenderer.sendSync('wagerrd-masternode-config-path');
       shell.openItem(masternodeConfigPath);
     },
 
@@ -262,9 +253,7 @@ export default {
 
   async mounted() {
     // Set default masternode port.
-    this.port = testnet
-      ? testnetParams.DEFAULT_PORT
-      : mainnetParams.DEFAULT_PORT;
+    this.port = ipcRenderer.sendSync('wagerrd-rpc-port');
 
     let mnConfig = await masternode_rpc.getMasternodeConfigSync();
     if (!mnConfig) return false;

@@ -66,7 +66,6 @@ import { mapActions, mapGetters } from 'vuex';
 import blockchainRPC from '../../services/api/blockchain_rpc';
 import networkRPC from '../../services/api/network_rpc';
 import ipcRendererHandler from '../../../common/ipc/ipcRenderer';
-import { getWagerrConfPath } from '../../../main/wagerrd/blockchain';
 import DownloadSnapshot from './DownloadSnapshot.vue';
 import { syncMethods } from '../../../main/constants/constants';
 
@@ -76,7 +75,7 @@ export default {
 
   data() {
     return {
-      confPath: getWagerrConfPath(),
+      confPath: ipcRenderer.sendSync('wagerrd-config-path'),
       syncMethod: syncMethods.SCAN_BLOCKS,
       timeBehindText: '',
       mayDownloadSnapshot: false,

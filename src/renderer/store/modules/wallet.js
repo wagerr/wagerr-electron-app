@@ -1,5 +1,3 @@
-import * as blockchain from 'src/main/wagerrd/blockchain';
-
 import wagerrRPC from '@/services/api/wagerrRPC';
 import walletRPC from '@/services/api/wallet_rpc';
 import {walletState} from '@/constants/constants';
@@ -18,8 +16,7 @@ const state = {
   synced: false,
   initWalletText: 'Initialising Electron App Wallet...',
   walletVersion: `v${packageJSON.version}`,
-  txCount: 0,
-  dataDir: blockchain.getWagerrDataPath()
+  txCount: 0
 };
 
 const getters = {

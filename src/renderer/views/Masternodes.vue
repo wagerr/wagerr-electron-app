@@ -73,13 +73,10 @@
 </template>
 
 <script>
-import Vuex from 'vuex';
+import { ipcRenderer, shell } from 'electron';
 import moment from 'moment';
-import ipcRenderer from '../../common/ipc/ipcRenderer';
 import masternode_rpc from '@/services/api/masternode_rpc';
-import { getCoinMasternodeConfPath } from '../../main/wagerrd/blockchain';
 
-import { shell } from 'electron';
 export default {
   name: 'Masternodes',
   data() {
@@ -172,7 +169,7 @@ export default {
             );
             let minutesActive = moment.duration(item['activetime'], 'seconds');
             rows.push({
-              txhash: item['txhash'], 
+              txhash: item['txhash'],
               status: item['status'],
               lastSeen: lastSeen,
               active: minutesActive.humanize(),
@@ -283,7 +280,7 @@ export default {
       } else this.selectedRow = masternode;
     },
     showingMasternodeConf() {
-      const masternodeConfPath = getCoinMasternodeConfPath();
+      const masternodeConfPath = ipcRenderer.sendSync('wagerrd-masternode-config-path');
       console.log(masternodeConfPath);
       shell.openItem(masternodeConfPath);
     },

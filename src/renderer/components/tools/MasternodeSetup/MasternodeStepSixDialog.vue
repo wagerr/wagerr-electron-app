@@ -39,12 +39,8 @@
 </template>
 
 <script>
-import {
-  getWagerrConfPath,
-  getCoinMasternodeConfPath
-} from '../../../../main/wagerrd/blockchain';
-import { shell } from 'electron';
-import ipcRenderer from '../../../../common/ipc/ipcRenderer';
+import { ipcRenderer, shell } from 'electron';
+import ipcRendererHandler from '../../../../common/ipc/ipcRenderer';
 
 export default {
   name: 'MasternodeStepSixDialog',
@@ -66,15 +62,15 @@ export default {
   },
   methods: {
     onOpenMasternodeFile() {
-      let masternodeConfigPath = getCoinMasternodeConfPath();
+      let masternodeConfigPath = ipcRenderer.sendSync('wagerrd-masternode-config-path');
       shell.openItem(masternodeConfigPath);
     },
     onOpenWalletFile() {
-      let coinConfigPath = getWagerrConfPath();
+      let coinConfigPath = ipcRenderer.sendSync('wagerrd-config-path');
       shell.openItem(coinConfigPath);
     },
     onRestart() {
-      ipcRenderer.restartWallet();
+      ipcRendererHandler.restartWallet();
     },
     onFinish() {
       this.$emit('next');
