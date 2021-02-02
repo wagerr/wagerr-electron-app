@@ -83,7 +83,6 @@ export const SPORTS_AVAILABLE = [
   },
   {
     name: 'MMA',
-    id: 'Mixed Martial Arts',
     icon: 'icon-bench-press',
     favorite: false
   },
