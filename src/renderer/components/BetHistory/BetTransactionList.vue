@@ -239,22 +239,16 @@ export default {
           text = `Draw @${this.convertOdds(leg.lockedEvent.drawOdds)}`;
           break;
         case 4:
-          let oddsHome =
-            leg.lockedEvent.spreadHomeOdds > leg.lockedEvent.spreadAwayOdds ? '+' : '-';
-          oddsHome += leg.lockedEvent.spreadPoints / 10;
-          text = `Home Spread ${oddsHome}@${this.convertOdds(leg.lockedEvent.spreadHomeOdds)}`;
+          text = `Home Spread ${this.handicapCalc(true, leg.lockedEvent)}@${this.convertOdds(leg.lockedEvent.spreadHomeOdds)}`;
           break;
         case 5:
-          let oddsAway =
-            leg.lockedEvent.spreadAwayOdds > leg.lockedEvent.spreadHomeOdds ? '+' : '-';
-          oddsAway += leg.lockedEvent.spreadPoints / 10;
-          text = `Away Spread ${oddsAway}@${this.convertOdds(leg.lockedEvent.spreadAwayOdds)}`;
+          text = `Away Spread ${this.handicapCalc(false, leg.lockedEvent)}@${this.convertOdds(leg.lockedEvent.spreadAwayOdds)}`;
           break;
         case 6:
-          text = `Total Over ${leg.lockedEvent.totalPoints / 10}@${this.convertOdds(leg.lockedEvent.totalOverOdds)}`;
+          text = `Total Over ${leg.lockedEvent.totalPoints / 100}@${this.convertOdds(leg.lockedEvent.totalOverOdds)}`;
           break;
         case 7:
-          text = `Total Under ${leg.lockedEvent.totalPoints / 10}@${this.convertOdds(leg.lockedEvent.totalUnderOdds)}`;
+          text = `Total Under ${leg.lockedEvent.totalPoints / 100}@${this.convertOdds(leg.lockedEvent.totalUnderOdds)}`;
           break;
         default:
           text = leg.outcome;
@@ -269,13 +263,34 @@ export default {
     },
 
     blockExplorerUrl(txId) {
-      const { shell } = require('electron');
+      const {shell} = require('electron');
       const explorerUrl =
         this.getNetworkType === 'Testnet'
           ? testnetParams.BLOCK_EXPLORER_URL
           : mainnetParams.BLOCK_EXPLORER_URL;
 
       shell.openExternal(`${explorerUrl}/#/tx/${txId}`);
+    },
+
+    spreadCalc(homeTeam, event) {
+      let homeTeamSpread;
+      let awayTeamSpread;
+
+      if (event.spreadPoints > 0) {
+        homeTeamSpread = event.spreadPoints / 100;
+        awayTeamSpread = (event.spreadPoints * -1) / 100;
+      } else {
+        homeTeamSpread = event.spreadPoints / 100;
+        awayTeamSpread = (event.spreadPoints * -1) / 100;
+      }
+
+      if (homeTeam) {
+        return homeTeamSpread;
+      }
+
+      if (!homeTeam) {
+        return awayTeamSpread;
+      }
     }
   }
 };

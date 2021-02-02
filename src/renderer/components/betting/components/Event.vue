@@ -315,14 +315,14 @@ export default {
         totalValue,
         availability: true
       };
-      console.log('----------Going to create bet placer----------', betData);
+
       this.addBetToSlip(betData);
     },
 
     handicapCalc(homeTeam, event) {
       let homeTeamModifier;
       let awayTeamModifier;
-      console.log(event);
+
       if (event.odds[1].spreadPoints > 0) {
         homeTeamModifier = '+';
         awayTeamModifier = '';
