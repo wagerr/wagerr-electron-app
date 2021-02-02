@@ -239,10 +239,10 @@ export default {
           text = `Draw @${this.convertOdds(leg.lockedEvent.drawOdds)}`;
           break;
         case 4:
-          text = `Home Spread ${this.handicapCalc(true, leg.lockedEvent)}@${this.convertOdds(leg.lockedEvent.spreadHomeOdds)}`;
+          text = `Home Spread ${this.spreadCalc(true, leg.lockedEvent)}@${this.convertOdds(leg.lockedEvent.spreadHomeOdds)}`;
           break;
         case 5:
-          text = `Away Spread ${this.handicapCalc(false, leg.lockedEvent)}@${this.convertOdds(leg.lockedEvent.spreadAwayOdds)}`;
+          text = `Away Spread ${this.spreadCalc(false, leg.lockedEvent)}@${this.convertOdds(leg.lockedEvent.spreadAwayOdds)}`;
           break;
         case 6:
           text = `Total Over ${leg.lockedEvent.totalPoints / 100}@${this.convertOdds(leg.lockedEvent.totalOverOdds)}`;
