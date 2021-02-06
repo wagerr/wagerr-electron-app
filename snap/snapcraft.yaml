@@ -154,6 +154,7 @@ parts:
       git apply ${SNAPCRAFT_PROJECT_DIR}/snap/local/patches/X005-update.patch
       wget https://deb.nodesource.com/setup_15.x
       bash ./setup_15.x
+      apt -y install nodejs
       HOST="${SNAPCRAFT_ARCH_TRIPLET}"
       wget https://github.com/wagerr/wagerr/releases/download/v4.0.0/wagerr-4.0.0-${HOST}.tar.gz
       tar -xf wagerr-4.0.0-${HOST}.tar.gz
