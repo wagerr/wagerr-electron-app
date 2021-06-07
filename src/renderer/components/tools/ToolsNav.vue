@@ -2,34 +2,29 @@
   <div class="second-nav tools-types">
     <h5>Tools &amp; Info</h5>
     <ul class="row">
-      <router-link class="col s4" tag="li" to="/tools/info">
-        <a>Info</a>
-      </router-link>
+      <li class="col s4">
+        <router-link to="/tools/info">Info</router-link>
+      </li>
 
-      <router-link class="col s4" tag="li" to="/tools/peers">
-        <a>Peers</a>
-      </router-link>
+      <li class="col s4">
+        <router-link to="/tools/peers">Peers</router-link>
+      </li>
 
-      <router-link class="col s4" tag="li" to="/tools/address_book" exact>
-        <a>Address Book</a>
-      </router-link>
+      <li class="col s4">
+        <router-link to="/tools/address_book" exact>Address Book</router-link>
+      </li>
 
-      <router-link class="col s4" tag="li" to="/tools/masternode_setup">
-        <a>Masternode Setup</a>
-      </router-link>
+      <li class="col s4">
+        <router-link to="/tools/masternode_setup">Masternode Setup</router-link>
+      </li>
 
-      <router-link
-        class="col s4"
-        tag="li"
-        to="/tools/sign_verify_message"
-        exact
-      >
-        <a>Sign/Verify Message</a>
-      </router-link>
+      <li class="col s4">
+        <router-link to="/tools/sign_verify_message" exact>Sign/Verify Message</router-link>
+      </li>
 
-      <router-link class="col s4" tag="li" to="/tools/wallet_repair">
-        <a>Wallet Repair</a>
-      </router-link>
+      <li class="col s4">
+        <router-link to="/tools/wallet_repair">Wallet Repair</router-link>
+      </li>
     </ul>
   </div>
 </template>

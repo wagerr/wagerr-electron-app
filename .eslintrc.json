@@ -21,7 +21,7 @@
     "airbnb-base",
     "plugin:vue/recommended",
     "plugin:prettier/recommended",
-    "prettier/vue",
+    "prettier",
     "plugin:jest/all"
   ],
   "settings": {

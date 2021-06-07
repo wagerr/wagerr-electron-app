@@ -3,41 +3,51 @@
     <div class="wagerr-logo"></div>
 
     <ul class="top-nav">
-      <router-link tag="li" to="/" exact>
-        <i class="navico-wallet"></i>
-        <h6>Wallet Home</h6>
-      </router-link>
-
-      <router-link tag="li" to="/bet_history">
-        <i class="navico-history"></i>
-        <h6>Bet History</h6>
-      </router-link>
-
-      <router-link tag="li" to="/betting">
-        <i class="navico-betting"></i>
-        <h6>Betting</h6>
-      </router-link>
-
-      <li class="disabled">
-        <i class="navico-dice"></i>
-        <h6>
-          Chain Games
-          <br />
-          <small>
-            (Coming soon!)
-          </small>
-        </h6>
+      <li>
+        <router-link to="/" exact>
+          <i class="navico-wallet"></i>
+          <h6>Wallet Home</h6>
+        </router-link>
       </li>
 
-      <router-link tag="li" to="/masternodes">
-        <i class="navico-wrench"></i>
-        <h6>Masternodes</h6>
-      </router-link>
+      <li>
+        <router-link to="/bet_history">
+          <i class="navico-history"></i>
+          <h6>Bet History</h6>
+        </router-link>
+      </li>
 
-      <router-link tag="li" to="/tools/info">
-        <i class="navico-wrench"></i>
-        <h6>Tools &amp; Info</h6>
-      </router-link>
+      <li>
+        <router-link to="/betting">
+          <i class="navico-betting"></i>
+          <h6>Betting</h6>
+        </router-link>
+      </li>
+
+      <li class="disabled">
+        <a>
+          <i class="navico-dice"></i>
+          <h6>
+            Chain Games
+            <br />
+            <small>(Coming soon!)</small>
+          </h6>
+        </a>
+      </li>
+
+      <li>
+        <router-link to="/masternodes">
+          <i class="navico-wrench"></i>
+          <h6>Masternodes</h6>
+        </router-link>
+      </li>
+
+      <li>
+        <router-link to="/tools/info">
+          <i class="navico-wrench"></i>
+          <h6>Tools &amp; Info</h6>
+        </router-link>
+      </li>
 
       <li>
         <el-dropdown trigger="click" placement="bottom-start">
@@ -65,7 +75,7 @@
               </a>
             </el-dropdown-item>
             <el-dropdown-item>
-              <router-link tag="a" to="/preferences" exact>
+              <router-link to="/preferences" exact>
                 <i class="icon-cog"></i>
                 Preferences
               </router-link>
@@ -201,6 +211,7 @@ export default {
   }
 };
 </script>
+
 <style lang="scss">
 @import '../assets/scss/element-ui';
 
@@ -210,6 +221,219 @@ export default {
 
 <style scoped lang="scss">
 @import '../assets/scss/_variables';
+
+header {
+  color: #fff;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  height: 90px;
+  background-color: $wagerr-red;
+  background-image: url(../assets/images/bg-header.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+
+  .wagerr-logo {
+    height: 50px;
+    background-image: url(../assets/images/logo-header.svg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    float: left;
+    margin: 20px 0 0 0;
+    width: 200px;
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
+  }
+
+  .wagerr-balance {
+    margin: 17px 25px 0 0;
+
+    #wagerr-total-balance {
+      background-color: $bg-gradient-black-half;
+      display: inline-block;
+      padding: 10px 15px;
+      font-weight: 600;
+      color: $white;
+      font-size: 16px;
+      letter-spacing: 0.3px;
+
+      h6 {
+        color: $wagerr-red;
+        font-size: 11px;
+        text-align: center;
+        letter-spacing: 0.3px;
+        margin-top: 2px;
+        margin-bottom: 0;
+        font-weight: 600;
+      }
+    }
+
+    i {
+      margin-left: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+
+    li {
+      display: block;
+      float: left;
+      list-style: none;
+      font-size: 28px;
+      padding: 0;
+      cursor: pointer;
+      text-align: center;
+      height: 90px;
+      position: relative;
+      width: 110px;
+
+      &:hover {
+        background-color: $bg-gradient-black-quarter;
+
+        i {
+          filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        h6 {
+          text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+      }
+
+      &.router-link-active {
+        background-color: $bg-gradient-black-half;
+      }
+
+      a {
+        display: block;
+        height: 100%;
+        width: 100%;
+      }
+
+      i {
+        cursor: pointer;
+        font-size: 0;
+        margin: 20px 0 0;
+        width: 100%;
+        height: 30px;
+        display: block;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: contain;
+
+        &.navico-wallet {
+          background-image: url(../assets/images/navico-wallet.svg);
+          height: 31px;
+          margin-top: 22px;
+        }
+
+        &.navico-history {
+          background-image: url(../assets/images/navico-history.svg);
+          height: 32px;
+          margin-top: 21px;
+        }
+
+        &.navico-betting {
+          background-image: url(../assets/images/navico-betting.svg);
+          height: 27px;
+          margin-top: 23px;
+        }
+
+        &.navico-dice {
+          background-image: url(../assets/images/navico-dice.svg);
+          height: 24px;
+          margin-top: 25px;
+        }
+
+        &.navico-wrench {
+          background-image: url(../assets/images/navico-wrench.svg);
+          height: 28px;
+          margin-top: 22px;
+        }
+
+        &.navico-gear {
+          background-image: url(../assets/images/navico-gear.svg);
+          height: 26px;
+          margin-top: 24px;
+        }
+      }
+
+      h6 {
+        color: #fff;
+        font-size: 12px;
+        margin: 0;
+        position: absolute;
+        top: 58px;
+        display: block;
+        text-align: center;
+        width: 100%;
+        letter-spacing: 0.5px;
+      }
+
+      .title {
+        display: block;
+        text-align: center;
+        text-transform: uppercase;
+        color: #fff;
+        font-size: 12px;
+        padding-top: 5px;
+      }
+
+      .dropdown-content {
+        position: absolute;
+        top: 90px !important;
+        left: 0 !important;
+        width: max-content !important;
+        height: auto !important;
+
+        li {
+          display: block;
+          float: left;
+          list-style: none;
+          font-size: 28px;
+          padding: 15px 20px 10px 20px;
+          cursor: pointer;
+          min-height: auto;
+          height: auto;
+
+          a {
+            text-align: left;
+            font-size: 13px;
+            padding: 8px 16px;
+
+            &:hover {
+              background-color: $bg-gradient-black-half;
+            }
+
+            i {
+              margin: 0 8px 0 0 !important;
+              color: $wagerr-red;
+              font-weight: 600;
+            }
+          }
+        }
+      }
+
+      .dropdown-trigger {
+        margin-top: 0;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        position: absolute;
+      }
+
+      #settings-dropdown li {
+        padding: 0;
+      }
+    }
+  }
+}
 
 .user-balance-flex {
   display: flex;
@@ -250,15 +474,23 @@ export default {
 }
 
 .disabled {
-  color: rgba(255,255,255,0.5);
+  color: rgba(255, 255, 255, 0.5);
   cursor: default;
-}
 
-.disabled i {
-  cursor: default;
-}
+  &:hover {
+    background-color: transparent;
+  }
 
-.disabled:hover {
-  background-color: transparent;
+  a {
+    cursor: default;
+  }
+
+  i {
+    cursor: default;
+  }
+
+  h6 {
+    cursor: default;
+  }
 }
 </style>
