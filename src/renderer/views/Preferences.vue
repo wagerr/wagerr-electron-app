@@ -229,7 +229,7 @@ export default {
     },
 
     onOpenConf: function() {
-      shell.openItem(this.confPath);
+      shell.openPath(this.confPath);
     },
 
     backupWallet: async function() {

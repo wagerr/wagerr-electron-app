@@ -172,7 +172,7 @@ export default {
             );
             let minutesActive = moment.duration(item['activetime'], 'seconds');
             rows.push({
-              txhash: item['txhash'], 
+              txhash: item['txhash'],
               status: item['status'],
               lastSeen: lastSeen,
               active: minutesActive.humanize(),
@@ -285,7 +285,7 @@ export default {
     showingMasternodeConf() {
       const masternodeConfPath = getCoinMasternodeConfPath();
       console.log(masternodeConfPath);
-      shell.openItem(masternodeConfPath);
+      shell.openPath(masternodeConfPath);
     },
     gotoSettingsMasternode() {
       this.$router.replace({ path: `/tools/masternode_setup` });
