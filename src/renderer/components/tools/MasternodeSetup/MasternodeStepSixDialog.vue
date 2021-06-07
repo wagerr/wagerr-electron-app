@@ -66,12 +66,12 @@ export default {
   },
   methods: {
     onOpenMasternodeFile() {
-      let masternodeConfigPath = getCoinMasternodeConfPath();
-      shell.openItem(masternodeConfigPath);
+      const masternodeConfigPath = getCoinMasternodeConfPath();
+      shell.openPath(masternodeConfigPath);
     },
     onOpenWalletFile() {
-      let coinConfigPath = getWagerrConfPath();
-      shell.openItem(coinConfigPath);
+      const coinConfigPath = getWagerrConfPath();
+      shell.openPath(coinConfigPath);
     },
     onRestart() {
       ipcRenderer.restartWallet();

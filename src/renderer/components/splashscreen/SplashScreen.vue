@@ -263,7 +263,7 @@ export default {
 
     onOpenConf: function() {
       ipcRendererHandler.log('debug', 'Opening wagerr.conf file');
-      shell.openItem(this.confPath);
+      shell.openPath(this.confPath);
     },
 
     async loadWallet() {

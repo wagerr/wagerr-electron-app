@@ -144,8 +144,8 @@ export default {
 
   methods: {
     onOpenConfig() {
-      let masternodeConfigPath = getCoinMasternodeConfPath();
-      shell.openItem(masternodeConfigPath);
+      const masternodeConfigPath = getCoinMasternodeConfPath();
+      shell.openPath(masternodeConfigPath);
     },
 
     onStartSetup() {
