@@ -2,17 +2,17 @@
   <div class="second-nav betting-types">
     <h5>Betting Types</h5>
     <ul class="row">
-      <router-link class="col s4" tag="li" to="/betting/peerless">
-        <a>Peerless</a>
-      </router-link>
+      <li class="col s4">
+        <router-link to="/betting/peerless">Peerless</router-link>
+      </li>
 
-      <router-link class="col s4" tag="li" to="/betting/chain_games">
-        <a>Chain Games</a>
-      </router-link>
+      <li class="col s4">
+        <router-link to="/betting/chain_games">Chain Games</router-link>
+      </li>
 
-      <router-link class="col s4" tag="li" to="/betting/h2h">
-        <a>Head to Head</a>
-      </router-link>
+      <li class="col s4">
+        <router-link to="/betting/h2h">Head to Head</router-link>
+      </li>
     </ul>
   </div>
 </template>

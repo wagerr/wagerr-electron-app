@@ -27,16 +27,12 @@
 <script>
 import axios from 'axios';
 import jsZip from 'jszip';
-import { remote } from 'electron';
+import { remote, ipcRenderer } from 'electron';
 import fs from 'fs-extra';
 import path from 'path';
 import { mapActions } from 'vuex';
-import { ipcRenderer } from 'electron';
 import ipcRendererHandler from '../../../common/ipc/ipcRenderer';
-import {
-  blockchainSnapshot,
-  syncMethods,
-} from '../../../main/constants/constants';
+import { blockchainSnapshot, syncMethods } from '../../../main/constants/constants';
 import { getWagerrDataPath } from '../../../main/wagerrd/blockchain';
 
 export default {

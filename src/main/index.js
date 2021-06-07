@@ -69,6 +69,7 @@ async function createMainWindow() {
     autoHideMenuBar: true,
     backgroundColor: '#2B2C2D',
     webPreferences: {
+      contextIsolation: false,
       enableRemoteModule: true,
       nodeIntegration: true
     }
