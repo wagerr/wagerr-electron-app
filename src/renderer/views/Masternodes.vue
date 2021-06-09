@@ -3,21 +3,26 @@
     <div class="col-title">
       <span class="masternode-title">Masternode</span>
       <a
-        class="waves-effect waves-red wallet-action btn modal-trigger wagerr-red-bg z-depth-2 setup-button"
+        class="
+          waves-effect waves-red
+          wallet-action
+          btn
+          modal-trigger
+          wagerr-red-bg
+          z-depth-2
+          setup-button
+        "
         @click="gotoSettingsMasternode"
-        >Setup Masternode</a
       >
+        Setup Masternode
+      </a>
     </div>
 
-    <table
-      class="col-12 col-sm-12 col-md-12 col-lg-8 main-table card z-depth-2"
-    >
+    <table class="col-12 col-sm-12 col-md-12 col-lg-8 main-table card z-depth-2">
       <thead>
         <tr>
           <th>Alias</th>
-
           <th>Address</th>
-
           <th>Status</th>
           <th>Active</th>
         </tr>
@@ -27,15 +32,11 @@
         <tr
           v-for="masternode in masternodesRows"
           :key="masternode.txhash"
+          :class="[masternode.address == selectedRow.address ? 'output-table-row' : '']"
           @click="onMasternodeSelect(masternode)"
-          :class="[
-            masternode.address == selectedRow.address ? 'output-table-row' : ''
-          ]"
         >
           <td>{{ masternode.alias }}</td>
-
           <td>{{ masternode.address }}</td>
-
           <td>{{ masternode.status }}</td>
           <td>{{ masternode.active }}</td>
         </tr>
@@ -44,44 +45,48 @@
 
     <div class="button-container">
       <a
-        class="waves-effect waves-red wallet-action btn modal-trigger wagerr-red-bg z-depth-2"
+        class="waves-effect waves-red wallet-action btn wagerr-red-bg z-depth-2"
         @click="onStartMasternodeAlias"
-        >Start Alias</a
       >
+        Start alias
+      </a>
       <a
-        class="waves-effect waves-red wallet-action btn modal-trigger wagerr-red-bg z-depth-2"
+        class="waves-effect waves-red wallet-action btn wagerr-red-bg z-depth-2"
         @click="onStartMasternodeMany"
-        >Start Many</a
       >
+        Start many
+      </a>
       <a
-        class="waves-effect waves-red wallet-action btn modal-trigger wagerr-red-bg z-depth-2"
+        class="waves-effect waves-red wallet-action btn wagerr-red-bg z-depth-2"
         @click="onStartMasternodeMissing"
-        >Start Missing</a
       >
+        Start missing
+      </a>
       <a
-        class="waves-effect waves-red wallet-action btn modal-trigger wagerr-red-bg z-depth-2"
+        class="waves-effect waves-red wallet-action btn wagerr-red-bg z-depth-2"
         @click="getMasternodeStatus"
-        >update status</a
       >
+        Update status
+      </a>
       <a
-        class="waves-effect waves-red wallet-action btn modal-trigger wagerr-red-bg z-depth-2"
+        class="waves-effect waves-red wallet-action btn wagerr-red-bg z-depth-2"
         @click="showingMasternodeConf"
-        >Masternode.conf</a
       >
+        Masternode.conf
+      </a>
     </div>
   </div>
 </template>
 
 <script>
-import Vuex from 'vuex';
+import { shell } from 'electron';
 import moment from 'moment';
-import ipcRenderer from '../../common/ipc/ipcRenderer';
-import masternode_rpc from '@/services/api/masternode_rpc';
+import masternodeRpc from '../services/api/masternode_rpc';
 import { getCoinMasternodeConfPath } from '../../main/wagerrd/blockchain';
 
-import { shell } from 'electron';
 export default {
   name: 'Masternodes',
+
   data() {
     return {
       masternodesRows: [],
@@ -91,34 +96,36 @@ export default {
       currentStartingType: 'many'
     };
   },
+
   async created() {
     // Get Receive Address List
     this.getMasternodeStatus();
   },
+
   methods: {
     async getMasternodeStatus() {
       console.log('getMasternodeStatus');
       try {
         await this.getNetworkMasternodeStatus();
-        let result = await masternode_rpc.getMasternodeConfigSync();
+        const result = await masternodeRpc.getMasternodeConfigSync();
         let mnConfig = result;
 
         if (!mnConfig) return false;
         mnConfig = mnConfig.split('\n');
         if (!mnConfig.length) return false;
 
-        let masterNodes = mnConfig.filter(node => {
+        const masterNodes = mnConfig.filter((node) => {
           return node.trim() !== '' && node.indexOf('#') === -1;
         });
 
         this.masternodesRows = [];
-        masterNodes.forEach(mn => {
+        masterNodes.forEach((mn) => {
           let foundMNOnNetwork = false;
           mn = mn.split(' ');
           for (let n = 0; n < this.masternodesNetworkRows.length; n++) {
             // console.log(`compare ${mn[1]} and ${this.masternodesNetworkRows[n].address}`)
             if (mn[3] === this.masternodesNetworkRows[n].txhash) {
-              let useMe = {
+              const useMe = {
                 ...this.masternodesNetworkRows[n],
                 alias: mn[0],
                 address: mn[1]
@@ -130,7 +137,7 @@ export default {
           }
 
           if (!foundMNOnNetwork) {
-            let entry = {
+            const entry = {
               address: mn[1],
               active: 'unknown',
               status: 'unknown',
@@ -142,8 +149,6 @@ export default {
             this.masternodesRows.push(entry);
           }
         });
-
-        console.log(this.masternodesRows);
 
         // if (this.selectedRow && this.$refs.myTable) {
         //     let findSelected = this.masternodesRows.filter(item => {
@@ -160,23 +165,22 @@ export default {
         console.log(e);
       }
     },
+
     async getNetworkMasternodeStatus() {
       // status, protocol, pubkey, ip:port, lastseen, activeseconds,lastpaid
       try {
-        let res = await masternode_rpc.getMasternodeList();
-        let rows = [];
+        const res = await masternodeRpc.getMasternodeList();
+        const rows = [];
         if (res) {
-          for (let item of res) {
-            let lastSeen = moment(item['lastseen'] * 1000).format(
-              'MMMM Do YYYY, h:mm:ss a'
-            );
-            let minutesActive = moment.duration(item['activetime'], 'seconds');
+          for (const item of res) {
+            const lastSeen = moment(item.lastseen * 1000).format('MMMM Do YYYY, h:mm:ss a');
+            const minutesActive = moment.duration(item.activetime, 'seconds');
             rows.push({
-              txhash: item['txhash'],
-              status: item['status'],
-              lastSeen: lastSeen,
+              txhash: item.txhash,
+              status: item.status,
+              lastSeen,
               active: minutesActive.humanize(),
-              pubkey: item['addr']
+              pubkey: item.addr
             });
           }
         }
@@ -186,77 +190,72 @@ export default {
         console.log(e);
       }
     },
+
     async onStartMasternodeMany() {
       this.currentStartingType = 'many';
       this.startMasternode();
     },
+
     async onStartMasternodeAlias() {
       this.currentStartingType = 'alias';
       this.startMasternode();
     },
+
     async onStartMasternodeMissing() {
       this.currentStartingType = 'missing';
       this.startMasternode();
     },
+
     async startMasternode() {
       try {
         let data;
+
         if (this.currentStartingType === 'many') {
-          data = await masternode_rpc.masternodeStartMany();
-          let list = [];
-          let self = this;
+          data = await masternodeRpc.masternodeStartMany();
+          const list = [];
+          const self = this;
           list.push(this.$createElement('h5', data.result.overall));
-          data.result.detail.map(function(item) {
-            list.push(
-              self.$createElement(
-                'p',
-                item.alias + ' ' + item.result + ' ' + item.error
-              )
-            );
+          data.result.detail.map((item) => {
+            list.push(self.$createElement('p', `${item.alias} ${item.result} ${item.error}`));
           });
-          let vnode = this.$createElement('div', list);
+          const vnode = this.$createElement('div', list);
 
           this.$message({
             message: vnode,
             type: 'success'
           });
         } else if (this.currentStartingType === 'alias') {
-          if (!this.selectedRow) {
+          if (
+            this.selectedRow &&
+            Object.keys(this.selectedRow).length === 0 &&
+            this.selectedRow.constructor === Object
+          ) {
             this.$message.error('no_select');
             return;
           }
-          data = await masternode_rpc.masternodeStartAlias({
+
+          data = await masternodeRpc.masternodeStartAlias({
             alias: this.selectedRow.alias
           });
-          console.log(data);
-          let list = [];
+
+          const list = [];
           list.push(this.$createElement('h5', data.result.overall));
-          let item = data.result.detail[0];
-          list.push(
-            this.$createElement(
-              'p',
-              item.alias + ' ' + item.result + ' ' + item.errorMessage
-            )
-          );
-          let vnode = this.$createElement('div', list);
+          const item = data.result.detail[0];
+          list.push(this.$createElement('p', `${item.alias} ${item.result} ${item.errorMessage}`));
+          const vnode = this.$createElement('div', list);
           this.$message({
             message: vnode,
             type: 'success'
           });
         } else {
-          data = await masternode_rpc.masternodeStartMissing();
-          let list = [];
-          let self = this;
+          data = await masternodeRpc.masternodeStartMissing();
+          const list = [];
+          const self = this;
           list.push(this.$createElement('h5', data.result.overall));
-          data.result.detail.map(function(item) {
-            list.push(
-              self.$createElement(
-                'p',
-                item.alias + ' ' + item.result + ' ' + item.error
-              )
-            );
+          data.result.detail.map((item) => {
+            list.push(self.$createElement('p', `${item.alias} ${item.result} ${item.error}`));
           });
-          let vnode = this.$createElement('div', list);
+          const vnode = this.$createElement('div', list);
 
           this.$message({
             message: vnode,
@@ -269,6 +268,7 @@ export default {
         this.$message.error(e.message);
       }
     },
+
     async onWalletUnlock() {
       try {
         await this.startMasternode();
@@ -277,16 +277,19 @@ export default {
         console.log(e);
       }
     },
+
     onMasternodeSelect(masternode) {
       if (this.selectedRow.txhash === masternode.txhash) {
         this.selectedRow = {};
       } else this.selectedRow = masternode;
     },
+
     showingMasternodeConf() {
       const masternodeConfPath = getCoinMasternodeConfPath();
       console.log(masternodeConfPath);
       shell.openPath(masternodeConfPath);
     },
+
     gotoSettingsMasternode() {
       this.$router.replace({ path: `/tools/masternode_setup` });
     }
@@ -296,6 +299,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '../assets/scss/_variables.scss';
+
 .output-table-row {
   background: lightblue !important;
 }
