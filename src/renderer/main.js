@@ -4,7 +4,7 @@ import VueMoment from 'vue-moment';
 import moment from 'moment-timezone';
 import VeeValidate from 'vee-validate';
 import VueClipboards from 'vue-clipboards';
-
+import PerfectScrollbar from 'vue2-perfect-scrollbar';
 import ElementUI from 'element-ui';
 import locale from 'element-ui/lib/locale/lang/en';
 
@@ -16,9 +16,7 @@ import App from './App.vue';
 import 'element-ui/lib/theme-chalk/index.css';
 import 'materialize-css/dist/css/materialize.css';
 import 'materialize-css/dist/js/materialize';
-
-import PerfectScrollbar from 'vue2-perfect-scrollbar'
-import 'vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css'
+import 'vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css';
 
 // Import global styles
 import './assets/scss/main.scss';
