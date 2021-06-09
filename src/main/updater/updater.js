@@ -14,46 +14,39 @@ let downloadProgressBar = null;
 autoUpdater.autoDownload = false;
 
 // Show and log any error when going through the update process.
-autoUpdater.on('error', error => {
+autoUpdater.on('error', (error) => {
   logger.error('There was an error while updating the app');
-  dialog.showErrorBox(
-    'Error: ',
-    error == null ? 'unknown' : (error.stack || error).toString()
-  );
+  dialog.showErrorBox('Error: ', error == null ? 'unknown' : (error.stack || error).toString());
 
   // If there is an error with the updater quit the app.
   app.quit();
 });
 
 // An update is available, ask the user if they would like to update.
-autoUpdater.on('update-available', () => {
+autoUpdater.on('update-available', async () => {
   logger.info('Update available');
 
-  dialog.showMessageBox(
-    {
-      type: 'info',
-      title: 'Wagerr Electron App - Update Available',
-      message: 'An update is available, do you want to update now?',
-      buttons: ['Yes', 'No']
-    },
-    async buttonIndex => {
-      // If the user selects 'Yes', download the update.
-      if (buttonIndex === 0) {
-        // Show a progress bar of the update status
-        downloadProgressBar = new ProgressBar({
-          title: 'Wagerr Electron App - Update Available',
-          text: 'Downloading the update...',
-          closeOnComplete: true
-        });
+  const response = await dialog.showMessageBox({
+    type: 'info',
+    title: 'Wagerr Electron App - Update Available',
+    message: 'An update is available, do you want to update now?',
+    buttons: ['Yes', 'No']
+  });
 
-        // Download the update.
-        autoUpdater.downloadUpdate();
-      } else {
-        // If the user does not select 'Yes' start the app.
-        await init();
-      }
-    }
-  );
+  if (response.response === 0) {
+    // Show a progress bar of the update status
+    downloadProgressBar = new ProgressBar({
+      title: 'Wagerr Electron App - Update Available',
+      text: 'Downloading the update...',
+      closeOnComplete: true
+    });
+
+    // Download the update.
+    autoUpdater.downloadUpdate();
+  } else {
+    // If the user does not select 'Yes' start the app.
+    await init();
+  }
 });
 
 // If no updates available continue with initialising the app.
@@ -63,7 +56,7 @@ autoUpdater.on('update-not-available', async () => {
 });
 
 // As the update is downloaded update the progress bar.
-autoUpdater.on('download-progress', downloadProgress => {
+autoUpdater.on('download-progress', (downloadProgress) => {
   // Convert bytes per second to megabits per second.
   let Mbps = downloadProgress.bytesPerSecond / 125000;
   Mbps = Mbps.toFixed(2);
@@ -91,21 +84,19 @@ autoUpdater.on('download-progress', downloadProgress => {
 
 // Once the update has been downloaded show a success message to the user, then
 // quit and install the update and relaunch the app.
-autoUpdater.on('update-downloaded', () => {
+autoUpdater.on('update-downloaded', async () => {
   logger.info('Update downloaded');
 
   // Close the progress bar.
   downloadProgressBar.setCompleted();
 
-  dialog.showMessageBox(
-    {
-      title: 'Wagerr Electron App - Update Available',
-      message: 'Update downloaded, application will now quit for update.'
-    },
-    () => {
-      setImmediate(() => autoUpdater.quitAndInstall());
-    }
-  );
+  await dialog.showMessageBox({
+    title: 'Wagerr Electron App - Update Available',
+    message: 'Update downloaded, application will now quit for update.'
+  });
+
+  // https://github.com/electron-userland/electron-builder/issues/5935
+  setTimeout(() => autoUpdater.quitAndInstall(), 3000);
 });
 
 export function checkForUpdates() {
