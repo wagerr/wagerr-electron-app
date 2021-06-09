@@ -157,7 +157,7 @@ export default {
       let connections = 0;
       let peersFound = false;
 
-      this.updateInitText('Connecting to peers... this may take some time!');
+      this.updateInitText('Connecting to peers... this should take 5 minutes or less!');
       ipcRendererHandler.log('info', 'Waiting for daemon to find peers');
 
       // While no peers have connected to the daemon keep looping.
@@ -196,7 +196,7 @@ export default {
 
     // Check for daemon initialized
     checkDaemonInitialized: async function() {
-      this.updateInitText('Initializing daemon... this may take some time!');
+      this.updateInitText('Initializing daemon... this should take 5 minutes or less!');
       ipcRendererHandler.log('info', 'Waiting for daemon to initialize');
 
       // wait 50 seconds + 10 previous seconds => 1 minute so daemon can initialize
