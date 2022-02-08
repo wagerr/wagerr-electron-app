@@ -37,13 +37,33 @@ export const SPORTS_AVAILABLE = [
     favorite: true
   },
   {
-    name: 'Soccer',
-    icon: 'icon-soccer',
-    favorite: true
+    name: 'Aussie Rules',
+    icon: 'icon-football',
+    favorite: false
+  },
+  {
+    name: 'Baseball',
+    icon: 'icon-baseball',
+    favorite: false
   },
   {
     name: 'Basketball',
     icon: 'icon-basketball',
+    favorite: true
+  },
+  {
+    name: 'Boxing',
+    icon: 'icon-walk',
+    favorite: false
+  },
+  {
+    name: 'Cricket',
+    icon: 'icon-baseball',
+    favorite: false
+  },
+  {
+    name: 'Esports',
+    icon: 'icon-headphones',
     favorite: true
   },
   {
@@ -55,31 +75,6 @@ export const SPORTS_AVAILABLE = [
     name: 'Ice Hockey',
     icon: 'icon-hockey',
     favorite: true
-  },
-  {
-    name: 'Esports',
-    icon: 'icon-headphones',
-    favorite: true
-  },
-  {
-    name: 'Aussie Rules',
-    icon: 'icon-football',
-    favorite: false
-  },
-  {
-    name: 'Baseball',
-    icon: 'icon-baseball',
-    favorite: false
-  },
-  {
-    name: 'Boxing',
-    icon: 'icon-walk',
-    favorite: false
-  },
-  {
-    name: 'Cricket',
-    icon: 'icon-baseball',
-    favorite: false
   },
   {
     name: 'MMA',
@@ -95,6 +90,16 @@ export const SPORTS_AVAILABLE = [
     name: 'Rugby Union',
     icon: 'icon-football',
     favorite: false
+  },
+  {
+    name: 'Soccer',
+    icon: 'icon-soccer',
+    favorite: true
+  },
+  {
+    name: 'Tennis',
+    icon: 'icon-tennis',
+    favorite: true
   }
 ];
 
