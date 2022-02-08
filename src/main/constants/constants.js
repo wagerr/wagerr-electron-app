@@ -52,7 +52,7 @@ export const SPORTS_AVAILABLE = [
     favorite: true
   },
   {
-    name: 'Hockey',
+    name: 'Ice Hockey',
     icon: 'icon-hockey',
     favorite: true
   },
