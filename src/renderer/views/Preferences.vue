@@ -170,7 +170,8 @@
 </template>
 
 <script>
-import { remote, shell } from 'electron';
+import { dialog } from '@electron/remote';
+import { shell } from 'electron';
 import { mapGetters, mapActions } from 'vuex';
 import wagerrRPC from '@/services/api/wagerrRPC';
 import { getWagerrConfPath } from '../../main/wagerrd/blockchain';
@@ -233,7 +234,7 @@ export default {
     },
 
     backupWallet: async function() {
-      const folderPath = await remote.dialog.showOpenDialog({
+      const folderPath = await dialog.showOpenDialog({
         title: 'Backup Wallet.dat file.',
         buttonLabel: 'Select Folder',
         properties: ['openDirectory'],

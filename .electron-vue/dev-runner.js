@@ -7,14 +7,12 @@ const { say } = require('cfonts');
 const { spawn } = require('child_process');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
-const webpackHotMiddleware = require('webpack-hot-middleware');
 
 const mainConfig = require('./webpack.main.config');
 const rendererConfig = require('./webpack.renderer.config');
 
 let electronProcess = null;
 let manualRestart = false;
-let hotMiddleware;
 
 function logStats(proc, data) {
   let log = '';
@@ -45,21 +43,13 @@ function logStats(proc, data) {
 
 function startRenderer() {
   return new Promise((resolve, reject) => {
-    rendererConfig.entry.renderer = [path.join(__dirname, 'dev-client')].concat(
-      rendererConfig.entry.renderer
-    );
     rendererConfig.mode = 'development';
     const compiler = webpack(rendererConfig);
-    hotMiddleware = webpackHotMiddleware(compiler, {
-      log: false,
-      heartbeat: 2500
-    });
 
     compiler.hooks.compilation.tap('compilation', compilation => {
       compilation.compiler.hooks.afterEmit.tapAsync(
         'html-webpack-plugin-after-emit',
         (data, cb) => {
-          hotMiddleware.publish({ action: 'reload' });
           cb();
         }
       );
@@ -69,19 +59,17 @@ function startRenderer() {
       logStats('Renderer', stats);
     });
 
-    const server = new WebpackDevServer(compiler, {
-      contentBase: path.join(__dirname, '../'),
-      quiet: true,
+    const server = new WebpackDevServer({
       historyApiFallback: true,
-      before(app, ctx) {
-        app.use(hotMiddleware);
-        ctx.middleware.waitUntilValid(() => {
-          resolve();
-        });
+      hot: true,
+      port: 9080,
+      static: {
+        directory: path.join(__dirname, '../'),
       }
-    });
+    }, compiler);
 
-    server.listen(9080);
+    server.start();
+    resolve();
   });
 }
 
@@ -92,7 +80,6 @@ function startMain() {
 
     compiler.hooks.watchRun.tapAsync('watch-run', (compilation, done) => {
       logStats('Main', chalk.white.bold('compiling...'));
-      hotMiddleware.publish({ action: 'compiling' });
       done();
     });
 

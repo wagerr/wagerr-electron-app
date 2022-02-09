@@ -98,7 +98,7 @@
 </template>
 
 <script>
-import { remote } from 'electron';
+import { BrowserWindow, dialog } from '@electron/remote';
 import { mapActions, mapGetters } from 'vuex';
 import wagerrRPC from '@/services/api/wagerrRPC';
 import blockchainRPC from '@/services/api/blockchain_rpc';
@@ -230,7 +230,7 @@ export default {
 
       // Check if wallet is synced (10min behind max)
       if (!(await this.isSyncValid())) {
-        remote.dialog.showMessageBox(remote.BrowserWindow.getFocusedWindow(), {
+        dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
           type: 'error',
           title: 'Error Placing Bet',
           message: `Your bet could not be placed because your wallet is out of sync`,

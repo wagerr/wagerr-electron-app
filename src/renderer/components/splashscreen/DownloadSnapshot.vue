@@ -25,9 +25,10 @@
 </template>
 
 <script>
+import { BrowserWindow, dialog } from '@electron/remote';
 import axios from 'axios';
 import jsZip from 'jszip';
-import { remote, ipcRenderer } from 'electron';
+import { ipcRenderer } from 'electron';
 import fs from 'fs-extra';
 import path from 'path';
 import { mapActions } from 'vuex';
@@ -69,7 +70,7 @@ export default {
       this.handleSnapshotDownloadError(errorMessage);
     });
 
-    const response = await remote.dialog.showMessageBox(remote.BrowserWindow.getFocusedWindow(), {
+    const response = await dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
         type: 'question',
         buttons: ['Yes, download snapshot', 'No, sync normally'],
         message: `Your Wagerr wallet is ${this.timeBehindText}. \n\nDo you want us to download a snapshot of the blockchain to speed things up?\n`,
@@ -109,7 +110,7 @@ export default {
     },
 
     async onCancelDownload() {
-      const response = await remote.dialog.showMessageBox(remote.BrowserWindow.getFocusedWindow(), {
+      const response = await dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
         type: 'question',
         buttons: ['Confirm', 'Cancel'],
         message: 'Are you sure you want to cancel the download?',
@@ -196,7 +197,7 @@ export default {
     handleSnapshotDownloadError(err) {
       ipcRendererHandler.log('error', `An error occurred while trying to download the snapshot. \n\n ${err} \n\n ${err.stack}`);
 
-      remote.dialog.showMessageBox(remote.BrowserWindow.getFocusedWindow(), {
+      dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
         type: 'error',
         title: 'Wagerr Error',
         buttons: ['Ok'],
