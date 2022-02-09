@@ -1,5 +1,6 @@
 import { app, BrowserWindow, dialog, ipcMain, Menu, nativeImage } from 'electron';
 import ProgressBar from 'electron-progressbar';
+import ElectronStore from 'electron-store';
 import fs from 'fs';
 import path from 'path';
 import axios from 'axios';
@@ -70,7 +71,6 @@ async function createMainWindow() {
     backgroundColor: '#2B2C2D',
     webPreferences: {
       contextIsolation: false,
-      enableRemoteModule: true,
       nodeIntegration: true
     }
   });
@@ -81,6 +81,9 @@ async function createMainWindow() {
 
   // Add the main application menu to the UI.
   Menu.setApplicationMenu(menu);
+
+  // Enable remote module on the main window WebContents.
+  require('@electron/remote/main').enable(mainWindow.webContents);
 
   // Prepare for the window to be closed.
   mainWindow.on('close', async event => {
@@ -184,6 +187,12 @@ async function createMainWindow() {
  * @returns {Promise<void>}
  */
 export async function init(args) {
+  // Initialize the remote module.
+  require('@electron/remote/main').initialize();
+
+  // Initialize the data persistent store.
+  ElectronStore.initRenderer();
+
   // Start main window first so if we catch certain errors on wagerrd launch we show them on the UI.
   await createMainWindow();
 
