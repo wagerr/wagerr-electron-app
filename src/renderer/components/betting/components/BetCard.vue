@@ -23,7 +23,7 @@
         {{ bet.handicap }}
       </span>
       <span class="bet-card__selection-odds">
-        {{ convertOdds(bet.odds) }}
+        {{ convertOdds(currentOdds) }}
       </span>
     </div>
 
@@ -53,23 +53,14 @@
         </button>
       </div>
 
-      <div
-        :class="[
-          'bet-slip__warning',
-          { 'display-none': warningMessage.length === 0 }
-        ]"
-      >
+      <div :class="['bet-slip__warning', { 'display-none': warningMessage.length === 0 }]">
         {{ warningMessage }}
       </div>
 
       <div class="bet-card__return bet-returns">
-        <span class="bet-card__return-title">
-          Potential Returns:
-        </span>
+        <span class="bet-card__return-title"> Potential Returns: </span>
 
-        <span class="bet-card__return-value">
-          {{ potentialWinnings }} {{ wagerrCode }}
-        </span>
+        <span class="bet-card__return-value"> {{ potentialWinnings }} {{ wagerrCode }} </span>
       </div>
     </template>
   </li>
@@ -100,20 +91,20 @@ export default {
 
   data() {
     return {
-      betValue: ''
+      betValue: '',
+      currentOdds: 0
     };
   },
 
   computed: {
-    ...mapGetters(['convertOdds', 'betType', 'balance', 'pending', 'immature']),
+    ...mapGetters(['convertOdds', 'betType', 'balance', 'eventsList', 'pending', 'immature']),
+
     betValueNum() {
       return this.betValue ? parseInt(this.betValue, 10) : 0;
     },
 
     betPlaceholder() {
-      return this.bet.availability === true
-        ? 'Enter Bet Stake'
-        : 'Not Available';
+      return this.bet.availability === true ? 'Enter Bet Stake' : 'Not Available';
     },
 
     warningMessage() {
@@ -153,8 +144,7 @@ export default {
         return (0).toFixed(8);
       }
 
-      const grossWinnings =
-        (this.bet.odds / bettingParams.ODDS_DIVISOR) * this.betValueNum;
+      const grossWinnings = (this.bet.odds / bettingParams.ODDS_DIVISOR) * this.betValueNum;
       const grossProfit = grossWinnings - this.betValueNum;
       const betFee = grossProfit * bettingParams.NETWORK_SHARE;
 
@@ -162,7 +152,26 @@ export default {
     }
   },
 
+  // use watcher on the EventsList if it changes, then update the odds.
   watch: {
+    eventsList() {
+      for (const event of this.eventsList) {
+        // console.log(event);
+        if (event.event_id === this.bet.eventDetails.event_id) {
+          const oddsForBet = {
+            1: event.odds[0].mlHome,
+            2: event.odds[0].mlAway,
+            3: event.odds[0].mlDraw,
+            4: event.odds[1].spreadHome,
+            5: event.odds[1].spreadAway,
+            6: event.odds[2].totalsOver,
+            7: event.odds[2].totalsUnder
+          };
+          this.currentOdds = oddsForBet[this.bet.outcome];
+        }
+      }
+    },
+
     betValue: function watchBetValue(value, oldValue) {
       if (value !== oldValue && /^\d{0,10}$/g.test(value)) {
         this.betValue = value;
@@ -170,6 +179,10 @@ export default {
         this.betValue = oldValue;
       }
     }
+  },
+
+  mounted() {
+    this.currentOdds = this.bet.odds;
   },
 
   methods: {
