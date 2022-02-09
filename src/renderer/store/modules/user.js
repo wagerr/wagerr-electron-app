@@ -53,12 +53,13 @@ const getters = {
     return OddsFormat;
   },
   convertOdds: state => val => {
-    // Add/remove network share from odds. Default is to not display the 6%
-    // network share taken from the winnings.
-    if (!state.showNetworkShare) {
+    // Add/remove network share from odds. Default is to not display the 6% network share taken
+    // from the winnings. Don't calculate on 0 odds, which sometimes do occur.
+    if (val !== 0 && !state.showNetworkShare) {
       val -= 10000; // -1
       val = val * 0.94 + 10000; // to correct decimal
     }
+
     return displayOdds(state, val);
   },
   getPasswordOnStartup: state => {
