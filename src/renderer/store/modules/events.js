@@ -9,18 +9,19 @@ const initialState = {
 };
 
 const getters = {
-  getEventsSportFilter: state => {
+  getEventsSportFilter: (state) => {
     return state.eventsSportFilter;
   },
-  getEventsTournamentFilter: state => {
+
+  getEventsTournamentFilter: (state) => {
     return state.eventsTournamentFilter;
   },
 
-  eventsList: state => {
+  eventsList: (state) => {
     return state.eventsList;
   },
 
-  eventsListFiltered: state => {
+  eventsListFiltered: (state) => {
     return state.eventsListFiltered;
   }
 };
@@ -28,16 +29,13 @@ const getters = {
 function filterEventsForCache(events) {
   // Filter events that are expired (15 mins before event start time)
   return events
-    .filter(e => {
+    .filter((e) => {
       // Prevent events that:
       // - start in less than 12 mins
       // - and events starting outside the two weeks listed.
       return (
         e.starting - 12 * 60 > moment().unix() &&
-        e.starting <
-          moment()
-            .add(13, 'days')
-            .unix() &&
+        e.starting < moment().add(13, 'days').unix() &&
         // We also filter all events that have 0/0/0 for all three markets odds
         !(
           e.odds[0].mlAway === 0 &&
@@ -58,7 +56,7 @@ function filterEventsForCache(events) {
 function filterEventsByTournament(events, tournamentFilter) {
   if (!tournamentFilter) return events;
 
-  return events.filter(e => {
+  return events.filter((e) => {
     // In case there is a tournament selected, we filter by the tournament
     return e.tournament === tournamentFilter;
   });
@@ -77,50 +75,34 @@ const actions = {
     commit('setEventsTournamentFilter', tournament);
   },
 
-  // TODO it would be nice to be able to send empty/null parameters to the rpc api, now we have to call twice to the library like below (code duplication):
-  // * One option is to modify wagerrd-rpc library so it ignores null/undefined parameters, the only caveat is that all parameters after a null have to be null as well
-  // * Another option is to modify the endpoint so it can interpret some string as an empty value
   listEvents({ dispatch, commit, state }) {
     return new Promise((resolve, reject) => {
-      // If there is a sport filter we make two calls to the daemon. 1) Fetch the filtered list so
-      // the UI can show just the filtered list. 2) Fetch the full list, because we need to keep
-      // the bet slip updated with the latest odds which could come from an event not in the
-      // filtered list.
-      if (state.eventsSportFilter) {
-        wagerrRPC.client
-          .listEvents(state.eventsSportFilter)
-          .then((resp) => {
-            // We filter events and update the cache
-            let events = filterEventsForCache(resp.result);
-            dispatch('updateEventsDataCache', events, { root: true });
-
-            // We filter events that will be shown to the user
-            events = filterEventsByTournament(events, state.eventsTournamentFilter);
-            commit('setEventsListFiltered', events);
-
-            resolve();
-          })
-          .catch((err) => {
-            treatListEventErr(err, reject);
-            reject(err);
-          });
-      }
-
       wagerrRPC.client
         .listEvents()
         .then((resp) => {
           // We filter events and update the cache
-          let events = filterEventsForCache(resp.result);
+          const events = filterEventsForCache(resp.result);
 
           if (!state.eventsSportFilter) {
-            dispatch('updateEventsDataCache', events, {root: true});
+            dispatch('updateEventsDataCache', events, { root: true });
           }
 
-          // We filter events that will be shown to the user
-          events = filterEventsByTournament(events, state.eventsTournamentFilter);
           commit('setEventsList', events);
 
-          if (!state.eventsSportFilter) {
+          if (state.eventsSportFilter) {
+            const filteredEvents = [];
+
+            for (const event of events) {
+              if (event.sport === state.eventsSportFilter) {
+                filteredEvents.push(event);
+              }
+            }
+
+            commit(
+              'setEventsListFiltered',
+              filterEventsByTournament(filteredEvents, state.eventsTournamentFilter)
+            );
+          } else {
             commit('setEventsListFiltered', events);
           }
 
@@ -132,6 +114,7 @@ const actions = {
         });
     });
   },
+
   // TODO: remove, used for testing atm, because, no tests
   testlistEvents({ commit, state, getters }) {
     // es = new ElectronStore()
