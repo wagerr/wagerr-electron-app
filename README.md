@@ -106,11 +106,11 @@ export CSC_NAME='Wagerr Limited'
 #         Notes:
 #         - We recommend generating an app specific password and do not use your main account
 #           password.
-#         - To see a list of provider short names that your Apple account can access run:
+#         - To see a list of team IDs that your Apple account can access run:
 #           `xcrun altool --list-providers -u <USERNAME> -p <PASSWORD>`
 export APPLE_ID=''
 export APPLE_ID_PASS=''
-export APPLE_PROVIDER_SHORT_NAME=''
+export APPLE_TEAM_ID=''
 ```
 
 If you would like to skip notarization step you can set the `NOTARIZE` flag to `false`:
