@@ -27,6 +27,10 @@
       </span>
     </div>
 
+    <div :class="['bet-slip__warning', { 'display-none': oddsWhenAddedToBeSlip === currentOdds }]">
+      The odds changed from {{ convertOdds(oddsWhenAddedToBeSlip) }} to {{ convertOdds(currentOdds) }}.
+    </div>
+
     <template v-if="betType === 'single'">
       <div class="input-field bet-card__input-field">
         <div class="stake-input bet-card__input-field-wrapper">
@@ -92,7 +96,8 @@ export default {
   data() {
     return {
       betValue: '',
-      currentOdds: 0
+      currentOdds: 0,
+      oddsWhenAddedToBeSlip: 0
     };
   },
 
@@ -183,6 +188,7 @@ export default {
 
   mounted() {
     this.currentOdds = this.bet.odds;
+    this.oddsWhenAddedToBeSlip = this.bet.odds;
   },
 
   methods: {
