@@ -117,7 +117,7 @@
     "element-ui": "^2.15.6",
     "find-process": "^1.4.7",
     "fs-extra": "^10.0.0",
-    "jszip": "^3.7.1",
+    "jszip": "^3.8.0",
     "lodash": "^4.17.21",
     "materialize-css": "^1.0.0",
     "moment": "^2.29.1",
